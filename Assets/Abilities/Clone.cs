@@ -1,4 +1,4 @@
-﻿public class Clone : CommonCarAbility
+﻿public class Clone : CarAbilityCommon
 {
     protected override void FixedUpdateCore(bool isKeyPressed)
     {

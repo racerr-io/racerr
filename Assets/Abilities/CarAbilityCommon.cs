@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class CommonCarAbility : MonoBehaviour
+public abstract class CarAbilityCommon : MonoBehaviour
 {
     [SerializeField]
     KeyCode m_Key;
@@ -38,7 +38,7 @@ public abstract class CommonCarAbility : MonoBehaviour
     }
 
     /// <summary>
-    /// Called every frame with the key press information.
+    /// Called every physics tick (everytime FixedUpdate() is called).
     /// Depending on the ability you want to implement you may need to override this.
     /// </summary>
     /// <param name="isKeyPressed"></param>

@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 33923799772754478}
   - component: {fileID: 23838041330910462}
   m_Layer: 0
-  m_Name: Auto Generated Track Piece 9 (Track-SharpLeft)
+  m_Name: Auto Generated Track Piece 8 (Track-SharpLeft)
   m_TagString: Track
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,8 +82,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1901238209824104}
-  m_LocalRotation: {x: 0.12450907, y: -0.6960586, z: -0.6960586, w: -0.12450907}
-  m_LocalPosition: {x: -239.68378, y: 0.008, z: -73.38395}
+  m_LocalRotation: {x: -0.6978375, y: -0.114118025, z: -0.114118025, w: 0.6978375}
+  m_LocalPosition: {x: 76.823074, y: 0.0070000007, z: 130.7193}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 4327803397741494}

@@ -5,7 +5,7 @@ public class Car : MonoBehaviour
     [SerializeField]
     Transform m_Car;
     [SerializeField]
-    Transform m_Camera;
+    Transform m_Camera; // Need proper seperate camera script (that takes in the Car) that follows the car properly in the future.
     [SerializeField]
     float m_Speed;
 

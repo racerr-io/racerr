@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Turbo : CommonCarAbility
+public class Turbo : CarAbilityCommon
 {
     [SerializeField]
     float m_SpeedMultiplier;
