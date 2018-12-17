@@ -21,18 +21,19 @@ public class RandomTrackGenerator : TrackGeneratorCommon
         {
             var newTrackName = availableTracks[Random.Range(0, availableTracks.Length)];
 
-            GameObject newTrack;
+            GameObject trackPrefab;
             Transform roadLinkTransform;
 
             if ((roadLinkTransform = LoadRoadLinkTransform(currentTrack)) == null)
             {
                 break;
             }
-            else if ((newTrack = LoadTrackFromResources(newTrackName)) == null)
+            else if ((trackPrefab = LoadTrackFromResources(newTrackName)) == null)
             {
                 continue;
             }
 
+            var newTrack = PrefabUtility.InstantiatePrefab(trackPrefab) as GameObject;
             newTrack.name = $"Auto Generated Track Piece {i + 1} ({newTrackName})";
             var newTrackRotation = roadLinkTransform.rotation.eulerAngles;
             var currentTrackRotation = currentTrack.transform.rotation.eulerAngles;
@@ -43,7 +44,7 @@ public class RandomTrackGenerator : TrackGeneratorCommon
             newTrack.transform.position = new Vector3(roadLinkTransform.position.x, trackAltitude, roadLinkTransform.position.z);
 
             trackAltitude += 0.001f; // Tracks overlap, so we want one to be slightly above the other.
-            currentTrack = PrefabUtility.InstantiatePrefab(newTrack) as GameObject;
+            currentTrack = newTrack;
         }
     }
 

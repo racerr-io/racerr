@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33410045897847132}
   - component: {fileID: 23604143875795870}
   m_Layer: 0
-  m_Name: Auto Generated Track Piece 9 (Track-Straight)
+  m_Name: Track-Straight
   m_TagString: Track
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,8 +82,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1092542593045632}
-  m_LocalRotation: {x: -0.19723824, y: -0.6790413, z: -0.6790413, w: 0.19723824}
-  m_LocalPosition: {x: 90.1104, y: 0.008, z: 150.945}
+  m_LocalRotation: {x: -0.35081547, y: -0.61394507, z: -0.61394507, w: 0.35081547}
+  m_LocalPosition: {x: 6.701126, y: 0.0070000007, z: 316.32324}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 4679944350352698}
