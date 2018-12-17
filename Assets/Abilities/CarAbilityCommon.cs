@@ -1,17 +1,23 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Common class for abilities - all abilities must inherit from this class.
+/// </summary>
 public abstract class CarAbilityCommon : MonoBehaviour
 {
     [SerializeField]
     KeyCode m_Key;
 
-    Car Car { get; set; }
     bool IsKeyPressed { get; set; }
+    protected Car Car { get; private set; }
     protected bool IsActivated { get; set; }
     
+    /// <summary>
+    /// Grab the Car script attached to the GameObject this ability is attached to.
+    /// </summary>
     void Start()
     {
-        Car = GetComponentInParent<Car>();
+        Car = GetComponent<Car>();
 
         if (Car == null)
         {
@@ -21,6 +27,9 @@ public abstract class CarAbilityCommon : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Called every frame to update the key pressed status of the ability for the user's car only.
+    /// </summary>
     void Update()
     {
         if (Car.IsUsersCar)
@@ -29,6 +38,9 @@ public abstract class CarAbilityCommon : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Update the status of the ability every physics tick on the user's car only.
+    /// </summary>
     void FixedUpdate()
     {
         if (Car.IsUsersCar)
@@ -60,23 +72,14 @@ public abstract class CarAbilityCommon : MonoBehaviour
     }
 
     /// <summary>
-    /// Activate ability on the attached car. Method is public so multiplayer
-    /// infrastructure can activate other players abilities.
+    /// The implementation to activate the ability - affects the user's car and the environment.
     /// </summary>
-    public void ActivateAbility()
-    {
-        ActivateAbilityCore(Car);
-    }
+    /// <param name="car"></param>
+    abstract protected void ActivateAbility();
 
     /// <summary>
-    /// Deactivate ability on the attached car. Method is public so multiplayer
-    /// infrastructure can deactivate other players abilities.
+    /// The implementation to deactivate the ability - affects the user's car and the environment.
     /// </summary>
-    public void DeactivateAbility()
-    {
-        DeactivateAbilityCore(Car);
-    }
-
-    abstract protected void ActivateAbilityCore(Car car);
-    abstract protected void DeactivateAbilityCore(Car car);
+    /// <param name="car"></param>
+    abstract protected void DeactivateAbility();
 }

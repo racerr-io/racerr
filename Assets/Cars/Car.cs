@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// The typical car in Racerr.
+/// </summary>
 public class Car : MonoBehaviour
 {
     [SerializeField]
@@ -14,9 +17,12 @@ public class Car : MonoBehaviour
         get { return m_Speed; }
         set { m_Speed = value; }
     }
-
     public bool IsUsersCar { get; set; } = true;
+    float DirectionalModifier => Speed * Time.deltaTime;
 
+    /// <summary>
+    /// Update cars in the world every physics tick.
+    /// </summary>
     void FixedUpdate()
     {
         if (IsUsersCar)
@@ -25,8 +31,9 @@ public class Car : MonoBehaviour
         }
     }
 
-    float DirectionalModifier => Speed * Time.deltaTime;
-
+    /// <summary>
+    /// Move the car given the user's input.
+    /// </summary>
     void Drive()
     {
         if (Input.GetKey(KeyCode.UpArrow))

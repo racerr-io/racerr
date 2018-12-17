@@ -1,24 +1,35 @@
 fileFormatVersion: 2
-guid: 7f17e5880575eec4dae0bc20ce09d7b1
+guid: d55282c803de7b74ba1fa10fb56bbf3e
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Main Road Plane Extrusion
-    100002: Road Link
+    100000: Track Link
+    100002: Track Plane
     100004: //RootNode
-    400000: Main Road Plane Extrusion
-    400002: Road Link
+    100006: Track Piece Link
+    100008: Track Piece Plane
+    400000: Track Link
+    400002: Track Plane
     400004: //RootNode
+    400006: Track Piece Link
+    400008: Track Piece Plane
     2100000: No Name
-    2300000: Main Road Plane Extrusion
-    2300002: Road Link
+    2300000: Track Link
+    2300002: Track Plane
     2300004: //RootNode
-    3300000: Main Road Plane Extrusion
-    3300002: Road Link
+    2300006: Track Piece Link
+    2300008: Track Piece Plane
+    3300000: Track Link
+    3300002: Track Plane
     3300004: //RootNode
-    4300000: Road
-    4300002: Road Link
-    4300004: Main Road Plane Extrusion
+    3300006: Track Piece Link
+    3300008: Track Piece Plane
+    4300000: Track
+    4300002: Track Link
+    4300004: Track Plane
+    4300006: Track Piece
+    4300008: Track Piece Link
+    4300010: Track Piece Plane
   externalObjects: {}
   materials:
     importMaterials: 1

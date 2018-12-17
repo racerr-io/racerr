@@ -1,17 +1,28 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Turbo ability - make your car faster.
+/// </summary>
 public class Turbo : CarAbilityCommon
 {
     [SerializeField]
     float m_SpeedMultiplier;
 
-    protected override void ActivateAbilityCore(Car car)
+    /// <summary>
+    /// Multiply the cars speed by the specified multiplier.
+    /// </summary>
+    /// <param name="car"></param>
+    protected override void ActivateAbility()
     {
-        car.Speed *= m_SpeedMultiplier;
+        Car.Speed *= m_SpeedMultiplier;
     }
 
-    protected override void DeactivateAbilityCore(Car car)
+    /// <summary>
+    /// Divide the cars speed by the specified multiplier (essentially bringing it back to original speed).
+    /// </summary>
+    /// <param name="car"></param>
+    protected override void DeactivateAbility()
     {
-        car.Speed /= m_SpeedMultiplier;
+        Car.Speed /= m_SpeedMultiplier;
     }
 }

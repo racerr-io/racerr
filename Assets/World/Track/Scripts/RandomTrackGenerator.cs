@@ -1,76 +1,52 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// A track generator that randomly generates your tracks.
+/// </summary>
 public class RandomTrackGenerator : TrackGeneratorCommon
 {
     [SerializeField]
-    GameObject m_firstTrack; // Temporary, we will programatically generate the first track in the future.
+    GameObject m_firstTrackPiece; // Temporary, we will programatically generate the first track piece in the future.
 
-    protected override void GenerateTrack(int trackLength, float trackAltitude)
+    /// <summary>
+    /// Generate tracks by getting the first track piece, then grabbing a random track piece from resources and joining
+    /// it together. Track pieces are moved and rotated to the position of the 'Track Piece Link' on the previous Track Piece.
+    /// </summary>
+    /// <param name="trackLength"></param>
+    /// <param name="trackAltitude"></param>
+    /// <param name="availableTrackPieces"></param>
+    protected override void GenerateTrack(int trackLength, float trackAltitude, string[] availableTrackPieces)
     {
-        string[] availableTracks = new[]
+        GameObject currentTrackPiece = m_firstTrackPiece;
+
+        for (int i = 0; i < trackLength; i++)
         {
-            "Track-Straight",
-            "Track-ShortRight",
-            "Track-SharpLeft"
-        };
+            string newTrackPieceName = availableTrackPieces[Random.Range(0, availableTrackPieces.Length)];
 
-        var currentTrack = m_firstTrack;
+            GameObject trackPiecePrefab;
+            Transform trackPieceLinkTransform;
 
-        for (var i = 0; i < trackLength; i++)
-        {
-            var newTrackName = availableTracks[Random.Range(0, availableTracks.Length)];
-
-            GameObject trackPrefab;
-            Transform roadLinkTransform;
-
-            if ((roadLinkTransform = LoadRoadLinkTransform(currentTrack)) == null)
+            if ((trackPieceLinkTransform = LoadTrackPieceLinkTransform(currentTrackPiece)) == null)
             {
                 break;
             }
-            else if ((trackPrefab = LoadTrackFromResources(newTrackName)) == null)
+            else if ((trackPiecePrefab = LoadTrackPieceFromResources(newTrackPieceName)) == null)
             {
                 continue;
             }
 
-            var newTrack = PrefabUtility.InstantiatePrefab(trackPrefab) as GameObject;
-            newTrack.name = $"Auto Generated Track Piece {i + 1} ({newTrackName})";
-            var newTrackRotation = roadLinkTransform.rotation.eulerAngles;
-            var currentTrackRotation = currentTrack.transform.rotation.eulerAngles;
-            newTrackRotation.x = currentTrackRotation.x;
-            newTrackRotation.z = currentTrackRotation.z;
+            GameObject newTrackPiece = PrefabUtility.InstantiatePrefab(trackPiecePrefab) as GameObject;
+            newTrackPiece.name = $"Auto Generated Track Piece {i + 1} ({newTrackPieceName})";
+            Vector3 newTrackPieceRotation = trackPieceLinkTransform.rotation.eulerAngles;
+            Vector3 currentTrackPieceRotation = currentTrackPiece.transform.rotation.eulerAngles;
+            newTrackPieceRotation.x = currentTrackPieceRotation.x;
+            newTrackPieceRotation.z = currentTrackPieceRotation.z;
 
-            newTrack.transform.rotation = Quaternion.Euler(newTrackRotation);
-            newTrack.transform.position = new Vector3(roadLinkTransform.position.x, trackAltitude, roadLinkTransform.position.z);
+            newTrackPiece.transform.rotation = Quaternion.Euler(newTrackPieceRotation);
+            newTrackPiece.transform.position = new Vector3(trackPieceLinkTransform.position.x, trackAltitude, trackPieceLinkTransform.position.z);
 
-            trackAltitude += 0.001f; // Tracks overlap, so we want one to be slightly above the other.
-            currentTrack = newTrack;
+            currentTrackPiece = newTrackPiece;
         }
-    }
-
-    GameObject LoadTrackFromResources(string trackName)
-    {
-        const string trackFolderInResources = "Tracks/";
-        var newTrack = Resources.Load<GameObject>(trackFolderInResources + trackName);
-
-        if (newTrack == null)
-        {
-            Debug.LogError("Track Generation Error - Unable to load randomly selected track. Is the name of the track spelt correctly and placed in the Tracks folder in Resources?");
-        }
-
-        return newTrack;
-    }
-
-    Transform LoadRoadLinkTransform(GameObject track)
-    {
-        var roadLinkTransform = track.transform.Find("Road Link");
-
-        if (roadLinkTransform == null)
-        {
-            Debug.LogError("Track Generation Failed - Unable to load the Road Link from the current track. " +
-                "Every track prefab requires a child game object called 'Road Link' which provides information on where to attach the next track.");
-        }
-
-        return roadLinkTransform;
     }
 }
