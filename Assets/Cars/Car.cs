@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public class Car : MonoBehaviour {
-
+public class Car : MonoBehaviour
+{
     [SerializeField]
-    Transform m_CarObject;
+    Transform m_Car;
     [SerializeField]
     Transform m_Camera;
     [SerializeField]
@@ -22,7 +22,6 @@ public class Car : MonoBehaviour {
         if (IsUsersCar)
         {
             Drive();
-            MonitorAbilities();
         }
     }
 
@@ -32,44 +31,28 @@ public class Car : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            m_CarObject.localPosition += new Vector3(0, 0, DirectionalModifier);
+            m_Car.localPosition += new Vector3(0, 0, DirectionalModifier);
             m_Camera.localPosition += new Vector3(0, 0, DirectionalModifier);
         }
 
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            m_CarObject.localPosition += new Vector3(0, 0, -DirectionalModifier);
+            m_Car.localPosition += new Vector3(0, 0, -DirectionalModifier);
             m_Camera.localPosition += new Vector3(0, 0, -DirectionalModifier);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            m_CarObject.Rotate(new Vector3(1, 1, 1));
-            m_CarObject.localPosition += new Vector3(DirectionalModifier, 0, 0);
+            m_Car.Rotate(new Vector3(1, 1, 1));
+            m_Car.localPosition += new Vector3(DirectionalModifier, 0, 0);
             m_Camera.localPosition += new Vector3(DirectionalModifier, 0, 0);
         }
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            m_CarObject.Rotate(new Vector3(-1, -1, -1));
-            m_CarObject.localPosition += new Vector3(-DirectionalModifier, 0, 0);
+            m_Car.Rotate(new Vector3(-1, -1, -1));
+            m_Car.localPosition += new Vector3(-DirectionalModifier, 0, 0);
             m_Camera.localPosition += new Vector3(-DirectionalModifier, 0, 0);
-        }
-    }
-
-    // Abilities Management
-    public Turbo Turbo;
-    public Clone Clone;
-
-    void MonitorAbilities()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Turbo.enabled = Turbo.enabled ? false : true;
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            Clone.CloneCar();
         }
     }
 }

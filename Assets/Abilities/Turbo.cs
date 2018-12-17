@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
 
-public class Turbo : MonoBehaviour {
-
+public class Turbo : CommonCarAbility
+{
     [SerializeField]
     float m_SpeedMultiplier;
-   
-    Car Car { get; set; }
 
-	void OnEnable()
+    protected override void ActivateAbilityCore(Car car)
     {
-        Car = GetComponentInParent<Car>();
-        Car.Speed *= m_SpeedMultiplier;
+        car.Speed *= m_SpeedMultiplier;
     }
 
-    void OnDisable()
+    protected override void DeactivateAbilityCore(Car car)
     {
-        Car.Speed /= m_SpeedMultiplier;
+        car.Speed /= m_SpeedMultiplier;
     }
 }

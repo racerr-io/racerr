@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Car
   - Road Part
+  - Track
+  - Road Link
   layers:
   - Default
   - TransparentFX
