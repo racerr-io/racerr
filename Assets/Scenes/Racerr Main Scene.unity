@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c0536f3fe2e854883391417a237109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_trackLength: 5000
+  m_trackLength: 50
   m_trackAltitude: 0
   m_firstTrackPiece: {fileID: 943041124}
 --- !u!4 &160586558
