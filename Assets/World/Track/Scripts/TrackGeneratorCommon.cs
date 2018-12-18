@@ -12,7 +12,6 @@ public abstract class TrackGeneratorCommon : MonoBehaviour
     float m_trackAltitude;
 
     public bool IsTrackGenerated { get; private set; }
-    IReadOnlyList<GameObject> AvailableTrackPiecePrefabs => Resources.LoadAll<GameObject>("Tracks");
 
     /// <summary>
     /// For every physics tick, check if we should generate the track.
@@ -23,7 +22,8 @@ public abstract class TrackGeneratorCommon : MonoBehaviour
         {
             if (!IsTrackGenerated)
             {
-                GenerateTrack(m_trackLength, m_trackAltitude, AvailableTrackPiecePrefabs);
+                IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Tracks");
+                GenerateTrack(m_trackLength, m_trackAltitude, availableTrackPiecePrefabs);
                 IsTrackGenerated = true;
             }
         }
