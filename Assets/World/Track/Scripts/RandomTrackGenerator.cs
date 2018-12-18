@@ -14,9 +14,9 @@ public class RandomTrackGenerator : TrackGeneratorCommon
     /// Generate tracks by getting the first track piece, then grabbing a random track piece from resources and joining
     /// it together. Track pieces are moved and rotated to the position of the 'Track Piece Link' on the previous Track Piece.
     /// </summary>
-    /// <param name="trackLength"></param>
-    /// <param name="trackAltitude"></param>
-    /// <param name="availableTrackPiecePrefabs"></param>
+    /// <param name="trackLength">Number of Track Pieces this track should be composed of.</param>
+    /// <param name="trackAltitude">How high the track should be above the ground.</param>
+    /// <param name="availableTrackPiecePrefabs">Collection of Track Pieces we can instantiate using the PrefabUtility.</param>
     protected override void GenerateTrack(int trackLength, float trackAltitude, IReadOnlyList<GameObject> availableTrackPiecePrefabs)
     {
         GameObject currentTrackPiece = m_firstTrackPiece;

@@ -53,7 +53,7 @@ public abstract class CarAbilityCommon : MonoBehaviour
     /// Called every physics tick (everytime FixedUpdate() is called).
     /// Depending on the ability you want to implement you may need to override this.
     /// </summary>
-    /// <param name="isKeyPressed"></param>
+    /// <param name="isKeyPressed">Whether the user has pressed the key on the keyboard.</param>
     protected virtual void FixedUpdateCore(bool isKeyPressed)
     {
         if (isKeyPressed)
@@ -74,12 +74,10 @@ public abstract class CarAbilityCommon : MonoBehaviour
     /// <summary>
     /// The implementation to activate the ability - affects the user's car and the environment.
     /// </summary>
-    /// <param name="car"></param>
     abstract protected void ActivateAbility();
 
     /// <summary>
     /// The implementation to deactivate the ability - affects the user's car and the environment.
     /// </summary>
-    /// <param name="car"></param>
     abstract protected void DeactivateAbility();
 }

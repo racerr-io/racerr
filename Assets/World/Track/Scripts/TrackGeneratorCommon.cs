@@ -31,12 +31,11 @@ public abstract class TrackGeneratorCommon : MonoBehaviour
 
     /// <summary>
     /// Generate the track however you like. Track length, altitude are passed in from Unity 
-    /// and available track pieces are ones available in Resources. Please ensure AvailableTrackPieces is
-    /// up to date in TrackGeneratorCommon.
+    /// and available track pieces are prefabs loaded from Resources.
     /// </summary>
-    /// <param name="trackLength"></param>
-    /// <param name="trackAltitude"></param>
-    /// <param name="availableTracks"></param>
+    /// <param name="trackLength">Number of Track Pieces this track should be composed of.</param>
+    /// <param name="trackAltitude">How high the track should be above the ground.</param>
+    /// <param name="availableTrackPiecePrefabs">Collection of Track Pieces we can instantiate using the PrefabUtility.</param>
     abstract protected void GenerateTrack(int trackLength, float trackAltitude, IReadOnlyList<GameObject> availableTrackPiecePrefabs);
 
     #region Helpers
@@ -44,8 +43,8 @@ public abstract class TrackGeneratorCommon : MonoBehaviour
     /// <summary>
     /// Each Track Piece has an ending point called 'Track Piece Link'. This function will return the Transform (position and rotation info) for this link.
     /// </summary>
-    /// <param name="trackPiece"></param>
-    /// <returns> Track Piece Link Transform </returns>
+    /// <param name="trackPiece">Track Piece Game Object</param>
+    /// <returns>Track Piece Link Transform</returns>
     protected Transform LoadTrackPieceLinkTransform(GameObject trackPiece)
     {
         Transform tracePieceLinkTransform = trackPiece.transform.Find("Track Piece Link");

@@ -11,7 +11,6 @@ public class Turbo : CarAbilityCommon
     /// <summary>
     /// Multiply the cars speed by the specified multiplier.
     /// </summary>
-    /// <param name="car"></param>
     protected override void ActivateAbility()
     {
         Car.Speed *= m_SpeedMultiplier;
@@ -20,7 +19,6 @@ public class Turbo : CarAbilityCommon
     /// <summary>
     /// Divide the cars speed by the specified multiplier (essentially bringing it back to original speed).
     /// </summary>
-    /// <param name="car"></param>
     protected override void DeactivateAbility()
     {
         Car.Speed /= m_SpeedMultiplier;

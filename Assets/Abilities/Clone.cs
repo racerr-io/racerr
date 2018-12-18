@@ -4,9 +4,9 @@
 public class Clone : CarAbilityCommon
 {
     /// <summary>
-    /// If key is pressed, clone the car.
+    /// If key is pressed, clone the car. (Called every physics tick)
     /// </summary>
-    /// <param name="isKeyPressed"></param>
+    /// <param name="isKeyPressed">Whether the user has pressed the key on the keyboard.</param>
     protected override void FixedUpdateCore(bool isKeyPressed)
     {
         if (isKeyPressed)
@@ -18,7 +18,6 @@ public class Clone : CarAbilityCommon
     /// <summary>
     /// Clone the car by instantiating a copy of our car with IsUsersCar = false
     /// </summary>
-    /// <param name="car"></param>
     protected override void ActivateAbility()
     {
         Car clone = Instantiate(Car);
@@ -28,7 +27,6 @@ public class Clone : CarAbilityCommon
     /// <summary>
     /// Deactivate ability is not required for this ability.
     /// </summary>
-    /// <param name="car"></param>
     protected override void DeactivateAbility()
     {
     }
