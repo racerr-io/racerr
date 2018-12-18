@@ -22,7 +22,7 @@ public abstract class TrackGeneratorCommon : MonoBehaviour
         {
             if (!IsTrackGenerated)
             {
-                IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Tracks");
+                IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Track Pieces");
                 GenerateTrack(m_trackLength, m_trackAltitude, availableTrackPiecePrefabs);
                 IsTrackGenerated = true;
             }
