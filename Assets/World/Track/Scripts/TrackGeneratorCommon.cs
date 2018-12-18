@@ -46,7 +46,7 @@ public abstract class TrackGeneratorCommon : MonoBehaviour
     #region Helpers
 
     /// <summary>
-    /// Given a track piece name, e.g. 'Track-Straight', load the prefab from the Resources folder in Unity.
+    /// Given a track piece name, e.g. 'TrackPiece-Straight', load the prefab from the Resources folder in Unity.
     /// </summary>
     /// <param name="trackPieceName"></param>
     /// <returns> Track Piece Prefab </returns>
@@ -57,14 +57,14 @@ public abstract class TrackGeneratorCommon : MonoBehaviour
 
         if (newTrackPiece == null)
         {
-            Debug.LogError("Track Piece Failure - Unable to load randomly selected track. Is the name of the track spelt correctly and placed in the Tracks folder in Resources?");
+            Debug.LogError($"Track Piece Failure - Unable to load '{trackPieceName}'. Is the name of the track spelt correctly and placed in the Tracks folder in Resources?");
         }
 
         return newTrackPiece;
     }
 
     /// <summary>
-    /// Each Track Piece has an ending point called 'Track Piece Link'. This method will return the Transform for this link.
+    /// Each Track Piece has an ending point called 'Track Piece Link'. This function will return the Transform (position and rotation info) for this link.
     /// </summary>
     /// <param name="trackPiece"></param>
     /// <returns> Track Piece Link Transform </returns>
@@ -74,8 +74,8 @@ public abstract class TrackGeneratorCommon : MonoBehaviour
 
         if (tracePieceLinkTransform == null)
         {
-            Debug.LogError("Track Piece Failure - Unable to load the Track Piece Link from the current track. " +
-                "Every track prefab requires a child game object called 'Track Piece Link' which provides information on where to attach the next track.");
+            Debug.LogError("Track Piece Failure - Unable to load the Track Piece Link from the specified Track Piece. " +
+                "Every Track Piece prefab requires a child game object called 'Track Piece Link' which provides information on where to attach the next Track Piece.");
         }
 
         return tracePieceLinkTransform;
