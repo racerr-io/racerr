@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Track Generator - all track generators must inherit from this class.
@@ -11,12 +12,7 @@ public abstract class TrackGeneratorCommon : MonoBehaviour
     float m_trackAltitude;
 
     public bool IsTrackGenerated { get; private set; }
-    string[] AvailableTrackPieces => new[]
-    {
-        "TrackPiece-Straight",
-        "TrackPiece-ShortRight",
-        "TrackPiece-SharpLeft"
-    };
+    IReadOnlyList<GameObject> AvailableTrackPiecePrefabs => Resources.LoadAll<GameObject>("Tracks");
 
     /// <summary>
     /// For every physics tick, check if we should generate the track.
@@ -27,7 +23,7 @@ public abstract class TrackGeneratorCommon : MonoBehaviour
         {
             if (!IsTrackGenerated)
             {
-                GenerateTrack(m_trackLength, m_trackAltitude, AvailableTrackPieces);
+                GenerateTrack(m_trackLength, m_trackAltitude, AvailableTrackPiecePrefabs);
                 IsTrackGenerated = true;
             }
         }
@@ -41,27 +37,9 @@ public abstract class TrackGeneratorCommon : MonoBehaviour
     /// <param name="trackLength"></param>
     /// <param name="trackAltitude"></param>
     /// <param name="availableTracks"></param>
-    abstract protected void GenerateTrack(int trackLength, float trackAltitude, string[] availableTrackPieces);
+    abstract protected void GenerateTrack(int trackLength, float trackAltitude, IReadOnlyList<GameObject> availableTrackPiecePrefabs);
 
     #region Helpers
-
-    /// <summary>
-    /// Given a track piece name, e.g. 'TrackPiece-Straight', load the prefab from the Resources folder in Unity.
-    /// </summary>
-    /// <param name="trackPieceName"></param>
-    /// <returns> Track Piece Prefab </returns>
-    protected GameObject LoadTrackPieceFromResources(string trackPieceName)
-    {
-        const string trackFolder = "Tracks/";
-        GameObject newTrackPiece = Resources.Load<GameObject>(trackFolder + trackPieceName);
-
-        if (newTrackPiece == null)
-        {
-            Debug.LogError($"Track Piece Failure - Unable to load '{trackPieceName}'. Is the name of the track spelt correctly and placed in the Tracks folder in Resources?");
-        }
-
-        return newTrackPiece;
-    }
 
     /// <summary>
     /// Each Track Piece has an ending point called 'Track Piece Link'. This function will return the Transform (position and rotation info) for this link.

@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -15,29 +16,23 @@ public class RandomTrackGenerator : TrackGeneratorCommon
     /// </summary>
     /// <param name="trackLength"></param>
     /// <param name="trackAltitude"></param>
-    /// <param name="availableTrackPieces"></param>
-    protected override void GenerateTrack(int trackLength, float trackAltitude, string[] availableTrackPieces)
+    /// <param name="availableTrackPiecePrefabs"></param>
+    protected override void GenerateTrack(int trackLength, float trackAltitude, IReadOnlyList<GameObject> availableTrackPiecePrefabs)
     {
         GameObject currentTrackPiece = m_firstTrackPiece;
 
         for (int i = 0; i < trackLength; i++)
         {
-            string newTrackPieceName = availableTrackPieces[Random.Range(0, availableTrackPieces.Length)];
+            Transform trackPieceLinkTransform = LoadTrackPieceLinkTransform(currentTrackPiece);
 
-            GameObject trackPiecePrefab;
-            Transform trackPieceLinkTransform;
-
-            if ((trackPieceLinkTransform = LoadTrackPieceLinkTransform(currentTrackPiece)) == null)
+            if (trackPieceLinkTransform == null)
             {
                 break;
             }
-            else if ((trackPiecePrefab = LoadTrackPieceFromResources(newTrackPieceName)) == null)
-            {
-                continue;
-            }
 
-            GameObject newTrackPiece = PrefabUtility.InstantiatePrefab(trackPiecePrefab) as GameObject;
-            newTrackPiece.name = $"Auto Generated Track Piece {i + 1} ({newTrackPieceName})";
+            GameObject newTrackPiecePrefab = availableTrackPiecePrefabs[Random.Range(0, availableTrackPiecePrefabs.Count)];
+            GameObject newTrackPiece = PrefabUtility.InstantiatePrefab(newTrackPiecePrefab) as GameObject;
+            newTrackPiece.name = $"Auto Generated Track Piece {i + 1} ({newTrackPiecePrefab.name})";
             Vector3 newTrackPieceRotation = trackPieceLinkTransform.rotation.eulerAngles;
             Vector3 currentTrackPieceRotation = currentTrackPiece.transform.rotation.eulerAngles;
             newTrackPieceRotation.x = currentTrackPieceRotation.x;
