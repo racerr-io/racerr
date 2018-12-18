@@ -5,7 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Car
-  - Road Part
+  - Track Piece
+  - Track Piece Plane
+  - Track Piece Link
   layers:
   - Default
   - TransparentFX

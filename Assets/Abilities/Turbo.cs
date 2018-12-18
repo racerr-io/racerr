@@ -1,19 +1,25 @@
 ﻿using UnityEngine;
 
-public class Turbo : MonoBehaviour {
-
+/// <summary>
+/// Turbo ability - make your car faster.
+/// </summary>
+public class Turbo : CarAbilityCommon
+{
     [SerializeField]
     float m_SpeedMultiplier;
-   
-    Car Car { get; set; }
 
-	void OnEnable()
+    /// <summary>
+    /// Multiply the cars speed by the specified multiplier.
+    /// </summary>
+    protected override void ActivateAbility()
     {
-        Car = GetComponentInParent<Car>();
         Car.Speed *= m_SpeedMultiplier;
     }
 
-    void OnDisable()
+    /// <summary>
+    /// Divide the cars speed by the specified multiplier (essentially bringing it back to original speed).
+    /// </summary>
+    protected override void DeactivateAbility()
     {
         Car.Speed /= m_SpeedMultiplier;
     }
