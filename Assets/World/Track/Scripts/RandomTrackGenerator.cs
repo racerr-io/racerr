@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -31,7 +30,7 @@ public class RandomTrackGenerator : TrackGeneratorCommon
             }
 
             GameObject newTrackPiecePrefab = availableTrackPiecePrefabs[Random.Range(0, availableTrackPiecePrefabs.Count)];
-            GameObject newTrackPiece = PrefabUtility.InstantiatePrefab(newTrackPiecePrefab) as GameObject;
+            GameObject newTrackPiece = Instantiate(newTrackPiecePrefab) as GameObject;
             newTrackPiece.name = $"Auto Generated Track Piece {i + 1} ({newTrackPiecePrefab.name})";
             Vector3 newTrackPieceRotation = trackPieceLinkTransform.rotation.eulerAngles;
             Vector3 currentTrackPieceRotation = currentTrackPiece.transform.rotation.eulerAngles;
