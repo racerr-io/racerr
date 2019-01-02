@@ -10,7 +10,6 @@ namespace UnityStandardAssets.Cameras
     public class AutoCam : PivotBasedCameraRig
     {
         [SerializeField] private float m_MoveSpeed = 3; // How fast the rig will move to keep up with target's position
-        [SerializeField] private float m_TurnSpeed = 1; // How fast the rig will turn to keep up with target's rotation
         [SerializeField] private float m_RollSpeed = 0.2f;// How fast the rig will roll (around Z axis) to match target's roll.
         [SerializeField] private bool m_FollowVelocity = false;// Whether the rig will rotate in the direction of the target's velocity.
         [SerializeField] private bool m_FollowTilt = true; // Whether the rig will tilt (around X axis) with the target.
@@ -97,7 +96,7 @@ namespace UnityStandardAssets.Cameras
                     targetForward = transform.forward;
                 }
             }
-            var rollRotation = Quaternion.LookRotation(targetForward, m_RollUp);
+          //  var rollRotation = Quaternion.LookRotation(targetForward, m_RollUp);
 
             // and aligning with the target object's up direction (i.e. its 'roll')
             m_RollUp = m_RollSpeed > 0 ? Vector3.Slerp(m_RollUp, targetUp, m_RollSpeed*deltaTime) : Vector3.up;
