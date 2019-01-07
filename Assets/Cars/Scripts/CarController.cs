@@ -21,6 +21,15 @@ namespace Racerr.Car.Core
     /// </summary>
     public class CarController : MonoBehaviour
     {
+        [Header("Primary Car Properties")]
+        [Range(1, 20)] [SerializeField] float m_Acceleration = 1f;
+        [Range(1, 20)] [SerializeField] float m_TopSpeed = 1f;
+        [Range(1, 20)] [SerializeField] float m_Weight = 1f;
+        [Range(1, 20)] [SerializeField] float m_HandlingNotImplemented;
+        [Range(1, 20)] [SerializeField] float m_ArmourNotImplemented;
+        [Range(1, 20)] [SerializeField] float m_AbilityNotImplemented;
+
+        [Header("Other Car Properties")]
         [SerializeField] CarDriveType m_CarDriveType = CarDriveType.FourWheelDrive;
         [SerializeField] WheelCollider[] m_WheelColliders = new WheelCollider[4];
         [SerializeField] GameObject[] m_WheelMeshes = new GameObject[4];
@@ -29,13 +38,11 @@ namespace Racerr.Car.Core
         [SerializeField] float m_MaximumSteerAngle;
         [Range(0, 1)] [SerializeField] float m_SteerHelper; // 0 is raw physics , 1 the car will grip in the direction it is facing
         [Range(0, 1)] [SerializeField] float m_TractionControl; // 0 is no traction control, 1 is full interference
-        [Range(1, 20)] [SerializeField] float m_AccTorqueMultiplier;
-        [SerializeField] float m_FullTorqueOverAllWheels;
+        [Range(1000, 7500)] [SerializeField] float m_FullTorqueOverAllWheels = 2500f;
         [SerializeField] float m_ReverseTorque;
         [SerializeField] float m_MaxHandbrakeTorque;
         [SerializeField] float m_Downforce = 100f;
         [SerializeField] SpeedType m_SpeedType;
-        [SerializeField] float m_Topspeed = 200;
         [SerializeField] int NoOfGears = 5;
         [SerializeField] float m_RevRangeBoundary = 1f;
         [SerializeField] int m_RPMUpperBound;
@@ -55,7 +62,7 @@ namespace Racerr.Car.Core
         public float AccelInput { get; private set; }
         public float BrakeInput { get; private set; }
         public float CurrentSteerAngle { get; private set; }
-        public float MaxSpeed => m_Topspeed; 
+        public float MaxSpeed => m_TopSpeed; 
         public float Revs { get; private set; } // Some decimal value between 0 and 1
         public int CurrentRPM => (int)(Revs * m_RPMUpperBound) + m_RPMUpperBound/8 + Random.Range(-5, 5);
         public bool IsUsersCar { get; set; } = true;
@@ -77,7 +84,24 @@ namespace Racerr.Car.Core
             m_MaxHandbrakeTorque = float.MaxValue;
 
             Rigidbody = GetComponent<Rigidbody>();
+            SetupCarStats();
             CurrentTorque = m_FullTorqueOverAllWheels - (m_TractionControl*m_FullTorqueOverAllWheels);
+        }
+
+        /// <summary>
+        /// Using the basic abstracted car stats which are out of 20 (acceleration, handling, etc), 
+        /// adjust and scale specific car properties to meet the requirements.
+        /// </summary>
+        void SetupCarStats()
+        {
+            // Acceleration
+            m_FullTorqueOverAllWheels += 180 * m_Acceleration;
+
+            // Top Speed
+            m_TopSpeed = 150 + 12 * m_TopSpeed;
+
+            // Weight
+            Rigidbody.mass = 500 + 50 * m_Weight;
         }
 
         /// <summary>
@@ -168,7 +192,8 @@ namespace Racerr.Car.Core
         }
 
         /// <summary>
-        /// Move the car
+        /// Move the car. Please note that the inputs are analog - if using a joystick or gyroscope then the amount you move
+        /// the stick/device will affect steering/acceleration/footbrake/handbrake pressure (like a real car!).
         /// </summary>
         /// <param name="steering">Steering input, where negative is left and positive is right.</param>
         /// <param name="accel">Acceleration input, where negative is negative acceleration and positive is positive acceleration.</param>
@@ -246,14 +271,14 @@ namespace Racerr.Car.Core
                 case SpeedType.MPH:
 
                     speed *= 2.23693629f;
-                    if (speed > m_Topspeed)
-                        Rigidbody.velocity = (m_Topspeed/2.23693629f) * Rigidbody.velocity.normalized;
+                    if (speed > m_TopSpeed)
+                        Rigidbody.velocity = (m_TopSpeed/2.23693629f) * Rigidbody.velocity.normalized;
                     break;
 
                 case SpeedType.KPH:
                     speed *= 3.6f;
-                    if (speed > m_Topspeed)
-                        Rigidbody.velocity = (m_Topspeed/3.6f) * Rigidbody.velocity.normalized;
+                    if (speed > m_TopSpeed)
+                        Rigidbody.velocity = (m_TopSpeed/3.6f) * Rigidbody.velocity.normalized;
                     break;
             }
         }
@@ -262,44 +287,48 @@ namespace Racerr.Car.Core
         /// Move the car forward and apply torque on the wheels.
         /// Apply reverse torque on wheels if braking.
         /// </summary>
+        /// <remarks>Need to limit RPM to avoid the wheel spinning forever and car not stopping.</remarks>
         /// <param name="accel">Value to accelerate by.</param>
         /// <param name="footbrake">Whether the car is braking.</param>
         void ApplyDrive(float accel, float footbrake)
         {
-
             float thrustTorque;
+            float torqueToApply;
+
             switch (m_CarDriveType)
             {
                 case CarDriveType.FourWheelDrive:
-                    thrustTorque = accel * m_AccTorqueMultiplier * (CurrentTorque / 4f);
+                    thrustTorque = accel * (CurrentTorque / 4f);
                     for (int i = 0; i < 4; i++)
                     {
-                        m_WheelColliders[i].motorTorque = thrustTorque ;
+                        torqueToApply = m_WheelColliders[i].rpm < 2000 ? thrustTorque : 0;
+                        m_WheelColliders[i].motorTorque = torqueToApply;
                     }
                     break;
 
                 case CarDriveType.FrontWheelDrive:
-                    thrustTorque = accel * m_AccTorqueMultiplier * (CurrentTorque / 2f);
-                    m_WheelColliders[0].motorTorque = m_WheelColliders[1].motorTorque = thrustTorque;
+                    thrustTorque = accel * (CurrentTorque / 2f);
+                    torqueToApply = m_WheelColliders[0].rpm < 2000 ? thrustTorque : 0;
+                    m_WheelColliders[0].motorTorque = m_WheelColliders[1].motorTorque = torqueToApply;
                     break;
 
                 case CarDriveType.RearWheelDrive:
-                    thrustTorque = accel * m_AccTorqueMultiplier * (CurrentTorque / 2f);
-                    m_WheelColliders[2].motorTorque = m_WheelColliders[3].motorTorque = thrustTorque;
+                    thrustTorque = accel * (CurrentTorque / 2f);
+                    torqueToApply = m_WheelColliders[2].rpm < 2000 ? thrustTorque : 0;
+                    m_WheelColliders[2].motorTorque = m_WheelColliders[3].motorTorque = torqueToApply;
                     break;
-
             }
 
             for (int i = 0; i < 4; i++)
             {
                 if (CurrentSpeed > 5 && Vector3.Angle(transform.forward, Rigidbody.velocity) < 50f)
                 {
-                    m_WheelColliders[i].brakeTorque = m_BrakeTorque* m_AccTorqueMultiplier * footbrake;
+                    m_WheelColliders[i].brakeTorque = m_BrakeTorque * footbrake;
                 }
                 else if (footbrake > 0)
                 {
                     m_WheelColliders[i].brakeTorque = 0f;
-                    m_WheelColliders[i].motorTorque = -m_ReverseTorque*m_AccTorqueMultiplier *footbrake;
+                    m_WheelColliders[i].motorTorque = -m_ReverseTorque * footbrake;
                 }
             }
         }
