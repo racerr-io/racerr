@@ -43,7 +43,7 @@ namespace Racerr.Car.Core
         [SerializeField] float m_MaxHandbrakeTorque;
         [SerializeField] float m_Downforce = 100f;
         [SerializeField] SpeedType m_SpeedType;
-        [SerializeField] int NoOfGears = 5;
+        [SerializeField] int m_NoOfGears = 5;
         [SerializeField] float m_RevRangeBoundary = 1f;
         [SerializeField] int m_RPMUpperBound;
         [SerializeField] float m_SlipLimit;
@@ -129,15 +129,15 @@ namespace Racerr.Car.Core
         void GearChanging()
         {
             float f = Mathf.Abs(CurrentSpeed/MaxSpeed);
-            float upgearlimit = (1/(float) NoOfGears)*(GearNum + 1);
-            float downgearlimit = (1/(float) NoOfGears)*GearNum;
+            float upgearlimit = (1/(float) m_NoOfGears)*(GearNum + 1);
+            float downgearlimit = (1/(float) m_NoOfGears)*GearNum;
 
             if (GearNum > 0 && f < downgearlimit)
             {
                 GearNum--;
             }
 
-            if (f > upgearlimit && (GearNum < (NoOfGears - 1)))
+            if (f > upgearlimit && (GearNum < (m_NoOfGears - 1)))
             {
                 GearNum++;
             }
@@ -172,7 +172,7 @@ namespace Racerr.Car.Core
         /// </summary>
         void CalculateGearFactor()
         {
-            float f = (1/(float) NoOfGears);
+            float f = (1/(float) m_NoOfGears);
             float targetGearFactor = Mathf.InverseLerp(f*GearNum, f*(GearNum + 1), Mathf.Abs(CurrentSpeed/MaxSpeed));
             GearFactor = Mathf.Lerp(GearFactor, targetGearFactor, Time.deltaTime*5f);
         }
@@ -185,7 +185,7 @@ namespace Racerr.Car.Core
         void CalculateRevs()
         {
             CalculateGearFactor();
-            float gearNumFactor = GearNum/(float) NoOfGears;
+            float gearNumFactor = GearNum/(float) m_NoOfGears;
             float revsRangeMin = ULerp(0f, m_RevRangeBoundary, CurveFactor(gearNumFactor));
             float revsRangeMax = ULerp(m_RevRangeBoundary, 1f, gearNumFactor);
             Revs = ULerp(revsRangeMin, revsRangeMax, GearFactor);
