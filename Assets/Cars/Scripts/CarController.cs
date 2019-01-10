@@ -1,3 +1,6 @@
+using Mirror;
+using Racerr.UX.Camera;
+using Racerr.UX.HUD;
 using UnityEngine;
 
 namespace Racerr.Car.Core
@@ -19,7 +22,7 @@ namespace Racerr.Car.Core
     /// Primary Car Controller for any car.
     /// Attach to a car and call Move() to move the car.
     /// </summary>
-    public class CarController : MonoBehaviour
+    public class CarController : NetworkBehaviour
     {
         [Header("Primary Car Properties")]
         [Range(1, 20)] [SerializeField] float m_Acceleration = 1f;
@@ -65,7 +68,6 @@ namespace Racerr.Car.Core
         public float MaxSpeed => m_TopSpeed; 
         public float Revs { get; private set; } // Some decimal value between 0 and 1
         public int CurrentRPM => (int)(Revs * m_RPMUpperBound) + m_RPMUpperBound/8 + Random.Range(-5, 5);
-        public bool IsUsersCar { get; set; } = true;
         public float CurrentSpeed => m_SpeedType == SpeedType.MPH ? Rigidbody.velocity.magnitude * 2.23693629f : Rigidbody.velocity.magnitude * 3.6f;
         public string SpeedTypeMetric => m_SpeedType.ToString();
 
@@ -86,6 +88,13 @@ namespace Racerr.Car.Core
             Rigidbody = GetComponent<Rigidbody>();
             SetupCarStats();
             CurrentTorque = m_FullTorqueOverAllWheels - (m_TractionControl*m_FullTorqueOverAllWheels);
+
+            if (isLocalPlayer)
+            {
+                FindObjectOfType<HUDRPM>().Car = this;
+                FindObjectOfType<HUDSpeed>().Car = this;
+                FindObjectOfType<AutoCam>().SetTarget(transform);
+            }
         }
 
         /// <summary>

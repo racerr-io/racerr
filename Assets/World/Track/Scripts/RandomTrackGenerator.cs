@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 using Random = UnityEngine.Random;
 
 namespace Racerr.Track
@@ -41,6 +42,7 @@ namespace Racerr.Track
 
                 newTrackPiece.transform.rotation = Quaternion.Euler(newTrackPieceRotation);
                 newTrackPiece.transform.position = new Vector3(trackPieceLinkTransform.position.x, 0, trackPieceLinkTransform.position.z);
+                NetworkServer.Spawn(newTrackPiece);
 
                 currentTrackPiece = newTrackPiece;
             }

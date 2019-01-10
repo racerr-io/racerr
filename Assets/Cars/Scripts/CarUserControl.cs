@@ -27,7 +27,7 @@ namespace Racerr.Car.Core
         /// </summary>
         void FixedUpdate()
         {
-            if (Car.IsUsersCar)
+            if (Car.isLocalPlayer)
             {
                 float h = Input.GetAxis("Horizontal");
                 float v = Input.GetAxis("Vertical");

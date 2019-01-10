@@ -122,6 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 160586558}
   - component: {fileID: 160586556}
+  - component: {fileID: 160586557}
   m_Layer: 0
   m_Name: Racerr Game Manager
   m_TagString: Untagged
@@ -140,8 +141,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c0536f3fe2e854883391417a237109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncInterval: 0.1
   m_trackLength: 10
   m_firstTrackPiece: {fileID: 404213253}
+--- !u!114 &160586557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 160586555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId: 0
+  m_ServerOnly: 1
+  m_LocalPlayerAuthority: 0
+  m_AssetId: 
 --- !u!4 &160586558
 Transform:
   m_ObjectHideFlags: 0
@@ -149,7 +166,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 160586555}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.384373, y: -2.69, z: 14.104327}
+  m_LocalPosition: {x: 17.38, y: 14.83, z: 14.104327}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -300,7 +317,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4490383000305110, guid: 6dbb4711f07002548855e99a2bc2a4b2, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -24.8
       objectReference: {fileID: 0}
     - target: {fileID: 4490383000305110, guid: 6dbb4711f07002548855e99a2bc2a4b2, type: 2}
       propertyPath: m_LocalRotation.x
@@ -330,7 +347,12 @@ Prefab:
       propertyPath: m_Name
       value: Start Track Piece
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 0}
+      propertyPath: m_ServerOnly
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 6dbb4711f07002548855e99a2bc2a4b2, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &404213253 stripped
@@ -425,7 +447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5802bd6284eaefc46af0f5a4b7f0eb41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Car: {fileID: 1724428333}
+  m_Car: {fileID: 0}
 --- !u!1001 &674709688
 Prefab:
   m_ObjectHideFlags: 0
@@ -463,7 +485,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -520,6 +542,10 @@ Prefab:
     - target: {fileID: 100004, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_Name
       value: Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: baec086904791744185aaa07a6cf55c2, type: 2}
+      propertyPath: m_Target
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 9200000, guid: baec086904791744185aaa07a6cf55c2, type: 2}
@@ -785,56 +811,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a715bb66d5a6e544af4bca2090a4bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Car: {fileID: 1724428333}
---- !u!1001 &1411964205
-Prefab:
+  m_Car: {fileID: 0}
+--- !u!1 &1813844546
+GameObject:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4568749969045674, guid: ad7eac5acae575c4bbac02eda262a2b6, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4568749969045674, guid: ad7eac5acae575c4bbac02eda262a2b6, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1.477
-      objectReference: {fileID: 0}
-    - target: {fileID: 4568749969045674, guid: ad7eac5acae575c4bbac02eda262a2b6, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 4.762003
-      objectReference: {fileID: 0}
-    - target: {fileID: 4568749969045674, guid: ad7eac5acae575c4bbac02eda262a2b6, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4568749969045674, guid: ad7eac5acae575c4bbac02eda262a2b6, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4568749969045674, guid: ad7eac5acae575c4bbac02eda262a2b6, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4568749969045674, guid: ad7eac5acae575c4bbac02eda262a2b6, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4568749969045674, guid: ad7eac5acae575c4bbac02eda262a2b6, type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4568749969045674, guid: ad7eac5acae575c4bbac02eda262a2b6, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ad7eac5acae575c4bbac02eda262a2b6, type: 2}
-  m_IsPrefabAsset: 0
---- !u!114 &1724428333 stripped
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1813844549}
+  - component: {fileID: 1813844548}
+  - component: {fileID: 1813844547}
+  m_Layer: 0
+  m_Name: Racerr Multiplayer Service
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1813844547
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114676345469640872, guid: ad7eac5acae575c4bbac02eda262a2b6,
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1813844546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showGUI: 1
+  offsetX: 0
+  offsetY: 200
+--- !u!114 &1813844548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1813844546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aab4c8111b7c411b9b92cf3dbc5bd4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useTcp: 1
+  tcpPort: 7777
+  networkAddress: localhost
+  dontDestroyOnLoad: 1
+  runInBackground: 1
+  showDebugMessages: 0
+  playerPrefab: {fileID: 1639449353807054, guid: ad7eac5acae575c4bbac02eda262a2b6,
     type: 2}
-  m_PrefabInternal: {fileID: 1411964205}
-  m_Script: {fileID: 11500000, guid: 3ea65b38d485c374caa584a03f1de571, type: 3}
+  autoCreatePlayer: 1
+  playerSpawnMethod: 0
+  offlineScene: 
+  onlineScene: 
+  maxConnections: 4
+  useWebSockets: 1
+  websocketPort: 7778
+  spawnPrefabs:
+  - {fileID: 1411689903036040, guid: 6849f2537e7a24646aa469b2aec0b9aa, type: 2}
+  - {fileID: 1371473065414456, guid: 60a1d49d189c1f34099355925fffd934, type: 2}
+  - {fileID: 1207409731822386, guid: 6dbb4711f07002548855e99a2bc2a4b2, type: 2}
+  clientLoadedScene: 0
+  isNetworkActive: 0
+--- !u!4 &1813844549
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1813844546}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 17.38, y: 14.83, z: 14.104327}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
