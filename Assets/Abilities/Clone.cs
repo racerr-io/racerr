@@ -32,7 +32,6 @@ namespace Racerr.Car.Abilities
             Vector3 newPosition = Car.transform.position - new Vector3(0, 0, longestColliderLength);
             CarController clone = Instantiate(Car);
             clone.transform.position = newPosition;
-            clone.IsUsersCar = false;
         }
 
         /// <summary>

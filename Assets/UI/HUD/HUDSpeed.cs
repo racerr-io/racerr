@@ -10,8 +10,13 @@ namespace Racerr.UX.HUD
     [RequireComponent(typeof(Text))]
     public class HUDSpeed : MonoBehaviour
     {
-        [SerializeField] CarController Car;
+        [SerializeField] CarController m_Car;
 
+        public CarController Car
+        {
+            get { return m_Car; }
+            set { m_Car = value; }
+        }
         Text SpeedText { get; set; }
 
         /// <summary>
@@ -27,7 +32,15 @@ namespace Racerr.UX.HUD
         /// </summary>
         void Update()
         {
-            SpeedText.text = $"{(int)Car.CurrentSpeed} {Car.SpeedTypeMetric}";
+            if (Car != null)
+            {
+                SpeedText.text = $"{(int)Car.CurrentSpeed} {Car.SpeedTypeMetric}";
+            }
+            else
+            {
+                SpeedText.text = string.Empty;
+            }
+            
         }
     }
 }
