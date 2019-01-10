@@ -1,8 +1,10 @@
-using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.Cameras
+namespace Racerr.UX.Camera
 {
+    /// <summary>
+    /// Abstract class for camera which follows targets.
+    /// </summary>
     public abstract class AbstractTargetFollower : MonoBehaviour
     {
         public enum UpdateType // The available methods of updating are:
@@ -12,76 +14,78 @@ namespace UnityStandardAssets.Cameras
             ManualUpdate, // user must call to update camera
         }
 
-        [SerializeField] protected Transform m_Target;            // The target object to follow
-        [SerializeField] private bool m_AutoTargetPlayer = true;  // Whether the rig should automatically target the player.
-        [SerializeField] private UpdateType m_UpdateType;         // stores the selected update type
+        [SerializeField] protected Transform m_Target;    // The target object to follow
+        [SerializeField] bool m_AutoTargetPlayer = true;  // Whether the rig should automatically target the player.
+        [SerializeField] UpdateType m_UpdateType;         // stores the selected update type
 
-        protected Rigidbody targetRigidbody;
+        public Transform Target => m_Target;
+        protected Rigidbody TargetRigidbody { get; set; }
 
-
+        /// <summary>
+        /// if auto targeting is used, find the object tagged "Player"
+        /// any class inheriting from this should call base.Start() to perform this action!
+        /// </summary>
         protected virtual void Start()
         {
-            // if auto targeting is used, find the object tagged "Player"
-            // any class inheriting from this should call base.Start() to perform this action!
             if (m_AutoTargetPlayer)
             {
                 FindAndTargetPlayer();
             }
             if (m_Target == null) return;
-            targetRigidbody = m_Target.GetComponent<Rigidbody>();
+            TargetRigidbody = m_Target.GetComponent<Rigidbody>();
         }
 
-
-        private void FixedUpdate()
+        /// <summary>
+        /// Update camera on physics tick.
+        /// </summary>
+        void FixedUpdate()
         {
-            // we update from here if updatetype is set to Fixed, or in auto mode,
-            // if the target has a rigidbody, and isn't kinematic.
-            if (m_AutoTargetPlayer && (m_Target == null || !m_Target.gameObject.activeSelf))
-            {
-                FindAndTargetPlayer();
-            }
-            if (m_UpdateType == UpdateType.FixedUpdate)
-            {
-                FollowTarget(Time.deltaTime);
-            }
+            UpdateCore(UpdateType.FixedUpdate);
         }
 
-
-        private void LateUpdate()
+        /// <summary>
+        /// Called after all update functions called.
+        /// </summary>
+        void LateUpdate()
         {
-            // we update from here if updatetype is set to Late, or in auto mode,
-            // if the target does not have a rigidbody, or - does have a rigidbody but is set to kinematic.
-            if (m_AutoTargetPlayer && (m_Target == null || !m_Target.gameObject.activeSelf))
-            {
-                FindAndTargetPlayer();
-            }
-            if (m_UpdateType == UpdateType.LateUpdate)
-            {
-                FollowTarget(Time.deltaTime);
-            }
+            UpdateCore(UpdateType.LateUpdate);
         }
 
-
+        /// <summary>
+        /// Manually update the camera bassed on function call.
+        /// </summary>
         public void ManualUpdate()
         {
-            // we update from here if updatetype is set to Late, or in auto mode,
-            // if the target does not have a rigidbody, or - does have a rigidbody but is set to kinematic.
+            UpdateCore(UpdateType.ManualUpdate);
+        }
+
+        /// <summary>
+        /// We update from here if updatetype is set to Late, or in auto mode,
+        /// if the target does not have a rigidbody, or - does have a rigidbody but is set to kinematic.
+        /// </summary>
+        void UpdateCore(UpdateType updateType)
+        {
             if (m_AutoTargetPlayer && (m_Target == null || !m_Target.gameObject.activeSelf))
             {
                 FindAndTargetPlayer();
             }
-            if (m_UpdateType == UpdateType.ManualUpdate)
+            if (m_UpdateType == updateType)
             {
                 FollowTarget(Time.deltaTime);
             }
         }
 
+        /// <summary>
+        /// Some strategy to operate the camera.
+        /// </summary>
+        /// <param name="deltaTime">Time.deltaTime</param>
         protected abstract void FollowTarget(float deltaTime);
 
-
+        /// <summary>
+        /// Auto target an object tagged player, if no target has been assigned
+        /// </summary>
         public void FindAndTargetPlayer()
         {
-            // auto target an object tagged player, if no target has been assigned
             var targetObj = GameObject.FindGameObjectWithTag("Player");
             if (targetObj)
             {
@@ -89,16 +93,13 @@ namespace UnityStandardAssets.Cameras
             }
         }
 
-
+        /// <summary>
+        /// Set a new target
+        /// </summary>
+        /// <param name="newTransform">Transform you want to target</param>
         public virtual void SetTarget(Transform newTransform)
         {
             m_Target = newTransform;
-        }
-
-
-        public Transform Target
-        {
-            get { return m_Target; }
         }
     }
 }
