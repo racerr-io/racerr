@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4496216211480858}
   - component: {fileID: 33992143922342216}
   - component: {fileID: 23901707583615082}
+  - component: {fileID: 114556536019170110}
   m_Layer: 0
   m_Name: TrackPiece-SharpLeft
   m_TagString: Track Piece
@@ -286,3 +287,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114556536019170110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1411689903036040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+  m_AssetId: 6849f2537e7a24646aa469b2aec0b9aa

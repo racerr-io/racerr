@@ -10,7 +10,13 @@ namespace Racerr.UX.HUD
     [RequireComponent(typeof(Text))]
     public class HUDRPM : MonoBehaviour
     {
-        [SerializeField] CarController Car;
+        [SerializeField] CarController m_Car;
+
+        public CarController Car
+        {
+            get { return m_Car; }
+            set { m_Car = value; }
+        }
 
         Text RPMText { get; set; }
 
@@ -27,7 +33,14 @@ namespace Racerr.UX.HUD
         /// </summary>
         void Update()
         {
-            RPMText.text = Car.CurrentRPM + " RPM";
+            if (Car != null)
+            {
+                RPMText.text = Car.CurrentRPM + " RPM";
+            }
+            else
+            {
+                RPMText.text = string.Empty;
+            }
         }
     }
 }

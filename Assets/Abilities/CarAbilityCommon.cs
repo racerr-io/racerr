@@ -34,7 +34,7 @@ namespace Racerr.Car.Abilities
         /// </summary>
         void Update()
         {
-            if (Car.IsUsersCar)
+            if (Car.isLocalPlayer)
             {
                 IsKeyPressed = Input.GetKeyDown(m_Key);
             }
@@ -45,7 +45,7 @@ namespace Racerr.Car.Abilities
         /// </summary>
         void FixedUpdate()
         {
-            if (Car.IsUsersCar)
+            if (Car.isLocalPlayer)
             {
                 FixedUpdateCore(IsKeyPressed);
             }

@@ -1,30 +1,28 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 namespace Racerr.Track
 {
     /// <summary>
     /// Track Generator - all track generators must inherit from this class.
     /// </summary>
-    public abstract class TrackGeneratorCommon : MonoBehaviour
+    public abstract class TrackGeneratorCommon : NetworkBehaviour
     {
         [SerializeField] int m_trackLength;
 
         public bool IsTrackGenerated { get; private set; }
 
         /// <summary>
-        /// For every physics tick, check if we should generate the track.
+        /// Generate a track for all players as soon as the script is loaded on the server.
         /// </summary>
-        void FixedUpdate()
+        void Start()
         {
-            if (Input.GetKeyDown(KeyCode.E)) // Temporary, we will programatically generate the track in the future.
+            if (isServer)
             {
-                if (!IsTrackGenerated)
-                {
-                    IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Track Pieces");
-                    GenerateTrack(m_trackLength, availableTrackPiecePrefabs);
-                    IsTrackGenerated = true;
-                }
+                IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Track Pieces");
+                GenerateTrack(m_trackLength, availableTrackPiecePrefabs);
+                IsTrackGenerated = true;
             }
         }
 
