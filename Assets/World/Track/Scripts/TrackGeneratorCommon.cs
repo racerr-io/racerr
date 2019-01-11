@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Mirror;
+using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 
 namespace Racerr.Track
 {
@@ -12,17 +12,51 @@ namespace Racerr.Track
         [SerializeField] int m_trackLength;
 
         public bool IsTrackGenerated { get; private set; }
+        public List<GameObject> GeneratedTrackPieces { get; } = new List<GameObject>();
+
+        public static TrackGeneratorCommon Singleton;
 
         /// <summary>
-        /// Generate a track for all players as soon as the script is loaded on the server.
+        /// Run when this script is instantiated.
+        /// Set up the Singleton variable and ensure only one track generator is created
+        /// in the scene.
         /// </summary>
-        void Start()
+        void Awake()
         {
-            if (isServer)
+            if (Singleton == null)
+            {
+                Singleton = this;
+            }
+            else
+            {
+                Debug.LogError("You can only have one track generator in the scene. The extra track generator has been destroyed.");
+                Destroy(this);
+            }
+        }
+
+        /// <summary>
+        /// Generate the track for all players on the server.
+        /// </summary>
+        public void GenerateIfRequired()
+        {
+            if (isServer && !IsTrackGenerated)
             {
                 IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Track Pieces");
                 GenerateTrack(m_trackLength, availableTrackPiecePrefabs);
                 IsTrackGenerated = true;
+            }
+        }
+
+        /// <summary>
+        /// Destroy the track for all players on the server.
+        /// </summary>
+        public void DestroyIfRequired()
+        {
+            if (isServer && IsTrackGenerated && NetworkManager.singleton.numPlayers == 0)
+            {
+                GeneratedTrackPieces.ForEach(NetworkServer.Destroy);
+                GeneratedTrackPieces.RemoveAll(_ => true);
+                IsTrackGenerated = false;
             }
         }
 
