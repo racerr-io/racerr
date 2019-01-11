@@ -45,6 +45,7 @@ namespace Racerr.Track
                 NetworkServer.Spawn(newTrackPiece);
 
                 currentTrackPiece = newTrackPiece;
+                GeneratedTrackPieces.Add(currentTrackPiece);
             }
 
             currentTrackPiece.transform.Find("Track Piece Checkpoint").tag = "Track Piece Checkpoint End"; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
