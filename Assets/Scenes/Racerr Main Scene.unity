@@ -886,7 +886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09ec1263d1aa1c04193da08f1155002c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useTcp: 1
+  useTcp: 0
   tcpPort: 7777
   networkAddress: localhost
   dontDestroyOnLoad: 1
