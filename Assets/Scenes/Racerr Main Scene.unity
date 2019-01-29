@@ -888,7 +888,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useTcp: 0
   tcpPort: 7777
-  networkAddress: ec2-13-237-4-54.ap-southeast-2.compute.amazonaws.com
+  networkAddress: 13.237.4.54
   dontDestroyOnLoad: 1
   runInBackground: 1
   showDebugMessages: 0
