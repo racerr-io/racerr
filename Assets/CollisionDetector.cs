@@ -1,32 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Racerr.Track
 {
     public class CollisionDetector : MonoBehaviour
     {
-        public bool IsValidTrackPlacement { get; private set; } = true;
-        public GameObject PreviousTrack { get; private set; }
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+        public bool IsValidTrackPlacementUponConnection => CollidedGameObjects.Where(g => g != null).Count() <= 1; // Is valid placement given we haven't connected it to the next piece.
+        List<GameObject> CollidedGameObjects { get; set; } = new List<GameObject>();
 
         void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.name == "Road")
+            if (collision.gameObject.name == TrackPieceComponent.Road)
             {
-                IsValidTrackPlacement = false;
+                CollidedGameObjects.Add(collision.gameObject);
             }
-            Debug.Log(collision.gameObject.name);
         }
     }
 }

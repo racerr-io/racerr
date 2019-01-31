@@ -121,11 +121,11 @@ namespace Racerr.Car.Core
         /// <param name="collider">The collider it hit</param>
         void OnTriggerEnter(Collider collider)
         {
-            if (collider.gameObject.tag == "Track Piece Checkpoint") // A normal checkpoint
+            if (collider.gameObject.name == "Checkpoint") // A normal checkpoint
             {
                 Debug.Log("Car hit checkpoint!");
             }
-            else if (collider.gameObject.tag == "Track Piece Checkpoint End") // Last checkpoint - end of race
+            else if (collider.gameObject.name == "Finish Line Checkpoint") // Last checkpoint - end of race
             {
                 Debug.Log("Car reached the end of the track!");
                 gameObject.SetActive(false);

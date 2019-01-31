@@ -6,11 +6,7 @@ TagManager:
   tags:
   - Car
   - Track Piece
-  - Track Piece Plane
-  - Track Piece Link
   - HUD Part
-  - Track Piece Checkpoint
-  - Track Piece Checkpoint End
   - Car Front
   layers:
   - Default

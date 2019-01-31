@@ -16,15 +16,17 @@ namespace Racerr.Track
 
         /// <summary>
         /// Generate tracks by getting the first track piece, then grabbing a random track piece from resources and joining
-        /// it together. Track pieces are moved and rotated to the position of the 'Track Piece Link' on the previous Track Piece.
+        /// it together. Track pieces are moved and rotated to the position of the 'Link' on the previous Track Piece.
         /// </summary>
         /// <param name="trackLength">Number of Track Pieces this track should be composed of.</param>
         /// <param name="availableTrackPiecePrefabs">Collection of Track Pieces we can Instantiate.</param>
+        /// <returns>IEnumerator for Unity coroutine, so that we can WaitForFixedUpdate() to check if a track is colliding with another one every time we instantiate a new track.</returns>
         protected override IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs)
         {
             GameObject currentTrackPiece = m_firstTrackPiece;
+            int numTracks = 0;
 
-            for (int i = 0; i < 1000; i++)
+            while (numTracks < Math.Max(0, trackLength))
             {
                 Transform trackPieceLinkTransform = LoadTrackPieceLinkTransform(currentTrackPiece);
 
@@ -35,29 +37,26 @@ namespace Racerr.Track
 
                 GameObject newTrackPiecePrefab = availableTrackPiecePrefabs[Random.Range(0, availableTrackPiecePrefabs.Count)];
                 GameObject newTrackPiece = Instantiate(newTrackPiecePrefab);
-                newTrackPiece.name = $"Auto Generated Track Piece {i + 1} ({newTrackPiecePrefab.name})";
-                Vector3 newTrackPieceRotation = trackPieceLinkTransform.rotation.eulerAngles;
-                Vector3 currentTrackPieceRotation = currentTrackPiece.transform.rotation.eulerAngles;
-                newTrackPieceRotation.x = currentTrackPieceRotation.x;
-                newTrackPieceRotation.z = currentTrackPieceRotation.z;
+                newTrackPiece.name = $"Auto Generated Track Piece { numTracks + 1 } ({ newTrackPiecePrefab.name })";
+                newTrackPiece.transform.position = trackPieceLinkTransform.position;
+                newTrackPiece.transform.rotation *= trackPieceLinkTransform.rotation;
 
-                newTrackPiece.transform.rotation *= Quaternion.Euler(newTrackPieceRotation);
-                newTrackPiece.transform.position = new Vector3(trackPieceLinkTransform.position.x, 0, trackPieceLinkTransform.position.z);
-                
-                if (!newTrackPiece.GetComponentInChildren<CollisionDetector>().IsValidTrackPlacement)
-                {
-                    Destroy(newTrackPiece);
-                }
-                else
+                yield return new WaitForFixedUpdate(); // Wait for next physics calculation so that Track Piece Collision Detector works properly.;
+
+                if (newTrackPiece.GetComponentInChildren<CollisionDetector>().IsValidTrackPlacementUponConnection)
                 {
                     NetworkServer.Spawn(newTrackPiece);
                     currentTrackPiece = newTrackPiece;
                     GeneratedTrackPieces.Add(currentTrackPiece);
+                    numTracks++;
                 }
-                
+                else
+                {
+                    Destroy(newTrackPiece);
+                }
             }
-            yield return null;
-            //  currentTrackPiece.transform.Find("Track Piece Checkpoint").tag = "Track Piece Checkpoint End"; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
+
+            currentTrackPiece.transform.Find("Checkpoint").name = "Finish Line Checkpoint"; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
         }
     }
 }

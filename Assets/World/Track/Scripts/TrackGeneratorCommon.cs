@@ -67,6 +67,7 @@ namespace Racerr.Track
         /// </summary>
         /// <param name="trackLength">Number of Track Pieces this track should be composed of.</param>
         /// <param name="availableTrackPiecePrefabs">Collection of Track Pieces we can Instantiate.</param>
+        /// <returns>IEnumerator for Unity coroutine, so that track generation can be done concurrently with main thread (useful for calculating collisions).</returns>
         abstract protected IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs);
 
         #region Helpers
@@ -78,24 +79,24 @@ namespace Racerr.Track
         /// <returns>Track Piece Link Transform</returns>
         protected Transform LoadTrackPieceLinkTransform(GameObject trackPiece)
         {
-            Transform tracePieceLinkTransform = trackPiece.transform.Find(TrackPieceComponent.End);
+            Transform tracePieceLinkTransform = trackPiece.transform.Find(TrackPieceComponent.Link);
 
             if (tracePieceLinkTransform == null)
             {
                 Debug.LogError("Track Piece Failure - Unable to load the Track Piece Link from the specified Track Piece. " +
-                    "Every Track Piece prefab requires a child game object called 'Track Piece Link' which provides information on where to attach the next Track Piece.");
+                    $"Every Track Piece prefab requires a child game object called '{ TrackPieceComponent.Link }' which provides information on where to attach the next Track Piece.");
             }
 
             return tracePieceLinkTransform;
         }
 
-        public static class TrackPieceComponent
-        {
-            public const string Road = "Road";
-            public const string End = "End";
-            public const string Checkpoint = "Checkpoint";
-        }
-
         #endregion
+    }
+
+    public static class TrackPieceComponent
+    {
+        public const string Road = "Road";
+        public const string Link = "Link";
+        public const string Checkpoint = "Checkpoint";
     }
 }
