@@ -77,7 +77,7 @@ namespace Racerr.Track
         /// <returns>Track Piece Link Transform</returns>
         protected Transform LoadTrackPieceLinkTransform(GameObject trackPiece)
         {
-            Transform tracePieceLinkTransform = trackPiece.transform.Find("Track Piece Link");
+            Transform tracePieceLinkTransform = trackPiece.transform.Find(TrackPieceComponent.End);
 
             if (tracePieceLinkTransform == null)
             {
@@ -86,6 +86,13 @@ namespace Racerr.Track
             }
 
             return tracePieceLinkTransform;
+        }
+
+        public static class TrackPieceComponent
+        {
+            public const string Road = "Road";
+            public const string End = "End";
+            public const string Checkpoint = "Checkpoint";
         }
 
         #endregion

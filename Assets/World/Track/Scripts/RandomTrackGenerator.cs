@@ -40,7 +40,7 @@ namespace Racerr.Track
                 newTrackPieceRotation.x = currentTrackPieceRotation.x;
                 newTrackPieceRotation.z = currentTrackPieceRotation.z;
 
-                newTrackPiece.transform.rotation = Quaternion.Euler(newTrackPieceRotation);
+                newTrackPiece.transform.rotation *= Quaternion.Euler(newTrackPieceRotation);
                 newTrackPiece.transform.position = new Vector3(trackPieceLinkTransform.position.x, 0, trackPieceLinkTransform.position.z);
                 NetworkServer.Spawn(newTrackPiece);
 
@@ -48,7 +48,7 @@ namespace Racerr.Track
                 GeneratedTrackPieces.Add(currentTrackPiece);
             }
 
-            currentTrackPiece.transform.Find("Track Piece Checkpoint").tag = "Track Piece Checkpoint End"; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
+          //  currentTrackPiece.transform.Find("Track Piece Checkpoint").tag = "Track Piece Checkpoint End"; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
         }
     }
 }
