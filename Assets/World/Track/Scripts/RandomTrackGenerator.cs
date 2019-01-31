@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
+using System.Collections;
 
 namespace Racerr.Track
 {
@@ -19,11 +20,11 @@ namespace Racerr.Track
         /// </summary>
         /// <param name="trackLength">Number of Track Pieces this track should be composed of.</param>
         /// <param name="availableTrackPiecePrefabs">Collection of Track Pieces we can Instantiate.</param>
-        protected override void GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs)
+        protected override IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs)
         {
             GameObject currentTrackPiece = m_firstTrackPiece;
 
-            for (int i = 0; i < Math.Max(0, trackLength); i++)
+            for (int i = 0; i < 1000; i++)
             {
                 Transform trackPieceLinkTransform = LoadTrackPieceLinkTransform(currentTrackPiece);
 
@@ -42,13 +43,21 @@ namespace Racerr.Track
 
                 newTrackPiece.transform.rotation *= Quaternion.Euler(newTrackPieceRotation);
                 newTrackPiece.transform.position = new Vector3(trackPieceLinkTransform.position.x, 0, trackPieceLinkTransform.position.z);
-                NetworkServer.Spawn(newTrackPiece);
-
-                currentTrackPiece = newTrackPiece;
-                GeneratedTrackPieces.Add(currentTrackPiece);
+                
+                if (!newTrackPiece.GetComponentInChildren<CollisionDetector>().IsValidTrackPlacement)
+                {
+                    Destroy(newTrackPiece);
+                }
+                else
+                {
+                    NetworkServer.Spawn(newTrackPiece);
+                    currentTrackPiece = newTrackPiece;
+                    GeneratedTrackPieces.Add(currentTrackPiece);
+                }
+                
             }
-
-          //  currentTrackPiece.transform.Find("Track Piece Checkpoint").tag = "Track Piece Checkpoint End"; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
+            yield return null;
+            //  currentTrackPiece.transform.Find("Track Piece Checkpoint").tag = "Track Piece Checkpoint End"; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,7 +43,7 @@ namespace Racerr.Track
             if (isServer && !IsTrackGenerated)
             {
                 IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Track Pieces");
-                GenerateTrack(m_trackLength, availableTrackPiecePrefabs);
+                StartCoroutine(GenerateTrack(m_trackLength, availableTrackPiecePrefabs));
                 IsTrackGenerated = true;
             }
         }
@@ -66,7 +67,7 @@ namespace Racerr.Track
         /// </summary>
         /// <param name="trackLength">Number of Track Pieces this track should be composed of.</param>
         /// <param name="availableTrackPiecePrefabs">Collection of Track Pieces we can Instantiate.</param>
-        abstract protected void GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs);
+        abstract protected IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs);
 
         #region Helpers
 
