@@ -73,7 +73,7 @@ namespace Racerr.Track
         #region Helpers
 
         /// <summary>
-        /// Each Track Piece has an ending point called 'Track Piece Link'. This function will return the Transform (position and rotation info) for this link.
+        /// Each Track Piece has an ending point called 'Link'. This function will return the Transform (position and rotation info) for this link.
         /// </summary>
         /// <param name="trackPiece">Track Piece Game Object</param>
         /// <returns>Track Piece Link Transform</returns>
@@ -91,12 +91,5 @@ namespace Racerr.Track
         }
 
         #endregion
-    }
-
-    public static class TrackPieceComponent
-    {
-        public const string Road = "Road";
-        public const string Link = "Link";
-        public const string Checkpoint = "Checkpoint";
     }
 }

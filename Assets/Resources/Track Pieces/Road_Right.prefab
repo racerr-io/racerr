@@ -221,6 +221,8 @@ GameObject:
   - component: {fileID: 5175897579024300898}
   - component: {fileID: 4944607028879421521}
   - component: {fileID: 1751561120687963251}
+  - component: {fileID: 3690797564922579685}
+  - component: {fileID: 8252156458465894768}
   m_Layer: 0
   m_Name: Road_Right
   m_TagString: Track Piece
@@ -272,6 +274,34 @@ MonoBehaviour:
   m_ServerOnly: 1
   m_LocalPlayerAuthority: 0
   m_AssetId: 5849f63ff4d06f34f97c21eefd3ea46c
+--- !u!54 &3690797564922579685
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2166906741778702378}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &8252156458465894768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2166906741778702378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05b994c6c7a94704d84f16e7732176ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5425220269329491671
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,9 +448,7 @@ GameObject:
   - component: {fileID: 998306037245601718}
   - component: {fileID: 5519581623463050647}
   - component: {fileID: 5325318623233966834}
-  - component: {fileID: 6616630321990814348}
   - component: {fileID: 3779021795660803116}
-  - component: {fileID: 6301666267436446415}
   m_Layer: 0
   m_Name: Road
   m_TagString: Untagged
@@ -487,22 +515,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &6616630321990814348
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7791855778442252582}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!64 &3779021795660803116
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -517,18 +529,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 27fc7bbc1147341c5b8eac6dab3da129, type: 3}
---- !u!114 &6301666267436446415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7791855778442252582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05b994c6c7a94704d84f16e7732176ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8005112489634713591
 GameObject:
   m_ObjectHideFlags: 0

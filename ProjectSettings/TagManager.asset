@@ -7,7 +7,6 @@ TagManager:
   - Car
   - Track Piece
   - HUD Part
-  - Car Front
   layers:
   - Default
   - TransparentFX

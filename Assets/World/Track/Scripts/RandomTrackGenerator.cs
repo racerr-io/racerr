@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Mirror;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 using Random = UnityEngine.Random;
-using System.Collections;
 
 namespace Racerr.Track
 {
@@ -41,13 +41,13 @@ namespace Racerr.Track
                 newTrackPiece.transform.position = trackPieceLinkTransform.position;
                 newTrackPiece.transform.rotation *= trackPieceLinkTransform.rotation;
 
-                yield return new WaitForFixedUpdate(); // Wait for next physics calculation so that Track Piece Collision Detector works properly.;
+                yield return new WaitForFixedUpdate(); // Wait for next physics calculation so that Track Piece Collision Detector works properly.
 
-                if (newTrackPiece.GetComponentInChildren<CollisionDetector>().IsValidTrackPlacementUponConnection)
+                if (newTrackPiece.GetComponent<TrackPieceCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {
                     NetworkServer.Spawn(newTrackPiece);
+                    GeneratedTrackPieces.Add(newTrackPiece);
                     currentTrackPiece = newTrackPiece;
-                    GeneratedTrackPieces.Add(currentTrackPiece);
                     numTracks++;
                 }
                 else
@@ -56,7 +56,7 @@ namespace Racerr.Track
                 }
             }
 
-            currentTrackPiece.transform.Find("Checkpoint").name = "Finish Line Checkpoint"; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
+            currentTrackPiece.transform.Find(TrackPieceComponent.Checkpoint).name = TrackPieceComponent.FinishLineCheckpoint; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
         }
     }
 }
