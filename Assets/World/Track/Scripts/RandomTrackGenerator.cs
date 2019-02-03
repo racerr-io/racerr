@@ -53,7 +53,6 @@ namespace Racerr.Track
                         validTrackOptions.Add(i);
                     }
                 }
-
                 if (validTrackOptions.Count == 0)
                 {
                     NetworkServer.Destroy(currentTrackPiece);
@@ -64,10 +63,6 @@ namespace Racerr.Track
                 }
 
                 int randomTrack = validTrackOptions[Random.Range(0, validTrackOptions.Count)];
-                //while (validAvailableTracks[numTracks][randomTrack] != true)
-                //{
-                //    randomTrack = Random.Range(0, availableTrackPiecePrefabs.Count);
-                //}
 
                 GameObject newTrackPiecePrefab = availableTrackPiecePrefabs[randomTrack];
                 GameObject newTrackPiece = Instantiate(newTrackPiecePrefab);
@@ -87,8 +82,8 @@ namespace Racerr.Track
                 else
                 {
                     Destroy(newTrackPiece);
-                    validAvailableTracks[numTracks][randomTrack] = false;
                 }
+                validAvailableTracks[numTracks][randomTrack] = false;
             }
 
             currentTrackPiece.transform.Find(TrackPieceComponent.Checkpoint).name = TrackPieceComponent.FinishLineCheckpoint; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
