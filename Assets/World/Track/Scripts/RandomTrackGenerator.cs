@@ -26,6 +26,16 @@ namespace Racerr.Track
             GameObject currentTrackPiece = m_firstTrackPiece;
             int numTracks = 0;
 
+            bool[][] validAvailableTracks = new bool[trackLength][];
+            for (int i = 0; i < trackLength; i++)
+            {
+                validAvailableTracks[i] = new bool[availableTrackPiecePrefabs.Count];
+                for (int j = 0; j < validAvailableTracks[i].Length; j++)
+                {
+                    validAvailableTracks[i][j] = true;
+                }
+            }
+
             while (numTracks < Math.Max(0, trackLength))
             {
                 Transform trackPieceLinkTransform = LoadTrackPieceLinkTransform(currentTrackPiece);
@@ -35,7 +45,31 @@ namespace Racerr.Track
                     break;
                 }
 
-                GameObject newTrackPiecePrefab = availableTrackPiecePrefabs[Random.Range(0, availableTrackPiecePrefabs.Count)];
+                List<int> validTrackOptions = new List<int>();
+                for (int i = 0; i < validAvailableTracks[numTracks].Length; i++)
+                {
+                    if (validAvailableTracks[numTracks][i] == true)
+                    {
+                        validTrackOptions.Add(i);
+                    }
+                }
+
+                if (validTrackOptions.Count == 0)
+                {
+                    NetworkServer.Destroy(currentTrackPiece);
+                    Destroy(currentTrackPiece);
+                    GeneratedTrackPieces.RemoveAt(GeneratedTrackPieces.Count - 1);
+                    currentTrackPiece = GeneratedTrackPieces[GeneratedTrackPieces.Count - 1];
+                    numTracks--;
+                }
+
+                int randomTrack = validTrackOptions[Random.Range(0, validTrackOptions.Count)];
+                //while (validAvailableTracks[numTracks][randomTrack] != true)
+                //{
+                //    randomTrack = Random.Range(0, availableTrackPiecePrefabs.Count);
+                //}
+
+                GameObject newTrackPiecePrefab = availableTrackPiecePrefabs[randomTrack];
                 GameObject newTrackPiece = Instantiate(newTrackPiecePrefab);
                 newTrackPiece.name = $"Auto Generated Track Piece { numTracks + 1 } ({ newTrackPiecePrefab.name })";
                 newTrackPiece.transform.position = trackPieceLinkTransform.position;
@@ -53,6 +87,7 @@ namespace Racerr.Track
                 else
                 {
                     Destroy(newTrackPiece);
+                    validAvailableTracks[numTracks][randomTrack] = false;
                 }
             }
 
