@@ -83,6 +83,7 @@ namespace Racerr.Track
 
                 yield return new WaitForFixedUpdate(); // Wait for next physics calculation so that Track Piece Collision Detector works properly.
 
+                validAvailableTracks[numTracks][randomTrack] = false;
                 if (newTrackPiece.GetComponent<TrackPieceCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {
                     NetworkServer.Spawn(newTrackPiece);
@@ -93,8 +94,8 @@ namespace Racerr.Track
                 else
                 {
                     Destroy(newTrackPiece);
+
                 }
-                validAvailableTracks[numTracks][randomTrack] = false;
             }
 
             currentTrackPiece.transform.Find(TrackPieceComponent.Checkpoint).name = TrackPieceComponent.FinishLineCheckpoint; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
