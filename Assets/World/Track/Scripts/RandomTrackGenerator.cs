@@ -26,13 +26,14 @@ namespace Racerr.Track
             GameObject currentTrackPiece = m_firstTrackPiece;
             int numTracks = 0;
 
+            // Stores a validity map for the current track marked by numTrack index, where all of the possible track piece candidates are either valid or invalid.
             bool[][] validAvailableTracks = new bool[trackLength][];
-            for (int i = 0; i < trackLength; i++)
+            for (int numTracksIndex = 0; numTracksIndex < trackLength; numTracksIndex++)
             {
-                validAvailableTracks[i] = new bool[availableTrackPiecePrefabs.Count];
-                for (int j = 0; j < validAvailableTracks[i].Length; j++)
+                validAvailableTracks[numTracksIndex] = new bool[availableTrackPiecePrefabs.Count];
+                for (int candidateTrackPiece = 0; candidateTrackPiece < validAvailableTracks[numTracksIndex].Length; candidateTrackPiece++)
                 {
-                    validAvailableTracks[i][j] = true;
+                    validAvailableTracks[numTracksIndex][candidateTrackPiece] = true;
                 }
             }
 
@@ -45,23 +46,28 @@ namespace Racerr.Track
                     break;
                 }
 
+                // Compile a list of valid track piece options.
                 List<int> validTrackOptions = new List<int>();
-                for (int i = 0; i < validAvailableTracks[numTracks].Length; i++)
+                for (int candidateTrackPiece = 0; candidateTrackPiece < validAvailableTracks[numTracks].Length; candidateTrackPiece++)
                 {
-                    if (validAvailableTracks[numTracks][i] == true)
+                    if (validAvailableTracks[numTracks][candidateTrackPiece] == true)
                     {
-                        validTrackOptions.Add(i);
+                        validTrackOptions.Add(candidateTrackPiece);
                     }
                 }
+                // Check if there exists any valid track pieces to choose from.
                 if (validTrackOptions.Count == 0)
                 {
+                    // All track options for the current track piece are exhausted with no valid tracks.
+                    // Must backtrack from the current track piece by destroying the current track piece.
                     NetworkServer.Destroy(currentTrackPiece);
                     Destroy(currentTrackPiece);
                     GeneratedTrackPieces.RemoveAt(GeneratedTrackPieces.Count - 1);
                     currentTrackPiece = GeneratedTrackPieces[GeneratedTrackPieces.Count - 1];
-                    for (int i = 0; i < validAvailableTracks[numTracks].Length; i++)
+                    // Reset validAvailableTracks memory of this track's options for the future track pieces to use this space.
+                    for (int candidateTrackPiece = 0; candidateTrackPiece < validAvailableTracks[numTracks].Length; candidateTrackPiece++)
                     {
-                        validAvailableTracks[numTracks][i] = true;
+                        validAvailableTracks[numTracks][candidateTrackPiece] = true;
                     }
                     numTracks--;
                     continue;
