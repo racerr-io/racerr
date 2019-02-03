@@ -59,7 +59,12 @@ namespace Racerr.Track
                     Destroy(currentTrackPiece);
                     GeneratedTrackPieces.RemoveAt(GeneratedTrackPieces.Count - 1);
                     currentTrackPiece = GeneratedTrackPieces[GeneratedTrackPieces.Count - 1];
+                    for (int i = 0; i < validAvailableTracks[numTracks].Length; i++)
+                    {
+                        validAvailableTracks[numTracks][i] = true;
+                    }
                     numTracks--;
+                    continue;
                 }
 
                 int randomTrack = validTrackOptions[Random.Range(0, validTrackOptions.Count)];
