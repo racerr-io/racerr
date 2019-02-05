@@ -920,7 +920,7 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   runInBackground: 1
   showDebugMessages: 0
-  playerPrefab: {fileID: 1639449353807054, guid: ad7eac5acae575c4bbac02eda262a2b6,
+  playerPrefab: {fileID: 1018952010411425780, guid: aa65098f076c6e141991513d2b3608c8,
     type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
