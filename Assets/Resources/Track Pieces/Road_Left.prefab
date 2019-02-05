@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 2973327108304834164}
   - component: {fileID: 4900802751616375758}
   - component: {fileID: 2286798218566460754}
+  - component: {fileID: 4649043119793697046}
+  - component: {fileID: 1537074385476888834}
+  - component: {fileID: 9126894108220002572}
   m_Layer: 0
   m_Name: Road_Left
   m_TagString: Track Piece
@@ -92,6 +95,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05b994c6c7a94704d84f16e7732176ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4649043119793697046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623280249508769215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncInterval: 0
+  compressRotation: 0
+  target: {fileID: 4847314085737099096}
+--- !u!114 &1537074385476888834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623280249508769215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncInterval: 0
+  compressRotation: 0
+  target: {fileID: 3560192278366330787}
+--- !u!114 &9126894108220002572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623280249508769215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncInterval: 0
+  compressRotation: 0
+  target: {fileID: 7502091870883171933}
 --- !u!1 &2791819833602354373
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,6 +153,7 @@ GameObject:
   - component: {fileID: 2482822344858326004}
   - component: {fileID: 4700257088642748897}
   - component: {fileID: 4978566631765768533}
+  - component: {fileID: 8963098936995349228}
   m_Layer: 0
   m_Name: Streetlight_2A
   m_TagString: Untagged
@@ -120,7 +169,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2791819833602354373}
   m_LocalRotation: {x: -0, y: -0.3826832, z: -0, w: 0.9238797}
-  m_LocalPosition: {x: -12, y: 0, z: 9}
+  m_LocalPosition: {x: -9.62, y: 0.39, z: 10.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1927433695901393220}
@@ -193,10 +242,26 @@ BoxCollider:
   m_GameObject: {fileID: 2791819833602354373}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 3.0628967, y: 0.7079935, z: 0.71}
   m_Center: {x: 1.3278275, y: 7.8986735, z: 0}
+--- !u!54 &8963098936995349228
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2791819833602354373}
+  serializedVersion: 2
+  m_Mass: 2000
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &3285380413895817080
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,6 +411,7 @@ GameObject:
   - component: {fileID: 2344794461546305823}
   - component: {fileID: 3748622600562986830}
   - component: {fileID: 2026579052851932509}
+  - component: {fileID: 1942980646122422466}
   m_Layer: 0
   m_Name: Streetlight_2A (1)
   m_TagString: Untagged
@@ -361,7 +427,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5008712397039817634}
   m_LocalRotation: {x: -0, y: 0.8314696, z: -0, w: 0.55557024}
-  m_LocalPosition: {x: -9.690001, y: 0, z: 24.55}
+  m_LocalPosition: {x: -10.96, y: 0.39, z: 23.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1927433695901393220}
@@ -434,10 +500,26 @@ BoxCollider:
   m_GameObject: {fileID: 5008712397039817634}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 3.0628967, y: 0.7079935, z: 0.71}
   m_Center: {x: 1.3278275, y: 7.8986735, z: 0}
+--- !u!54 &1942980646122422466
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5008712397039817634}
+  serializedVersion: 2
+  m_Mass: 2000
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6402397457720769266
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,6 +533,7 @@ GameObject:
   - component: {fileID: 2867313573273792523}
   - component: {fileID: 6995619005089956692}
   - component: {fileID: 5543576749766604569}
+  - component: {fileID: 3285709535571495748}
   m_Layer: 0
   m_Name: Streetlight_2A (2)
   m_TagString: Untagged
@@ -466,7 +549,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6402397457720769266}
   m_LocalRotation: {x: -0, y: 0.9807853, z: -0, w: 0.19509041}
-  m_LocalPosition: {x: 4.8000007, y: 0, z: 10.77}
+  m_LocalPosition: {x: 2.57, y: 0.39, z: 10.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1927433695901393220}
@@ -539,10 +622,26 @@ BoxCollider:
   m_GameObject: {fileID: 6402397457720769266}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 3.0628967, y: 0.7079935, z: 0.71}
   m_Center: {x: 1.3278275, y: 7.8986735, z: 0}
+--- !u!54 &3285709535571495748
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6402397457720769266}
+  serializedVersion: 2
+  m_Mass: 2000
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6772975347089599298
 GameObject:
   m_ObjectHideFlags: 0
