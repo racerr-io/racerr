@@ -24,33 +24,26 @@ namespace Racerr.Track
         protected override IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs)
         {
             GameObject currentTrackPiece = m_firstTrackPiece;
+            GeneratedTrackPieces.Add(currentTrackPiece);
             int numTracks = 0;
-
+            
             // Stores a validity map for the current track marked by numTrack index, where all of the possible track piece candidates are either valid or invalid.
-            bool[][] validAvailableTracks = new bool[trackLength][];
+            bool[,] validAvailableTracks = new bool[trackLength, availableTrackPiecePrefabs.Count];
             for (int numTracksIndex = 0; numTracksIndex < trackLength; numTracksIndex++)
             {
-                validAvailableTracks[numTracksIndex] = new bool[availableTrackPiecePrefabs.Count];
-                for (int candidateTrackPiece = 0; candidateTrackPiece < validAvailableTracks[numTracksIndex].Length; candidateTrackPiece++)
+                for (int candidateTrackPiece = 0; candidateTrackPiece < availableTrackPiecePrefabs.Count; candidateTrackPiece++)
                 {
-                    validAvailableTracks[numTracksIndex][candidateTrackPiece] = true;
+                    validAvailableTracks[numTracksIndex, candidateTrackPiece] = true;
                 }
             }
 
             while (numTracks < Math.Max(0, trackLength))
             {
-                Transform trackPieceLinkTransform = LoadTrackPieceLinkTransform(currentTrackPiece);
-
-                if (trackPieceLinkTransform == null)
-                {
-                    break;
-                }
-
                 // Compile a list of valid track piece options.
                 List<int> validTrackOptions = new List<int>();
-                for (int candidateTrackPiece = 0; candidateTrackPiece < validAvailableTracks[numTracks].Length; candidateTrackPiece++)
+                for (int candidateTrackPiece = 0; candidateTrackPiece < availableTrackPiecePrefabs.Count; candidateTrackPiece++)
                 {
-                    if (validAvailableTracks[numTracks][candidateTrackPiece] == true)
+                    if (validAvailableTracks[numTracks, candidateTrackPiece] == true)
                     {
                         validTrackOptions.Add(candidateTrackPiece);
                     }
@@ -65,16 +58,21 @@ namespace Racerr.Track
                     GeneratedTrackPieces.RemoveAt(GeneratedTrackPieces.Count - 1);
                     currentTrackPiece = GeneratedTrackPieces[GeneratedTrackPieces.Count - 1];
                     // Reset validAvailableTracks memory of this track's options for the future track pieces to use this space.
-                    for (int candidateTrackPiece = 0; candidateTrackPiece < validAvailableTracks[numTracks].Length; candidateTrackPiece++)
+                    for (int candidateTrackPiece = 0; candidateTrackPiece < availableTrackPiecePrefabs.Count; candidateTrackPiece++)
                     {
-                        validAvailableTracks[numTracks][candidateTrackPiece] = true;
+                        validAvailableTracks[numTracks, candidateTrackPiece] = true;
                     }
                     numTracks--;
                     continue;
                 }
 
-                int randomTrack = validTrackOptions[Random.Range(0, validTrackOptions.Count)];
+                Transform trackPieceLinkTransform = LoadTrackPieceLinkTransform(currentTrackPiece);
+                if (trackPieceLinkTransform == null)
+                {
+                    break;
+                }
 
+                int randomTrack = validTrackOptions[Random.Range(0, validTrackOptions.Count)];
                 GameObject newTrackPiecePrefab = availableTrackPiecePrefabs[randomTrack];
                 GameObject newTrackPiece = Instantiate(newTrackPiecePrefab);
                 newTrackPiece.name = $"Auto Generated Track Piece { numTracks + 1 } ({ newTrackPiecePrefab.name })";
@@ -83,10 +81,9 @@ namespace Racerr.Track
 
                 yield return new WaitForFixedUpdate(); // Wait for next physics calculation so that Track Piece Collision Detector works properly.
 
-                validAvailableTracks[numTracks][randomTrack] = false;
+                validAvailableTracks[numTracks, randomTrack] = false;
                 if (newTrackPiece.GetComponent<TrackPieceCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {
-                    NetworkServer.Spawn(newTrackPiece);
                     GeneratedTrackPieces.Add(newTrackPiece);
                     currentTrackPiece = newTrackPiece;
                     numTracks++;
