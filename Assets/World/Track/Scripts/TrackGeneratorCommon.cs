@@ -43,20 +43,8 @@ namespace Racerr.Track
             if (isServer && !IsTrackGenerated)
             {
                 IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Track Pieces");
+                IsTrackGenerated = true;
                 StartCoroutine(GenerateTrack(m_trackLength, availableTrackPiecePrefabs));
-            }
-        }
-
-        /// <summary>
-        /// Activities to do when when the track has been generated.
-        /// </summary>
-        protected void OnTrackGenerated()
-        {
-            IsTrackGenerated = true;
-            foreach (GameObject trackPiece in GeneratedTrackPieces)
-            {
-                NetworkServer.Spawn(trackPiece);
-                trackPiece.GetComponent<Rigidbody>().isKinematic = true;
             }
         }
 
