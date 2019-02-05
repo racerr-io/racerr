@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -76,7 +77,7 @@ namespace Racerr.Track
                 GameObject newTrackPiecePrefab = availableTrackPiecePrefabs[randomTrack];
                 GameObject newTrackPiece = Instantiate(newTrackPiecePrefab);
                 newTrackPiece.name = $"Auto Generated Track Piece { numTracks + 1 } ({ newTrackPiecePrefab.name })";
-                newTrackPiece.transform.position = trackPieceLinkTransform.position;
+                newTrackPiece.transform.position = trackPieceLinkTransform.transform.position;
                 newTrackPiece.transform.rotation *= trackPieceLinkTransform.rotation;
 
                 yield return new WaitForFixedUpdate(); // Wait for next physics calculation so that Track Piece Collision Detector works properly.
@@ -84,8 +85,8 @@ namespace Racerr.Track
                 validAvailableTracks[numTracks, randomTrack] = false;
                 if (newTrackPiece.GetComponent<TrackPieceCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {
+                    newTrackPiece.transform.position = new Vector3(newTrackPiece.transform.position.x, 0, newTrackPiece.transform.position.z);
                     NetworkServer.Spawn(newTrackPiece);
-                    newTrackPiece.GetComponent<Rigidbody>().isKinematic = true;
                     GeneratedTrackPieces.Add(newTrackPiece);
                     currentTrackPiece = newTrackPiece;
                     numTracks++;
@@ -97,6 +98,33 @@ namespace Racerr.Track
             }
 
             currentTrackPiece.transform.Find(TrackPieceComponent.Checkpoint).name = TrackPieceComponent.FinishLineCheckpoint; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
+
+            MakeTracksDriveable();
+            RpcMakeTracksDriveable();
+        }
+
+        public override void OnStartClient()
+        {
+            MakeTracksDriveable();
+        }
+
+        [ClientRpc]
+        void RpcMakeTracksDriveable()
+        {
+            MakeTracksDriveable();
+        }
+
+        void MakeTracksDriveable()
+        {
+            foreach (GameObject trackPiece in FindObjectsOfType<GameObject>().Where(g => g.CompareTag(TrackPieceComponent.TrackPiece)))
+            {
+                trackPiece.GetComponent<Rigidbody>().isKinematic = true;
+
+                foreach (MeshCollider meshCollider in trackPiece.GetComponentsInChildren<MeshCollider>())
+                {
+                    meshCollider.convex = false;
+                }
+            }
         }
     }
 }

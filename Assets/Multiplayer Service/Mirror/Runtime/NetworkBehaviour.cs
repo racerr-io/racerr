@@ -15,7 +15,7 @@ namespace Mirror
 
         // sync interval for OnSerialize (in seconds)
         // hidden because NetworkBehaviourInspector shows it only if has OnSerialize.
-        [HideInInspector] public float syncInterval = 0.1f;
+        [HideInInspector] public float syncInterval = 0;
 
         // this prevents recursion when SyncVar hook functions are called.
         bool m_SyncVarGuard;

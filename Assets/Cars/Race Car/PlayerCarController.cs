@@ -26,6 +26,7 @@ public class PlayerCarController : NetworkBehaviour
     {
         if (isLocalPlayer) 
         {
+            FindObjectOfType<HUDSpeed>().Car = this;
             FindObjectOfType<AutoCam>().SetTarget(transform);
         }
     }

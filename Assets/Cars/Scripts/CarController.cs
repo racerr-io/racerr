@@ -92,7 +92,7 @@ namespace Racerr.Car.Core
             if (isLocalPlayer)
             {
                 FindObjectOfType<HUDRPM>().Car = this;
-                FindObjectOfType<HUDSpeed>().Car = this;
+              //  FindObjectOfType<HUDSpeed>().Car = this;
                 FindObjectOfType<AutoCam>().SetTarget(transform);
             }
         }
