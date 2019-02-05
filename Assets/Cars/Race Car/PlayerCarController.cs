@@ -17,6 +17,7 @@ public class PlayerCarController : NetworkBehaviour
     public Transform transformRearLeft, transformRearRight;
     public float maxSteerAngle = 30;
     public float motorForce = 5000;
+    public float downforce = 1000;
 
     void Start()
     {
@@ -34,6 +35,7 @@ public class PlayerCarController : NetworkBehaviour
         Steer();
         Accelerate();
         UpdateWheelPositions();
+        AddDownForce();
     }
 
     private void GetInput()
@@ -72,4 +74,11 @@ public class PlayerCarController : NetworkBehaviour
         transform.position = pos;
         transform.rotation = quat;
     }
+
+    private void AddDownForce()
+    {
+        Rigidbody carRigidBody = wheelFrontLeft.attachedRigidbody;
+        carRigidBody.AddForce(-transform.up * downforce * carRigidBody.velocity.magnitude);
+    }
+
 }
