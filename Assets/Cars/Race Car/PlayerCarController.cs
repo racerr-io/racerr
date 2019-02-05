@@ -58,12 +58,15 @@ public class PlayerCarController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        GetInput();
-        Steer();
-        Accelerate();
-        UpdateWheelPositions();
-        AddDownForce();
-        UpdateStiffnessWithSpeed();
+        if (isLocalPlayer)
+        {
+            GetInput();
+            Steer();
+            Accelerate();
+            UpdateWheelPositions();
+            AddDownForce();
+            UpdateStiffnessWithSpeed();
+        }
     }
 
     private void GetInput()
