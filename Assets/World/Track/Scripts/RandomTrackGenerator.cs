@@ -24,7 +24,6 @@ namespace Racerr.Track
         protected override IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs)
         {
             GameObject currentTrackPiece = m_firstTrackPiece;
-            GeneratedTrackPieces.Add(currentTrackPiece);
             int numTracks = 0;
             
             // Stores a validity map for the current track marked by numTrack index, where all of the possible track piece candidates are either valid or invalid.
@@ -48,6 +47,7 @@ namespace Racerr.Track
                         validTrackOptions.Add(candidateTrackPiece);
                     }
                 }
+
                 // Check if there exists any valid track pieces to choose from.
                 if (validTrackOptions.Count == 0)
                 {
@@ -96,6 +96,8 @@ namespace Racerr.Track
             }
 
             currentTrackPiece.transform.Find(TrackPieceComponent.Checkpoint).name = TrackPieceComponent.FinishLineCheckpoint; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
+
+            OnTrackGenerated();
         }
     }
 }

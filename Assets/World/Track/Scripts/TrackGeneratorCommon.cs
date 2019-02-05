@@ -44,13 +44,19 @@ namespace Racerr.Track
             {
                 IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Track Pieces");
                 StartCoroutine(GenerateTrack(m_trackLength, availableTrackPiecePrefabs));
-                IsTrackGenerated = true;
+            }
+        }
 
-                foreach (GameObject trackPiece in GeneratedTrackPieces)
-                {
-                    NetworkServer.Spawn(trackPiece);
-                    trackPiece.GetComponent<Rigidbody>().isKinematic = true;
-                }
+        /// <summary>
+        /// Activities to do when when the track has been generated.
+        /// </summary>
+        protected void OnTrackGenerated()
+        {
+            IsTrackGenerated = true;
+            foreach (GameObject trackPiece in GeneratedTrackPieces)
+            {
+                NetworkServer.Spawn(trackPiece);
+                trackPiece.GetComponent<Rigidbody>().isKinematic = true;
             }
         }
 
