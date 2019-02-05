@@ -24,12 +24,10 @@ public class PlayerCarController : NetworkBehaviour
 
     void Start()
     {
-        //if (isLocalPlayer)
-        //{
-        //    FindObjectOfType<HUDRPM>().Car = this;
-        //    FindObjectOfType<HUDSpeed>().Car = this;
-        //    FindObjectOfType<AutoCam>().SetTarget(transform);
-        //}
+        if (isLocalPlayer) 
+        {
+            FindObjectOfType<AutoCam>().SetTarget(transform);
+        }
     }
 
     void UpdateStiffnessWithSpeed()

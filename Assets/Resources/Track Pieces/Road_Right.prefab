@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SceneId: 0
-  m_ServerOnly: 1
+  m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
   m_AssetId: 5849f63ff4d06f34f97c21eefd3ea46c
 --- !u!54 &3690797564922579685
