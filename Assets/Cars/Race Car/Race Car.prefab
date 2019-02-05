@@ -381,7 +381,7 @@ MonoBehaviour:
   transformRearLeft: {fileID: 3350860790886171492}
   transformRearRight: {fileID: 3618877289108449134}
   maxSteerAngle: 10
-  motorForce: 1500
+  motorForce: 1000
   downforce: 10000
 --- !u!114 &2388928030589524058
 MonoBehaviour:

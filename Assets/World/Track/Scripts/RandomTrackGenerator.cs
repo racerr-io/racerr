@@ -84,6 +84,7 @@ namespace Racerr.Track
                 validAvailableTracks[numTracks, randomTrack] = false;
                 if (newTrackPiece.GetComponent<TrackPieceCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {
+                    NetworkServer.Spawn(newTrackPiece);
                     newTrackPiece.GetComponent<Rigidbody>().isKinematic = true;
                     GeneratedTrackPieces.Add(newTrackPiece);
                     currentTrackPiece = newTrackPiece;
@@ -92,13 +93,10 @@ namespace Racerr.Track
                 else
                 {
                     Destroy(newTrackPiece);
-
                 }
             }
 
             currentTrackPiece.transform.Find(TrackPieceComponent.Checkpoint).name = TrackPieceComponent.FinishLineCheckpoint; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
-
-            GeneratedTrackPieces.ForEach(NetworkServer.Spawn);
         }
     }
 }
