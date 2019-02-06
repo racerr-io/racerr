@@ -6,12 +6,10 @@ TagManager:
   tags:
   - Car
   - Track Piece
-  - Track Piece Plane
-  - Track Piece Link
   - HUD Part
-  - Track Piece Checkpoint
-  - Track Piece Checkpoint End
-  - Car Front
+  - Wheel Collider
+  - Wheel Mesh
+  - Prop
   layers:
   - Default
   - TransparentFX

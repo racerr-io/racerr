@@ -1,4 +1,5 @@
 ﻿using Racerr.Car.Core;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +11,9 @@ namespace Racerr.UX.HUD
     [RequireComponent(typeof(Text))]
     public class HUDSpeed : MonoBehaviour
     {
-        [SerializeField] CarController m_Car;
+        [SerializeField] PlayerCarController m_Car;
 
-        public CarController Car
+        public PlayerCarController Car
         {
             get { return m_Car; }
             set { m_Car = value; }
@@ -34,7 +35,7 @@ namespace Racerr.UX.HUD
         {
             if (Car != null)
             {
-                SpeedText.text = $"{(int)Car.CurrentSpeed} {Car.SpeedTypeMetric}";
+                SpeedText.text = Convert.ToInt32(Car.GetComponent<Rigidbody>().velocity.magnitude * 2) + " KPH";
             }
             else
             {
