@@ -10,7 +10,7 @@ namespace Racerr.Track
     /// </summary>
     public abstract class TrackGeneratorCommon : NetworkBehaviour
     {
-        [SerializeField] int m_trackLength;
+        [SerializeField] int TrackLength = 50;
 
         public bool IsTrackGenerated { get; private set; }
         public List<GameObject> GeneratedTrackPieces { get; } = new List<GameObject>();
@@ -44,7 +44,7 @@ namespace Racerr.Track
             {
                 IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Track Pieces");
                 IsTrackGenerated = true;
-                StartCoroutine(GenerateTrack(m_trackLength, availableTrackPiecePrefabs));
+                StartCoroutine(GenerateTrack(TrackLength, availableTrackPiecePrefabs));
             }
         }
 

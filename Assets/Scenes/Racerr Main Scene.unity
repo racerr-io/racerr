@@ -144,7 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncInterval: 0.1
   m_trackLength: 50
-  m_firstTrackPiece: {fileID: 1969809345}
+  FirstTrackPiece: {fileID: 1969809345}
 --- !u!114 &160586557
 MonoBehaviour:
   m_ObjectHideFlags: 0

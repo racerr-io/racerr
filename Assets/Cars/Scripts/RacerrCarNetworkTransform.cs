@@ -12,7 +12,7 @@ namespace Racerr.MultiplayerService
         [SyncVar] Quaternion RealRotation;
         [SyncVar] Vector3 RealVelocity;
 
-        [SerializeField] [Range(0, 1)] float m_InterpolationFactor = 0.4f;
+        [SerializeField] [Range(0, 1)] float InterpolationFactor = 0.4f;
         Rigidbody Rigidbody { get; set; }
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace Racerr.MultiplayerService
             else
             {
                 Vector3 predictedPosition = RealPosition + Time.deltaTime * RealVelocity; // Try to predict where the car might be. TODO: Incorporate difference in network time and local time.
-                transform.position = Vector3.Lerp(transform.position, predictedPosition, m_InterpolationFactor);
-                transform.rotation = Quaternion.Lerp(transform.rotation, RealRotation, m_InterpolationFactor);
+                transform.position = Vector3.Lerp(transform.position, predictedPosition, InterpolationFactor);
+                transform.rotation = Quaternion.Lerp(transform.rotation, RealRotation, InterpolationFactor);
                 Rigidbody.velocity = RealVelocity;
             }
         }

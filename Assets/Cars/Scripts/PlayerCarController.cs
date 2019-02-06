@@ -11,11 +11,11 @@ namespace Racerr.Car.Core
     /// </summary>
     public class PlayerCarController : NetworkBehaviour
     {
-        [SerializeField] WheelCollider m_WheelFrontLeft, m_WheelFrontRight, m_WheelRearLeft, m_WheelRearRight;
-        [SerializeField] Transform m_TransformFrontLeft, m_TransformFrontRight, m_TransformRearLeft, m_TransformRearRight;
-        [SerializeField] float m_MaxSteerAngle = 10;
-        [SerializeField] float m_MotorForce = 2500;
-        [SerializeField] float m_Downforce = 7500;
+        [SerializeField] WheelCollider WheelFrontLeft, WheelFrontRight, WheelRearLeft, WheelRearRight;
+        [SerializeField] Transform TransformFrontLeft, TransformFrontRight, TransformRearLeft, TransformRearRight;
+        [SerializeField] float MaxSteerAngle = 10;
+        [SerializeField] float MotorForce = 2500;
+        [SerializeField] float Downforce = 7500;
 
         float HorizontalInput { get; set; }
         float VerticalInput { get; set; }
@@ -66,9 +66,9 @@ namespace Racerr.Car.Core
         /// </summary>
         void Steer()
         {
-            SteeringAngle = m_MaxSteerAngle * HorizontalInput;
-            m_WheelFrontLeft.steerAngle = SteeringAngle;
-            m_WheelFrontRight.steerAngle = SteeringAngle;
+            SteeringAngle = MaxSteerAngle * HorizontalInput;
+            WheelFrontLeft.steerAngle = SteeringAngle;
+            WheelFrontRight.steerAngle = SteeringAngle;
         }
 
         /// <summary>
@@ -76,8 +76,8 @@ namespace Racerr.Car.Core
         /// </summary>
         void Accelerate()
         {
-            m_WheelRearLeft.motorTorque = VerticalInput * m_MotorForce;
-            m_WheelRearRight.motorTorque = VerticalInput * m_MotorForce;
+            WheelRearLeft.motorTorque = VerticalInput * MotorForce;
+            WheelRearRight.motorTorque = VerticalInput * MotorForce;
         }
 
         /// <summary>
@@ -85,10 +85,10 @@ namespace Racerr.Car.Core
         /// </summary>
         void UpdateWheelPositions()
         {
-            UpdateWheelPosition(m_WheelFrontLeft, m_TransformFrontLeft);
-            UpdateWheelPosition(m_WheelFrontRight, m_TransformFrontRight);
-            UpdateWheelPosition(m_WheelRearLeft, m_TransformRearLeft);
-            UpdateWheelPosition(m_WheelRearRight, m_TransformRearRight);
+            UpdateWheelPosition(WheelFrontLeft, TransformFrontLeft);
+            UpdateWheelPosition(WheelFrontRight, TransformFrontRight);
+            UpdateWheelPosition(WheelRearLeft, TransformRearLeft);
+            UpdateWheelPosition(WheelRearRight, TransformRearRight);
         }
 
         /// <summary>
@@ -111,8 +111,8 @@ namespace Racerr.Car.Core
         /// </summary>
         void AddDownForce()
         {
-            Rigidbody carRigidBody = m_WheelFrontLeft.attachedRigidbody;
-            carRigidBody.AddForce(-transform.up * m_Downforce * carRigidBody.velocity.magnitude);
+            Rigidbody carRigidBody = WheelFrontLeft.attachedRigidbody;
+            carRigidBody.AddForce(-transform.up * Downforce * carRigidBody.velocity.magnitude);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Racerr.Car.Core
         /// </summary>
         void UpdateSidewaysFrictionWithSpeed()
         {
-            Vector3 currentSpeed = m_WheelFrontLeft.attachedRigidbody.velocity;
+            Vector3 currentSpeed = WheelFrontLeft.attachedRigidbody.velocity;
             int stiffness = Convert.ToInt32(Mathf.Lerp(1, 5, currentSpeed.magnitude / 50));
             if (stiffness == LastStiffness)
             {
@@ -128,13 +128,13 @@ namespace Racerr.Car.Core
             }
 
             LastStiffness = stiffness;
-            WheelFrictionCurve wheelFrictionCurve = m_WheelFrontLeft.sidewaysFriction;
+            WheelFrictionCurve wheelFrictionCurve = WheelFrontLeft.sidewaysFriction;
             wheelFrictionCurve.stiffness = stiffness;
 
-            m_WheelFrontLeft.sidewaysFriction = wheelFrictionCurve;
-            m_WheelFrontRight.sidewaysFriction = wheelFrictionCurve;
-            m_WheelRearLeft.sidewaysFriction = wheelFrictionCurve;
-            m_WheelRearRight.sidewaysFriction = wheelFrictionCurve;
+            WheelFrontLeft.sidewaysFriction = wheelFrictionCurve;
+            WheelFrontRight.sidewaysFriction = wheelFrictionCurve;
+            WheelRearLeft.sidewaysFriction = wheelFrictionCurve;
+            WheelRearRight.sidewaysFriction = wheelFrictionCurve;
         }
     }
 }

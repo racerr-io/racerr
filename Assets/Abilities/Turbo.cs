@@ -7,14 +7,14 @@ namespace Racerr.Car.Abilities
     /// </summary>
     public class Turbo : CarAbilityCommon
     {
-        [SerializeField] float m_SpeedMultiplier;
+        [SerializeField] float SpeedMultiplier;
 
         /// <summary>
         /// Multiply the cars speed by the specified multiplier.
         /// </summary>
         protected override void ActivateAbility()
         {
-            Car.MultiplySpeed(m_SpeedMultiplier);
+            Car.MultiplySpeed(SpeedMultiplier);
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Racerr.Car.Abilities
         /// </summary>
         protected override void DeactivateAbility()
         {
-            Car.MultiplySpeed(1 / m_SpeedMultiplier);
+            Car.MultiplySpeed(1 / SpeedMultiplier);
         }
     }
 }
