@@ -1,7 +1,7 @@
 ﻿using Mirror;
 using UnityEngine;
 
-public class RacerrNetworkTransform : NetworkBehaviour
+public class RacerrCarNetworkTransform : NetworkBehaviour
 {
     [SyncVar] Vector3 RealPosition = Vector3.zero;
     [SyncVar] Quaternion RealRotation;
@@ -16,6 +16,9 @@ public class RacerrNetworkTransform : NetworkBehaviour
 
         if (!isLocalPlayer)
         {
+            Rigidbody.isKinematic = true;
+            Rigidbody.useGravity = false;
+
             foreach (WheelCollider wheelCollider in GetComponentsInChildren<WheelCollider>())
             {
                 Destroy(wheelCollider);

@@ -269,15 +269,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1020543640480856788}
+  - component: {fileID: 3147923050028212963}
   - component: {fileID: 1032093577596951814}
   - component: {fileID: 1042073786603977904}
   - component: {fileID: 1064214411705787420}
   - component: {fileID: 3328534360466265266}
   - component: {fileID: 2388928030589524058}
-  - component: {fileID: 7305556889007355810}
-  - component: {fileID: 3147923050028212963}
-  - component: {fileID: 6289776066401403308}
-  - component: {fileID: 6543626135106544022}
+  - component: {fileID: 5066228776368493228}
   m_Layer: 0
   m_Name: Race Car
   m_TagString: Player
@@ -301,6 +299,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
+--- !u!54 &3147923050028212963
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018952010411425780}
+  serializedVersion: 2
+  m_Mass: 2000
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!33 &1032093577596951814
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -400,86 +414,7 @@ MonoBehaviour:
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
   m_AssetId: aa65098f076c6e141991513d2b3608c8
---- !u!114 &7305556889007355810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018952010411425780}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76b4b1b513f7c1e4886472bee2224c77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncInterval: 0
-  InterpolationFactor: 0.4
---- !u!54 &3147923050028212963
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018952010411425780}
-  serializedVersion: 2
-  m_Mass: 2000
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &6289776066401403308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018952010411425780}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea65b38d485c374caa584a03f1de571, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncInterval: 0.1
-  m_Acceleration: 1
-  m_TopSpeed: 1
-  m_Weight: 1
-  m_HandlingNotImplemented: 0
-  m_ArmourNotImplemented: 0
-  m_AbilityNotImplemented: 0
-  m_CarDriveType: 2
-  m_WheelColliders:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  m_WheelMeshes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  m_WheelEffects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  m_CentreOfMassOffset: {x: 0, y: 0, z: 0}
-  m_MaximumSteerAngle: 0
-  m_SteerHelper: 0
-  m_TractionControl: 0
-  m_FullTorqueOverAllWheels: 2500
-  m_ReverseTorque: 0
-  m_MaxHandbrakeTorque: 0
-  m_Downforce: 100
-  m_SpeedType: 0
-  m_NoOfGears: 5
-  m_RevRangeBoundary: 1
-  m_RPMUpperBound: 0
-  m_SlipLimit: 0
-  m_BrakeTorque: 0
---- !u!114 &6543626135106544022
+--- !u!114 &5066228776368493228
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -488,11 +423,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1018952010411425780}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 76b4b1b513f7c1e4886472bee2224c77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0
-  compressRotation: 0
+  InterpolationFactor: 0.4
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0
