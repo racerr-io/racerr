@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 4434265208406461991}
   - component: {fileID: 3845345094565166345}
   - component: {fileID: 4199099653978498977}
+  - component: {fileID: 8708376107784197499}
   m_Layer: 0
   m_Name: Road_Straight
   m_TagString: Track Piece
@@ -181,6 +182,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05b994c6c7a94704d84f16e7732176ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8708376107784197499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4442780298096383131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036ae35156a615a4dbafd5c8f296ed28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncInterval: 0
 --- !u!1 &4911957924831323610
 GameObject:
   m_ObjectHideFlags: 0
