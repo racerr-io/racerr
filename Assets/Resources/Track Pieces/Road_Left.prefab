@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 8963098936995349228}
   m_Layer: 0
   m_Name: Streetlight_2A
-  m_TagString: Untagged
+  m_TagString: Prop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -428,7 +428,7 @@ GameObject:
   - component: {fileID: 1942980646122422466}
   m_Layer: 0
   m_Name: Streetlight_2A (1)
-  m_TagString: Untagged
+  m_TagString: Prop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -550,7 +550,7 @@ GameObject:
   - component: {fileID: 3285709535571495748}
   m_Layer: 0
   m_Name: Streetlight_2A (2)
-  m_TagString: Untagged
+  m_TagString: Prop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

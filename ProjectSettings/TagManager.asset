@@ -9,6 +9,7 @@ TagManager:
   - HUD Part
   - Wheel Collider
   - Wheel Mesh
+  - Prop
   layers:
   - Default
   - TransparentFX

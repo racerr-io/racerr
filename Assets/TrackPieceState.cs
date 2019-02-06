@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using System.Linq;
 using UnityEngine;
 
 namespace Racerr.Track
@@ -17,6 +18,7 @@ namespace Racerr.Track
             if (isClient)
             {
                 MakeDriveable();
+                RemovePhysicsFromProps();
             }
         }
 
@@ -36,6 +38,23 @@ namespace Racerr.Track
             foreach (MeshCollider meshCollider in GetComponentsInChildren<MeshCollider>())
             {
                 meshCollider.convex = false;
+            }
+        }
+        
+        /// <summary>
+        /// Remove physics from props, so that collisions on props such as street lights and signs are calculated only on the server.
+        /// Weird teleporting glitching occurs if we calculate on both client and server.
+        /// </summary>
+        void RemovePhysicsFromProps()
+        {
+            foreach (Collider propCollider in GetComponentsInChildren<Collider>().Where(p => p.CompareTag("Prop")))
+            {
+                Destroy(propCollider);
+            }
+
+            foreach (Rigidbody propRigidBody in GetComponentsInChildren<Rigidbody>().Where(p => p.CompareTag("Prop")))
+            {
+                Destroy(propRigidBody);
             }
         }
     }

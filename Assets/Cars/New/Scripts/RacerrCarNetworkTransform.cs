@@ -36,9 +36,9 @@ namespace Racerr.MultiplayerService
         }
 
         /// <summary>
-        /// Called every frame to update cars position.
+        /// Called every physics tick to update car's position.
         /// </summary>
-        void Update()
+        void FixedUpdate()
         {
             if (isLocalPlayer)
             {
