@@ -11,12 +11,12 @@ namespace Racerr.UX.HUD
     [RequireComponent(typeof(Text))]
     public class HUDSpeed : MonoBehaviour
     {
-        [SerializeField] PlayerCarController m_Car;
+        [SerializeField] PlayerCarController car;
 
         public PlayerCarController Car
         {
-            get { return m_Car; }
-            set { m_Car = value; }
+            get { return car; }
+            set { car = value; }
         }
         Text SpeedText { get; set; }
 

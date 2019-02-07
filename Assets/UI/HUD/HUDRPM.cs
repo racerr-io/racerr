@@ -10,12 +10,12 @@ namespace Racerr.UX.HUD
     [RequireComponent(typeof(Text))]
     public class HUDRPM : MonoBehaviour
     {
-        [SerializeField] CarController m_Car;
+        [SerializeField] CarController car;
 
         public CarController Car
         {
-            get { return m_Car; }
-            set { m_Car = value; }
+            get { return car; }
+            set { car = value; }
         }
 
         Text RPMText { get; set; }

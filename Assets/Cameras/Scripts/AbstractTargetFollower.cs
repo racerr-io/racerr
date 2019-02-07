@@ -14,11 +14,11 @@ namespace Racerr.UX.Camera
             ManualUpdate, // user must call to update camera
         }
 
-        [SerializeField] protected Transform m_Target;    // The target object to follow
-        [SerializeField] bool m_AutoTargetPlayer = true;  // Whether the rig should automatically target the player.
-        [SerializeField] UpdateType m_UpdateType;         // stores the selected update type
+        [SerializeField] protected Transform target;    // The target object to follow
+        [SerializeField] bool autoTargetPlayer = true;  // Whether the rig should automatically target the player.
+        [SerializeField] UpdateType updateType;         // stores the selected update type
 
-        public Transform Target => m_Target;
+        public Transform Target => target;
         protected Rigidbody TargetRigidbody { get; set; }
 
         /// <summary>
@@ -27,12 +27,12 @@ namespace Racerr.UX.Camera
         /// </summary>
         protected virtual void Start()
         {
-            if (m_AutoTargetPlayer)
+            if (autoTargetPlayer)
             {
                 FindAndTargetPlayer();
             }
-            if (m_Target == null) return;
-            TargetRigidbody = m_Target.GetComponent<Rigidbody>();
+            if (target == null) return;
+            TargetRigidbody = target.GetComponent<Rigidbody>();
         }
 
         /// <summary>
@@ -65,11 +65,11 @@ namespace Racerr.UX.Camera
         /// </summary>
         void UpdateCore(UpdateType updateType)
         {
-            if (m_AutoTargetPlayer && (m_Target == null || !m_Target.gameObject.activeSelf))
+            if (autoTargetPlayer && (target == null || !target.gameObject.activeSelf))
             {
                 FindAndTargetPlayer();
             }
-            if (m_UpdateType == updateType)
+            if (this.updateType == updateType)
             {
                 FollowTarget(Time.deltaTime);
             }
@@ -99,7 +99,7 @@ namespace Racerr.UX.Camera
         /// <param name="newTransform">Transform you want to target</param>
         public virtual void SetTarget(Transform newTransform)
         {
-            m_Target = newTransform;
+            target = newTransform;
         }
     }
 }

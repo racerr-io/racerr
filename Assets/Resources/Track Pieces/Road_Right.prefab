@@ -257,11 +257,11 @@ GameObject:
   - component: {fileID: 1751561120687963251}
   - component: {fileID: 3690797564922579685}
   - component: {fileID: 8252156458465894768}
+  - component: {fileID: 2754173396046242313}
   - component: {fileID: 6219895759717180711}
   - component: {fileID: 8370960263495682693}
   - component: {fileID: 6485136524775599463}
   - component: {fileID: 3237321639249242306}
-  - component: {fileID: 2754173396046242313}
   m_Layer: 0
   m_Name: Road_Right
   m_TagString: Track Piece
@@ -342,6 +342,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05b994c6c7a94704d84f16e7732176ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2754173396046242313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2166906741778702378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036ae35156a615a4dbafd5c8f296ed28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncInterval: 0
 --- !u!114 &6219895759717180711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,19 +415,6 @@ MonoBehaviour:
   syncInterval: 0
   compressRotation: 0
   target: {fileID: 3798651595504958764}
---- !u!114 &2754173396046242313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2166906741778702378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 036ae35156a615a4dbafd5c8f296ed28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncInterval: 0
 --- !u!54 &1560754259259561141
 Rigidbody:
   m_ObjectHideFlags: 0

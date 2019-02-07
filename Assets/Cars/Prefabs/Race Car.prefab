@@ -387,17 +387,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0.1
-  m_WheelFrontLeft: {fileID: 7408604580659569208}
-  m_WheelFrontRight: {fileID: 3703503969240960557}
-  m_WheelRearLeft: {fileID: 962918361007395028}
-  m_WheelRearRight: {fileID: 6852254891722051180}
-  m_TransformFrontLeft: {fileID: 706694623990320530}
-  m_TransformFrontRight: {fileID: 568409965407692664}
-  m_TransformRearLeft: {fileID: 3350860790886171492}
-  m_TransformRearRight: {fileID: 3618877289108449134}
-  m_MaxSteerAngle: 10
-  m_MotorForce: 2500
-  m_Downforce: 7500
+  wheelFrontLeft: {fileID: 7408604580659569208}
+  wheelFrontRight: {fileID: 3703503969240960557}
+  wheelRearLeft: {fileID: 962918361007395028}
+  wheelRearRight: {fileID: 6852254891722051180}
+  transformFrontLeft: {fileID: 706694623990320530}
+  transformFrontRight: {fileID: 568409965407692664}
+  transformRearLeft: {fileID: 3350860790886171492}
+  transformRearRight: {fileID: 3618877289108449134}
+  maxSteerAngle: 10
+  motorForce: 2500
+  downforce: 7500
 --- !u!114 &2388928030589524058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,7 +427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0
-  m_InterpolationFactor: 0.4
+  interpolationFactor: 0.4
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0
