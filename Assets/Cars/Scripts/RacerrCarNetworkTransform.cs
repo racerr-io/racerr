@@ -8,11 +8,11 @@ namespace Racerr.MultiplayerService
     /// </summary>
     public class RacerrCarNetworkTransform : NetworkBehaviour
     {
-        [SyncVar] Vector3 RealPosition = Vector3.zero;
-        [SyncVar] Quaternion RealRotation;
-        [SyncVar] Vector3 RealVelocity;
+        [SerializeField] [Range(0, 1)] float interpolationFactor = 0.4f;
 
-        [SerializeField] [Range(0, 1)] float InterpolationFactor = 0.4f;
+        [SyncVar] Vector3 realPosition = Vector3.zero;
+        [SyncVar] Quaternion realRotation;
+        [SyncVar] Vector3 realVelocity;
         Rigidbody Rigidbody { get; set; }
 
         /// <summary>
@@ -42,17 +42,17 @@ namespace Racerr.MultiplayerService
         {
             if (isLocalPlayer)
             {
-                RealPosition = transform.position;
-                RealRotation = transform.rotation;
-                RealVelocity = Rigidbody.velocity;
+                realPosition = transform.position;
+                realRotation = transform.rotation;
+                realVelocity = Rigidbody.velocity;
                 CmdSynchroniseToServer(transform.position, transform.rotation, Rigidbody.velocity);
             }
             else
             {
-                Vector3 predictedPosition = RealPosition + Time.deltaTime * RealVelocity; // Try to predict where the car might be. TODO: Incorporate difference in network time and local time.
-                transform.position = Vector3.Lerp(transform.position, predictedPosition, InterpolationFactor);
-                transform.rotation = Quaternion.Lerp(transform.rotation, RealRotation, InterpolationFactor);
-                Rigidbody.velocity = RealVelocity;
+                Vector3 predictedPosition = realPosition + Time.deltaTime * realVelocity; // Try to predict where the car might be. TODO: Incorporate difference in network time and local time.
+                transform.position = Vector3.Lerp(transform.position, predictedPosition, interpolationFactor);
+                transform.rotation = Quaternion.Lerp(transform.rotation, realRotation, interpolationFactor);
+                Rigidbody.velocity = realVelocity;
             }
         }
 
@@ -66,9 +66,9 @@ namespace Racerr.MultiplayerService
         [Command]
         void CmdSynchroniseToServer(Vector3 position, Quaternion rotation, Vector3 velocity)
         {
-            RealPosition = position;
-            RealRotation = rotation;
-            RealVelocity = velocity;
+            realPosition = position;
+            realRotation = rotation;
+            realVelocity = velocity;
         }
     }
 }

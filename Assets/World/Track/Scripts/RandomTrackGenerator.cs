@@ -12,7 +12,7 @@ namespace Racerr.Track
     /// </summary>
     public class RandomTrackGenerator : TrackGeneratorCommon
     {
-        [SerializeField] GameObject FirstTrackPiece; // Temporary, we will programatically generate the first track piece in the future.
+        [SerializeField] GameObject firstTrackPiece; // Temporary, we will programatically generate the first track piece in the future.
 
         /// <summary>
         /// Generate tracks by getting the first track piece, then grabbing a random track piece from resources and joining
@@ -23,7 +23,7 @@ namespace Racerr.Track
         /// <returns>IEnumerator for Unity coroutine, so that we can WaitForFixedUpdate() to check if a track is colliding with another one every time we instantiate a new track.</returns>
         protected override IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs)
         {
-            GameObject currentTrackPiece = FirstTrackPiece;
+            GameObject currentTrackPiece = firstTrackPiece;
             int numTracks = 0;
             
             // Stores a validity map for the current track marked by numTrack index, where all of the possible track piece candidates are either valid or invalid.

@@ -8,7 +8,7 @@ namespace Racerr.Car.Abilities
     /// </summary>
     public abstract class CarAbilityCommon : MonoBehaviour
     {
-        [SerializeField] KeyCode Key;
+        [SerializeField] KeyCode key;
 
         bool IsKeyPressed { get; set; }
         protected CarController Car { get; private set; }
@@ -36,7 +36,7 @@ namespace Racerr.Car.Abilities
         {
             if (Car.isLocalPlayer)
             {
-                IsKeyPressed = Input.GetKeyDown(Key);
+                IsKeyPressed = Input.GetKeyDown(key);
             }
         }
 
