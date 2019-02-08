@@ -680,17 +680,17 @@ PrefabInstance:
     - target: {fileID: 2806810492942551488, guid: cbb9ed024e5cf6d4194ab1b3ece343a9,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3694988814262736500, guid: cbb9ed024e5cf6d4194ab1b3ece343a9,
-        type: 3}
-      propertyPath: m_Convex
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3845345094565166345, guid: cbb9ed024e5cf6d4194ab1b3ece343a9,
         type: 3}
       propertyPath: m_IsKinematic
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3694988814262736500, guid: cbb9ed024e5cf6d4194ab1b3ece343a9,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbb9ed024e5cf6d4194ab1b3ece343a9, type: 3}
