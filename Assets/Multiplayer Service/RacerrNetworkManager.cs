@@ -29,7 +29,7 @@ namespace Racerr.MultiplayerService
                 StartClient();
 #endif
                 StartMenu startMenu = FindObjectOfType<StartMenu>();
-                if (IsClientConnected())
+                if (isNetworkActive)
                 {
                     startMenu.ShowMenu();
                 }
