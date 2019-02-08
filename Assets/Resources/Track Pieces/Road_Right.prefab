@@ -261,7 +261,6 @@ GameObject:
   - component: {fileID: 6219895759717180711}
   - component: {fileID: 8370960263495682693}
   - component: {fileID: 6485136524775599463}
-  - component: {fileID: 3237321639249242306}
   m_Layer: 0
   m_Name: Road_Right
   m_TagString: Track Piece
@@ -410,21 +409,6 @@ MonoBehaviour:
   syncInterval: 0
   compressRotation: 0
   target: {fileID: 3166276613403362613}
---- !u!114 &3237321639249242306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2166906741778702378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncInterval: 0
-  compressRotation: 0
-  target: {fileID: 0}
 --- !u!1 &5425220269329491671
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,14 +1063,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 23000011214092644, guid: 0feffba2c957641828b6d50406f56cd9,
-        type: 3}
-      propertyPath: m_DynamicOccludee
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 64000013972345694, guid: 0feffba2c957641828b6d50406f56cd9,
         type: 3}
       propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 23000011214092644, guid: 0feffba2c957641828b6d50406f56cd9,
+        type: 3}
+      propertyPath: m_DynamicOccludee
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
