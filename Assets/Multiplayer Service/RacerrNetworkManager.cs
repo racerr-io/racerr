@@ -1,5 +1,7 @@
 ﻿using Mirror;
 using Racerr.Track;
+using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Racerr.MultiplayerService
 {
@@ -8,6 +10,23 @@ namespace Racerr.MultiplayerService
     /// </summary>
     public class RacerrNetworkManager : NetworkManager
     {
+        /// <summary>
+        /// Automatically start the server on headless mode,
+        /// or automatically connect client on server on normal mode.
+        /// </summary>
+        void Start()
+        {
+            if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
+            {
+                // headless mode. Just start the server
+                StartServer();
+            }
+            else
+            {
+                StartClient();
+            }
+        }
+
         /// <summary>
         /// Actions to perform when a new player joins the server.
         /// </summary>
