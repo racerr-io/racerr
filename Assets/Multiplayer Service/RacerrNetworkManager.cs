@@ -23,7 +23,20 @@ namespace Racerr.MultiplayerService
             }
             else
             {
+#if UNITY_EDITOR
+                StartHost();
+#else
                 StartClient();
+#endif
+                StartMenu startMenu = FindObjectOfType<StartMenu>();
+                if (IsClientConnected())
+                {
+                    startMenu.ShowMenu();
+                }
+                else
+                {
+                    startMenu.ShowErrorMessage();
+                }
             }
         }
 
