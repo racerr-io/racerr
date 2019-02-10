@@ -11,6 +11,7 @@ namespace Racerr.MultiplayerService
     /// </summary>
     public class RacerrNetworkManager : NetworkManager
     {
+        [SerializeField] [Range(1,20)] int connectionWaitTime = 5;
         int SecondsWaitingForConnection { get; set; } = 0;
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace Racerr.MultiplayerService
                     startMenu.ShowMenu();
                     break;
                 }
-                else if (SecondsWaitingForConnection > 5)
+                else if (SecondsWaitingForConnection >= connectionWaitTime)
                 {
                     startMenu.ShowErrorMessage();
                     break;
