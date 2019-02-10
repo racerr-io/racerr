@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using Racerr.Track;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -10,6 +11,8 @@ namespace Racerr.MultiplayerService
     /// </summary>
     public class RacerrNetworkManager : NetworkManager
     {
+        int SecondsWaitingForConnection { get; set; } = 0;
+
         /// <summary>
         /// Automatically start the server on headless mode,
         /// or automatically connect client on server on normal mode.
@@ -28,15 +31,33 @@ namespace Racerr.MultiplayerService
 #else
                 StartClient();
 #endif
+                StartCoroutine(UpdateStartMenu());
+            }
+        }
+
+        /// <summary>
+        /// Show connection message and update start menu user interface depending on user's connection to server.
+        /// </summary>
+        /// <returns>IEnumerator for coroutine to run concurrently.</returns>
+        IEnumerator UpdateStartMenu()
+        {
+            while (true)
+            {
                 StartMenu startMenu = FindObjectOfType<StartMenu>();
-                if (isNetworkActive)
+
+                if (IsClientConnected())
                 {
                     startMenu.ShowMenu();
+                    break;
                 }
-                else
+                else if (SecondsWaitingForConnection > 5)
                 {
                     startMenu.ShowErrorMessage();
+                    break;
                 }
+
+                SecondsWaitingForConnection++;
+                yield return new WaitForSeconds(1);
             }
         }
 
