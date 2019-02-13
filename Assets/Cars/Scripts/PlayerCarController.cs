@@ -1,4 +1,6 @@
 ﻿using Mirror;
+using Racerr.MultiplayerService;
+using Racerr.Track;
 using Racerr.UX.Camera;
 using Racerr.UX.HUD;
 using System;
@@ -22,12 +24,26 @@ namespace Racerr.Car.Core
         float SteeringAngle { get; set; }
         int LastStiffness { get; set; } = 0;
 
+        [SyncVar] GameObject playerGO;
+        public GameObject PlayerGO
+        {
+            get => playerGO;
+            set => playerGO = value;
+        }
+
+        public Player Player { get; private set; }
+
         /// <summary>
         /// Called when car instantiated. Setup the user's view of the car.
         /// </summary>
         void Start()
         {
-            if (isLocalPlayer)
+            Player = PlayerGO.GetComponent<Player>();
+        }
+
+        public override void OnStartAuthority()
+        {
+            if (hasAuthority)
             {
                 FindObjectOfType<HUDSpeed>().Car = this;
                 FindObjectOfType<AutoCam>().SetTarget(transform);
@@ -39,7 +55,7 @@ namespace Racerr.Car.Core
         /// </summary>
         void FixedUpdate()
         {
-            if (isLocalPlayer)
+            if (hasAuthority)
             {
                 GetInput();
                 Steer();
@@ -47,6 +63,26 @@ namespace Racerr.Car.Core
                 UpdateWheelPositions();
                 AddDownForce();
                 UpdateSidewaysFrictionWithSpeed();
+            }
+        }
+
+        /// <summary>
+        /// Detect if the car is moving through triggers.
+        /// </summary>
+        /// <param name="collider">The collider is went through.</param>
+        void OnTriggerEnter(Collider collider)
+        {
+            if (collider.name == TrackPieceComponent.Checkpoint)
+            {
+                Debug.Log("Hit a Track Piece Checkpoint!");
+                if (isServer)
+                {
+                    Player.DestroyPlayersCar();
+                }
+            }
+            else if (collider.name == TrackPieceComponent.FinishLineCheckpoint)
+            {
+                Debug.Log("Reached the finish line well done!!");
             }
         }
 

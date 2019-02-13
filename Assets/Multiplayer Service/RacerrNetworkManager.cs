@@ -1,8 +1,10 @@
 ﻿using Mirror;
 using Racerr.Track;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 namespace Racerr.MultiplayerService
 {
@@ -11,6 +13,7 @@ namespace Racerr.MultiplayerService
     /// </summary>
     public class RacerrNetworkManager : NetworkManager
     {
+        [SerializeField] GameObject playerObject;
         [SerializeField] [Range(1,20)] int connectionWaitTime = 5;
         int SecondsWaitingForConnection { get; set; } = 0;
 
@@ -82,6 +85,13 @@ namespace Racerr.MultiplayerService
             base.OnServerDisconnect(conn);
 
             TrackGeneratorCommon.Singleton.DestroyIfRequired();
+        }
+
+        public override void OnServerAddPlayer(NetworkConnection conn)
+        {
+            GameObject player = Instantiate(playerObject);
+            NetworkServer.AddPlayerForConnection(conn, player);
+            player.GetComponent<Player>().CreateCarForPlayer(playerPrefab);
         }
     }
 }

@@ -1332,7 +1332,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useTcp: 0
   tcpPort: 7777
-  networkAddress: racerr.io
+  networkAddress: localhost
   dontDestroyOnLoad: 1
   runInBackground: 1
   showDebugMessages: 0
@@ -1349,8 +1349,13 @@ MonoBehaviour:
   - {fileID: 623280249508769215, guid: be519fc9c30ceda4cb275f6bbf57477e, type: 3}
   - {fileID: 2166906741778702378, guid: 5849f63ff4d06f34f97c21eefd3ea46c, type: 3}
   - {fileID: 4442780298096383131, guid: cbb9ed024e5cf6d4194ab1b3ece343a9, type: 3}
+  - {fileID: 1018952010411425780, guid: aa65098f076c6e141991513d2b3608c8, type: 3}
+  - {fileID: 8860773397577860574, guid: 9f9445acfc573b24ea79c43374fc0738, type: 3}
   clientLoadedScene: 0
   isNetworkActive: 0
+  playerObject: {fileID: 8860773397577860574, guid: 9f9445acfc573b24ea79c43374fc0738,
+    type: 3}
+  connectionWaitTime: 5
 --- !u!4 &1813844549
 Transform:
   m_ObjectHideFlags: 0

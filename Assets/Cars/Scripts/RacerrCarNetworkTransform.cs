@@ -22,8 +22,11 @@ namespace Racerr.MultiplayerService
         void Start()
         {
             Rigidbody = GetComponent<Rigidbody>();
+        }
 
-            if (!isLocalPlayer)
+        public override void OnStartAuthority()
+        {
+            if (!hasAuthority)
             {
                 Rigidbody.isKinematic = true;
                 Rigidbody.useGravity = false;
@@ -40,7 +43,7 @@ namespace Racerr.MultiplayerService
         /// </summary>
         void FixedUpdate()
         {
-            if (isLocalPlayer)
+            if (hasAuthority)
             {
                 realPosition = transform.position;
                 realRotation = transform.rotation;
