@@ -41,15 +41,6 @@ namespace Racerr.MultiplayerService
             }
         }
 
-        void FixedUpdate()
-        {
-            if (Car == null && isServer)
-            {
-                Debug.Log("Respawning D Car.");
-                CreateCarForPlayer(NetworkManager.singleton.playerPrefab);
-            }
-        }
-
         [Command]
         void CmdUpdatePlayerName(string playerName)
         {
@@ -63,7 +54,12 @@ namespace Racerr.MultiplayerService
         [Server]
         public void CreateCarForPlayer(GameObject carPrefab)
         {
-            GameObject instantiatedCarGO = Instantiate(carPrefab);
+            CreateCarForPlayer(carPrefab, carPrefab.transform.position);
+        }
+
+        public void CreateCarForPlayer(GameObject carPrefab, Vector3 carPosition)
+        {
+            GameObject instantiatedCarGO = Instantiate(carPrefab, carPosition, carPrefab.transform.rotation);
             car = instantiatedCarGO.GetComponent<PlayerCarController>();
             car.PlayerGO = gameObject;
             NetworkServer.SpawnWithClientAuthority(instantiatedCarGO, gameObject);

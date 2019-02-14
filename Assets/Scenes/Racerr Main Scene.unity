@@ -239,6 +239,7 @@ GameObject:
   - component: {fileID: 160586558}
   - component: {fileID: 160586556}
   - component: {fileID: 160586557}
+  - component: {fileID: 160586559}
   m_Layer: 0
   m_Name: Racerr Game Manager
   m_TagString: Untagged
@@ -274,7 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SceneId: 0
-  m_ServerOnly: 1
+  m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
   m_AssetId: 
 --- !u!4 &160586558
@@ -291,6 +292,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &160586559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160586555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2167bf61d4cc9a4a8d6f934c9db6c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncInterval: 0
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0

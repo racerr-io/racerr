@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Racerr.RaceSessionManager;
 using Racerr.Track;
 using System;
 using System.Collections;
@@ -91,7 +92,13 @@ namespace Racerr.MultiplayerService
         {
             GameObject player = Instantiate(playerObject);
             NetworkServer.AddPlayerForConnection(conn, player);
-            player.GetComponent<Player>().CreateCarForPlayer(playerPrefab);
+            RacerrRaceSessionManager.Singleton.AddNewPlayer(player);
+        }
+
+        public override void OnServerRemovePlayer(NetworkConnection conn, NetworkIdentity player)
+        {
+            RacerrRaceSessionManager.Singleton.RemovePlayer(player.gameObject);
+            base.OnServerRemovePlayer(conn, player);
         }
     }
 }

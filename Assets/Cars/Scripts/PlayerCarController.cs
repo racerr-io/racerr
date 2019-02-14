@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using Racerr.MultiplayerService;
+using Racerr.RaceSessionManager;
 using Racerr.Track;
 using Racerr.UX.Camera;
 using Racerr.UX.HUD;
@@ -74,14 +75,12 @@ namespace Racerr.Car.Core
         {
             if (collider.name == TrackPieceComponent.Checkpoint)
             {
+                RacerrRaceSessionManager.Singleton.NotifyPlayerFinished(Player);
                 Debug.Log("Hit a Track Piece Checkpoint!");
-                if (isServer)
-                {
-                    Player.DestroyPlayersCar();
-                }
             }
             else if (collider.name == TrackPieceComponent.FinishLineCheckpoint)
             {
+                RacerrRaceSessionManager.Singleton.NotifyPlayerFinished(Player);
                 Debug.Log("Reached the finish line well done!!");
             }
         }
