@@ -52,7 +52,7 @@ namespace Racerr.Track
         /// </summary>
         public void DestroyIfRequired()
         {
-            if (isServer && IsTrackGenerated && NetworkManager.singleton.numPlayers == 0)
+            if (isServer && IsTrackGenerated)
             {
                 GeneratedTrackPieces.ForEach(NetworkServer.Destroy);
                 GeneratedTrackPieces.RemoveAll(_ => true);

@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using Racerr.MultiplayerService;
+using Racerr.Track;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,6 +63,7 @@ namespace Racerr.RaceSessionManager
 
         public void StartRace()
         {
+            TrackGeneratorCommon.Singleton.GenerateIfRequired();
             Vector3 currPosition = Vector3.zero;
             if (!IsCurrentlyRacing)
             {
@@ -81,6 +83,7 @@ namespace Racerr.RaceSessionManager
             PlayersInRace.ForEach(p => p.DestroyPlayersCar());
             PlayersInRace.RemoveAll(_ => true);
             FinishedPlayers.RemoveAll(_ => true);
+            TrackGeneratorCommon.Singleton.DestroyIfRequired();
         }
 
         [Server]
