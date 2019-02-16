@@ -1,11 +1,9 @@
 ﻿using Mirror;
 using Racerr.RaceSessionManager;
-using Racerr.Track;
-using System;
+using Racerr.UX.Menu;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 
 namespace Racerr.MultiplayerService
 {
@@ -16,7 +14,7 @@ namespace Racerr.MultiplayerService
     {
         [SerializeField] GameObject playerObject;
         [SerializeField] [Range(1,20)] int connectionWaitTime = 5;
-        int SecondsWaitingForConnection { get; set; } = 0;
+        int secondsWaitingForConnection = 0;
 
         /// <summary>
         /// Automatically start the server on headless mode,
@@ -55,17 +53,21 @@ namespace Racerr.MultiplayerService
                     startMenu.ShowMenu();
                     break;
                 }
-                else if (SecondsWaitingForConnection >= connectionWaitTime)
+                else if (secondsWaitingForConnection >= connectionWaitTime)
                 {
                     startMenu.ShowErrorMessage();
                     break;
                 }
 
-                SecondsWaitingForConnection++;
+                secondsWaitingForConnection++;
                 yield return new WaitForSeconds(1);
             }
         }
 
+        /// <summary>
+        /// Upon player joining, add the new player, associate them with the Player game object and synchronise on all clients.
+        /// </summary>
+        /// <param name="conn">Player's connection info.</param>
         public override void OnServerAddPlayer(NetworkConnection conn)
         {
             GameObject player = Instantiate(playerObject);
@@ -73,10 +75,14 @@ namespace Racerr.MultiplayerService
             RacerrRaceSessionManager.Singleton.AddNewPlayer(player);
         }
 
-        public override void OnServerRemovePlayer(NetworkConnection conn, NetworkIdentity player)
+        /// <summary>
+        /// Upon player disconnect, delete the player, remove the Player game object and synchronise on all clients.
+        /// </summary>
+        /// <param name="conn">Player's connection info.</param>
+        public override void OnServerDisconnect(NetworkConnection conn)
         {
-            RacerrRaceSessionManager.Singleton.RemovePlayer(player.gameObject);
-            base.OnServerRemovePlayer(conn, player);
+            RacerrRaceSessionManager.Singleton.RemovePlayer(conn.playerController.gameObject);
+            NetworkServer.DestroyPlayerForConnection(conn);
         }
     }
 }

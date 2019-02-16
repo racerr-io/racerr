@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Racerr.Car.Core;
 using UnityEngine;
 
 namespace Racerr.MultiplayerService
@@ -6,14 +7,14 @@ namespace Racerr.MultiplayerService
     /// <summary>
     /// Custom designed interpolation for car driving.
     /// </summary>
+    [RequireComponent(typeof(PlayerCarController))]
     public class RacerrCarNetworkTransform : NetworkBehaviour
     {
         [SerializeField] [Range(0, 1)] float interpolationFactor = 0.4f;
-
         [SyncVar] Vector3 realPosition = Vector3.zero;
         [SyncVar] Quaternion realRotation;
         [SyncVar] Vector3 realVelocity;
-        Rigidbody Rigidbody { get; set; }
+        new Rigidbody rigidbody;
 
         /// <summary>
         /// Called when car is instantiated. If car is someone elses car update the rigidbody and remove the wheel colliders
@@ -21,15 +22,12 @@ namespace Racerr.MultiplayerService
         /// </summary>
         void Start()
         {
-            Rigidbody = GetComponent<Rigidbody>();
-        }
+            rigidbody = GetComponent<Rigidbody>();
 
-        public override void OnStartAuthority()
-        {
             if (!hasAuthority)
             {
-                Rigidbody.isKinematic = true;
-                Rigidbody.useGravity = false;
+                rigidbody.isKinematic = true;
+                rigidbody.useGravity = false;
 
                 foreach (WheelCollider wheelCollider in GetComponentsInChildren<WheelCollider>())
                 {
@@ -47,15 +45,15 @@ namespace Racerr.MultiplayerService
             {
                 realPosition = transform.position;
                 realRotation = transform.rotation;
-                realVelocity = Rigidbody.velocity;
-                CmdSynchroniseToServer(transform.position, transform.rotation, Rigidbody.velocity);
+                realVelocity = rigidbody.velocity;
+                CmdSynchroniseToServer(transform.position, transform.rotation, rigidbody.velocity);
             }
             else
             {
                 Vector3 predictedPosition = realPosition + Time.deltaTime * realVelocity; // Try to predict where the car might be. TODO: Incorporate difference in network time and local time.
                 transform.position = Vector3.Lerp(transform.position, predictedPosition, interpolationFactor);
                 transform.rotation = Quaternion.Lerp(transform.rotation, realRotation, interpolationFactor);
-                Rigidbody.velocity = realVelocity;
+                rigidbody.velocity = realVelocity;
             }
         }
 

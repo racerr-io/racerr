@@ -15,8 +15,8 @@ namespace Racerr.Track
     /// </remarks>
     public class TrackPieceCollisionDetector : MonoBehaviour
     {
-        public bool IsValidTrackPlacementUponConnection => CollidedGameObjects.Where(g => g != null).Count() <= 1;
-        List<GameObject> CollidedGameObjects { get; } = new List<GameObject>();
+        public bool IsValidTrackPlacementUponConnection => collidedGameObjects.Where(g => g != null).Count() <= 1;
+        List<GameObject> collidedGameObjects = new List<GameObject>();
 
         /// <summary>
         /// When track collides with another game object, this function is called.
@@ -26,9 +26,9 @@ namespace Racerr.Track
         {
             GameObject collidedGameObject = collision.gameObject;
 
-            if (collidedGameObject.CompareTag(TrackPieceComponent.TrackPiece) && !CollidedGameObjects.Contains(collidedGameObject))
+            if (collidedGameObject.CompareTag(TrackPieceComponent.TrackPiece) && !collidedGameObjects.Contains(collidedGameObject))
             {
-                CollidedGameObjects.Add(collidedGameObject);
+                collidedGameObjects.Add(collidedGameObject);
             }
         }
     }

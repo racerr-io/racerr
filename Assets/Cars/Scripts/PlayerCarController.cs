@@ -20,10 +20,10 @@ namespace Racerr.Car.Core
         [SerializeField] float motorForce = 2500;
         [SerializeField] float downforce = 7500;
 
-        float HorizontalInput { get; set; }
-        float VerticalInput { get; set; }
-        float SteeringAngle { get; set; }
-        int LastStiffness { get; set; } = 0;
+        float horizontalInput;
+        float verticalInput;
+        float steeringAngle;
+        int lastStiffness = 0;
 
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
@@ -40,10 +40,7 @@ namespace Racerr.Car.Core
         void Start()
         {
             Player = PlayerGO.GetComponent<Player>();
-        }
 
-        public override void OnStartAuthority()
-        {
             if (hasAuthority)
             {
                 FindObjectOfType<HUDSpeed>().Car = this;
@@ -73,15 +70,9 @@ namespace Racerr.Car.Core
         /// <param name="collider">The collider is went through.</param>
         void OnTriggerEnter(Collider collider)
         {
-            if (collider.name == TrackPieceComponent.Checkpoint)
+            if (collider.name == TrackPieceComponent.FinishLineCheckpoint)
             {
                 RacerrRaceSessionManager.Singleton.NotifyPlayerFinished(Player);
-                Debug.Log("Hit a Track Piece Checkpoint!");
-            }
-            else if (collider.name == TrackPieceComponent.FinishLineCheckpoint)
-            {
-                RacerrRaceSessionManager.Singleton.NotifyPlayerFinished(Player);
-                Debug.Log("Reached the finish line well done!!");
             }
         }
 
@@ -92,8 +83,8 @@ namespace Racerr.Car.Core
         /// </summary>
         void GetInput()
         {
-            HorizontalInput = Input.GetAxis("Horizontal");
-            VerticalInput = Input.GetAxis("Vertical");
+            horizontalInput = Input.GetAxis("Horizontal");
+            verticalInput = Input.GetAxis("Vertical");
         }
 
         /// <summary>
@@ -101,9 +92,9 @@ namespace Racerr.Car.Core
         /// </summary>
         void Steer()
         {
-            SteeringAngle = maxSteerAngle * HorizontalInput;
-            wheelFrontLeft.steerAngle = SteeringAngle;
-            wheelFrontRight.steerAngle = SteeringAngle;
+            steeringAngle = maxSteerAngle * horizontalInput;
+            wheelFrontLeft.steerAngle = steeringAngle;
+            wheelFrontRight.steerAngle = steeringAngle;
         }
 
         /// <summary>
@@ -111,8 +102,8 @@ namespace Racerr.Car.Core
         /// </summary>
         void Accelerate()
         {
-            wheelRearLeft.motorTorque = VerticalInput * motorForce;
-            wheelRearRight.motorTorque = VerticalInput * motorForce;
+            wheelRearLeft.motorTorque = verticalInput * motorForce;
+            wheelRearRight.motorTorque = verticalInput * motorForce;
         }
 
         /// <summary>
@@ -157,12 +148,12 @@ namespace Racerr.Car.Core
         {
             Vector3 currentSpeed = wheelFrontLeft.attachedRigidbody.velocity;
             int stiffness = Convert.ToInt32(Mathf.Lerp(1, 5, currentSpeed.magnitude / 50));
-            if (stiffness == LastStiffness)
+            if (stiffness == lastStiffness)
             {
                 return;
             }
 
-            LastStiffness = stiffness;
+            lastStiffness = stiffness;
             WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.sidewaysFriction;
             wheelFrictionCurve.stiffness = stiffness;
 

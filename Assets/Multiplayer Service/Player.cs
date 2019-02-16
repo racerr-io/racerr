@@ -1,5 +1,7 @@
 ﻿using Mirror;
 using Racerr.Car.Core;
+using Racerr.RaceSessionManager;
+using System.Linq;
 using UnityEngine;
 
 namespace Racerr.MultiplayerService
@@ -9,6 +11,9 @@ namespace Racerr.MultiplayerService
     /// </summary>
     public class Player : NetworkBehaviour
     {
+        static Player localPlayer;
+        public static Player LocalPlayer => localPlayer ?? (localPlayer = FindObjectsOfType<Player>().Single(p => p.isLocalPlayer));
+
         [SyncVar] GameObject carGO;
         PlayerCarController car;
         public PlayerCarController Car
@@ -24,7 +29,17 @@ namespace Racerr.MultiplayerService
             }
         }
 
+        #region Player Information
+
+        #region SyncVars
+
         [SyncVar] [SerializeField] string playerName;
+        [SyncVar] bool isReady;
+
+        #endregion
+
+        #region Properties
+
         public string PlayerName
         {
             get => playerName;
@@ -36,16 +51,46 @@ namespace Racerr.MultiplayerService
                 }
                 else
                 {
-                    CmdUpdatePlayerName(value);
+                    CmdSynchronisePlayerName(value);
                 }
             }
         }
 
+        public bool IsReady
+        {
+            get => isReady;
+            set
+            {
+                if (isServer)
+                {
+                    isReady = value;
+                }
+                else
+                {
+                    CmdSynchroniseIsReady(value);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Commands for synchronising SyncVars
+
         [Command]
-        void CmdUpdatePlayerName(string playerName)
+        void CmdSynchroniseIsReady(bool isReady)
+        {
+            this.isReady = isReady;
+        }
+
+        [Command]
+        void CmdSynchronisePlayerName(string playerName)
         {
             this.playerName = playerName;
         }
+
+        #endregion
+
+        #endregion
 
         /// <summary>
         /// Spawn the player's car in the correct position.
