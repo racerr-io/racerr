@@ -28,7 +28,7 @@ namespace Racerr.UX.HUD
             secondsRemainingText = timerLabelGameObject.GetComponent<Text>();
         }
 
-        void FixedUpdate()
+        void Update()
         {
             if (isClient)
             {

@@ -26,10 +26,13 @@ namespace Racerr.MultiplayerService
         {
             if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
             {
-                Application.targetFrameRate = (int)(1f / Time.fixedDeltaTime);
-                StartServer();
                 Destroy(FindObjectOfType<StartMenu>().gameObject);
-                Destroy(FindObjectOfType<AutoCam>().gameObject);
+                foreach (AbstractTargetFollower camera in FindObjectsOfType<AbstractTargetFollower>())
+                {
+                    Destroy(camera.gameObject);
+                }
+
+                StartServer();
             }
             else
             {
