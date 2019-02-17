@@ -48,19 +48,11 @@ namespace Racerr.RaceSessionManager
             }
         }
 
-        void Start()
-        {
-            if (isServer)
-            {
-                InvokeRepeating("UpdateRaceStatus", 0, 5f);
-            }
-        }
-
         /// <summary>
         /// Called every so often to update the current state of the race on this server.
         /// </summary>
         [Server]
-        void UpdateRaceStatus()
+        void LateUpdate()
         {
             if (playersOnServer.Any(p => p.IsReady) && !isCurrentlyRacing && !timerActive)
             {

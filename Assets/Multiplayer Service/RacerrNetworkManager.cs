@@ -12,6 +12,7 @@ namespace Racerr.MultiplayerService
     /// </summary>
     public class RacerrNetworkManager : NetworkManager
     {
+        [SerializeField] int targetApplicationFrameRate = 60;
         [SerializeField] GameObject playerObject;
         [SerializeField] [Range(1,20)] int connectionWaitTime = 5;
         int secondsWaitingForConnection = 0;
@@ -22,6 +23,8 @@ namespace Racerr.MultiplayerService
         /// </summary>
         void Start()
         {
+            Application.targetFrameRate = targetApplicationFrameRate;
+
             if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
             {
                 // headless mode. Just start the server

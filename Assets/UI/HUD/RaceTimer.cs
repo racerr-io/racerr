@@ -26,11 +26,6 @@ namespace Racerr.UX.HUD
             timerLabelGameObject = transform.Find(TimerLabel).gameObject;
             gameStatusLabelGameObject = transform.Find(GameStatusLabel).gameObject;
             secondsRemainingText = timerLabelGameObject.GetComponent<Text>();
-
-            if (isClient)
-            {
-                InvokeRepeating("UpdateSpectatingLabel", 0f, 5f);
-            }
         }
 
         [Server]
@@ -57,7 +52,7 @@ namespace Racerr.UX.HUD
         }
 
         [Client]
-        void UpdateSpectatingLabel()
+        void FixedUpdate()
         {
             if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing && Player.LocalPlayer.IsReady && Player.LocalPlayer.Car == null)
             {
@@ -69,10 +64,9 @@ namespace Racerr.UX.HUD
             }
         }
 
+        [Client]
         void OnChangeSecondsRemaining(int secondsRemaining)
         {
-            if (isServerOnly) return;
-
             this.secondsRemaining = secondsRemaining;
 
             if (secondsRemaining > 0 && Player.LocalPlayer.IsReady)
@@ -87,11 +81,13 @@ namespace Racerr.UX.HUD
             }
         }
 
+        [Client]
         void ShowTimer()
         {
             timerLabelGameObject.SetActive(true);
         }
 
+        [Client]
         void HideTimer()
         {
             waitingForPlayersLabelGameObject.SetActive(false);
