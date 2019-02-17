@@ -14,7 +14,6 @@ namespace Racerr.MultiplayerService
     /// </summary>
     public class RacerrNetworkManager : NetworkManager
     {
-        [SerializeField] int targetServerFrameRate = 60;
         [SerializeField] GameObject playerObject;
         [SerializeField] [Range(1,20)] int connectionWaitTime = 5;
         int secondsWaitingForConnection = 0;
@@ -27,7 +26,7 @@ namespace Racerr.MultiplayerService
         {
             if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
             {
-                Application.targetFrameRate = targetServerFrameRate;
+                Application.targetFrameRate = (int)(1f / Time.fixedDeltaTime);
                 StartServer();
                 Destroy(FindObjectOfType<StartMenu>().gameObject);
                 Destroy(FindObjectOfType<AutoCam>().gameObject);
