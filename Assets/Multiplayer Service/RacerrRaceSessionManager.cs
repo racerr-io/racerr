@@ -51,18 +51,20 @@ namespace Racerr.RaceSessionManager
         /// <summary>
         /// Called every so often to update the current state of the race on this server.
         /// </summary>
-        [Server]
         void LateUpdate()
         {
-            if (playersOnServer.Any(p => p.IsReady) && !isCurrentlyRacing && !timerActive)
+            if (isServer)
             {
-                timerActive = true;
-                int seconds = ReadyPlayers.Count > 1 ? raceTimerSeconds : raceTimerSecondsSinglePlayer;
-                FindObjectOfType<RaceTimer>().StartTimer(seconds);
-            }
-            else if (isCurrentlyRacing && (playersInRace.Count == 0 || finishedPlayers.Count == playersInRace.Count))
-            {
-                EndRace();
+                if (playersOnServer.Any(p => p.IsReady) && !isCurrentlyRacing && !timerActive)
+                {
+                    timerActive = true;
+                    int seconds = ReadyPlayers.Count > 1 ? raceTimerSeconds : raceTimerSecondsSinglePlayer;
+                    FindObjectOfType<RaceTimer>().StartTimer(seconds);
+                }
+                else if (isCurrentlyRacing && (playersInRace.Count == 0 || finishedPlayers.Count == playersInRace.Count))
+                {
+                    EndRace();
+                }
             }
         }
 
