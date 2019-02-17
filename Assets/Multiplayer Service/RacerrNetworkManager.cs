@@ -1,7 +1,6 @@
 ﻿using Mirror;
 using Racerr.RaceSessionManager;
 using Racerr.UX.Camera;
-using Racerr.UX.HUD;
 using Racerr.UX.Menu;
 using System.Collections;
 using UnityEngine;
@@ -14,6 +13,7 @@ namespace Racerr.MultiplayerService
     /// </summary>
     public class RacerrNetworkManager : NetworkManager
     {
+        [SerializeField] int serverApplicationFrameRate = 60;
         [SerializeField] GameObject playerObject;
         [SerializeField] [Range(1,20)] int connectionWaitTime = 5;
         int secondsWaitingForConnection = 0;
@@ -26,7 +26,9 @@ namespace Racerr.MultiplayerService
         {
             if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
             {
+                Application.targetFrameRate = serverApplicationFrameRate;
                 Destroy(FindObjectOfType<StartMenu>().gameObject);
+
                 foreach (AbstractTargetFollower camera in FindObjectsOfType<AbstractTargetFollower>())
                 {
                     Destroy(camera.gameObject);
