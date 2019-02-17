@@ -43,9 +43,10 @@ namespace Racerr.UX.HUD
             RacerrRaceSessionManager.Singleton.StartRace();
         }
 
-        [Client]
         void FixedUpdate()
         {
+            if (isServerOnly) return;
+
             if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing && Player.LocalPlayer.IsReady && Player.LocalPlayer.Car == null)
             {
                 gameStatusLabelGameObject.SetActive(true);
