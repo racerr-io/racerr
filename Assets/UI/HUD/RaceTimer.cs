@@ -20,6 +20,19 @@ namespace Racerr.UX.HUD
         GameObject timerLabelGameObject;
         GameObject gameStatusLabelGameObject;
 
+        void Start()
+        {
+            waitingForPlayersLabelGameObject = transform.Find(WaitingForPlayersLabel).gameObject;
+            timerLabelGameObject = transform.Find(TimerLabel).gameObject;
+            gameStatusLabelGameObject = transform.Find(GameStatusLabel).gameObject;
+            secondsRemainingText = timerLabelGameObject.GetComponent<Text>();
+
+            if (isClient)
+            {
+                InvokeRepeating("UpdateSpectatingLabel", 0f, 5f);
+            }
+        }
+
         [Server]
         public void StartTimer(int seconds)
         {
@@ -43,10 +56,9 @@ namespace Racerr.UX.HUD
             RacerrRaceSessionManager.Singleton.StartRace();
         }
 
-        void FixedUpdate()
+        [Client]
+        void UpdateSpectatingLabel()
         {
-            if (isServerOnly) return;
-
             if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing && Player.LocalPlayer.IsReady && Player.LocalPlayer.Car == null)
             {
                 gameStatusLabelGameObject.SetActive(true);
@@ -57,17 +69,10 @@ namespace Racerr.UX.HUD
             }
         }
 
-        void Start()
-        {
-            waitingForPlayersLabelGameObject = transform.Find(WaitingForPlayersLabel).gameObject;
-            timerLabelGameObject = transform.Find(TimerLabel).gameObject;
-            gameStatusLabelGameObject = transform.Find(GameStatusLabel).gameObject;
-            secondsRemainingText = timerLabelGameObject.GetComponent<Text>();
-        }
-
-
         void OnChangeSecondsRemaining(int secondsRemaining)
         {
+            if (isServerOnly) return;
+
             this.secondsRemaining = secondsRemaining;
 
             if (secondsRemaining > 0 && Player.LocalPlayer.IsReady)
