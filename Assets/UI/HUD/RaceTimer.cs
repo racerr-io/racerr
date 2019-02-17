@@ -43,7 +43,8 @@ namespace Racerr.UX.HUD
             RacerrRaceSessionManager.Singleton.StartRace();
         }
 
-        void LateUpdate()
+        [Client]
+        void FixedUpdate()
         {
             if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing && Player.LocalPlayer.IsReady && Player.LocalPlayer.Car == null)
             {

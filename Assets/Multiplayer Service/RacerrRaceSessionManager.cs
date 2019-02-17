@@ -2,6 +2,7 @@
 using Racerr.MultiplayerService;
 using Racerr.Track;
 using Racerr.UX.HUD;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -51,7 +52,7 @@ namespace Racerr.RaceSessionManager
         /// Called every physics tick to manage the current state of the race on this server.
         /// </summary>
         [Server]
-        void FixedUpdate()
+        void LateUpdate()
         {
             if (playersOnServer.Any(p => p.IsReady) && !isCurrentlyRacing && !timerActive)
             {
@@ -59,7 +60,7 @@ namespace Racerr.RaceSessionManager
                 int seconds = ReadyPlayers.Count > 1 ? raceTimerSeconds : raceTimerSecondsSinglePlayer;
                 FindObjectOfType<RaceTimer>().StartTimer(seconds);
             }
-            else if (isCurrentlyRacing && (!playersInRace.Any() || finishedPlayers.Count == playersInRace.Count))
+            else if (isCurrentlyRacing && (playersInRace.Count == 0 || finishedPlayers.Count == playersInRace.Count))
             {
                 EndRace();
             }
@@ -95,10 +96,18 @@ namespace Racerr.RaceSessionManager
         [Server]
         public void StartRace()
         {
+            StartCoroutine(StartRaceCore());
+        }
+
+        [Server]
+        IEnumerator StartRaceCore()
+        {
             if (!isCurrentlyRacing)
             {
-                timerActive = false;
                 TrackGeneratorCommon.Singleton.GenerateIfRequired();
+                while (!TrackGeneratorCommon.Singleton.IsTrackGenerated) yield return null;
+
+                timerActive = false;
                 Vector3 currPosition = new Vector3(0, 1, 0);
                 isCurrentlyRacing = true;
                 playersInRace.AddRange(ReadyPlayers);
