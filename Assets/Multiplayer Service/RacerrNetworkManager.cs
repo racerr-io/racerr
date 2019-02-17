@@ -1,5 +1,7 @@
 ﻿using Mirror;
 using Racerr.RaceSessionManager;
+using Racerr.UX.Camera;
+using Racerr.UX.HUD;
 using Racerr.UX.Menu;
 using System.Collections;
 using UnityEngine;
@@ -29,6 +31,8 @@ namespace Racerr.MultiplayerService
             {
                 // headless mode. Just start the server
                 StartServer();
+                Destroy(FindObjectOfType<StartMenu>().gameObject);
+                Destroy(FindObjectOfType<AutoCam>().gameObject);
             }
             else
             {

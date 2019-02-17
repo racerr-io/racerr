@@ -1567,6 +1567,7 @@ MonoBehaviour:
   - {fileID: 8860773397577860574, guid: 9f9445acfc573b24ea79c43374fc0738, type: 3}
   clientLoadedScene: 0
   isNetworkActive: 0
+  targetApplicationFrameRate: 60
   playerObject: {fileID: 8860773397577860574, guid: 9f9445acfc573b24ea79c43374fc0738,
     type: 3}
   connectionWaitTime: 5

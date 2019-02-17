@@ -28,6 +28,14 @@ namespace Racerr.UX.HUD
             secondsRemainingText = timerLabelGameObject.GetComponent<Text>();
         }
 
+        void FixedUpdate()
+        {
+            if (isClient)
+            {
+                UpdateSpectatingLabel();
+            }
+        }
+
         [Server]
         public void StartTimer(int seconds)
         {
@@ -52,7 +60,7 @@ namespace Racerr.UX.HUD
         }
 
         [Client]
-        void FixedUpdate()
+        void UpdateSpectatingLabel()
         {
             if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing && Player.LocalPlayer.IsReady && Player.LocalPlayer.Car == null)
             {
