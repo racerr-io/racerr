@@ -68,8 +68,6 @@ namespace Racerr.Track
         /// <returns>IEnumerator for Unity coroutine, so that track generation can be done concurrently with main thread (useful for calculating collisions).</returns>
         abstract protected IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs);
 
-        #region Helpers
-
         /// <summary>
         /// Each Track Piece has an ending point called 'Link'. This function will return the Transform (position and rotation info) for this link.
         /// </summary>
@@ -87,7 +85,5 @@ namespace Racerr.Track
 
             return tracePieceLinkTransform;
         }
-
-        #endregion
     }
 }

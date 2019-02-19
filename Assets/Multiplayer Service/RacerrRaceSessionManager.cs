@@ -1,5 +1,4 @@
 ﻿using Mirror;
-using Racerr.MultiplayerService;
 using Racerr.Track;
 using Racerr.UX.HUD;
 using System.Collections;
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Racerr.RaceSessionManager
+namespace Racerr.MultiplayerService
 {
     /// <summary>
     /// Racerr Race Session Manager. Manages the current race, cars and players
@@ -15,20 +14,22 @@ namespace Racerr.RaceSessionManager
     /// </summary>
     public class RacerrRaceSessionManager : NetworkBehaviour
     {
+        // Server and client properties
         public static RacerrRaceSessionManager Singleton;
-        public IReadOnlyCollection<Player> PlayersOnServer => playersOnServer;
-        public IReadOnlyCollection<Player> ReadyPlayers => playersOnServer.Where(p => p.IsReady).ToArray();
-        public IReadOnlyCollection<Player> PlayersInRace => playersInRace;
-        public IReadOnlyCollection<Player> FinishedPlayers => finishedPlayers;
+        [SyncVar] bool isCurrentlyRacing;
         public bool IsCurrentlyRacing => isCurrentlyRacing;
 
-        [SyncVar] bool isCurrentlyRacing;
+        // Server only properties
         [SerializeField] int raceTimerSeconds = 5;
         [SerializeField] int raceTimerSecondsSinglePlayer = 20;
         List<Player> playersOnServer = new List<Player>();
         List<Player> playersInRace = new List<Player>();
         List<Player> finishedPlayers = new List<Player>();
         bool timerActive = false;
+        public IReadOnlyCollection<Player> PlayersOnServer => playersOnServer;
+        public IReadOnlyCollection<Player> ReadyPlayers => playersOnServer.Where(p => p.IsReady).ToArray();
+        public IReadOnlyCollection<Player> PlayersInRace => playersInRace;
+        public IReadOnlyCollection<Player> FinishedPlayers => finishedPlayers;
 
         /// <summary>
         /// Run when this script is instantiated.
@@ -101,6 +102,11 @@ namespace Racerr.RaceSessionManager
             StartCoroutine(StartRaceCore());
         }
 
+        /// <summary>
+        /// Coroutine for race starting, since we need to wait for the track 
+        /// to be generated before executing more code (simulating a semaphore).
+        /// </summary>
+        /// <returns>IEnumerator for coroutine.</returns>
         [Server]
         IEnumerator StartRaceCore()
         {
@@ -123,7 +129,7 @@ namespace Racerr.RaceSessionManager
         }
 
         /// <summary>
-        /// End the race.
+        /// End the currently running race.
         /// </summary>
         [Server]
         public void EndRace()

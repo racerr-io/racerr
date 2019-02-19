@@ -1,12 +1,14 @@
 ﻿using Mirror;
 using Racerr.MultiplayerService;
-using Racerr.RaceSessionManager;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Racerr.UX.HUD
 {
+    /// <summary>
+    /// Timer for beginning and ending the race.
+    /// </summary>
     public class RaceTimer : NetworkBehaviour
     {
         const string TimerLabel = "Timer Label";
@@ -16,18 +18,24 @@ namespace Racerr.UX.HUD
         [SyncVar(hook = "OnChangeSecondsRemaining")] int secondsRemaining;
 
         Text secondsRemainingText;
-        GameObject waitingForPlayersLabelGameObject;
-        GameObject timerLabelGameObject;
-        GameObject gameStatusLabelGameObject;
+        GameObject waitingForPlayersLabelGO;
+        GameObject timerLabelGO;
+        GameObject gameStatusLabelGO;
 
+        /// <summary>
+        /// Initialise race timer with the labels.
+        /// </summary>
         void Start()
         {
-            waitingForPlayersLabelGameObject = transform.Find(WaitingForPlayersLabel).gameObject;
-            timerLabelGameObject = transform.Find(TimerLabel).gameObject;
-            gameStatusLabelGameObject = transform.Find(GameStatusLabel).gameObject;
-            secondsRemainingText = timerLabelGameObject.GetComponent<Text>();
+            waitingForPlayersLabelGO = transform.Find(WaitingForPlayersLabel).gameObject;
+            timerLabelGO = transform.Find(TimerLabel).gameObject;
+            gameStatusLabelGO = transform.Find(GameStatusLabel).gameObject;
+            secondsRemainingText = timerLabelGO.GetComponent<Text>();
         }
 
+        /// <summary>
+        /// Check every frame on client whether we should display spectating.
+        /// </summary>
         void Update()
         {
             if (isClient)
@@ -36,6 +44,10 @@ namespace Racerr.UX.HUD
             }
         }
 
+        /// <summary>
+        /// Start the race timer and subsequently the race.
+        /// </summary>
+        /// <param name="seconds">Seconds to count down.</param>
         [Server]
         public void StartTimer(int seconds)
         {
@@ -47,6 +59,10 @@ namespace Racerr.UX.HUD
             }
         }
 
+        /// <summary>
+        /// Coroutine for counting down the timer.
+        /// </summary>
+        /// <returns>IEnumerator for coroutine.</returns>
         [Server]
         IEnumerator CountdownTimer()
         {
@@ -59,19 +75,11 @@ namespace Racerr.UX.HUD
             RacerrRaceSessionManager.Singleton.StartRace();
         }
 
-        [Client]
-        void UpdateSpectatingLabel()
-        {
-            if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing && Player.LocalPlayer.IsReady && Player.LocalPlayer.Car == null)
-            {
-                gameStatusLabelGameObject.SetActive(true);
-            }
-            else
-            {
-                gameStatusLabelGameObject.SetActive(false);
-            }
-        }
-
+        /// <summary>
+        /// Hook for secondsRemaining SyncVar. When this value changes,
+        /// determine the state of the timer.
+        /// </summary>
+        /// <param name="secondsRemaining">The new value</param>
         [Client]
         void OnChangeSecondsRemaining(int secondsRemaining)
         {
@@ -81,7 +89,7 @@ namespace Racerr.UX.HUD
             {
                 ShowTimer();
                 secondsRemainingText.text = secondsRemaining.ToString();
-                waitingForPlayersLabelGameObject.SetActive(secondsRemaining > 5);
+                waitingForPlayersLabelGO.SetActive(secondsRemaining > 5);
             }
             else
             {
@@ -89,17 +97,40 @@ namespace Racerr.UX.HUD
             }
         }
 
+        /// <summary>
+        /// Check whether the Spectating label should be shown.
+        /// </summary>
+        [Client]
+        void UpdateSpectatingLabel()
+        {
+            if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing && Player.LocalPlayer.IsReady && Player.LocalPlayer.Car == null)
+            {
+                gameStatusLabelGO.SetActive(true);
+            }
+            else
+            {
+                gameStatusLabelGO.SetActive(false);
+            }
+        }
+
+        /// <summary>
+        /// Show the timer UI 
+        /// (note the waiting for players is determined in OnChangeSecondsRemaining() hook)
+        /// </summary>
         [Client]
         void ShowTimer()
         {
-            timerLabelGameObject.SetActive(true);
+            timerLabelGO.SetActive(true);
         }
 
+        /// <summary>
+        /// Hide the timer UI.
+        /// </summary>
         [Client]
         void HideTimer()
         {
-            waitingForPlayersLabelGameObject.SetActive(false);
-            timerLabelGameObject.SetActive(false);
+            waitingForPlayersLabelGO.SetActive(false);
+            timerLabelGO.SetActive(false);
         }
     }
 }

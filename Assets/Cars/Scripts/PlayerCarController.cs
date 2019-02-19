@@ -1,6 +1,5 @@
 ﻿using Mirror;
 using Racerr.MultiplayerService;
-using Racerr.RaceSessionManager;
 using Racerr.Track;
 using Racerr.UX.Camera;
 using Racerr.UX.HUD;
@@ -10,7 +9,7 @@ using UnityEngine;
 namespace Racerr.Car.Core
 {
     /// <summary>
-    /// Car controller for all cars and players.
+    /// Car controller for all cars in Racerr.
     /// </summary>
     public class PlayerCarController : NetworkBehaviour
     {

@@ -5,8 +5,14 @@ using UnityEngine.UI;
 
 namespace Racerr.UX.Menu
 {
+    /// <summary>
+    /// Start menu interface for game. First thing the user sees.
+    /// </summary>
     public class StartMenu : MonoBehaviour
     {
+        /// <summary>
+        /// Show main menu screen to user following successful connection to Racerr game servers.
+        /// </summary>
         public void ShowMenu()
         {
             GameObject connectionInfoGO = transform.Find("Connection Info String").gameObject;
@@ -22,12 +28,18 @@ namespace Racerr.UX.Menu
             raceButtonGO.SetActive(true);
         }
 
+        /// <summary>
+        /// Show error message screen to user following unsuccessful connection to Racerr game servers.
+        /// </summary>
         public void ShowErrorMessage()
         {
             Text connectionInfoString = transform.Find("Connection Info String").GetComponent<Text>();
             connectionInfoString.text = "An error has occurred. Unable to connect to racerr.io game servers.";
         }
 
+        /// <summary>
+        /// Hide the menu interface and mark the player as ready to race.
+        /// </summary>
         public void HideMenu()
         {
             string usersName = GetComponentsInChildren<Text>().Single(t => t.name == "Name Text").text;
