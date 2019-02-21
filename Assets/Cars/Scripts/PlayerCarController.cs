@@ -66,7 +66,7 @@ namespace Racerr.Car.Core
         /// <summary>
         /// Detect if the car is moving through triggers.
         /// </summary>
-        /// <param name="collider">The collider is went through.</param>
+        /// <param name="collider">The collider that it went through.</param>
         void OnTriggerEnter(Collider collider)
         {
             if (collider.name == TrackPieceComponent.FinishLineCheckpoint)
