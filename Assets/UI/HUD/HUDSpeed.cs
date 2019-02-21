@@ -41,7 +41,6 @@ namespace Racerr.UX.HUD
             {
                 SpeedText.text = string.Empty;
             }
-            
         }
     }
 }

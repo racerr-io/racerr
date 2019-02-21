@@ -13,7 +13,7 @@ namespace Racerr.Track
         [SerializeField] int trackLength = 50;
 
         public static TrackGeneratorCommon Singleton;
-        public bool IsTrackGenerated { get; private set; }
+        public bool IsTrackGenerated { get; protected set; }
         public List<GameObject> GeneratedTrackPieces { get; } = new List<GameObject>();
 
         /// <summary>
@@ -42,7 +42,6 @@ namespace Racerr.Track
             if (isServer && !IsTrackGenerated)
             {
                 IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Track Pieces");
-                IsTrackGenerated = true;
                 StartCoroutine(GenerateTrack(trackLength, availableTrackPiecePrefabs));
             }
         }
@@ -52,7 +51,7 @@ namespace Racerr.Track
         /// </summary>
         public void DestroyIfRequired()
         {
-            if (isServer && IsTrackGenerated && NetworkManager.singleton.numPlayers == 0)
+            if (isServer && IsTrackGenerated)
             {
                 GeneratedTrackPieces.ForEach(NetworkServer.Destroy);
                 GeneratedTrackPieces.RemoveAll(_ => true);
@@ -68,8 +67,6 @@ namespace Racerr.Track
         /// <param name="availableTrackPiecePrefabs">Collection of Track Pieces we can Instantiate.</param>
         /// <returns>IEnumerator for Unity coroutine, so that track generation can be done concurrently with main thread (useful for calculating collisions).</returns>
         abstract protected IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs);
-
-        #region Helpers
 
         /// <summary>
         /// Each Track Piece has an ending point called 'Link'. This function will return the Transform (position and rotation info) for this link.
@@ -88,7 +85,5 @@ namespace Racerr.Track
 
             return tracePieceLinkTransform;
         }
-
-        #endregion
     }
 }

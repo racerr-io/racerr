@@ -1,4 +1,6 @@
 ﻿using Mirror;
+using Racerr.MultiplayerService;
+using Racerr.Track;
 using Racerr.UX.Camera;
 using Racerr.UX.HUD;
 using System;
@@ -7,7 +9,7 @@ using UnityEngine;
 namespace Racerr.Car.Core
 {
     /// <summary>
-    /// Car controller for all cars and players.
+    /// Car controller for all cars in Racerr.
     /// </summary>
     public class PlayerCarController : NetworkBehaviour
     {
@@ -17,17 +19,28 @@ namespace Racerr.Car.Core
         [SerializeField] float motorForce = 2500;
         [SerializeField] float downforce = 7500;
 
-        float HorizontalInput { get; set; }
-        float VerticalInput { get; set; }
-        float SteeringAngle { get; set; }
-        int LastStiffness { get; set; } = 0;
+        float horizontalInput;
+        float verticalInput;
+        float steeringAngle;
+        int lastStiffness = 0;
+
+        [SyncVar] GameObject playerGO;
+        public GameObject PlayerGO
+        {
+            get => playerGO;
+            set => playerGO = value;
+        }
+
+        public Player Player { get; private set; }
 
         /// <summary>
         /// Called when car instantiated. Setup the user's view of the car.
         /// </summary>
         void Start()
         {
-            if (isLocalPlayer)
+            Player = PlayerGO.GetComponent<Player>();
+
+            if (hasAuthority)
             {
                 FindObjectOfType<HUDSpeed>().Car = this;
                 FindObjectOfType<AutoCam>().SetTarget(transform);
@@ -39,7 +52,7 @@ namespace Racerr.Car.Core
         /// </summary>
         void FixedUpdate()
         {
-            if (isLocalPlayer)
+            if (hasAuthority)
             {
                 GetInput();
                 Steer();
@@ -51,14 +64,26 @@ namespace Racerr.Car.Core
         }
 
         /// <summary>
+        /// Detect if the car is moving through triggers.
+        /// </summary>
+        /// <param name="collider">The collider that it went through.</param>
+        void OnTriggerEnter(Collider collider)
+        {
+            if (collider.name == TrackPieceComponent.FinishLineCheckpoint)
+            {
+                RacerrRaceSessionManager.Singleton.NotifyPlayerFinished(Player);
+            }
+        }
+
+        /// <summary>
         /// Get input from users controls.
         /// TODO: Turn this into a function called Move() that takes in inputs and create a new script for User input
         /// so that AI can be decoupled.
         /// </summary>
         void GetInput()
         {
-            HorizontalInput = Input.GetAxis("Horizontal");
-            VerticalInput = Input.GetAxis("Vertical");
+            horizontalInput = Input.GetAxis("Horizontal");
+            verticalInput = Input.GetAxis("Vertical");
         }
 
         /// <summary>
@@ -66,9 +91,9 @@ namespace Racerr.Car.Core
         /// </summary>
         void Steer()
         {
-            SteeringAngle = maxSteerAngle * HorizontalInput;
-            wheelFrontLeft.steerAngle = SteeringAngle;
-            wheelFrontRight.steerAngle = SteeringAngle;
+            steeringAngle = maxSteerAngle * horizontalInput;
+            wheelFrontLeft.steerAngle = steeringAngle;
+            wheelFrontRight.steerAngle = steeringAngle;
         }
 
         /// <summary>
@@ -76,8 +101,8 @@ namespace Racerr.Car.Core
         /// </summary>
         void Accelerate()
         {
-            wheelRearLeft.motorTorque = VerticalInput * motorForce;
-            wheelRearRight.motorTorque = VerticalInput * motorForce;
+            wheelRearLeft.motorTorque = verticalInput * motorForce;
+            wheelRearRight.motorTorque = verticalInput * motorForce;
         }
 
         /// <summary>
@@ -122,12 +147,12 @@ namespace Racerr.Car.Core
         {
             Vector3 currentSpeed = wheelFrontLeft.attachedRigidbody.velocity;
             int stiffness = Convert.ToInt32(Mathf.Lerp(1, 5, currentSpeed.magnitude / 50));
-            if (stiffness == LastStiffness)
+            if (stiffness == lastStiffness)
             {
                 return;
             }
 
-            LastStiffness = stiffness;
+            lastStiffness = stiffness;
             WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.sidewaysFriction;
             wheelFrictionCurve.stiffness = stiffness;
 
