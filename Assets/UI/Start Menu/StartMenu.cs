@@ -43,7 +43,16 @@ namespace Racerr.UX.Menu
         public void HideMenu()
         {
             string usersName = GetComponentsInChildren<Text>().Single(t => t.name == "Name Text").text;
-            Player.LocalPlayer.PlayerName = usersName;
+
+            if (!string.IsNullOrWhiteSpace(usersName))
+            {
+                Player.LocalPlayer.PlayerName = usersName;
+            }
+            else
+            {
+                Player.LocalPlayer.PlayerName = "Player";
+            }
+            
             gameObject.SetActive(false);
             Player.LocalPlayer.IsReady = true;
         }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5112830216996174664}
   - component: {fileID: 6424241267786691738}
   m_Layer: 5
-  m_Name: TextMeshPro Text
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 3
   m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
@@ -172,9 +172,9 @@ GameObject:
   - component: {fileID: 5087533471361242978}
   - component: {fileID: 6799642125650206338}
   - component: {fileID: 9054087413495512673}
-  - component: {fileID: 5661994464878503502}
+  - component: {fileID: 2498209894240714816}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Player Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5661994464878503502
+--- !u!114 &2498209894240714816
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -272,6 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b979e1afc893ab74e806a4a63f5c4a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerBarMinDownVelocity: -10
 --- !u!1 &4996079529375375176
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +331,7 @@ GameObject:
   - component: {fileID: 4799201265624808704}
   - component: {fileID: 403789860404891045}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
