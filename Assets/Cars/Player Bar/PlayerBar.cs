@@ -9,7 +9,7 @@ namespace Racerr.UX.Car
     /// </summary>
     public class PlayerBar : MonoBehaviour
     {
-        [SerializeField] float playerBarMinDownVelocity = -10;
+        [SerializeField] float playerBarMinDownVelocity = -10; // Minimal velocity needed before applying additional displacement to the bar.
 
         public PlayerCarController Car { get; set; }
         Transform panel;
@@ -36,13 +36,13 @@ namespace Racerr.UX.Car
             if (Car != null)
             {
                 panel.forward = UnityEngine.Camera.main.transform.forward;
-                float zVelocity = CarRigidbody.velocity.z;
-                float normalizedZVelocity = CarRigidbody.velocity.normalized.z;
+                float zVelocity = CarRigidbody.velocity.z; // Velocity in the Z axis (plane of the track)
+                float normalizedZVelocity = CarRigidbody.velocity.normalized.z; // Normalised between 0 and 1.
 
                 float additionalBarDisplacement;
-                if (zVelocity < playerBarMinDownVelocity)
+                if (zVelocity < playerBarMinDownVelocity) // Minimal velocity condition needed before applying additional displacement to the bar.
                 {
-                    additionalBarDisplacement = -Car.PlayerBarUpDisplacement * normalizedZVelocity;
+                    additionalBarDisplacement = -Car.PlayerBarUpDisplacement * normalizedZVelocity; // Apply negative displacement (towards south of screen)
                 }
                 else
                 {

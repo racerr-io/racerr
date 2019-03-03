@@ -67,8 +67,6 @@ namespace Racerr.MultiplayerService
 
         #region Player Information
 
-
-
         #region Fields
 
         [SyncVar] [SerializeField] string playerName;
