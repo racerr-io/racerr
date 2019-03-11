@@ -122,7 +122,7 @@ namespace Racerr.MultiplayerService
 
                 foreach (Player player in ReadyPlayers)
                 {
-                    player.CreateCarForPlayer(NetworkManager.singleton.playerPrefab, currPosition);
+                    player.CreateCarForPlayer(currPosition);
                     currPosition += new Vector3(0, 0, 10);
                 }
             }

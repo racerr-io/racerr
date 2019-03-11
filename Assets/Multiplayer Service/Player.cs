@@ -35,28 +35,20 @@ namespace Racerr.MultiplayerService
         }
 
         /// <summary>
-        /// Spawn the player's car in the correct position.
-        /// </summary>
-        /// <param name="carPrefab">Car prefab</param>
-        [Server]
-        public void CreateCarForPlayer(GameObject carPrefab)
-        {
-            CreateCarForPlayer(carPrefab, carPrefab.transform.position);
-        }
-
-        /// <summary>
         /// Spawn the player's car in a given position.
         /// </summary>
-        /// <param name="carPrefab">Car prefab</param>
         /// <param name="carPosition">Position to spawn</param>
         [Server]
-        public void CreateCarForPlayer(GameObject carPrefab, Vector3 carPosition)
+        public void CreateCarForPlayer(Vector3 carPosition)
         {
-            GameObject instantiatedCarGO = Instantiate(carPrefab, carPosition, carPrefab.transform.rotation);
-            car = instantiatedCarGO.GetComponent<PlayerCarController>();
+            // Instantiate and setup car
+            GameObject carGO = Instantiate(carPrefab, carPosition, carPrefab.transform.rotation);
+            car = carGO.GetComponent<PlayerCarController>();
             car.PlayerGO = gameObject;
-            NetworkServer.SpawnWithClientAuthority(instantiatedCarGO, gameObject);
-            carGO = instantiatedCarGO;
+
+            // Setup and sync over network
+            NetworkServer.SpawnWithClientAuthority(carGO, gameObject);
+            this.carGO = carGO;
         }
 
         /// <summary>
@@ -75,10 +67,11 @@ namespace Racerr.MultiplayerService
 
         #region Player Information
 
-        #region SyncVars
+        #region Fields
 
         [SyncVar] [SerializeField] string playerName;
         [SyncVar] bool isReady;
+        [SyncVar] [SerializeField] GameObject carPrefab;
 
         #endregion
 
@@ -116,6 +109,22 @@ namespace Racerr.MultiplayerService
             }
         }
 
+        public GameObject CarPrefab
+        {
+            get => carPrefab;
+            set
+            {
+                if (isServer)
+                {
+                    carPrefab = value;
+                }
+                else
+                {
+                    CmdSynchroniseCarPrefab(value);
+                }
+            }
+        }
+
         #endregion
 
         #region Commands for synchronising SyncVars
@@ -140,6 +149,12 @@ namespace Racerr.MultiplayerService
         void CmdSynchronisePlayerName(string playerName)
         {
             this.playerName = playerName;
+        }
+
+        [Command]
+        void CmdSynchroniseCarPrefab(GameObject carPrefab)
+        {
+            this.carPrefab = carPrefab;
         }
 
         #endregion

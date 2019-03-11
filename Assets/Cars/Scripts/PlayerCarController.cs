@@ -2,6 +2,7 @@
 using Racerr.MultiplayerService;
 using Racerr.Track;
 using Racerr.UX.Camera;
+using Racerr.UX.Car;
 using Racerr.UX.HUD;
 using System;
 using UnityEngine;
@@ -13,16 +14,25 @@ namespace Racerr.Car.Core
     /// </summary>
     public class PlayerCarController : NetworkBehaviour
     {
-        [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
-        [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
+        [Header("Car Properties")]
         [SerializeField] float maxSteerAngle = 10;
         [SerializeField] float motorForce = 2500;
         [SerializeField] float downforce = 7500;
+        [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
+        [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
+
+        [Header("Player Bar Properties")]
+        [SerializeField] GameObject playerBarPrefab;
+        [SerializeField] float playerBarStartDisplacement = 4; // Displacement from car centre at all times
+        [SerializeField] float playerBarUpDisplacement = 1; // Additional displacement when car is moving south of the screen (need this due to camera angle changes)
+        public float PlayerBarStartDisplacement => playerBarStartDisplacement;
+        public float PlayerBarUpDisplacement => playerBarUpDisplacement;
 
         float horizontalInput;
         float verticalInput;
         float steeringAngle;
         int lastStiffness = 0;
+        public bool IsAcceleratingBackwards => verticalInput < 0;
 
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
@@ -45,6 +55,11 @@ namespace Racerr.Car.Core
                 FindObjectOfType<HUDSpeed>().Car = this;
                 FindObjectOfType<AutoCam>().SetTarget(transform);
             }
+
+            // Instantiate and setup player's bar
+            GameObject PlayerBarGO = Instantiate(playerBarPrefab);
+            PlayerBar playerBar = PlayerBarGO.GetComponent<PlayerBar>();
+            playerBar.Car = this;
         }
 
         /// <summary>

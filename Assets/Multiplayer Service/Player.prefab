@@ -45,6 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0
+  playerName: 
+  maxPlayerNameLength: 12
+  carPrefab: {fileID: 1018952010411425780, guid: aa65098f076c6e141991513d2b3608c8,
+    type: 3}
 --- !u!114 &5651618179451664781
 MonoBehaviour:
   m_ObjectHideFlags: 0
