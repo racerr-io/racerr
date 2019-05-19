@@ -1,5 +1,9 @@
 ﻿using Mirror;
-using Racerr.Track;
+using Racerr.UX.Camera;
+using Racerr.UX.Menu;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Racerr.MultiplayerService
 {
@@ -8,26 +12,85 @@ namespace Racerr.MultiplayerService
     /// </summary>
     public class RacerrNetworkManager : NetworkManager
     {
-        /// <summary>
-        /// Actions to perform when a new player joins the server.
-        /// </summary>
-        /// <param name="conn">The new player's connection information.</param>
-        public override void OnServerConnect(NetworkConnection conn)
-        {
-            base.OnServerConnect(conn);
+        [SerializeField] int serverApplicationFrameRate = 60;
+        [SerializeField] GameObject playerObject;
+        [SerializeField] [Range(1,20)] int connectionWaitTime = 5;
+        int secondsWaitingForConnection = 0;
 
-            TrackGeneratorCommon.Singleton.GenerateIfRequired();
+        /// <summary>
+        /// Automatically start the server on headless mode (detected through whether it has a graphics device),
+        /// or automatically connect client on server on normal mode.
+        /// </summary>
+        void Start()
+        {
+            if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
+            {
+                Application.targetFrameRate = serverApplicationFrameRate;
+                Destroy(FindObjectOfType<StartMenu>().gameObject);
+
+                foreach (AbstractTargetFollower camera in FindObjectsOfType<AbstractTargetFollower>())
+                {
+                    Destroy(camera.gameObject);
+                }
+
+                StartServer();
+            }
+            else
+            {
+#if UNITY_EDITOR
+                StartHost();
+#else
+                StartClient();
+#endif
+                StartCoroutine(UpdateStartMenu());
+            }
         }
 
         /// <summary>
-        /// Actions to perform when an existing player disconnects from the server.
+        /// Upon player joining, add the new player, associate them with the Player game object and synchronise on all clients.
         /// </summary>
-        /// <param name="conn">The disconnected player's connection information.</param>
+        /// <param name="conn">Player's connection info.</param>
+        public override void OnServerAddPlayer(NetworkConnection conn)
+        {
+            GameObject player = Instantiate(playerObject);
+            NetworkServer.AddPlayerForConnection(conn, player);
+            RacerrRaceSessionManager.Singleton.AddNewPlayer(player);
+        }
+
+        /// <summary>
+        /// Upon player disconnect, delete the player, remove the Player game object and synchronise on all clients.
+        /// </summary>
+        /// <param name="conn">Player's connection info.</param>
         public override void OnServerDisconnect(NetworkConnection conn)
         {
-            base.OnServerDisconnect(conn);
+            RacerrRaceSessionManager.Singleton.RemovePlayer(conn.playerController.gameObject);
+            NetworkServer.DestroyPlayerForConnection(conn);
+        }
 
-            TrackGeneratorCommon.Singleton.DestroyIfRequired();
+        /// <summary>
+        /// Show connection message and update start menu user interface depending on user's connection to server.
+        /// </summary>
+        /// <returns>IEnumerator for coroutine to run concurrently.</returns>
+        IEnumerator UpdateStartMenu()
+        {
+            while (true)
+            {
+                StartMenu startMenu = FindObjectOfType<StartMenu>();
+
+                if (IsClientConnected())
+                {
+                    startMenu.ShowMenu();
+                    break;
+                }
+                else if (secondsWaitingForConnection >= connectionWaitTime)
+                {
+                    startMenu.ShowErrorMessage();
+                    break;
+                }
+
+                secondsWaitingForConnection++;
+                yield return new WaitForSeconds(1);
+            }
         }
     }
 }

@@ -121,15 +121,15 @@ WheelCollider:
     spring: 100000
     damper: 2000
     targetPosition: 0
-  m_SuspensionDistance: 0.1
+  m_SuspensionDistance: 0.15
   m_ForceAppPointDistance: 0
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
-    m_ExtremumSlip: 1
+    m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 1
-    m_AsymptoteValue: 1
+    m_AsymptoteSlip: 0.8
+    m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
@@ -182,15 +182,15 @@ WheelCollider:
     spring: 100000
     damper: 2000
     targetPosition: 0
-  m_SuspensionDistance: 0.1
+  m_SuspensionDistance: 0.15
   m_ForceAppPointDistance: 0
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
-    m_ExtremumSlip: 1
+    m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 1
-    m_AsymptoteValue: 1
+    m_AsymptoteSlip: 0.8
+    m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
@@ -243,15 +243,15 @@ WheelCollider:
     spring: 100000
     damper: 2000
     targetPosition: 0
-  m_SuspensionDistance: 0.1
+  m_SuspensionDistance: 0.15
   m_ForceAppPointDistance: 0
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
-    m_ExtremumSlip: 1
+    m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 1
-    m_AsymptoteValue: 1
+    m_AsymptoteSlip: 0.8
+    m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
@@ -387,6 +387,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0.1
+  maxSteerAngle: 10
+  motorForce: 2500
+  downforce: 7500
   wheelFrontLeft: {fileID: 7408604580659569208}
   wheelFrontRight: {fileID: 3703503969240960557}
   wheelRearLeft: {fileID: 962918361007395028}
@@ -395,9 +398,10 @@ MonoBehaviour:
   transformFrontRight: {fileID: 568409965407692664}
   transformRearLeft: {fileID: 3350860790886171492}
   transformRearRight: {fileID: 3618877289108449134}
-  maxSteerAngle: 10
-  motorForce: 2500
-  downforce: 7500
+  playerBarPrefab: {fileID: 4182034153008739931, guid: fae0477d4f724c842b5bfdacd350b2f5,
+    type: 3}
+  playerBarStartDisplacement: 4
+  playerBarUpDisplacement: 1
 --- !u!114 &2388928030589524058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,15 +476,15 @@ WheelCollider:
     spring: 100000
     damper: 2000
     targetPosition: 0
-  m_SuspensionDistance: 0.1
+  m_SuspensionDistance: 0.15
   m_ForceAppPointDistance: 0
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
-    m_ExtremumSlip: 1
+    m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 1
-    m_AsymptoteValue: 1
+    m_AsymptoteSlip: 0.8
+    m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
