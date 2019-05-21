@@ -17,7 +17,8 @@ namespace Racerr.Car.Core
         [Header("Car Properties")]
         [SerializeField] float maxSteerAngle = 10;
         [SerializeField] float motorForce = 2500;
-        [SerializeField] float downforce = 7500;
+        [SerializeField] float downforceWithLessThanFourWheels = 1875;
+        [SerializeField] float downforceWithFourWheels = 7500;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
         [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
 
@@ -151,11 +152,19 @@ namespace Racerr.Car.Core
         /// </summary>
         void AddDownForce()
         {
+            Rigidbody carRigidBody = wheelFrontLeft.attachedRigidbody;
+            Vector3 force;
+
             if (GetNumWheelsTouchingGround() >= 3)
             {
-                Rigidbody carRigidBody = wheelFrontLeft.attachedRigidbody;
-                carRigidBody.AddForce(-transform.up * downforce * carRigidBody.velocity.magnitude);
+                force = -transform.up * downforceWithFourWheels * carRigidBody.velocity.magnitude;
             }
+            else
+            {
+                force = -transform.up * downforceWithLessThanFourWheels * carRigidBody.velocity.magnitude;
+            }
+
+            carRigidBody.AddForce(force);
         }
 
         /// <summary>
