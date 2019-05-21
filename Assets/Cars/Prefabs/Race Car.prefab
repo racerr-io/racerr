@@ -388,8 +388,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncInterval: 0.1
   slowSpeedSteeringAngle: 15
-  variableSpeedSteeringAngle: 90
-  invariableSpeedSteeringAngle: 6
+  variableSpeedSteeringAngle: 80
+  invariableSpeedSteeringAngle: 7
   motorForce: 2500
   downforceWithLessThanFourWheels: 2000
   downforceWithFourWheels: 7500
