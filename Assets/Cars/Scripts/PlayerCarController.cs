@@ -15,7 +15,9 @@ namespace Racerr.Car.Core
     public class PlayerCarController : NetworkBehaviour
     {
         [Header("Car Properties")]
-        [SerializeField] float maxSteerAngle = 10;
+        [SerializeField] float slowSpeedSteeringAngle = 15;
+        [SerializeField] float variableSpeedSteeringAngle = 100;
+        [SerializeField] float invariableSpeedSteeringAngle = 5;
         [SerializeField] float motorForce = 2500;
         [SerializeField] float downforceWithLessThanFourWheels = 1875;
         [SerializeField] float downforceWithFourWheels = 7500;
@@ -107,7 +109,16 @@ namespace Racerr.Car.Core
         /// </summary>
         void Steer()
         {
-            steeringAngle = maxSteerAngle * horizontalInput;
+            int velocity = Convert.ToInt32(GetComponent<Rigidbody>().velocity.magnitude * 2);
+
+            if(velocity <= 10)
+            {
+                steeringAngle = slowSpeedSteeringAngle * horizontalInput;
+            }
+            else
+            {
+                steeringAngle = (variableSpeedSteeringAngle / velocity + invariableSpeedSteeringAngle) * horizontalInput;
+            }
             wheelFrontLeft.steerAngle = steeringAngle;
             wheelFrontRight.steerAngle = steeringAngle;
         }
