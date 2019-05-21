@@ -151,8 +151,42 @@ namespace Racerr.Car.Core
         /// </summary>
         void AddDownForce()
         {
-            Rigidbody carRigidBody = wheelFrontLeft.attachedRigidbody;
-            carRigidBody.AddForce(-transform.up * downforce * carRigidBody.velocity.magnitude);
+            if (GetNumWheelsTouchingGround() >= 3)
+            {
+                Rigidbody carRigidBody = wheelFrontLeft.attachedRigidbody;
+                carRigidBody.AddForce(-transform.up * downforce * carRigidBody.velocity.magnitude);
+            }
+        }
+
+        /// <summary>
+        /// Determines the number of wheels colliding with something (i.e. touching the ground)
+        /// </summary>
+        /// <returns>Wheel collision count</returns>
+        int GetNumWheelsTouchingGround()
+        {
+            int count = 0;
+
+            if (wheelFrontLeft.GetGroundHit(out _))
+            {
+                count++;
+            }
+
+            if (wheelFrontRight.GetGroundHit(out _))
+            {
+                count++;
+            }
+
+            if (wheelRearLeft.GetGroundHit(out _))
+            {
+                count++;
+            }
+
+            if (wheelRearRight.GetGroundHit(out _))
+            {
+                count++;
+            }
+
+            return count;
         }
 
         /// <summary>
