@@ -2,8 +2,11 @@
 using Racerr.MultiplayerService;
 using UnityEngine;
 
-public class Observer : MonoBehaviour
+public class BuildingTransparencyRaycaster : MonoBehaviour
 {
+    /// <summary>
+    /// Draws a ray to collide with a game object.
+    /// </summary>
     void Update()
     {
         PlayerCarController car = Player.LocalPlayer?.Car;
