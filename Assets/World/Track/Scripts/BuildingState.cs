@@ -8,6 +8,7 @@ public class BuildingState : MonoBehaviour
     bool raycastIsHitting = false;
     bool isTransparent = false;
 
+    [SerializeField] [Range(0, 1)] float transparency = 0.2f;
     [SerializeField] Mesh transparentMesh;
     [SerializeField] Shader transparentShader;
     Mesh originalMesh;
@@ -65,8 +66,9 @@ public class BuildingState : MonoBehaviour
     {
         buildingMeshFilter.mesh = transparentMesh;
         buildingMeshRenderer.material.shader = transparentShader;
+        buildingMeshRenderer.material.SetFloat("_Glossiness", 0);
         activeChildren.ForEach(go => go.SetActive(false));
-        yield return FadeTransparency(buildingMeshRenderer.material, 0.3f, 0.2f);
+        yield return FadeTransparency(buildingMeshRenderer.material, transparency, 0.2f);
     }
 
     /// <summary>
