@@ -387,7 +387,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0.1
-  maxSteerAngle: 10
+  slowSpeedSteeringAngle: 15
+  variableSpeedSteeringAngle: 90
+  invariableSpeedSteeringAngle: 6
   motorForce: 2500
   downforce: 7500
   wheelFrontLeft: {fileID: 7408604580659569208}
@@ -417,7 +419,7 @@ MonoBehaviour:
   m_SceneId: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
-  m_AssetId: aa65098f076c6e141991513d2b3608c8
+  m_AssetId: 
 --- !u!114 &5066228776368493228
 MonoBehaviour:
   m_ObjectHideFlags: 0
