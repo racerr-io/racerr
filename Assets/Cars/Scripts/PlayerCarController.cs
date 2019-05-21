@@ -36,6 +36,7 @@ namespace Racerr.Car.Core
         float steeringAngle;
         int lastStiffness = 0;
         public bool IsAcceleratingBackwards => verticalInput < 0;
+        public Transform[] WheelTransforms => new[] { transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight };
 
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
