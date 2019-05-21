@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0
+  propDownForce: 8000
 --- !u!1 &4911957924831323610
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,6 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transparentMaterial: {fileID: 2100000, guid: c9d609b4298fff84ba76e2fc77755fd9, type: 2}
   transparentMesh: {fileID: 4300000, guid: 6706dca03bdc74c618deb1d1b651ba2d, type: 3}
+  transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!65 &4243166254641941004
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -328,6 +330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transparentMaterial: {fileID: 2100000, guid: c9d609b4298fff84ba76e2fc77755fd9, type: 2}
   transparentMesh: {fileID: 4300000, guid: 044ec33ad6d0a4a40a809a739998ec80, type: 3}
+  transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!65 &1667890920488550393
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -355,6 +358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transparentMaterial: {fileID: 2100000, guid: c9d609b4298fff84ba76e2fc77755fd9, type: 2}
   transparentMesh: {fileID: 4300000, guid: 06cb8a74b339e47bfb22be3078dea6c9, type: 3}
+  transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!65 &7649778195189435696
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -382,6 +386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transparentMaterial: {fileID: 2100000, guid: c9d609b4298fff84ba76e2fc77755fd9, type: 2}
   transparentMesh: {fileID: 4300000, guid: cfb25b17d9c6d4a56831ef706ff60346, type: 3}
+  transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!1001 &5136832369376276774
 PrefabInstance:
   m_ObjectHideFlags: 0

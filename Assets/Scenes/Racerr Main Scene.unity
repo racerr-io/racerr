@@ -314,7 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncInterval: 0
   raceTimerSeconds: 5
-  raceTimerSecondsSinglePlayer: 20
+  raceTimerSecondsSinglePlayer: 1
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +388,8 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 4e-45, z: -3.0531618e-23, w: -3.6252168e+15}
+  m_BoundingSphereOverride: {x: 4.1272477e+30, y: 4.5447405e+30, z: 5.8657937e+13,
+    w: 1.7077776e+19}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
