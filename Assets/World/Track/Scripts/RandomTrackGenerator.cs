@@ -97,6 +97,13 @@ namespace Racerr.Track
                 }
             }
 
+            // By default track piece props are kinematic so they don't fall over when track pieces collide.
+            // Once done we should set kinematic to false so cars can collide into them.
+            foreach (GameObject trackPiece in GeneratedTrackPieces)
+            {
+                trackPiece.GetComponent<TrackPieceState>().MakePropsNonKinematic();
+            }
+
             currentTrackPiece.transform.Find(TrackPieceComponent.Checkpoint).name = TrackPieceComponent.FinishLineCheckpoint; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
             IsTrackGenerated = true;
         }
