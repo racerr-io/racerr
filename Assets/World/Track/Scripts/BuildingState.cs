@@ -65,8 +65,8 @@ public class BuildingState : MonoBehaviour
     {
         buildingMeshFilter.mesh = transparentMesh;
         buildingMeshRenderer.material.shader = transparentShader;
-        yield return FadeTransparency(buildingMeshRenderer.material, 0.3f, 0.2f);
         activeChildren.ForEach(go => go.SetActive(false));
+        yield return FadeTransparency(buildingMeshRenderer.material, 0.3f, 0.2f);
     }
 
     /// <summary>

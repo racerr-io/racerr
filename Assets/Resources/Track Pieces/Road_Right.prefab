@@ -147,7 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafda4cf4d1ff2d4db8a724fa87d3620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transparentMaterial: {fileID: 2100000, guid: c9d609b4298fff84ba76e2fc77755fd9, type: 2}
   transparentMesh: {fileID: 4300000, guid: e8d9b499e949b4c7fbba32bf6199627d, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!1 &1960743228467704218
@@ -394,7 +393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0
-  propDownForce: 8000
+  propDownForce: 10000
 --- !u!114 &6219895759717180711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,7 +464,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafda4cf4d1ff2d4db8a724fa87d3620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transparentMaterial: {fileID: 2100000, guid: c9d609b4298fff84ba76e2fc77755fd9, type: 2}
   transparentMesh: {fileID: 4300000, guid: 83778d251aa1d46ee89cf0145c9637d9, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!65 &6629642676500580061
@@ -493,7 +491,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafda4cf4d1ff2d4db8a724fa87d3620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transparentMaterial: {fileID: 2100000, guid: c9d609b4298fff84ba76e2fc77755fd9, type: 2}
   transparentMesh: {fileID: 4300000, guid: 6706dca03bdc74c618deb1d1b651ba2d, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!65 &1998009933145842752
@@ -521,7 +518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafda4cf4d1ff2d4db8a724fa87d3620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transparentMaterial: {fileID: 2100000, guid: c9d609b4298fff84ba76e2fc77755fd9, type: 2}
   transparentMesh: {fileID: 4300000, guid: c7ff716ae0b9741b7baca00f13524773, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!65 &3107760667813331783
@@ -549,7 +545,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafda4cf4d1ff2d4db8a724fa87d3620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transparentMaterial: {fileID: 2100000, guid: c9d609b4298fff84ba76e2fc77755fd9, type: 2}
   transparentMesh: {fileID: 4300000, guid: dd411c5f7e90941d69b1aeccf035920b, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!1 &5425220269329491671
@@ -607,7 +602,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafda4cf4d1ff2d4db8a724fa87d3620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transparentMaterial: {fileID: 2100000, guid: c9d609b4298fff84ba76e2fc77755fd9, type: 2}
   transparentMesh: {fileID: 4300000, guid: 07428d244f93840ffb3d74872ddc4c46, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!1 &7301072056313751469
