@@ -168,11 +168,11 @@ namespace Racerr.Car.Core
 
             if (GetNumWheelsTouchingGround() >= 3)
             {
-                force = -transform.up * downforceWithFourWheels * carRigidBody.velocity.magnitude;
+                force = -Vector3.up * downforceWithFourWheels * carRigidBody.velocity.magnitude;
             }
             else
             {
-                force = -transform.up * downforceWithLessThanFourWheels * carRigidBody.velocity.magnitude;
+                force = -Vector3.up * downforceWithLessThanFourWheels * carRigidBody.velocity.magnitude;
             }
 
             carRigidBody.AddForce(force);
