@@ -128,7 +128,7 @@ namespace Racerr.Car.Core
         /// <remarks>
         /// For slower speeds, we have a constant steering angle to prevent insane steering angles and division by 0.
         /// For higher speeds, divide by velocity to reduce the steering angle at higher speeds. Also has the effect
-        /// of a reduced steering angle growth rate at higher speeds.
+        /// of a reduced growth rate of steering angle limit at higher speeds.
         /// </remarks>
         /// </summary>
         float CalculateSteeringAngle()
