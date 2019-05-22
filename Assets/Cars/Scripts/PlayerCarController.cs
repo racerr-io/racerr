@@ -33,10 +33,11 @@ namespace Racerr.Car.Core
 
         float horizontalInput;
         float verticalInput;
-        float steeringAngle;
         int lastStiffness = 0;
+        new Rigidbody rigidbody;
         public bool IsAcceleratingBackwards => verticalInput < 0;
         public Transform[] WheelTransforms => new[] { transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight };
+        public int Velocity => Convert.ToInt32(rigidbody.velocity.magnitude * 2);
 
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
@@ -53,6 +54,7 @@ namespace Racerr.Car.Core
         void Start()
         {
             Player = PlayerGO.GetComponent<Player>();
+            rigidbody = GetComponent<Rigidbody>();
 
             if (hasAuthority)
             {
@@ -110,31 +112,29 @@ namespace Racerr.Car.Core
         /// </summary>
         void Steer()
         {
-            steeringAngle = SteeringAngle(Convert.ToInt32(GetComponent<Rigidbody>().velocity.magnitude * 2)) * horizontalInput;
+            float steeringAngle = CalculateSteeringAngle() * horizontalInput;
             
             wheelFrontLeft.steerAngle = steeringAngle;
             wheelFrontRight.steerAngle = steeringAngle;
         }
 
         /// <summary>
-        /// Returns steeringAngle depending on velocity.
+        /// Returns steering angle depending on velocity.
         /// </summary>
-        float SteeringAngle(int velocity)
+        float CalculateSteeringAngle()
         {
-            float steeringAngle1;
+            float steeringAngle;
 
-            if (velocity <= 10)
+            if (Velocity <= 10)
             {
-                steeringAngle1 = slowSpeedSteeringAngle;
+                steeringAngle = slowSpeedSteeringAngle;
             }
             else
             {
-                steeringAngle1 = velocityAffectedSteeringAngle / velocity + constantSteeringAngle;
+                steeringAngle = velocityAffectedSteeringAngle / Velocity + constantSteeringAngle;
             }
-            Debug.Log("vel" + velocity);
-            Debug.Log("slow" + slowSpeedSteeringAngle);
-            Debug.Log("velaff" + velocityAffectedSteeringAngle);
-            return steeringAngle1;
+
+            return steeringAngle;
         }
 
         /// <summary>
@@ -182,11 +182,11 @@ namespace Racerr.Car.Core
 
             if (GetNumWheelsTouchingGround() >= 3)
             {
-                force = -Vector3.up * downforceWithFourWheels * carRigidBody.velocity.magnitude;
+                force = Vector3.down * downforceWithFourWheels * carRigidBody.velocity.magnitude;
             }
             else
             {
-                force = -Vector3.up * downforceWithLessThanFourWheels * carRigidBody.velocity.magnitude;
+                force = Vector3.down * downforceWithLessThanFourWheels * carRigidBody.velocity.magnitude;
             }
 
             carRigidBody.AddForce(force);
