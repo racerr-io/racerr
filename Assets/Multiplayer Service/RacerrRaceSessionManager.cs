@@ -115,14 +115,27 @@ namespace Racerr.MultiplayerService
                 TrackGeneratorCommon.Singleton.GenerateIfRequired();
                 while (!TrackGeneratorCommon.Singleton.IsTrackGenerated) yield return null;
 
+                checkPoints = TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Select(piece => 
+                {
+                    GameObject result = piece.transform.Find(TrackPieceComponent.Checkpoint)?.gameObject;
+
+                    if (result == null)
+                    {
+                        result = piece.transform.Find(TrackPieceComponent.FinishLineCheckpoint).gameObject;
+                    }
+
+                    return result;
+                }).ToArray();
+
                 timerActive = false;
-                Vector3 currPosition = new Vector3(0, 1, 0);
+                Vector3 currPosition = new Vector3(0, 1, 10);
                 isCurrentlyRacing = true;
                 playersInRace.AddRange(ReadyPlayers);
 
                 foreach (Player player in ReadyPlayers)
                 {
                     player.CreateCarForPlayer(currPosition);
+                    playerPositionInfos[player] = new PositionInfo();
                     currPosition += new Vector3(0, 0, 10);
                 }
             }
@@ -136,8 +149,10 @@ namespace Racerr.MultiplayerService
         {
             isCurrentlyRacing = false;
             playersInRace.ForEach(p => p.DestroyPlayersCar());
-            playersInRace.RemoveAll(_ => true);
-            finishedPlayers.RemoveAll(_ => true);
+            playersInRace.Clear();
+            finishedPlayers.Clear();
+            playerPositionInfos.Clear();
+            checkPoints = new GameObject[0];
             TrackGeneratorCommon.Singleton.DestroyIfRequired();
         }
 
@@ -151,6 +166,42 @@ namespace Racerr.MultiplayerService
         {
             finishedPlayers.Add(player);
             player.DestroyPlayersCar();
+        }
+
+        public IEnumerable<KeyValuePair<Player, PositionInfo>> PlayerOrderedPositions
+        {
+            get
+            {
+                return playerPositionInfos
+                    .OrderByDescending(l => l.Value.checkpoints.Count)
+                    .ThenByDescending(l => l.Value.CalculateDistanceToNextCheckpoint(l.Key.Car?.transform.position, checkPoints));
+            }
+        }
+
+        GameObject[] checkPoints = new GameObject[0];
+        Dictionary<Player, PositionInfo> playerPositionInfos = new Dictionary<Player, PositionInfo>();
+
+        public void NotifyPlayerPassedThroughCheckpoint(Player player, GameObject checkpoint)
+        {
+            playerPositionInfos[player].AddCheckPoint(checkpoint);
+        }
+
+        public class PositionInfo
+        {
+            public HashSet<GameObject> checkpoints = new HashSet<GameObject>();
+
+            public void AddCheckPoint(GameObject checkpoint)
+            {
+                if (!checkpoints.Contains(checkpoint))
+                {
+                    checkpoints.Add(checkpoint);
+                }
+            }
+
+            public float CalculateDistanceToNextCheckpoint(Vector3? position, GameObject[] checkPoints)
+            {
+                return Vector3.Distance(position.GetValueOrDefault(Vector3.positiveInfinity), checkPoints[checkpoints.Count].transform.position);
+            }
         }
     }
 }

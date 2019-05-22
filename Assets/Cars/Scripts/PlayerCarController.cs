@@ -88,7 +88,12 @@ namespace Racerr.Car.Core
         {
             if (collider.name == TrackPieceComponent.FinishLineCheckpoint)
             {
+                RacerrRaceSessionManager.Singleton.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
                 RacerrRaceSessionManager.Singleton.NotifyPlayerFinished(Player);
+            }
+            else if (collider.name == TrackPieceComponent.Checkpoint)
+            {
+                RacerrRaceSessionManager.Singleton.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
             }
         }
 
