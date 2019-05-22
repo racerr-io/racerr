@@ -217,7 +217,7 @@ RectTransform:
   - {fileID: 958658463}
   - {fileID: 428873082}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncInterval: 0
   raceTimerSeconds: 5
-  raceTimerSecondsSinglePlayer: 1
+  raceTimerSecondsSinglePlayer: 10
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +390,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 2.4428245e-38, w: -6.9e-44}
+  m_BoundingSphereOverride: {x: 0, y: 4.5e-44, z: 5.89e-43, w: 1.05e-43}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -406,7 +406,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &188414872
 GameObject:
@@ -472,7 +472,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &428873081
 GameObject:
@@ -752,7 +752,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: baec086904791744185aaa07a6cf55c2, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: baec086904791744185aaa07a6cf55c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -937,7 +937,7 @@ RectTransform:
   m_LocalScale: {x: 2000, y: 1, z: 2000}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -958,6 +958,7 @@ GameObject:
   - component: {fileID: 711767390}
   - component: {fileID: 711767395}
   - component: {fileID: 711767394}
+  - component: {fileID: 711767396}
   m_Layer: 0
   m_Name: HUD (Needs Refactoring)
   m_TagString: Untagged
@@ -1042,7 +1043,7 @@ RectTransform:
   - {fileID: 1648953632}
   - {fileID: 2118500260}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1078,6 +1079,19 @@ MonoBehaviour:
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
   m_AssetId: 
+--- !u!114 &711767396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711767389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f300a3dc90835b4c9395b6104d38987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncInterval: 0
 --- !u!20 &753762619 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 2000000, guid: baec086904791744185aaa07a6cf55c2,
@@ -1118,7 +1132,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1398719206
 GameObject:
@@ -1990,7 +2004,6 @@ GameObject:
   - component: {fileID: 2118500260}
   - component: {fileID: 2118500263}
   - component: {fileID: 2118500262}
-  - component: {fileID: 2118500261}
   - component: {fileID: 2118500264}
   m_Layer: 0
   m_Name: Live Position Tracker
@@ -2015,22 +2028,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -93, y: -157}
+  m_AnchoredPosition: {x: -96, y: -155}
   m_SizeDelta: {x: 160, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2118500261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2118500259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f300a3dc90835b4c9395b6104d38987, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncInterval: 0
 --- !u!114 &2118500262
 MonoBehaviour:
   m_ObjectHideFlags: 0

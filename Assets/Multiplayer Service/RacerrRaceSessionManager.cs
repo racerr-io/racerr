@@ -91,6 +91,7 @@ namespace Racerr.MultiplayerService
             playersOnServer.Remove(player);
             playersInRace.Remove(player);
             finishedPlayers.Remove(player);
+            playerPositionInfos.Remove(player);
         }
 
         /// <summary>
@@ -115,7 +116,7 @@ namespace Racerr.MultiplayerService
                 TrackGeneratorCommon.Singleton.GenerateIfRequired();
                 while (!TrackGeneratorCommon.Singleton.IsTrackGenerated) yield return null;
 
-                checkPoints = TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Select(piece => 
+                checkpointsInRace = TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Select(piece => 
                 {
                     GameObject result = piece.transform.Find(TrackPieceComponent.Checkpoint)?.gameObject;
 
@@ -152,7 +153,7 @@ namespace Racerr.MultiplayerService
             playersInRace.Clear();
             finishedPlayers.Clear();
             playerPositionInfos.Clear();
-            checkPoints = new GameObject[0];
+            checkpointsInRace = null;
             TrackGeneratorCommon.Singleton.DestroyIfRequired();
         }
 
@@ -165,6 +166,7 @@ namespace Racerr.MultiplayerService
         public void NotifyPlayerFinished(Player player)
         {
             finishedPlayers.Add(player);
+            playerPositionInfos[player].IsFinished = true;
             player.DestroyPlayersCar();
         }
 
@@ -173,35 +175,44 @@ namespace Racerr.MultiplayerService
             get
             {
                 return playerPositionInfos
-                    .OrderByDescending(l => l.Value.checkpoints.Count)
-                    .ThenByDescending(l => l.Value.CalculateDistanceToNextCheckpoint(l.Key.Car?.transform.position, checkPoints));
+                    .OrderByDescending(playerPositionInfo => playerPositionInfo.Value.Checkpoints.Count)
+                    .ThenBy(playerPositionInfo =>
+                    {
+                        Vector3? currCarPosition = playerPositionInfo.Key.Car?.transform.position;
+                        if (currCarPosition == null || checkpointsInRace == null)
+                        {
+                            return float.PositiveInfinity;
+                        }
+
+                        int currCarCheckpointCount = playerPositionInfo.Value.Checkpoints.Count;
+                        Vector3 nextCheckpointPosition = checkpointsInRace[currCarCheckpointCount].transform.position;
+                        return Vector3.Distance(currCarPosition.Value, nextCheckpointPosition);
+                    });
             }
         }
 
-        GameObject[] checkPoints = new GameObject[0];
+        GameObject[] checkpointsInRace = null;
         Dictionary<Player, PositionInfo> playerPositionInfos = new Dictionary<Player, PositionInfo>();
 
         [Server]
         public void NotifyPlayerPassedThroughCheckpoint(Player player, GameObject checkpoint)
         {
-            playerPositionInfos[player].AddCheckPoint(checkpoint);
+            playerPositionInfos[player].Checkpoints.Add(checkpoint);
         }
         
         public class PositionInfo
         {
-            public HashSet<GameObject> checkpoints = new HashSet<GameObject>();
-
-            public void AddCheckPoint(GameObject checkpoint)
-            {
-                if (!checkpoints.Contains(checkpoint))
-                {
-                    checkpoints.Add(checkpoint);
-                }
-            }
+            public HashSet<GameObject> Checkpoints { get; } = new HashSet<GameObject>();
+            public bool IsFinished { get; set; } = false;
 
             public float CalculateDistanceToNextCheckpoint(Vector3? position, GameObject[] checkPoints)
             {
-                return Vector3.Distance(position.GetValueOrDefault(Vector3.positiveInfinity), checkPoints[checkpoints.Count].transform.position);
+                if (position == null || checkPoints == null)
+                {
+                    return float.PositiveInfinity;
+                }
+
+                return Vector3.Distance(position.Value, checkPoints[Checkpoints.Count].transform.position);
             }
         }
     }
