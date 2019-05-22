@@ -19,7 +19,8 @@ namespace Racerr.Car.Core
         [SerializeField] float velocityAffectedSteeringAngle = 100;
         [SerializeField] float constantSteeringAngle = 5;
         [SerializeField] float motorForce = 2500;
-        [SerializeField] float downforce = 7500;
+        [SerializeField] float downforceWithLessThanFourWheels = 1875;
+        [SerializeField] float downforceWithFourWheels = 7500;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
         [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
 
@@ -35,6 +36,7 @@ namespace Racerr.Car.Core
         float steeringAngle;
         int lastStiffness = 0;
         public bool IsAcceleratingBackwards => verticalInput < 0;
+        public Transform[] WheelTransforms => new[] { transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight };
 
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
@@ -167,11 +169,19 @@ namespace Racerr.Car.Core
         /// </summary>
         void AddDownForce()
         {
+            Rigidbody carRigidBody = wheelFrontLeft.attachedRigidbody;
+            Vector3 force;
+
             if (GetNumWheelsTouchingGround() >= 3)
             {
-                Rigidbody carRigidBody = wheelFrontLeft.attachedRigidbody;
-                carRigidBody.AddForce(-transform.up * downforce * carRigidBody.velocity.magnitude);
+                force = -Vector3.up * downforceWithFourWheels * carRigidBody.velocity.magnitude;
             }
+            else
+            {
+                force = -Vector3.up * downforceWithLessThanFourWheels * carRigidBody.velocity.magnitude;
+            }
+
+            carRigidBody.AddForce(force);
         }
 
         /// <summary>

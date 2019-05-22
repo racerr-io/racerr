@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter)), RequireComponent(typeof(MeshRenderer))]
@@ -7,15 +8,13 @@ public class BuildingState : MonoBehaviour
     bool raycastIsHitting = false;
     bool isTransparent = false;
 
-    [SerializeField] Material transparentMaterial;
+    [SerializeField] [Range(0, 1)] float transparency = 0.2f;
     [SerializeField] Mesh transparentMesh;
-
-    Material originalMaterial;
+    [SerializeField] Shader transparentShader;
     Mesh originalMesh;
-
+    Shader originalShader;
     MeshFilter buildingMeshFilter;
     MeshRenderer buildingMeshRenderer;
-    
     List<GameObject> activeChildren = new List<GameObject>();
 
     /// <summary>
@@ -27,7 +26,7 @@ public class BuildingState : MonoBehaviour
         buildingMeshRenderer = GetComponent<MeshRenderer>();
 
         originalMesh = buildingMeshFilter.mesh;
-        originalMaterial = buildingMeshRenderer.material;
+        originalShader = buildingMeshRenderer.material.shader;
 
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -48,12 +47,12 @@ public class BuildingState : MonoBehaviour
         if (raycastIsHitting && !isTransparent) // We have a ray hitting, need to make building transparent
         {
             isTransparent = true;
-            MakeTransparent();
+            StartCoroutine(MakeTransparent());
         }
         else if (!raycastIsHitting && isTransparent) // There is no ray, but building is transparent, make building back to original
         {
-            RevertToOriginal();
             isTransparent = false;
+            StartCoroutine(RevertToOriginal());
         }
 
         raycastIsHitting = false; // Set to false, but BuildingTransparencyRaycaster should set to true on each frame before Update() called again
@@ -62,23 +61,44 @@ public class BuildingState : MonoBehaviour
     /// <summary>
     /// Make object transparent and active children inactive.
     /// </summary>
-    void MakeTransparent()
+    /// <returns>IEnumerator for coroutine.</returns>
+    IEnumerator MakeTransparent()
     {
         buildingMeshFilter.mesh = transparentMesh;
-        buildingMeshRenderer.material = transparentMaterial;
-
-        activeChildren.ForEach(c => c.SetActive(false));
+        buildingMeshRenderer.material.shader = transparentShader;
+        buildingMeshRenderer.material.SetFloat("_Glossiness", 0);
+        activeChildren.ForEach(go => go.SetActive(false));
+        yield return FadeTransparency(buildingMeshRenderer.material, transparency, 0.2f);
     }
 
     /// <summary>
-    /// Reverts object back to 
+    /// Revert back to the original state.
     /// </summary>
-    void RevertToOriginal()
+    /// <returns>IEnumerator for coroutine.</returns>
+    IEnumerator RevertToOriginal()
     {
         buildingMeshFilter.mesh = originalMesh;
-        buildingMeshRenderer.material = originalMaterial;
+        yield return FadeTransparency(buildingMeshRenderer.material, 1f, 0.1f);
+        buildingMeshRenderer.material.shader = originalShader;
+        activeChildren.ForEach(go => go.SetActive(true));
+    }
 
-        activeChildren.ForEach(c => c.SetActive(true));
+    /// <summary>
+    /// Fade transparency of material over time.
+    /// </summary>
+    /// <param name="newAlphaValue">New transparency level.</param>
+    /// <param name="time">How fast to fade.</param>
+    /// <returns>IEnumerator for coroutine.</returns>
+    IEnumerator FadeTransparency(Material material, float newAlphaValue, float time)
+    {
+        Color colour = material.color;
+        float alpha = material.color.a;
+        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / time)
+        {
+            Color newColor = new Color(colour.r, colour.g, colour.b, Mathf.Lerp(alpha, newAlphaValue, t));
+            material.color = newColor;
+            yield return null;
+        }
     }
 
     /// <summary>

@@ -391,7 +391,8 @@ MonoBehaviour:
   velocityAffectedSteeringAngle: 130
   constantSteeringAngle: 2
   motorForce: 2500
-  downforce: 7500
+  downforceWithLessThanFourWheels: 2000
+  downforceWithFourWheels: 7500
   wheelFrontLeft: {fileID: 7408604580659569208}
   wheelFrontRight: {fileID: 3703503969240960557}
   wheelRearLeft: {fileID: 962918361007395028}
