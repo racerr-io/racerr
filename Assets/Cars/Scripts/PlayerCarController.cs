@@ -16,8 +16,8 @@ namespace Racerr.Car.Core
     {
         [Header("Car Properties")]
         [SerializeField] float slowSpeedSteeringAngle = 15;
-        [SerializeField] float variableSpeedSteeringAngle = 100;
-        [SerializeField] float invariableSpeedSteeringAngle = 5;
+        [SerializeField] float velocityAffectedSteeringAngle = 100;
+        [SerializeField] float constantSteeringAngle = 5;
         [SerializeField] float motorForce = 2500;
         [SerializeField] float downforce = 7500;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
@@ -116,7 +116,7 @@ namespace Racerr.Car.Core
             }
             else
             {
-                steeringAngle = (variableSpeedSteeringAngle / velocity + invariableSpeedSteeringAngle) * horizontalInput;
+                steeringAngle = (velocityAffectedSteeringAngle / velocity + constantSteeringAngle) * horizontalInput;
             }
             wheelFrontLeft.steerAngle = steeringAngle;
             wheelFrontRight.steerAngle = steeringAngle;
