@@ -1,13 +1,15 @@
-﻿using Racerr.MultiplayerService;
+﻿using Mirror;
+using Racerr.MultiplayerService;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static Racerr.MultiplayerService.RacerrRaceSessionManager;
 
 [RequireComponent(typeof(Text))]
-public class HUDLivePositionTracker : MonoBehaviour
+public class HUDLivePositionTracker : NetworkBehaviour
 {
     Text livePositionTrackerText;
+    [SyncVar(hook = "OnTextChange")] string text;
 
     /// <summary>
     /// Grabs text component
@@ -17,14 +19,17 @@ public class HUDLivePositionTracker : MonoBehaviour
         livePositionTrackerText = GetComponent<Text>();
     }
 
+    void OnTextChange(string text)
+    {
+        livePositionTrackerText.text = text;
+    }
+
     /// <summary>
     /// Update text component every frame with new position infos.
     /// </summary>
     void Update()
     {
-        string text = string.Empty;
-
-        if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing)
+        if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing && isServer)
         {
             text = "racerr.io\n";
             int count = 1;
@@ -36,8 +41,7 @@ public class HUDLivePositionTracker : MonoBehaviour
                 text += $"{count}. {player.PlayerName}\n";
                 count++;
             }
+            livePositionTrackerText.text = text;
         }
-
-        livePositionTrackerText.text = text;
     }
 }

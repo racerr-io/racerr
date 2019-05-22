@@ -181,11 +181,12 @@ namespace Racerr.MultiplayerService
         GameObject[] checkPoints = new GameObject[0];
         Dictionary<Player, PositionInfo> playerPositionInfos = new Dictionary<Player, PositionInfo>();
 
+        [Server]
         public void NotifyPlayerPassedThroughCheckpoint(Player player, GameObject checkpoint)
         {
             playerPositionInfos[player].AddCheckPoint(checkpoint);
         }
-
+        
         public class PositionInfo
         {
             public HashSet<GameObject> checkpoints = new HashSet<GameObject>();

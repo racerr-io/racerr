@@ -33,7 +33,7 @@ namespace Racerr.UX.Car
         /// </summary>
         void Update()
         {
-            if (Car != null)
+            if (Car != null && UnityEngine.Camera.main != null)
             {
                 panel.forward = UnityEngine.Camera.main.transform.forward;
                 float zVelocity = CarRigidbody.velocity.z; // Velocity in the Z axis (plane of the track)
