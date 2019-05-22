@@ -18,7 +18,7 @@ namespace Racerr.Car.Core
         [SerializeField] float slowSpeedSteeringAngle = 15;
         [SerializeField] float velocityAffectedSteeringAngle = 100;
         [SerializeField] float constantSteeringAngle = 5;
-        [SerializeField] float motorForce = 2500;
+        [SerializeField] float motorForce = 4000;
         [SerializeField] float downforce = 7500;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
         [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
@@ -108,18 +108,31 @@ namespace Racerr.Car.Core
         /// </summary>
         void Steer()
         {
-            int velocity = Convert.ToInt32(GetComponent<Rigidbody>().velocity.magnitude * 2);
+            steeringAngle = SteeringAngle(Convert.ToInt32(GetComponent<Rigidbody>().velocity.magnitude * 2)) * horizontalInput;
+            
+            wheelFrontLeft.steerAngle = steeringAngle;
+            wheelFrontRight.steerAngle = steeringAngle;
+        }
 
-            if(velocity <= 10)
+        /// <summary>
+        /// Returns steeringAngle depending on velocity.
+        /// </summary>
+        float SteeringAngle(int velocity)
+        {
+            float steeringAngle1;
+
+            if (velocity <= 10)
             {
-                steeringAngle = slowSpeedSteeringAngle * horizontalInput;
+                steeringAngle1 = slowSpeedSteeringAngle;
             }
             else
             {
-                steeringAngle = (velocityAffectedSteeringAngle / velocity + constantSteeringAngle) * horizontalInput;
+                steeringAngle1 = velocityAffectedSteeringAngle / velocity + constantSteeringAngle;
             }
-            wheelFrontLeft.steerAngle = steeringAngle;
-            wheelFrontRight.steerAngle = steeringAngle;
+            Debug.Log("vel" + velocity);
+            Debug.Log("slow" + slowSpeedSteeringAngle);
+            Debug.Log("velaff" + velocityAffectedSteeringAngle);
+            return steeringAngle1;
         }
 
         /// <summary>
