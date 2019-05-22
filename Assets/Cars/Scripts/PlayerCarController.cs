@@ -15,10 +15,12 @@ namespace Racerr.Car.Core
     public class PlayerCarController : NetworkBehaviour
     {
         [Header("Car Properties")]
-        [SerializeField] float maxSteerAngle = 10;
-        [SerializeField] float motorForce = 2500;
+        [SerializeField] float slowSpeedSteeringAngle = 15;
+        [SerializeField] float velocityAffectedSteeringAngle = 100;
+        [SerializeField] float constantSteeringAngle = 5;
         [SerializeField] float downforceWithLessThanFourWheels = 1875;
         [SerializeField] float downforceWithFourWheels = 7500;
+        [SerializeField] float motorForce = 4000;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
         [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
 
@@ -31,9 +33,11 @@ namespace Racerr.Car.Core
 
         float horizontalInput;
         float verticalInput;
-        float steeringAngle;
         int lastStiffness = 0;
+        new Rigidbody rigidbody;
         public bool IsAcceleratingBackwards => verticalInput < 0;
+        public Transform[] WheelTransforms => new[] { transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight };
+        public int Velocity => Convert.ToInt32(rigidbody.velocity.magnitude * 2);
 
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
@@ -50,6 +54,7 @@ namespace Racerr.Car.Core
         void Start()
         {
             Player = PlayerGO.GetComponent<Player>();
+            rigidbody = GetComponent<Rigidbody>();
 
             if (hasAuthority)
             {
@@ -87,7 +92,12 @@ namespace Racerr.Car.Core
         {
             if (collider.name == TrackPieceComponent.FinishLineCheckpoint)
             {
+                RacerrRaceSessionManager.Singleton.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
                 RacerrRaceSessionManager.Singleton.NotifyPlayerFinished(Player);
+            }
+            else if (collider.name == TrackPieceComponent.Checkpoint)
+            {
+                RacerrRaceSessionManager.Singleton.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
             }
         }
 
@@ -107,9 +117,34 @@ namespace Racerr.Car.Core
         /// </summary>
         void Steer()
         {
-            steeringAngle = maxSteerAngle * horizontalInput;
+            float steeringAngle = CalculateSteeringAngle() * horizontalInput;
+            
             wheelFrontLeft.steerAngle = steeringAngle;
             wheelFrontRight.steerAngle = steeringAngle;
+        }
+
+        /// <summary>
+        /// Returns steering angle depending on velocity.
+        /// <remarks>
+        /// For slower speeds, we have a constant steering angle to prevent insane steering angles and division by 0.
+        /// For higher speeds, divide by velocity to reduce the steering angle at higher speeds. Also has the effect
+        /// of a reduced growth rate of steering angle limit at higher speeds.
+        /// </remarks>
+        /// </summary>
+        float CalculateSteeringAngle()
+        {
+            float steeringAngle;
+
+            if (Velocity <= 10)
+            {
+                steeringAngle = slowSpeedSteeringAngle;
+            }
+            else
+            {
+                steeringAngle = velocityAffectedSteeringAngle / Velocity + constantSteeringAngle;
+            }
+
+            return steeringAngle;
         }
 
         /// <summary>
@@ -157,11 +192,11 @@ namespace Racerr.Car.Core
 
             if (GetNumWheelsTouchingGround() >= 3)
             {
-                force = -transform.up * downforceWithFourWheels * carRigidBody.velocity.magnitude;
+                force = Vector3.down * downforceWithFourWheels * carRigidBody.velocity.magnitude;
             }
             else
             {
-                force = -transform.up * downforceWithLessThanFourWheels * carRigidBody.velocity.magnitude;
+                force = Vector3.down * downforceWithLessThanFourWheels * carRigidBody.velocity.magnitude;
             }
 
             carRigidBody.AddForce(force);

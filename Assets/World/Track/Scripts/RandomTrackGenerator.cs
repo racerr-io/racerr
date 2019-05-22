@@ -12,7 +12,8 @@ namespace Racerr.Track
     /// </summary>
     public class RandomTrackGenerator : TrackGeneratorCommon
     {
-        [SerializeField] GameObject firstTrackPiece; // Temporary, we will programatically generate the first track piece in the future.
+        [SerializeField] GameObject firstTrackPiece;
+        [SerializeField] Transform origin;
 
         /// <summary>
         /// Generate tracks by getting the first track piece, then grabbing a random track piece from resources and joining
@@ -66,14 +67,28 @@ namespace Racerr.Track
                     continue;
                 }
 
-                Transform trackPieceLinkTransform = LoadTrackPieceLinkTransform(currentTrackPiece);
+                Transform trackPieceLinkTransform;
+                GameObject newTrackPiecePrefab;
+
+                if (numTracks == 0)
+                {
+                    newTrackPiecePrefab = firstTrackPiece;
+                    trackPieceLinkTransform = origin;
+                }
+                else
+                {
+                    int randomTrack = validTrackOptions[Random.Range(0, validTrackOptions.Count)];
+                    newTrackPiecePrefab = availableTrackPiecePrefabs[randomTrack];
+                    validAvailableTracks[numTracks, randomTrack] = false;
+                    trackPieceLinkTransform = LoadTrackPieceLinkTransform(currentTrackPiece);
+                }
+
                 if (trackPieceLinkTransform == null)
                 {
+                    Debug.LogError("An error has occurred loading the track piece link during track generation for this track piece.");
                     break;
                 }
 
-                int randomTrack = validTrackOptions[Random.Range(0, validTrackOptions.Count)];
-                GameObject newTrackPiecePrefab = availableTrackPiecePrefabs[randomTrack];
                 GameObject newTrackPiece = Instantiate(newTrackPiecePrefab);
                 newTrackPiece.name = $"Auto Generated Track Piece { numTracks + 1 } ({ newTrackPiecePrefab.name })";
                 newTrackPiece.transform.position = trackPieceLinkTransform.transform.position;
@@ -81,7 +96,6 @@ namespace Racerr.Track
 
                 yield return new WaitForFixedUpdate(); // Wait for next physics calculation so that Track Piece Collision Detector works properly.
 
-                validAvailableTracks[numTracks, randomTrack] = false;
                 if (newTrackPiece.GetComponent<TrackPieceCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {
                     newTrackPiece.GetComponent<TrackPieceState>().MakeDriveable();
