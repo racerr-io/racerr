@@ -90,12 +90,7 @@ namespace Racerr.Car.Core
         /// <param name="collider">The collider that it went through.</param>
         void OnTriggerEnter(Collider collider)
         {
-            if (collider.name == TrackPieceComponent.FinishLineCheckpoint)
-            {
-                RacerrRaceSessionManager.Singleton.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
-                RacerrRaceSessionManager.Singleton.NotifyPlayerFinished(Player);
-            }
-            else if (collider.name == TrackPieceComponent.Checkpoint)
+            if (collider.name == TrackPieceComponent.FinishLineCheckpoint || collider.name == TrackPieceComponent.Checkpoint)
             {
                 RacerrRaceSessionManager.Singleton.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
             }
