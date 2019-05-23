@@ -24,38 +24,43 @@ public class HUDLivePositionTracker : NetworkBehaviour
     /// </summary>
     void Update()
     {
-        if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing)
+        // Calculate race positions text on server and sync to clients.
+        if (isServer)
         {
-            // Calculate race positions text on server and sync to clients.
-            if (isServer)
+            string text = string.Empty;
+            int count = 1;
+
+            foreach (Player player in RacerrRaceSessionManager.Singleton.PlayersInRaceOrdered)
             {
-                string text = string.Empty;
-                int count = 1;
+                text += $"{count}. {player.PlayerName}";
 
-                foreach (Player player in RacerrRaceSessionManager.Singleton.PlayersInRaceOrdered)
+                if (player.PositionInfo.IsFinished)
                 {
-                    text += $"{count}. {player.PlayerName}";
-
-                    if (player.PositionInfo.IsFinished)
-                    {
-                        text += $" ({player.PositionInfo.TimeString})";
-                    }
-
-                    text += "\n";
-                    count++;
+                    text += $" ({player.PositionInfo.TimeString})";
                 }
 
-                if (serverText != text)
-                {
-                    serverText = text; // Sync occurs here. Sync only occurs if the text itself has changed.
-                }
+                text += "\n";
+                count++;
             }
-
-            // Calculate race timer on client to prevent gazillions of SyncVar updates every second.
-            if (isClient)
+            
+            if (serverText != text)
             {
+                serverText = text; // Sync occurs here. Sync only occurs if the text itself has changed.
+            }
+        }
+
+        // Only show the timer when player is ready (i.e. clicked "Race!")
+        if (isClient && Player.LocalPlayer != null && Player.LocalPlayer.IsReady)
+        {
+            if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing)
+            {
+                // Calculate race timer on client to prevent gazillions of SyncVar updates every second.
                 livePositionTrackerText.text = RacerrRaceSessionManager.Singleton.RaceLength.ToRaceTimeFormat() + "\n" + serverText;
             }
+            else
+            {
+                livePositionTrackerText.text = "Intermission\n" + serverText;
+            } 
         }
     }
 }

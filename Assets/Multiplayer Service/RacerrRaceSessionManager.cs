@@ -141,6 +141,9 @@ namespace Racerr.MultiplayerService
         {
             if (!isCurrentlyRacing)
             {
+                playersInRace.Clear();
+                finishedPlayers.Clear();
+
                 TrackGeneratorCommon.Singleton.GenerateIfRequired();
                 while (!TrackGeneratorCommon.Singleton.IsTrackGenerated) yield return null;
 
@@ -182,12 +185,6 @@ namespace Racerr.MultiplayerService
         public void EndRace()
         {
             isCurrentlyRacing = false;
-            playersInRace.ForEach(p => {
-                p.DestroyPlayersCar();
-                p.PositionInfo = null;
-            });
-            playersInRace.Clear();
-            finishedPlayers.Clear();
             checkpointsInRace = null;
             TrackGeneratorCommon.Singleton.DestroyIfRequired();
         }

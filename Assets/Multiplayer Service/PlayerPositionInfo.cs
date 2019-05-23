@@ -13,7 +13,7 @@ namespace Racerr.MultiplayerService
         public bool IsFinished => !double.IsPositiveInfinity(FinishingTime);
 
         /// <summary>
-        /// Returns a properly formatted string (in M:SS.F format) showing their race length duration.
+        /// Returns a properly formatted string (in M:SS.FFF format) showing their race length duration.
         /// </summary>
         public string TimeString
         {
