@@ -9,7 +9,7 @@ namespace Racerr.MultiplayerService
     public class PlayerPositionInfo
     {
         public HashSet<GameObject> Checkpoints { get; } = new HashSet<GameObject>();
-        public double FinishingTime { get; set; } = float.PositiveInfinity;
+        public double FinishingTime { get; set; } = double.PositiveInfinity;
         public bool IsFinished => !double.IsPositiveInfinity(FinishingTime);
 
         /// <summary>
