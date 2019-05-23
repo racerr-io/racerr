@@ -40,7 +40,7 @@ namespace Racerr.MultiplayerService
             {
                 return PlayersInRace
                     .OrderBy(player => player.PositionInfo.FinishingTime)
-                    .OrderByDescending(player => player.PositionInfo.Checkpoints.Count)
+                    .ThenByDescending(player => player.PositionInfo.Checkpoints.Count)
                     .ThenBy(player =>
                     {
                         Vector3? currCarPosition = player.Car?.transform.position;
