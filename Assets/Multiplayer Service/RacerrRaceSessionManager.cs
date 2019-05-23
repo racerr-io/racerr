@@ -18,8 +18,9 @@ namespace Racerr.MultiplayerService
         public static RacerrRaceSessionManager Singleton;
         [SyncVar] bool isCurrentlyRacing;
         public bool IsCurrentlyRacing => isCurrentlyRacing;
-        [SyncVar] float raceStartTime;
-        public float RaceStartTime => raceStartTime;
+        [SyncVar] double raceStartTime;
+        public double RaceStartTime => raceStartTime;
+        public double RaceLength => NetworkTime.time - RaceStartTime;
 
         // Server only properties
         [SerializeField] int raceTimerSeconds = 5;
@@ -169,7 +170,7 @@ namespace Racerr.MultiplayerService
                     currPosition += new Vector3(0, 0, 10);
                 }
 
-                raceStartTime = Time.time;
+                raceStartTime = NetworkTime.time;
                 isCurrentlyRacing = true;
             }
         }
@@ -200,7 +201,7 @@ namespace Racerr.MultiplayerService
         public void NotifyPlayerFinished(Player player)
         {
             finishedPlayers.Add(player);
-            player.PositionInfo.MarkAsFinished();
+            player.PositionInfo.FinishingTime = NetworkTime.time;
             player.DestroyPlayersCar();
         }
 

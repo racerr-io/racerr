@@ -9,11 +9,11 @@ namespace Racerr.MultiplayerService
     public class PlayerPositionInfo
     {
         public HashSet<GameObject> Checkpoints { get; } = new HashSet<GameObject>();
-        public float FinishingTime { get; private set; } = float.PositiveInfinity;
-        public bool IsFinished => !float.IsPositiveInfinity(FinishingTime);
+        public double FinishingTime { get; set; } = float.PositiveInfinity;
+        public bool IsFinished => !double.IsPositiveInfinity(FinishingTime);
 
         /// <summary>
-        /// Returns a properly formatted string showing their race length duration.
+        /// Returns a properly formatted string (in M:SS.F format) showing their race length duration.
         /// </summary>
         public string TimeString
         {
@@ -25,18 +25,10 @@ namespace Racerr.MultiplayerService
                 }
                 else
                 {
-                    float playerRaceLength = FinishingTime - RacerrRaceSessionManager.Singleton.RaceStartTime;
+                    double playerRaceLength = FinishingTime - RacerrRaceSessionManager.Singleton.RaceStartTime;
                     return playerRaceLength.ToRaceTimeFormat();
                 }
             }
-        }
-
-        /// <summary>
-        /// When player finishes the race, call this to mark their finishing time.
-        /// </summary>
-        public void MarkAsFinished()
-        {
-            FinishingTime = Time.time;
         }
     }
 }

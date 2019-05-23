@@ -1,7 +1,6 @@
 ﻿using Mirror;
 using Racerr.MultiplayerService;
 using System.Linq;
-using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -46,14 +45,16 @@ public class HUDLivePositionTracker : NetworkBehaviour
                     count++;
                 }
 
-                serverText = text; // Sync occurs here
+                if (serverText != text)
+                {
+                    serverText = text; // Sync occurs here. Sync only occurs if the text itself has changed.
+                }
             }
 
             // Calculate race timer on client to prevent gazillions of SyncVar updates every second.
             if (isClient)
             {
-                float currentRaceLength = Time.time - RacerrRaceSessionManager.Singleton.RaceStartTime;
-                livePositionTrackerText.text = currentRaceLength.ToRaceTimeFormat() + "\n" + serverText;
+                livePositionTrackerText.text = RacerrRaceSessionManager.Singleton.RaceLength.ToRaceTimeFormat() + "\n" + serverText;
             }
         }
     }
