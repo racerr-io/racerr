@@ -160,5 +160,11 @@ namespace Racerr.MultiplayerService
         #endregion
 
         #endregion
+
+        #region Server Only
+
+        public PlayerPositionInfo PositionInfo { get; set; }
+
+        #endregion
     }
 }

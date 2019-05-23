@@ -18,6 +18,9 @@ namespace Racerr.MultiplayerService
         public static RacerrRaceSessionManager Singleton;
         [SyncVar] bool isCurrentlyRacing;
         public bool IsCurrentlyRacing => isCurrentlyRacing;
+        [SyncVar] double raceStartTime;
+        public double RaceStartTime => raceStartTime;
+        public double RaceLength => NetworkTime.time - RaceStartTime;
 
         // Server only properties
         [SerializeField] int raceTimerSeconds = 5;
@@ -25,11 +28,37 @@ namespace Racerr.MultiplayerService
         List<Player> playersOnServer = new List<Player>();
         List<Player> playersInRace = new List<Player>();
         List<Player> finishedPlayers = new List<Player>();
+        GameObject[] checkpointsInRace = null;
         bool timerActive = false;
         public IReadOnlyCollection<Player> PlayersOnServer => playersOnServer;
         public IReadOnlyCollection<Player> ReadyPlayers => playersOnServer.Where(p => p.IsReady).ToArray();
         public IReadOnlyCollection<Player> PlayersInRace => playersInRace;
         public IReadOnlyCollection<Player> FinishedPlayers => finishedPlayers;
+        public IEnumerable<Player> PlayersInRaceOrdered
+        {
+            get
+            {
+                return PlayersInRace
+                    .OrderBy(player => player.PositionInfo.FinishingTime)
+                    .ThenByDescending(player => player.PositionInfo.Checkpoints.Count)
+                    .ThenBy(player =>
+                    {
+                        Vector3? currCarPosition = player.Car?.transform.position;
+                        if (currCarPosition == null || checkpointsInRace == null)
+                        {
+                            // For some reason the player has no car or the race hasn't started,
+                            // so let's just be safe rather than crash.
+                            return float.PositiveInfinity;
+                        }
+
+                        // checkpointsInRace is sorted in the order of the checkpoints in the race,
+                        // so to grab the next checkpoint for this car we use the checkpoint count for this player as an index.
+                        int nextCheckpoint = player.PositionInfo.Checkpoints.Count;
+                        Vector3 nextCheckpointPosition = checkpointsInRace[nextCheckpoint].transform.position;
+                        return Vector3.Distance(currCarPosition.Value, nextCheckpointPosition);
+                    });
+            }
+        }
 
         /// <summary>
         /// Run when this script is instantiated.
@@ -91,7 +120,6 @@ namespace Racerr.MultiplayerService
             playersOnServer.Remove(player);
             playersInRace.Remove(player);
             finishedPlayers.Remove(player);
-            playerPositionInfos.Remove(player);
         }
 
         /// <summary>
@@ -113,16 +141,22 @@ namespace Racerr.MultiplayerService
         {
             if (!isCurrentlyRacing)
             {
+                playersInRace.Clear();
+                finishedPlayers.Clear();
+
                 TrackGeneratorCommon.Singleton.GenerateIfRequired();
                 while (!TrackGeneratorCommon.Singleton.IsTrackGenerated) yield return null;
 
-                checkpointsInRace = TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Select(piece => 
+                // Create a list of all checkpoints in race using the Generated track pices.
+                // We assume all track pieces are either Checkpoint or FinishingLineCheckpoint.
+                checkpointsInRace = TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Select(trackPiece => 
                 {
-                    GameObject result = piece.transform.Find(TrackPieceComponent.Checkpoint)?.gameObject;
+                    GameObject result = trackPiece.transform.Find(TrackPieceComponent.Checkpoint)?.gameObject;
 
                     if (result == null)
                     {
-                        result = piece.transform.Find(TrackPieceComponent.FinishLineCheckpoint).gameObject;
+                        // Special case for the finishing line, it has a different label.
+                        result = trackPiece.transform.Find(TrackPieceComponent.FinishLineCheckpoint).gameObject;
                     }
 
                     return result;
@@ -130,15 +164,17 @@ namespace Racerr.MultiplayerService
 
                 timerActive = false;
                 Vector3 currPosition = new Vector3(0, 1, 10);
-                isCurrentlyRacing = true;
                 playersInRace.AddRange(ReadyPlayers);
 
-                foreach (Player player in ReadyPlayers)
+                foreach (Player player in PlayersInRace)
                 {
                     player.CreateCarForPlayer(currPosition);
-                    playerPositionInfos[player] = new PositionInfo();
+                    player.PositionInfo = new PlayerPositionInfo();
                     currPosition += new Vector3(0, 0, 10);
                 }
+
+                raceStartTime = NetworkTime.time;
+                isCurrentlyRacing = true;
             }
         }
 
@@ -149,10 +185,6 @@ namespace Racerr.MultiplayerService
         public void EndRace()
         {
             isCurrentlyRacing = false;
-            playersInRace.ForEach(p => p.DestroyPlayersCar());
-            playersInRace.Clear();
-            finishedPlayers.Clear();
-            playerPositionInfos.Clear();
             checkpointsInRace = null;
             TrackGeneratorCommon.Singleton.DestroyIfRequired();
         }
@@ -166,55 +198,27 @@ namespace Racerr.MultiplayerService
         public void NotifyPlayerFinished(Player player)
         {
             finishedPlayers.Add(player);
-            playerPositionInfos[player].IsFinished = true;
+            player.PositionInfo.FinishingTime = NetworkTime.time;
             player.DestroyPlayersCar();
         }
 
-        public IEnumerable<KeyValuePair<Player, PositionInfo>> PlayerOrderedPositions
-        {
-            get
-            {
-                return playerPositionInfos
-                    .OrderByDescending(playerPositionInfo => playerPositionInfo.Value.Checkpoints.Count)
-                    .ThenBy(playerPositionInfo =>
-                    {
-                        Vector3? currCarPosition = playerPositionInfo.Key.Car?.transform.position;
-                        if (currCarPosition == null || checkpointsInRace == null)
-                        {
-                            return float.PositiveInfinity;
-                        }
-
-                        int currCarCheckpointCount = playerPositionInfo.Value.Checkpoints.Count;
-                        Vector3 nextCheckpointPosition = checkpointsInRace[currCarCheckpointCount].transform.position;
-                        return Vector3.Distance(currCarPosition.Value, nextCheckpointPosition);
-                    });
-            }
-        }
-
-        GameObject[] checkpointsInRace = null;
-        Dictionary<Player, PositionInfo> playerPositionInfos = new Dictionary<Player, PositionInfo>();
-
+        /// <summary>
+        /// Server side only - call this function when the car moves through a checkpoint.
+        /// Adds checkpoint to a set of checkpoints the player has passed through so that
+        /// we can calculate their position.
+        /// Additionally, check if the player has actually finished the race.
+        /// </summary>
+        /// <param name="player">The player that passed through.</param>
+        /// <param name="checkpoint">The checkpoint the player hit.</param>
         [Server]
         public void NotifyPlayerPassedThroughCheckpoint(Player player, GameObject checkpoint)
         {
-            playerPositionInfos[player].Checkpoints.Add(checkpoint);
-        }
-        
-        public class PositionInfo
-        {
-            public HashSet<GameObject> Checkpoints { get; } = new HashSet<GameObject>();
-            public bool IsFinished { get; set; } = false;
+            player.PositionInfo.Checkpoints.Add(checkpoint);
 
-            public float CalculateDistanceToNextCheckpoint(Vector3? position, GameObject[] checkPoints)
+            if (checkpoint.name == TrackPieceComponent.FinishLineCheckpoint)
             {
-                if (position == null || checkPoints == null)
-                {
-                    return float.PositiveInfinity;
-                }
-
-                return Vector3.Distance(position.Value, checkPoints[Checkpoints.Count].transform.position);
+                NotifyPlayerFinished(player);
             }
         }
     }
 }
-
