@@ -11,8 +11,8 @@ namespace Racerr.Car.Core
         [SerializeField] float m_WaitTime = 3f;           // time to wait before self righting
         [SerializeField] float m_VelocityThreshold = 1f;  // the velocity below which the car is considered stationary for self-righting
 
-        float LastOkTime { get; set; } // the last time that the car was in an OK state
-        Rigidbody Rigidbody { get; set; }
+        float LastOkTime; // the last time that the car was in an OK state
+        Rigidbody Rigidbody;
 
         /// <summary>
         /// Find the rigidbody associated with the car
