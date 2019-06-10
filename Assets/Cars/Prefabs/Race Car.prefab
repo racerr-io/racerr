@@ -276,6 +276,7 @@ GameObject:
   - component: {fileID: 3328534360466265266}
   - component: {fileID: 2388928030589524058}
   - component: {fileID: 5066228776368493228}
+  - component: {fileID: -7894029177918383429}
   m_Layer: 0
   m_Name: Race Car
   m_TagString: Player
@@ -390,9 +391,9 @@ MonoBehaviour:
   slowSpeedSteeringAngle: 15
   velocityAffectedSteeringAngle: 130
   constantSteeringAngle: 2
-  motorForce: 2500
   downforceWithLessThanFourWheels: 2000
   downforceWithFourWheels: 7500
+  motorForce: 2500
   wheelFrontLeft: {fileID: 7408604580659569208}
   wheelFrontRight: {fileID: 3703503969240960557}
   wheelRearLeft: {fileID: 962918361007395028}
@@ -435,6 +436,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncInterval: 0
   interpolationFactor: 0.4
+--- !u!114 &-7894029177918383429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018952010411425780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db865986f75ee44eba89ace4646af65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_WaitTime: 3
+  m_VelocityThreshold: 1
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0
