@@ -9,8 +9,8 @@ namespace Racerr.Car.Core
     [RequireComponent(typeof (Rigidbody))]
     public class CarSelfRighting : NetworkBehaviour
     {
-        [SerializeField] float WaitTime = 3f;           // time to wait before self righting
-        [SerializeField] float VelocityThreshold = 1f;  // the velocity below which the car is considered stationary for self-righting
+        [SerializeField] float waitTime = 3f;           // time to wait before self righting
+        [SerializeField] float velocityThreshold = 1f;  // the velocity below which the car is considered stationary for self-righting
 
         float lastOkTime; // the last time that the car was in an OK state
         new Rigidbody rigidbody;
@@ -20,7 +20,10 @@ namespace Racerr.Car.Core
         /// </summary>
         void Start()
         {
-            if (!hasAuthority) { Destroy(this); }
+            if (!hasAuthority)
+            {
+                Destroy(this);
+            }
             rigidbody = GetComponent<Rigidbody>();
         }
 
@@ -29,12 +32,12 @@ namespace Racerr.Car.Core
         /// </summary>
         void Update()
         {
-            if (transform.up.y > 0f || rigidbody.velocity.magnitude > VelocityThreshold)
+            if (transform.up.y > 0f || rigidbody.velocity.magnitude > velocityThreshold)
             {
                 lastOkTime = Time.time;
             }
 
-            if (Time.time > lastOkTime + WaitTime)
+            if (Time.time > lastOkTime + waitTime)
             {
                 RightCar();
             }
