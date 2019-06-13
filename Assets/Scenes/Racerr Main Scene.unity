@@ -316,7 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncInterval: 0
   raceTimerSeconds: 5
-  raceTimerSecondsSinglePlayer: 1
+  raceTimerSecondsSinglePlayer: 20
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
