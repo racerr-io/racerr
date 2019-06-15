@@ -28,6 +28,7 @@ namespace Racerr.Car.Core
         [SerializeField] GameObject playerBarPrefab;
         [SerializeField] float playerBarStartDisplacement = 4; // Displacement from car centre at all times
         [SerializeField] float playerBarUpDisplacement = 1; // Additional displacement when car is moving south of the screen (need this due to camera angle changes)
+        public PlayerBar PlayerBar { get; private set; }
         public float PlayerBarStartDisplacement => playerBarStartDisplacement;
         public float PlayerBarUpDisplacement => playerBarUpDisplacement;
 
@@ -64,8 +65,8 @@ namespace Racerr.Car.Core
 
             // Instantiate and setup player's bar
             GameObject PlayerBarGO = Instantiate(playerBarPrefab);
-            PlayerBar playerBar = PlayerBarGO.GetComponent<PlayerBar>();
-            playerBar.Car = this;
+            PlayerBar = PlayerBarGO.GetComponent<PlayerBar>();
+            PlayerBar.Car = this;
         }
 
         /// <summary>
