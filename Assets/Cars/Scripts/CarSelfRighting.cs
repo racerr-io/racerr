@@ -9,7 +9,7 @@ namespace Racerr.Car.Core
     [RequireComponent(typeof (Rigidbody))]
     public class CarSelfRighting : NetworkBehaviour
     {
-        [SerializeField] float waitTime = 3f;           // time to wait before self righting
+        [SerializeField] float waitTime = 1f;           // time to wait before self righting
         [SerializeField] float velocityThreshold = 1f;  // the velocity below which the car is considered stationary for self-righting
 
         float lastOkTime; // the last time that the car was in an OK state
