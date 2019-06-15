@@ -1,29 +1,30 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Security;
 using System.Net.Sockets;
 using System.Net.WebSockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using Ninja.WebSockets;
 using UnityEngine;
 
-namespace Mirror.Transport.Websocket
+namespace Mirror.Websocket
 {
-    public class Server 
+    public class Server
     {
         public event Action<int> Connected;
-        public event Action<int, byte[]> ReceivedData;
+        public event Action<int, ArraySegment<byte>> ReceivedData;
         public event Action<int> Disconnected;
         public event Action<int, Exception> ReceivedError;
 
-        private const int MaxMessageSize = 256 * 1024;
+        const int MaxMessageSize = 256 * 1024;
 
         // listener
         TcpListener listener;
-        private readonly IWebSocketServerFactory webSocketServerFactory = new WebSocketServerFactory();
+        readonly IWebSocketServerFactory webSocketServerFactory = new WebSocketServerFactory();
 
         CancellationTokenSource cancellation;
 
@@ -71,6 +72,18 @@ namespace Mirror.Transport.Websocket
             return clients[connectionId];
         }
 
+        public bool _secure = false;
+
+        public SslConfiguration _sslConfig;
+
+        public class SslConfiguration
+        {
+            public System.Security.Cryptography.X509Certificates.X509Certificate2 Certificate;
+            public bool ClientCertificateRequired;
+            public System.Security.Authentication.SslProtocols EnabledSslProtocols;
+            public bool CheckCertificateRevocation;
+        }
+
         public async void Listen(int port)
         {
             try
@@ -97,7 +110,7 @@ namespace Mirror.Transport.Websocket
             }
         }
 
-        private async void ProcessTcpClient(TcpClient tcpClient, CancellationToken token)
+        async void ProcessTcpClient(TcpClient tcpClient, CancellationToken token)
         {
 
             try
@@ -109,10 +122,16 @@ namespace Mirror.Transport.Websocket
 
                 // get a secure or insecure stream
                 Stream stream = tcpClient.GetStream();
+                if (_secure)
+                {
+                    SslStream sslStream = new SslStream(stream, false, CertVerificationCallback);
+                    sslStream.AuthenticateAsServer(_sslConfig.Certificate, _sslConfig.ClientCertificateRequired, _sslConfig.EnabledSslProtocols, _sslConfig.CheckCertificateRevocation);
+                    stream = sslStream;
+                }
                 WebSocketHttpContext context = await webSocketServerFactory.ReadHttpHeaderFromStreamAsync(stream, token);
                 if (context.IsWebSocketRequest)
                 {
-                    var options = new WebSocketServerOptions() { KeepAliveInterval = TimeSpan.FromSeconds(30), SubProtocol = "binary" };
+                    WebSocketServerOptions options = new WebSocketServerOptions() { KeepAliveInterval = TimeSpan.FromSeconds(30), SubProtocol = "binary" };
 
                     WebSocket webSocket = await webSocketServerFactory.AcceptWebSocketAsync(context, options);
 
@@ -146,7 +165,15 @@ namespace Mirror.Transport.Websocket
             }
         }
 
-        private async Task ReceiveLoopAsync(WebSocket webSocket, CancellationToken token)
+        bool CertVerificationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            // Much research has been done on this. When this is initiated from a HTTPS/WSS stream,
+            // the certificate is null and the SslPolicyErrors is RemoteCertificateNotAvailable.
+            // Meaning we CAN'T verify this and this is all we can do.
+            return true;
+        }
+
+        async Task ReceiveLoopAsync(WebSocket webSocket, CancellationToken token)
         {
             int connectionId = NextConnectionId();
             clients.Add(connectionId, webSocket);
@@ -169,12 +196,20 @@ namespace Mirror.Transport.Websocket
                         break;
                     }
 
-                    byte[] data = await ReadFrames(connectionId, result, webSocket, buffer, token);
+                    ArraySegment<byte> data = await ReadFrames(connectionId, result, webSocket, buffer, token);
 
-                    if (data == null)
+                    if (data.Count == 0)
                         break;
-                    // we received some data,  raise event
-                    ReceivedData?.Invoke(connectionId, data);
+
+                    try
+                    {
+                        // we received some data,  raise event
+                        ReceivedData?.Invoke(connectionId, data);
+                    }
+                    catch (Exception exception)
+                    {
+                        ReceivedError?.Invoke(connectionId, exception);
+                    }
                 }
 
             }
@@ -190,8 +225,8 @@ namespace Mirror.Transport.Websocket
         }
 
         // a message might come splitted in multiple frames
-        // collect all frames 
-        private async Task<byte[]> ReadFrames(int connectionId, WebSocketReceiveResult result, WebSocket webSocket, byte[] buffer, CancellationToken token)
+        // collect all frames
+        async Task<ArraySegment<byte>> ReadFrames(int connectionId, WebSocketReceiveResult result, WebSocket webSocket, byte[] buffer, CancellationToken token)
         {
             int count = result.Count;
 
@@ -202,14 +237,14 @@ namespace Mirror.Transport.Websocket
                     string closeMessage = string.Format("Maximum message size: {0} bytes.", MaxMessageSize);
                     await webSocket.CloseAsync(WebSocketCloseStatus.MessageTooBig, closeMessage, CancellationToken.None);
                     ReceivedError?.Invoke(connectionId, new WebSocketException(WebSocketError.HeaderError));
-                    return null;
+                    return new ArraySegment<byte>();
                 }
 
                 result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer, count, MaxMessageSize - count), CancellationToken.None);
                 count += result.Count;
 
             }
-            return new ArraySegment<byte>(buffer, 0, count).ToArray();
+            return new ArraySegment<byte>(buffer, 0, count);
         }
 
         public void Stop()
@@ -233,8 +268,7 @@ namespace Mirror.Transport.Websocket
         public async void Send(int connectionId, byte[] data)
         {
             // find the connection
-            WebSocket client;
-            if (clients.TryGetValue(connectionId, out client))
+            if (clients.TryGetValue(connectionId, out WebSocket client))
             {
                 try
                 {
@@ -253,7 +287,7 @@ namespace Mirror.Transport.Websocket
                         // because all the WriteAsync wake up at once and throw exceptions
 
                         // by hiding inside this if, I ensure that we only report the first error
-                        // all other errors are swallowed.  
+                        // all other errors are swallowed.
                         // this prevents a log storm that freezes the server for several seconds
                         ReceivedError?.Invoke(connectionId, exception);
                     }
@@ -269,25 +303,21 @@ namespace Mirror.Transport.Websocket
 
         // get connection info in case it's needed (IP etc.)
         // (we should never pass the TcpClient to the outside)
-        public bool GetConnectionInfo(int connectionId, out string address)
+        public string GetClientAddress(int connectionId)
         {
             // find the connection
-            WebSocket client;
-            if (clients.TryGetValue(connectionId, out client))
+            if (clients.TryGetValue(connectionId, out WebSocket client))
             {
-                address = "";
-                return true;
+                return "";
             }
-            address = null;
-            return false;
+            return null;
         }
 
         // disconnect (kick) a client
         public bool Disconnect(int connectionId)
         {
             // find the connection
-            WebSocket client;
-            if (clients.TryGetValue(connectionId, out client))
+            if (clients.TryGetValue(connectionId, out WebSocket client))
             {
                 clients.Remove(connectionId);
                 // just close it. client thread will take care of the rest.
