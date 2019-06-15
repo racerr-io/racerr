@@ -72,6 +72,7 @@ namespace Racerr.MultiplayerService
         [SyncVar] [SerializeField] string playerName;
         [SyncVar] bool isReady;
         [SyncVar] [SerializeField] GameObject carPrefab;
+        [SyncVar] int playerHealth = 100;
 
         #endregion
 
@@ -125,6 +126,25 @@ namespace Racerr.MultiplayerService
             }
         }
 
+        public int PlayerHealth
+        {
+            get => playerHealth;
+            set
+            {
+                if (playerHealth > 0)
+                {
+                    if (isServer)
+                    {
+                        playerHealth = value;
+                    }
+                    else
+                    {
+                        CmdSynchronisePlayerHealth(value);
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region Commands for synchronising SyncVars
@@ -155,6 +175,12 @@ namespace Racerr.MultiplayerService
         void CmdSynchroniseCarPrefab(GameObject carPrefab)
         {
             this.carPrefab = carPrefab;
+        }
+
+        [Command]
+        void CmdSynchronisePlayerHealth(int playerHealth)
+        {
+            this.playerHealth = playerHealth;
         }
 
         #endregion

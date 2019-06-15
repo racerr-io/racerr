@@ -249,5 +249,11 @@ namespace Racerr.Car.Core
             wheelRearLeft.sidewaysFriction = wheelFrictionCurve;
             wheelRearRight.sidewaysFriction = wheelFrictionCurve;
         }
+
+        void OnCollisionEnter(Collision collision)
+        {
+            this.Player.PlayerHealth -= 10;
+            Debug.Log(this.Player.PlayerHealth);
+        }
     }
 }
