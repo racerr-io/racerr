@@ -1,6 +1,7 @@
 ﻿using Racerr.Car.Core;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Racerr.UX.Car
 {
@@ -13,7 +14,8 @@ namespace Racerr.UX.Car
 
         public PlayerCarController Car { get; set; }
         Transform panel;
-
+        RectTransform healthBar;
+        Image healthBarImage;
         Rigidbody carRigidBody;
         Rigidbody CarRigidbody => (carRigidBody != null) ? carRigidBody : (carRigidBody = Car?.GetComponent<Rigidbody>());
 
@@ -25,6 +27,8 @@ namespace Racerr.UX.Car
         {
             panel = transform.Find("Panel");
             panel.GetComponentInChildren<TextMeshProUGUI>().text = Car.Player.PlayerName;
+            healthBar = panel.transform.Find("Health").GetComponent<RectTransform>();
+            healthBarImage = panel.transform.Find("Health").GetComponent<Image>();
         }
 
         /// <summary>
@@ -54,6 +58,28 @@ namespace Racerr.UX.Car
             else
             {
                 Destroy(gameObject); // Automatically delete the player bar if the car is destroyed / doesn't exist.
+            }
+        }
+
+        /// <summary>
+        /// Physically adjust the size of the health bar in the Player Bar.
+        /// </summary>
+        /// <param name="health">Value between 0 - 100 for the health</param>
+        public void SetHealthBar(int health)
+        {
+            healthBar.localScale = new Vector3(health / 100f, healthBar.localScale.y, healthBar.localScale.z);
+
+            if (health < 20)
+            {
+                healthBarImage.color = Color.red;
+            }
+            else if (health < 50)
+            {
+                healthBarImage.color = Color.yellow;
+            }
+            else
+            {
+                healthBarImage.color = Color.green;
             }
         }
     }
