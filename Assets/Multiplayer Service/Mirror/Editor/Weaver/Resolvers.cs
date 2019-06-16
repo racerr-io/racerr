@@ -4,7 +4,7 @@
 //       value for null otherwise.
 //       (original FieldType.Resolve returns null if not found too, so
 //        exceptions would be a bit inconsistent here)
-using Mono.Cecil;
+using Mono.CecilX;
 
 namespace Mirror.Weaver
 {
@@ -15,8 +15,7 @@ namespace Mirror.Weaver
             //Console.WriteLine("ResolveMethod " + t.ToString () + " " + name);
             if (tr == null)
             {
-                Log.Error("Type missing for " + name);
-                Weaver.fail = true;
+                Weaver.Error("Type missing for " + name);
                 return null;
             }
             foreach (MethodDefinition methodRef in tr.Resolve().Methods)
@@ -26,15 +25,7 @@ namespace Mirror.Weaver
                     return scriptDef.MainModule.ImportReference(methodRef);
                 }
             }
-            Log.Error("ResolveMethod failed " + tr.Name + "::" + name + " " + tr.Resolve());
-
-            // why did it fail!?
-            foreach (MethodDefinition methodRef in tr.Resolve().Methods)
-            {
-                Log.Error("Method " + methodRef.Name);
-            }
-
-            Weaver.fail = true;
+            Weaver.Error($"{tr}.{name}() not found");
             return null;
         }
 
@@ -43,8 +34,7 @@ namespace Mirror.Weaver
         {
             if (tr == null)
             {
-                Log.Error("Type missing for " + name);
-                Weaver.fail = true;
+                Weaver.Error("Type missing for " + name);
                 return null;
             }
             foreach (MethodDefinition methodRef in tr.Resolve().Methods)
@@ -61,7 +51,7 @@ namespace Mirror.Weaver
         // System.Byte[] arguments need a version with a string
         public static MethodReference ResolveMethodWithArg(TypeReference tr, AssemblyDefinition scriptDef, string name, string argTypeFullName)
         {
-            foreach (var methodRef in tr.Resolve().Methods)
+            foreach (MethodDefinition methodRef in tr.Resolve().Methods)
             {
                 if (methodRef.Name == name)
                 {
@@ -74,8 +64,7 @@ namespace Mirror.Weaver
                     }
                 }
             }
-            Log.Error("ResolveMethodWithArg failed " + tr.Name + "::" + name + " " + argTypeFullName);
-            Weaver.fail = true;
+            Weaver.Error($"{tr}.{name}({argTypeFullName}) not found");
             return null;
         }
 
@@ -121,8 +110,7 @@ namespace Mirror.Weaver
                 }
             }
 
-            Log.Error("ResolveMethodGeneric failed " + t.Name + "::" + name + " " + genericType);
-            Weaver.fail = true;
+            Weaver.Error($"{t}.{name}<{genericType}>() not found");
             return null;
         }
 

@@ -1,4 +1,4 @@
-﻿#if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
 
 using System;
 using System.Linq;
@@ -10,26 +10,26 @@ using System.Threading.Tasks;
 using Ninja.WebSockets;
 using UnityEngine;
 
-namespace Mirror.Transport.Websocket
+namespace Mirror.Websocket
 {
 
-    public class Client 
+    public class Client
     {
         public event Action Connected;
-        public event Action<byte[]> ReceivedData;
+        public event Action<ArraySegment<byte>> ReceivedData;
         public event Action Disconnected;
         public event Action<Exception> ReceivedError;
 
-        private const int MaxMessageSize = 1024 * 256;
+        const int MaxMessageSize = 1024 * 256;
         WebSocket webSocket;
         CancellationTokenSource cancellation;
 
         public bool NoDelay = true;
-               
+
         public bool Connecting { get; set; }
         public bool IsConnected { get; set; }
 
-        private Uri uri;
+        Uri uri;
 
         public async void Connect(Uri uri)
         {
@@ -53,7 +53,7 @@ namespace Mirror.Transport.Websocket
 
             cancellation = new CancellationTokenSource();
 
-            var clientFactory = new WebSocketClientFactory();
+            WebSocketClientFactory clientFactory = new WebSocketClientFactory();
 
             try
             {
@@ -82,9 +82,9 @@ namespace Mirror.Transport.Websocket
             }
         }
 
-        private async Task ReceiveLoop(WebSocket webSocket, CancellationToken token)
+        async Task ReceiveLoop(WebSocket webSocket, CancellationToken token)
         {
-            var buffer = new byte[MaxMessageSize];
+            byte[] buffer = new byte[MaxMessageSize];
 
             while (true)
             {
@@ -97,18 +97,25 @@ namespace Mirror.Transport.Websocket
                     break;
 
                 // we got a text or binary message,  need the full message
-                byte[] data = await ReadFrames(result, webSocket, buffer);
+                ArraySegment<byte> data = await ReadFrames(result, webSocket, buffer);
 
-                if (data == null)
+                if (data.Count == 0)
                     break;
 
-                ReceivedData?.Invoke(data);
+                try
+                {
+                    ReceivedData?.Invoke(data);
+                }
+                catch (Exception exception)
+                {
+                    ReceivedError?.Invoke(exception);
+                }
             }
         }
 
         // a message might come splitted in multiple frames
-        // collect all frames 
-        private async Task<byte[]> ReadFrames(WebSocketReceiveResult result, WebSocket webSocket, byte[] buffer)
+        // collect all frames
+        async Task<ArraySegment<byte>> ReadFrames(WebSocketReceiveResult result, WebSocket webSocket, byte[] buffer)
         {
             int count = result.Count;
 
@@ -119,14 +126,14 @@ namespace Mirror.Transport.Websocket
                     string closeMessage = string.Format("Maximum message size: {0} bytes.", MaxMessageSize);
                     await webSocket.CloseAsync(WebSocketCloseStatus.MessageTooBig, closeMessage, CancellationToken.None);
                     ReceivedError?.Invoke(new WebSocketException(WebSocketError.HeaderError));
-                    return null;
+                    return new ArraySegment<byte>();
                 }
 
                 result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer, count, MaxMessageSize - count), CancellationToken.None);
                 count += result.Count;
 
             }
-            return new ArraySegment<byte>(buffer, 0, count).ToArray();
+            return new ArraySegment<byte>(buffer, 0, count);
         }
 
         public void Disconnect()

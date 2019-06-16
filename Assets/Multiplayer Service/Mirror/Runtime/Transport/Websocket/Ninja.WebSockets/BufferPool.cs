@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -18,8 +18,8 @@ namespace Ninja.WebSockets
     public class BufferPool : IBufferPool
     {
         const int DEFAULT_BUFFER_SIZE = 16384;
-        private readonly ConcurrentStack<byte[]> _bufferPoolStack;
-        private readonly int _bufferSize;
+        readonly ConcurrentStack<byte[]> _bufferPoolStack;
+        readonly int _bufferSize;
 
         public BufferPool() : this(DEFAULT_BUFFER_SIZE)
         {
@@ -30,15 +30,15 @@ namespace Ninja.WebSockets
             _bufferSize = bufferSize;
             _bufferPoolStack = new ConcurrentStack<byte[]>();
         }
-        
+
         /// <summary>
         /// This memory stream is not instance thread safe (not to be confused with the BufferPool which is instance thread safe)
         /// </summary>
         protected class PublicBufferMemoryStream : MemoryStream
         {
-            private readonly BufferPool _bufferPoolInternal;
-            private byte[] _buffer;
-            private MemoryStream _ms;
+            readonly BufferPool _bufferPoolInternal;
+            byte[] _buffer;
+            MemoryStream _ms;
 
             public PublicBufferMemoryStream(byte[] buffer, BufferPool bufferPool) : base(new byte[0])
             {
@@ -121,7 +121,7 @@ namespace Ninja.WebSockets
                 return _ms.Read(buffer, offset, count);
             }
 
-            private void EnlargeBufferIfRequired(int count)
+            void EnlargeBufferIfRequired(int count)
             {
                 // we cannot fit the data into the existing buffer, time for a new buffer
                 if (count > (_buffer.Length - _ms.Position))
@@ -139,7 +139,7 @@ namespace Ninja.WebSockets
                         newSize = (int)Math.Pow(2, Math.Ceiling(Math.Log(requiredSize) / Math.Log(2))); ;
                     }
 
-                    var newBuffer = new byte[newSize];
+                    byte[] newBuffer = new byte[newSize];
                     Buffer.BlockCopy(_buffer, 0, newBuffer, 0, position);
                     _ms = new MemoryStream(newBuffer, 0, newBuffer.Length, true, true)
                     {
@@ -159,7 +159,7 @@ namespace Ninja.WebSockets
             public override void Write(byte[] buffer, int offset, int count)
             {
                 EnlargeBufferIfRequired(count);
-                _ms.Write(buffer, offset, count);                
+                _ms.Write(buffer, offset, count);
             }
 
             public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
@@ -234,8 +234,7 @@ namespace Ninja.WebSockets
         /// </summary>
         public MemoryStream GetBuffer()
         {
-            byte[] buffer;
-            if (!_bufferPoolStack.TryPop(out buffer))
+            if (!_bufferPoolStack.TryPop(out byte[] buffer))
             {
                 buffer = new byte[_bufferSize];
             }
