@@ -274,8 +274,9 @@ GameObject:
   - component: {fileID: 1042073786603977904}
   - component: {fileID: 1064214411705787420}
   - component: {fileID: 3328534360466265266}
-  - component: {fileID: 2388928030589524058}
+  - component: {fileID: 7135912957827115028}
   - component: {fileID: 5066228776368493228}
+  - component: {fileID: 2388928030589524058}
   m_Layer: 0
   m_Name: Race Car
   m_TagString: Player
@@ -406,7 +407,7 @@ MonoBehaviour:
     type: 3}
   playerBarStartDisplacement: 4
   playerBarUpDisplacement: 1
---- !u!114 &2388928030589524058
+--- !u!114 &7135912957827115028
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -415,13 +416,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1018952010411425780}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Script: {fileID: 11500000, guid: 9db865986f75ee44eba89ace4646af65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
-  m_AssetId: 
+  syncInterval: 0.1
+  waitTime: 1
+  velocityThreshold: 1
 --- !u!114 &5066228776368493228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,6 +436,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncInterval: 0
   interpolationFactor: 0.4
+--- !u!114 &2388928030589524058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018952010411425780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 1
+  m_AssetId: 
+  m_SceneId: 4169897227
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0

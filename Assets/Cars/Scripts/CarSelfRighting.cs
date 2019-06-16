@@ -1,3 +1,4 @@
+using Mirror;
 using UnityEngine;
 
 namespace Racerr.Car.Core
@@ -6,20 +7,24 @@ namespace Racerr.Car.Core
     /// Automatically put the car the right way up, if it has come to rest upside-down.
     /// </summary>
     [RequireComponent(typeof (Rigidbody))]
-    public class CarSelfRighting : MonoBehaviour
+    public class CarSelfRighting : NetworkBehaviour
     {
-        [SerializeField] float m_WaitTime = 3f;           // time to wait before self righting
-        [SerializeField] float m_VelocityThreshold = 1f;  // the velocity below which the car is considered stationary for self-righting
+        [SerializeField] float waitTime = 1f;           // time to wait before self righting
+        [SerializeField] float velocityThreshold = 1f;  // the velocity below which the car is considered stationary for self-righting
 
-        float LastOkTime { get; set; } // the last time that the car was in an OK state
-        Rigidbody Rigidbody { get; set; }
+        float lastOkTime; // the last time that the car was in an OK state
+        new Rigidbody rigidbody;
 
         /// <summary>
         /// Find the rigidbody associated with the car
         /// </summary>
         void Start()
         {
-            Rigidbody = GetComponent<Rigidbody>();
+            if (!hasAuthority)
+            {
+                Destroy(this);
+            }
+            rigidbody = GetComponent<Rigidbody>();
         }
 
         /// <summary>
@@ -27,12 +32,12 @@ namespace Racerr.Car.Core
         /// </summary>
         void Update()
         {
-            if (transform.up.y > 0f || Rigidbody.velocity.magnitude > m_VelocityThreshold)
+            if (transform.up.y > 0f || rigidbody.velocity.magnitude > velocityThreshold)
             {
-                LastOkTime = Time.time;
+                lastOkTime = Time.time;
             }
 
-            if (Time.time > LastOkTime + m_WaitTime)
+            if (Time.time > lastOkTime + waitTime)
             {
                 RightCar();
             }

@@ -245,9 +245,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 160586558}
+  - component: {fileID: 160586559}
   - component: {fileID: 160586556}
   - component: {fileID: 160586557}
-  - component: {fileID: 160586559}
   m_Layer: 0
   m_Name: Racerr Game Manager
   m_TagString: Untagged
@@ -390,7 +390,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 4.5e-44, z: 5.89e-43, w: 1.05e-43}
+  m_BoundingSphereOverride: {x: 8.2652e-40, y: 9.1835e-41, z: 1.8e-43, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
