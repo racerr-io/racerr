@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using Mono.Cecil;
-using Mono.Cecil.Cil;
-using Mono.Cecil.Mdb;
-using Mono.Cecil.Pdb;
+using Mono.CecilX;
+using Mono.CecilX.Cil;
+using Mono.CecilX.Mdb;
+using Mono.CecilX.Pdb;
 
 namespace Mirror.Weaver
 {
@@ -23,7 +23,7 @@ namespace Mirror.Weaver
             public AddSearchDirectoryHelper(IAssemblyResolver assemblyResolver)
             {
                 // reflection is used because IAssemblyResolver doesn't implement AddSearchDirectory but both DefaultAssemblyResolver and NuGetAssemblyResolver do
-                var addSearchDirectory = assemblyResolver.GetType().GetMethod("AddSearchDirectory", BindingFlags.Instance | BindingFlags.Public, null, new Type[] { typeof(string) }, null);
+                MethodInfo addSearchDirectory = assemblyResolver.GetType().GetMethod("AddSearchDirectory", BindingFlags.Instance | BindingFlags.Public, null, new Type[] { typeof(string) }, null);
                 if (addSearchDirectory == null)
                     throw new Exception("Assembly resolver doesn't implement AddSearchDirectory method.");
                 _addSearchDirectory = (AddSearchDirectoryDelegate)Delegate.CreateDelegate(typeof(AddSearchDirectoryDelegate), assemblyResolver, addSearchDirectory);
@@ -37,8 +37,8 @@ namespace Mirror.Weaver
 
         public static string UnityEngineDLLDirectoryName()
         {
-            var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-            return directoryName != null ? directoryName.Replace(@"file:\", "") : null;
+            string directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+            return directoryName?.Replace(@"file:\", "");
         }
 
         public static ISymbolReaderProvider GetSymbolReaderProvider(string inputFile)
@@ -71,7 +71,7 @@ namespace Mirror.Weaver
             // generic instances, such as List<Int32>
             if (type.IsGenericInstance)
             {
-                var giType = (GenericInstanceType)type;
+                GenericInstanceType giType = (GenericInstanceType)type;
                 return giType.Name.Substring(0, giType.Name.Length - 2) + "<" + String.Join(", ", giType.GenericArguments.Select<TypeReference, String>(PrettyPrintType).ToArray()) + ">";
             }
 
@@ -85,19 +85,19 @@ namespace Mirror.Weaver
             return type.Name;
         }
 
-        public static ReaderParameters ReaderParameters(string assemblyPath, IEnumerable<string> extraPaths, IAssemblyResolver assemblyResolver, string unityEngineDLLPath, string unityUNetDLLPath)
+        public static ReaderParameters ReaderParameters(string assemblyPath, IEnumerable<string> extraPaths, IAssemblyResolver assemblyResolver, string unityEngineDLLPath, string mirrorNetDLLPath)
         {
-            var parameters = new ReaderParameters();
+            ReaderParameters parameters = new ReaderParameters() {ReadWrite = true};
             if (assemblyResolver == null)
                 assemblyResolver = new DefaultAssemblyResolver();
-            var helper = new AddSearchDirectoryHelper(assemblyResolver);
+            AddSearchDirectoryHelper helper = new AddSearchDirectoryHelper(assemblyResolver);
             helper.AddSearchDirectory(Path.GetDirectoryName(assemblyPath));
             helper.AddSearchDirectory(UnityEngineDLLDirectoryName());
             helper.AddSearchDirectory(Path.GetDirectoryName(unityEngineDLLPath));
-            helper.AddSearchDirectory(Path.GetDirectoryName(unityUNetDLLPath));
+            helper.AddSearchDirectory(Path.GetDirectoryName(mirrorNetDLLPath));
             if (extraPaths != null)
             {
-                foreach (var path in extraPaths)
+                foreach (string path in extraPaths)
                     helper.AddSearchDirectory(path);
             }
             parameters.AssemblyResolver = assemblyResolver;
@@ -107,7 +107,7 @@ namespace Mirror.Weaver
 
         public static WriterParameters GetWriterParameters(ReaderParameters readParams)
         {
-            var writeParams = new WriterParameters();
+            WriterParameters writeParams = new WriterParameters();
             if (readParams.SymbolReaderProvider is PdbReaderProvider)
             {
                 //Log("Will export symbols of pdb format");

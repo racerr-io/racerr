@@ -1,4 +1,4 @@
-﻿#if UNITY_WEBGL && !UNITY_EDITOR
+#if UNITY_WEBGL && !UNITY_EDITOR
 
 using System;
 using System.Collections.Generic;
@@ -13,17 +13,18 @@ using AOT;
 using Ninja.WebSockets;
 using UnityEngine;
 
-namespace Mirror.Transport.Websocket
+namespace Mirror.Websocket
 {
     // this is the client implementation used by browsers
-    public class Client 
+    public class Client
     {
-        private static int idGenerator = 0;
-        private static readonly Dictionary<int, Client> clients = new Dictionary<int, Client>();
+        static int idGenerator = 0;
+        static readonly Dictionary<int, Client> clients = new Dictionary<int, Client>();
 
+        public bool NoDelay = true;
 
         public event Action Connected;
-        public event Action<byte[]> ReceivedData;
+        public event Action<ArraySegment<byte>> ReceivedData;
         public event Action Disconnected;
         public event Action<Exception> ReceivedError;
 
@@ -67,21 +68,21 @@ namespace Mirror.Transport.Websocket
 
         #region Javascript native functions
         [DllImport("__Internal")]
-        private static extern int SocketCreate(
-            string url, 
-            int id, 
-            Action<int> onpen, 
-            Action<int, IntPtr, int> ondata, 
+        static extern int SocketCreate(
+            string url,
+            int id,
+            Action<int> onpen,
+            Action<int, IntPtr, int> ondata,
             Action<int> onclose);
 
         [DllImport("__Internal")]
-        private static extern int SocketState(int socketInstance);
+        static extern int SocketState(int socketInstance);
 
         [DllImport("__Internal")]
-        private static extern void SocketSend(int socketInstance, byte[] ptr, int length);
+        static extern void SocketSend(int socketInstance, byte[] ptr, int length);
 
         [DllImport("__Internal")]
-        private static extern void SocketClose(int socketInstance);
+        static extern void SocketClose(int socketInstance);
 
         #endregion
 
@@ -108,7 +109,7 @@ namespace Mirror.Transport.Websocket
             byte[] data = new byte[length];
             Marshal.Copy(ptr, data, 0, length);
 
-            clients[id].ReceivedData(data);
+            clients[id].ReceivedData(new ArraySegment<byte>(data));
         }
         #endregion
     }

@@ -79,7 +79,7 @@ namespace Racerr.UX.Car
             }
             else
             {
-                healthBarImage.color = Color.green;
+                healthBarImage.color = new Color(0, 1, 0, 0.5f); // Light Green
             }
         }
     }
