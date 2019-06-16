@@ -1,24 +1,17 @@
 // all the [Command] code from NetworkBehaviourProcessor in one place
-using Mono.Cecil;
-using Mono.Cecil.Cil;
+using Mono.CecilX;
+using Mono.CecilX.Cil;
 
 namespace Mirror.Weaver
 {
     public static class CommandProcessor
     {
-        const string k_CmdPrefix = "InvokeCmd";
+        const string CmdPrefix = "InvokeCmd";
 
         /*
             // generates code like:
             public void CallCmdThrust(float thrusting, int spin)
             {
-                Debug.LogError("Call Command function CmdThrust");
-                if (!NetworkClient.active)
-                {
-                    Debug.LogError("Command function CmdThrust called on server.");
-                    return;
-                }
-
                 if (isServer)
                 {
                     // we are ON the server, invoke directly
@@ -34,33 +27,30 @@ namespace Mirror.Weaver
         */
         public static MethodDefinition ProcessCommandCall(TypeDefinition td, MethodDefinition md, CustomAttribute ca)
         {
-            MethodDefinition cmd = new MethodDefinition("Call" +  md.Name, MethodAttributes.Public |
-                    MethodAttributes.HideBySig,
+            MethodDefinition cmd = new MethodDefinition("Call" + md.Name,
+                    MethodAttributes.Public | MethodAttributes.HideBySig,
                     Weaver.voidType);
 
-            // add paramters
+            // add parameters
             foreach (ParameterDefinition pd in md.Parameters)
             {
                 cmd.Parameters.Add(new ParameterDefinition(pd.Name, ParameterAttributes.None, pd.ParameterType));
             }
 
             ILProcessor cmdWorker = cmd.Body.GetILProcessor();
-            Instruction label = cmdWorker.Create(OpCodes.Nop);
 
             NetworkBehaviourProcessor.WriteSetupLocals(cmdWorker);
 
-            if (Weaver.generateLogErrors)
+            if (Weaver.GenerateLogErrors)
             {
                 cmdWorker.Append(cmdWorker.Create(OpCodes.Ldstr, "Call Command function " + md.Name));
                 cmdWorker.Append(cmdWorker.Create(OpCodes.Call, Weaver.logErrorReference));
             }
 
-            NetworkBehaviourProcessor.WriteClientActiveCheck(cmdWorker, md.Name, label, "Command function");
-
             // local client check
             Instruction localClientLabel = cmdWorker.Create(OpCodes.Nop);
             cmdWorker.Append(cmdWorker.Create(OpCodes.Ldarg_0));
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Call, Weaver.UBehaviourIsServer));
+            cmdWorker.Append(cmdWorker.Create(OpCodes.Call, Weaver.getBehaviourIsServer));
             cmdWorker.Append(cmdWorker.Create(OpCodes.Brfalse, localClientLabel));
 
             // call the cmd function directly.
@@ -77,17 +67,17 @@ namespace Mirror.Weaver
             NetworkBehaviourProcessor.WriteCreateWriter(cmdWorker);
 
             // write all the arguments that the user passed to the Cmd call
-            if (!NetworkBehaviourProcessor.WriteArguments(cmdWorker, md, "Command", false))
+            if (!NetworkBehaviourProcessor.WriteArguments(cmdWorker, md, false))
                 return null;
 
-            var cmdName = md.Name;
-            int index = cmdName.IndexOf(k_CmdPrefix);
+            string cmdName = md.Name;
+            int index = cmdName.IndexOf(CmdPrefix);
             if (index > -1)
             {
-                cmdName = cmdName.Substring(k_CmdPrefix.Length);
+                cmdName = cmdName.Substring(CmdPrefix.Length);
             }
 
-            // invoke interal send and return
+            // invoke internal send and return
             cmdWorker.Append(cmdWorker.Create(OpCodes.Ldarg_0)); // load 'base.' to call the SendCommand function with
             cmdWorker.Append(cmdWorker.Create(OpCodes.Ldtoken, td));
             cmdWorker.Append(cmdWorker.Create(OpCodes.Call, Weaver.getTypeFromHandleReference)); // invokerClass
@@ -114,9 +104,8 @@ namespace Mirror.Weaver
         */
         public static MethodDefinition ProcessCommandInvoke(TypeDefinition td, MethodDefinition md)
         {
-            MethodDefinition cmd = new MethodDefinition(k_CmdPrefix + md.Name, MethodAttributes.Family |
-                                                                               MethodAttributes.Static |
-                                                                               MethodAttributes.HideBySig,
+            MethodDefinition cmd = new MethodDefinition(CmdPrefix + md.Name,
+                MethodAttributes.Family | MethodAttributes.Static | MethodAttributes.HideBySig,
                 Weaver.voidType);
 
             ILProcessor cmdWorker = cmd.Body.GetILProcessor();
@@ -142,17 +131,15 @@ namespace Mirror.Weaver
 
         public static bool ProcessMethodsValidateCommand(TypeDefinition td, MethodDefinition md, CustomAttribute ca)
         {
-            if (md.Name.Length > 2 && md.Name.Substring(0, 3) != "Cmd")
+            if (!md.Name.StartsWith("Cmd"))
             {
-                Log.Error("Command function [" + td.FullName + ":" + md.Name + "] doesnt have 'Cmd' prefix");
-                Weaver.fail = true;
+                Weaver.Error($"{md} must start with Cmd.  Consider renaming it to Cmd{md.Name}");
                 return false;
             }
 
             if (md.IsStatic)
             {
-                Log.Error("Command function [" + td.FullName + ":" + md.Name + "] cant be a static method");
-                Weaver.fail = true;
+                Weaver.Error($"{md} cannot be static");
                 return false;
             }
 

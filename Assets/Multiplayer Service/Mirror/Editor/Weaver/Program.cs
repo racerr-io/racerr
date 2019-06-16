@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Mono.Cecil;
+using Mono.CecilX;
 
 namespace Mirror.Weaver
 {
@@ -21,41 +21,43 @@ namespace Mirror.Weaver
         }
     }
 
-    public class Program
+    public static class Program
     {
-        public static bool Process(string unityEngine, string unetDLL, string outputDirectory, string[] assemblies, string[] extraAssemblyPaths, IAssemblyResolver assemblyResolver, Action<string> printWarning, Action<string> printError)
+        public static bool Process(string unityEngine, string netDLL, string outputDirectory, string[] assemblies, string[] extraAssemblyPaths, Action<string> printWarning, Action<string> printError)
         {
             CheckDLLPath(unityEngine);
-            CheckDLLPath(unetDLL);
+            CheckDLLPath(netDLL);
             CheckOutputDirectory(outputDirectory);
             CheckAssemblies(assemblies);
             Log.WarningMethod = printWarning;
             Log.ErrorMethod = printError;
-            return Weaver.WeaveAssemblies(assemblies, extraAssemblyPaths, assemblyResolver, outputDirectory, unityEngine, unetDLL);
+            return Weaver.WeaveAssemblies(assemblies, extraAssemblyPaths, null, outputDirectory, unityEngine, netDLL);
         }
 
-        private static void CheckDLLPath(string path)
+        static void CheckDLLPath(string path)
         {
             if (!File.Exists(path))
                 throw new Exception("dll could not be located at " + path + "!");
         }
 
-        private static void CheckAssemblies(IEnumerable<string> assemblyPaths)
+        static void CheckAssemblies(IEnumerable<string> assemblyPaths)
         {
-            foreach (var assemblyPath in assemblyPaths)
+            foreach (string assemblyPath in assemblyPaths)
                 CheckAssemblyPath(assemblyPath);
         }
 
-        private static void CheckAssemblyPath(string assemblyPath)
+        static void CheckAssemblyPath(string assemblyPath)
         {
             if (!File.Exists(assemblyPath))
                 throw new Exception("Assembly " + assemblyPath + " does not exist!");
         }
 
-        private static void CheckOutputDirectory(string outputDir)
+        static void CheckOutputDirectory(string outputDir)
         {
-            if (!Directory.Exists(outputDir))
+            if (outputDir != null && !Directory.Exists(outputDir))
+            {
                 Directory.CreateDirectory(outputDir);
+            }
         }
     }
 }

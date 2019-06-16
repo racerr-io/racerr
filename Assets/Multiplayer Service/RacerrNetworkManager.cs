@@ -50,7 +50,7 @@ namespace Racerr.MultiplayerService
         /// Upon player joining, add the new player, associate them with the Player game object and synchronise on all clients.
         /// </summary>
         /// <param name="conn">Player's connection info.</param>
-        public override void OnServerAddPlayer(NetworkConnection conn)
+        public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
         {
             GameObject player = Instantiate(playerObject);
             NetworkServer.AddPlayerForConnection(conn, player);

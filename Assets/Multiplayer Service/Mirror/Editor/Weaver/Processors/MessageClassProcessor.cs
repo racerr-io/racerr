@@ -1,6 +1,6 @@
 // this class generates OnSerialize/OnDeserialize when inheriting from MessageBase
-using Mono.Cecil;
-using Mono.Cecil.Cil;
+using Mono.CecilX;
+using Mono.CecilX.Cil;
 
 namespace Mirror.Weaver
 {
@@ -10,10 +10,8 @@ namespace Mirror.Weaver
         {
             Weaver.DLog(td, "MessageClassProcessor Start");
 
-            Weaver.ResetRecursionCount();
-
             GenerateSerialization(td);
-            if (Weaver.fail)
+            if (Weaver.WeavingFailed)
             {
                 return;
             }
@@ -41,18 +39,16 @@ namespace Mirror.Weaver
             {
                 if (field.FieldType.FullName == td.FullName)
                 {
-                    Weaver.fail = true;
-                    Log.Error("GenerateSerialization for " + td.Name + " [" + field.FullName + "]. [MessageBase] member cannot be self referencing.");
+                    Weaver.Error($"{td} has field ${field} that references itself");
                     return;
                 }
             }
 
-            MethodDefinition serializeFunc = new MethodDefinition("Serialize", MethodAttributes.Public |
-                    MethodAttributes.Virtual |
-                    MethodAttributes.HideBySig,
+            MethodDefinition serializeFunc = new MethodDefinition("Serialize",
+                    MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig,
                     Weaver.voidType);
 
-            serializeFunc.Parameters.Add(new ParameterDefinition("writer", ParameterAttributes.None, Weaver.scriptDef.MainModule.ImportReference(Weaver.NetworkWriterType)));
+            serializeFunc.Parameters.Add(new ParameterDefinition("writer", ParameterAttributes.None, Weaver.CurrentAssembly.MainModule.ImportReference(Weaver.NetworkWriterType)));
             ILProcessor serWorker = serializeFunc.Body.GetILProcessor();
 
             foreach (FieldDefinition field in td.Fields)
@@ -62,19 +58,17 @@ namespace Mirror.Weaver
 
                 if (field.FieldType.Resolve().HasGenericParameters)
                 {
-                    Weaver.fail = true;
-                    Log.Error("GenerateSerialization for " + td.Name + " [" + field.FieldType + "/" + field.FieldType.FullName + "]. [MessageBase] member cannot have generic parameters.");
+                    Weaver.Error($"{field} cannot have generic type {field.FieldType}.  Consider creating a class that derives the generic type");
                     return;
                 }
 
                 if (field.FieldType.Resolve().IsInterface)
                 {
-                    Weaver.fail = true;
-                    Log.Error("GenerateSerialization for " + td.Name + " [" + field.FieldType + "/" + field.FieldType.FullName + "]. [MessageBase] member cannot be an interface.");
+                    Weaver.Error($"{field} has unsupported type. Use a concrete class instead of interface {field.FieldType}");
                     return;
                 }
 
-                MethodReference writeFunc = Weaver.GetWriteFunc(field.FieldType);
+                MethodReference writeFunc = Writers.GetWriteFunc(field.FieldType);
                 if (writeFunc != null)
                 {
                     serWorker.Append(serWorker.Create(OpCodes.Ldarg_1));
@@ -84,8 +78,7 @@ namespace Mirror.Weaver
                 }
                 else
                 {
-                    Weaver.fail = true;
-                    Log.Error("GenerateSerialization for " + td.Name + " unknown type [" + field.FieldType + "/" + field.FieldType.FullName + "]. [MessageBase] member variables must be basic types.");
+                    Weaver.Error($"{field} has unsupported type");
                     return;
                 }
             }
@@ -97,7 +90,7 @@ namespace Mirror.Weaver
         static void GenerateDeSerialization(TypeDefinition td)
         {
             Weaver.DLog(td, "  GenerateDeserialization");
-            foreach (var m in td.Methods)
+            foreach (MethodDefinition m in td.Methods)
             {
                 if (m.Name == "Deserialize")
                     return;
@@ -108,12 +101,11 @@ namespace Mirror.Weaver
                 return;
             }
 
-            MethodDefinition serializeFunc = new MethodDefinition("Deserialize", MethodAttributes.Public |
-                    MethodAttributes.Virtual |
-                    MethodAttributes.HideBySig,
+            MethodDefinition serializeFunc = new MethodDefinition("Deserialize",
+                    MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig,
                     Weaver.voidType);
 
-            serializeFunc.Parameters.Add(new ParameterDefinition("reader", ParameterAttributes.None, Weaver.scriptDef.MainModule.ImportReference(Weaver.NetworkReaderType)));
+            serializeFunc.Parameters.Add(new ParameterDefinition("reader", ParameterAttributes.None, Weaver.CurrentAssembly.MainModule.ImportReference(Weaver.NetworkReaderType)));
             ILProcessor serWorker = serializeFunc.Body.GetILProcessor();
 
             foreach (FieldDefinition field in td.Fields)
@@ -121,7 +113,7 @@ namespace Mirror.Weaver
                 if (field.IsStatic || field.IsPrivate || field.IsSpecialName)
                     continue;
 
-                MethodReference readerFunc = Weaver.GetReadFunc(field.FieldType);
+                MethodReference readerFunc = Readers.GetReadFunc(field.FieldType);
                 if (readerFunc != null)
                 {
                     serWorker.Append(serWorker.Create(OpCodes.Ldarg_0));
@@ -131,8 +123,7 @@ namespace Mirror.Weaver
                 }
                 else
                 {
-                    Weaver.fail = true;
-                    Log.Error("GenerateDeSerialization for " + td.Name + " unknown type [" + field.FieldType + "]. [SyncVar] member variables must be basic types.");
+                    Weaver.Error($"{field} has unsupported type");
                     return;
                 }
             }
