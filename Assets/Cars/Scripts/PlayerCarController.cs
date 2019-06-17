@@ -22,6 +22,7 @@ namespace Racerr.Car.Core
         [SerializeField] float downforceWithLessThanFourWheels = 1875;
         [SerializeField] float downforceWithFourWheels = 7500;
         [SerializeField] float motorForce = 4000;
+        [SerializeField] float brakeForce = 10000;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
         [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
 
@@ -39,6 +40,7 @@ namespace Racerr.Car.Core
         public bool IsAcceleratingBackwards => verticalInput < 0;
         public Transform[] WheelTransforms => new[] { transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight };
         public int Velocity => Convert.ToInt32(rigidbody.velocity.magnitude * 2);
+        public Vector3 localVel; // Grabs car's velocity vector
 
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
@@ -152,8 +154,28 @@ namespace Racerr.Car.Core
         /// </summary>
         void Accelerate()
         {
-            wheelRearLeft.motorTorque = verticalInput * motorForce;
-            wheelRearRight.motorTorque = verticalInput * motorForce;
+            localVel = transform.InverseTransformDirection(rigidbody.velocity);
+
+            if (verticalInput >= 0)
+            {
+                wheelRearRight.motorTorque = verticalInput * motorForce;
+                wheelRearLeft.motorTorque = verticalInput * motorForce;
+                wheelRearRight.brakeTorque = 0;
+                wheelRearLeft.brakeTorque = 0;
+            }
+            else if (localVel.z > 0 && verticalInput <= 0)
+            {
+                wheelRearRight.brakeTorque = brakeForce;
+                wheelRearLeft.brakeTorque = brakeForce;
+            }
+
+            if (localVel.z < 0.1f && verticalInput <= 0)
+            {
+                wheelRearRight.motorTorque = verticalInput * motorForce;
+                wheelRearLeft.motorTorque = verticalInput * motorForce;
+                wheelRearRight.brakeTorque = 0;
+                wheelRearLeft.brakeTorque = 0;
+            }
         }
 
         /// <summary>
