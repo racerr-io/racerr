@@ -25,6 +25,7 @@ namespace Racerr.MultiplayerService
         // Server only properties
         [SerializeField] int raceTimerSeconds = 5;
         [SerializeField] int raceTimerSecondsSinglePlayer = 20;
+        [SerializeField] int raceTimerSecondsEditor = 1;
         List<Player> playersOnServer = new List<Player>();
         List<Player> playersInRace = new List<Player>();
         List<Player> finishedPlayers = new List<Player>();
@@ -89,7 +90,7 @@ namespace Racerr.MultiplayerService
                 {
                     timerActive = true;
 #if UNITY_EDITOR
-                    int seconds = 1;
+                    int seconds = raceTimerSecondsEditor;
 #else
                     int seconds = ReadyPlayers.Count > 1 ? raceTimerSeconds : raceTimerSecondsSinglePlayer;
 #endif

@@ -142,7 +142,7 @@ namespace Racerr.MultiplayerService
             get => health;
             set
             {
-                if (health > 0)
+                if (value >= 0)
                 {
                     if (isServer)
                     {
