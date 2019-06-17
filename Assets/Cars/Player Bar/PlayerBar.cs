@@ -67,19 +67,16 @@ namespace Racerr.UX.Car
         /// <param name="health">Value between 0 - 100 for the health</param>
         public void SetHealthBar(int health)
         {
-            healthBar.localScale = new Vector3(health / 100f, healthBar.localScale.y, healthBar.localScale.z);
+            healthBar.localScale = new Vector3(health / (float)Car.MaxHealth, healthBar.localScale.y, healthBar.localScale.z);
+            float halfMaxHealth = Car.MaxHealth / 2f;
 
-            if (health < 20)
+            if (health < halfMaxHealth)
             {
-                healthBarImage.color = Color.red;
-            }
-            else if (health < 50)
-            {
-                healthBarImage.color = Color.yellow;
+                healthBarImage.color = Color.Lerp(Color.red, Color.yellow, health / halfMaxHealth);
             }
             else
             {
-                healthBarImage.color = new Color(0, 1, 0, 0.5f); // Light Green
+                healthBarImage.color = Color.Lerp(Color.yellow, new Color(0, 0.7f, 0), (health - halfMaxHealth)/halfMaxHealth);
             }
         }
     }

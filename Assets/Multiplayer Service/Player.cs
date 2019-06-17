@@ -72,7 +72,18 @@ namespace Racerr.MultiplayerService
         [SyncVar] [SerializeField] string playerName;
         [SyncVar] bool isReady;
         [SyncVar] [SerializeField] GameObject carPrefab;
-        [SyncVar] int playerHealth = 100;
+        [SyncVar(hook = nameof(OnPlayerHealthChanged))] int playerHealth = 100;
+
+        /// <summary>
+        /// When playerHealth SyncVar updates, this function is called to update
+        /// the PlayerBar UI.
+        /// </summary>
+        /// <param name="newHealth">The new health value.</param>
+        void OnPlayerHealthChanged(int newHealth)
+        {
+            playerHealth = newHealth;
+            Car.PlayerBar.SetHealthBar(newHealth);
+        }
 
         #endregion
 

@@ -22,8 +22,10 @@ namespace Racerr.Car.Core
         [SerializeField] float downforceWithLessThanFourWheels = 1875;
         [SerializeField] float downforceWithFourWheels = 7500;
         [SerializeField] float motorForce = 4000;
+        [SerializeField] int maxHealth = 100;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
         [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
+        public int MaxHealth => maxHealth;
 
         [Header("Player Bar Properties")]
         [SerializeField] GameObject playerBarPrefab;
@@ -95,6 +97,18 @@ namespace Racerr.Car.Core
             if (collider.name == TrackPieceComponent.FinishLineCheckpoint || collider.name == TrackPieceComponent.Checkpoint)
             {
                 RacerrRaceSessionManager.Singleton.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
+            }
+        }
+
+        /// <summary>
+        /// Apply damage to car on collision with other players and world objects.
+        /// </summary>
+        /// <param name="collision">Collision information</param>
+        void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Environment"))
+            {
+                Player.PlayerHealth -= 10;
             }
         }
 
@@ -254,12 +268,6 @@ namespace Racerr.Car.Core
             wheelFrontRight.sidewaysFriction = wheelFrictionCurve;
             wheelRearLeft.sidewaysFriction = wheelFrictionCurve;
             wheelRearRight.sidewaysFriction = wheelFrictionCurve;
-        }
-
-        void OnCollisionEnter(Collision collision)
-        {
-            this.Player.PlayerHealth -= 10;
-            Debug.Log(this.Player.PlayerHealth);
         }
     }
 }

@@ -88,7 +88,11 @@ namespace Racerr.MultiplayerService
                 if (playersOnServer.Any(p => p.IsReady) && !isCurrentlyRacing && !timerActive)
                 {
                     timerActive = true;
+#if UNITY_EDITOR
+                    int seconds = 1;
+#else
                     int seconds = ReadyPlayers.Count > 1 ? raceTimerSeconds : raceTimerSecondsSinglePlayer;
+#endif
                     FindObjectOfType<RaceTimer>().StartTimer(seconds);
                 }
                 else if (isCurrentlyRacing && (playersInRace.Count == 0 || finishedPlayers.Count == playersInRace.Count))
