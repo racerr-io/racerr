@@ -14,8 +14,8 @@ namespace Racerr.UX.Car
 
         public PlayerCarController Car { get; set; }
         Transform panel;
-        RectTransform healthBar;
-        Image healthBarImage;
+        RectTransform healthBar; // The rectangle of the health bar
+        Image healthBarImage; // The thing/image inside the rectangle, in our case just simple colours.
         Rigidbody carRigidBody;
         Rigidbody CarRigidbody => (carRigidBody != null) ? carRigidBody : (carRigidBody = Car?.GetComponent<Rigidbody>());
 
