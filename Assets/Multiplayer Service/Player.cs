@@ -49,6 +49,7 @@ namespace Racerr.MultiplayerService
             // Setup and sync over network
             NetworkServer.SpawnWithClientAuthority(carGO, gameObject);
             this.carGO = carGO;
+            Health = Car.MaxHealth;
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace Racerr.MultiplayerService
 
         #region Fields
 
-        [SyncVar] [SerializeField] string playerName;
+        [SyncVar] string playerName;
         [SyncVar] bool isReady;
         [SyncVar] [SerializeField] GameObject carPrefab;
         [SyncVar(hook = nameof(OnPlayerHealthChanged))] int health = 100;
@@ -78,11 +79,11 @@ namespace Racerr.MultiplayerService
         /// When playerHealth SyncVar updates, this function is called to update
         /// the PlayerBar UI.
         /// </summary>
-        /// <param name="newHealth">The new health value.</param>
-        void OnPlayerHealthChanged(int newHealth)
+        /// <param name="health">The new health value.</param>
+        void OnPlayerHealthChanged(int health)
         {
-            health = newHealth;
-            Car.PlayerBar.SetHealthBar(newHealth);
+            this.health = health;
+            Car?.PlayerBar?.SetHealthBar(health);
         }
 
         #endregion
@@ -150,7 +151,7 @@ namespace Racerr.MultiplayerService
                     }
                     else
                     {
-                        CmdSynchronisePlayerHealth(value);
+                        CmdSynchroniseHealth(value);
                     }
                 }
             }
@@ -189,9 +190,9 @@ namespace Racerr.MultiplayerService
         }
 
         [Command]
-        void CmdSynchronisePlayerHealth(int playerHealth)
+        void CmdSynchroniseHealth(int health)
         {
-            this.health = playerHealth;
+            this.health = health;
         }
 
         #endregion
