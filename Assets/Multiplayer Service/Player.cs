@@ -72,7 +72,7 @@ namespace Racerr.MultiplayerService
         [SyncVar] [SerializeField] string playerName;
         [SyncVar] bool isReady;
         [SyncVar] [SerializeField] GameObject carPrefab;
-        [SyncVar(hook = nameof(OnPlayerHealthChanged))] int playerHealth = 100;
+        [SyncVar(hook = nameof(OnPlayerHealthChanged))] int health = 100;
 
         /// <summary>
         /// When playerHealth SyncVar updates, this function is called to update
@@ -81,7 +81,7 @@ namespace Racerr.MultiplayerService
         /// <param name="newHealth">The new health value.</param>
         void OnPlayerHealthChanged(int newHealth)
         {
-            playerHealth = newHealth;
+            health = newHealth;
             Car.PlayerBar.SetHealthBar(newHealth);
         }
 
@@ -137,16 +137,16 @@ namespace Racerr.MultiplayerService
             }
         }
 
-        public int PlayerHealth
+        public int Health
         {
-            get => playerHealth;
+            get => health;
             set
             {
-                if (playerHealth > 0)
+                if (health > 0)
                 {
                     if (isServer)
                     {
-                        playerHealth = value;
+                        health = value;
                     }
                     else
                     {
@@ -191,7 +191,7 @@ namespace Racerr.MultiplayerService
         [Command]
         void CmdSynchronisePlayerHealth(int playerHealth)
         {
-            this.playerHealth = playerHealth;
+            this.health = playerHealth;
         }
 
         #endregion
