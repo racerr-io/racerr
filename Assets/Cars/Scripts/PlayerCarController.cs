@@ -156,25 +156,17 @@ namespace Racerr.Car.Core
         {
             localVel = transform.InverseTransformDirection(rigidbody.velocity);
 
-            if (verticalInput >= 0)
+            if (verticalInput >= 0 || (localVel.z < 0 && verticalInput <= 0 ))
             {
                 wheelRearRight.motorTorque = verticalInput * motorForce;
                 wheelRearLeft.motorTorque = verticalInput * motorForce;
                 wheelRearRight.brakeTorque = 0;
                 wheelRearLeft.brakeTorque = 0;
             }
-            else if (localVel.z > 0 && verticalInput <= 0)
+            else
             {
                 wheelRearRight.brakeTorque = brakeForce;
                 wheelRearLeft.brakeTorque = brakeForce;
-            }
-
-            if (localVel.z < 0.1f && verticalInput <= 0)
-            {
-                wheelRearRight.motorTorque = verticalInput * motorForce;
-                wheelRearLeft.motorTorque = verticalInput * motorForce;
-                wheelRearRight.brakeTorque = 0;
-                wheelRearLeft.brakeTorque = 0;
             }
         }
 
