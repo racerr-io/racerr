@@ -160,11 +160,15 @@ namespace Racerr.Car.Core
             {
                 wheelRearRight.motorTorque = verticalInput * motorForce;
                 wheelRearLeft.motorTorque = verticalInput * motorForce;
+                wheelFrontRight.motorTorque = 0;
+                wheelFrontLeft.motorTorque = 0;
                 wheelRearRight.brakeTorque = 0;
                 wheelRearLeft.brakeTorque = 0;
             }
             else
             {
+                wheelFrontRight.motorTorque = verticalInput * motorForce;
+                wheelFrontLeft.motorTorque = verticalInput * motorForce;
                 wheelRearRight.brakeTorque = brakeForce;
                 wheelRearLeft.brakeTorque = brakeForce;
             }
