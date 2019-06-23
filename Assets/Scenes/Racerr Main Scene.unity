@@ -287,7 +287,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2626110545
+  m_SceneId: 3045876882
 --- !u!4 &160586558
 Transform:
   m_ObjectHideFlags: 0
@@ -317,6 +317,7 @@ MonoBehaviour:
   syncInterval: 0
   raceTimerSeconds: 5
   raceTimerSecondsSinglePlayer: 20
+  raceTimerSecondsEditor: 1
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1078,7 +1079,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 295002039
+  m_SceneId: 734546832
 --- !u!114 &711767396
 MonoBehaviour:
   m_ObjectHideFlags: 0

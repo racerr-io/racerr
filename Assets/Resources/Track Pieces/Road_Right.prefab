@@ -150,22 +150,6 @@ MonoBehaviour:
   transparency: 0.2
   transparentMesh: {fileID: 4300000, guid: e8d9b499e949b4c7fbba32bf6199627d, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
---- !u!54 &9067634703717417436
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1497283584292868808}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &1960743228467704218
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,22 +468,6 @@ MonoBehaviour:
   transparency: 0.2
   transparentMesh: {fileID: 4300000, guid: 83778d251aa1d46ee89cf0145c9637d9, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
---- !u!54 &2134362514413095014
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2314394365114619316}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &6629642676500580061
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -528,22 +496,6 @@ MonoBehaviour:
   transparency: 0.2
   transparentMesh: {fileID: 4300000, guid: 6706dca03bdc74c618deb1d1b651ba2d, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
---- !u!54 &5048238331262826772
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3591347684865916428}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &1998009933145842752
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -572,38 +524,6 @@ MonoBehaviour:
   transparency: 0.2
   transparentMesh: {fileID: 4300000, guid: c7ff716ae0b9741b7baca00f13524773, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
---- !u!54 &4477444702837728746
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4086823606447247748}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!54 &7429387874586869147
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4672067117025659792}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &3107760667813331783
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -632,22 +552,6 @@ MonoBehaviour:
   transparency: 0.2
   transparentMesh: {fileID: 4300000, guid: dd411c5f7e90941d69b1aeccf035920b, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
---- !u!54 &6498897216878813583
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4973731286155628473}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &5425220269329491671
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,22 +610,6 @@ MonoBehaviour:
   transparency: 0.2
   transparentMesh: {fileID: 4300000, guid: 07428d244f93840ffb3d74872ddc4c46, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
---- !u!54 &4856338591672241577
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5602985183998851418}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &7301072056313751469
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,10 +875,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (5)
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.06
@@ -1046,6 +930,10 @@ PrefabInstance:
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (5)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
@@ -1130,15 +1018,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 64000011575449670, guid: 082cfc3d407414d47bd28abf2ae082d8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 082cfc3d407414d47bd28abf2ae082d8, type: 3}
---- !u!4 &1498241826931088150 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4000012276697794, guid: 082cfc3d407414d47bd28abf2ae082d8,
-    type: 3}
-  m_PrefabInstance: {fileID: 1496574952760250836}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1497283584292868808 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1000010905371420, guid: 082cfc3d407414d47bd28abf2ae082d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1496574952760250836}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1498241826931088150 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4000012276697794, guid: 082cfc3d407414d47bd28abf2ae082d8,
     type: 3}
   m_PrefabInstance: {fileID: 1496574952760250836}
   m_PrefabAsset: {fileID: 0}
@@ -1149,10 +1037,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.5
@@ -1209,6 +1093,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
 --- !u!4 &1945523257988653120 stripped
@@ -1224,14 +1112,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000013093142412, guid: f10eb7471db164f66b234cd27b77efc7, type: 3}
-      propertyPath: m_Name
-      value: Building_4L
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013093142412, guid: f10eb7471db164f66b234cd27b77efc7, type: 3}
-      propertyPath: m_TagString
-      value: Environment
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011102439858, guid: f10eb7471db164f66b234cd27b77efc7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.15
@@ -1284,6 +1164,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1000013093142412, guid: f10eb7471db164f66b234cd27b77efc7, type: 3}
+      propertyPath: m_Name
+      value: Building_4L
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013093142412, guid: f10eb7471db164f66b234cd27b77efc7, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 64000013279652128, guid: f10eb7471db164f66b234cd27b77efc7,
         type: 3}
       propertyPath: m_Convex
@@ -1311,10 +1199,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (4)
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9
@@ -1370,6 +1254,10 @@ PrefabInstance:
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (4)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
@@ -1565,10 +1453,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (3)
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.15
@@ -1624,6 +1508,10 @@ PrefabInstance:
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
@@ -1746,12 +1634,6 @@ PrefabInstance:
 --- !u!4 &4673395242910641800 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000013547078944, guid: 1bb35547cc5dc4fff91ae98da05b10ca,
-    type: 3}
-  m_PrefabInstance: {fileID: 4671650959408130984}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4672067117025659792 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1000013395877944, guid: 1bb35547cc5dc4fff91ae98da05b10ca,
     type: 3}
   m_PrefabInstance: {fileID: 4671650959408130984}
   m_PrefabAsset: {fileID: 0}
@@ -1944,10 +1826,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (2)
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.99
@@ -2004,6 +1882,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (2)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
 --- !u!4 &6321317037707495337 stripped
@@ -2019,10 +1901,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.32
@@ -2078,6 +1956,10 @@ PrefabInstance:
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
