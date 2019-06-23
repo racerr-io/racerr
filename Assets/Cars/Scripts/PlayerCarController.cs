@@ -40,7 +40,6 @@ namespace Racerr.Car.Core
         public bool IsAcceleratingBackwards => verticalInput < 0;
         public Transform[] WheelTransforms => new[] { transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight };
         public int Velocity => Convert.ToInt32(rigidbody.velocity.magnitude * 2);
-        public Vector3 localVel; // Grabs car's velocity vector
 
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
@@ -150,11 +149,11 @@ namespace Racerr.Car.Core
         }
 
         /// <summary>
-        /// Apply torque to wheels to accelerate. More torque means more speed.
+        /// Apply torque to wheels to accelerate or reverse. Else apply brakes + inverse acceleration. 
         /// </summary>
         void Accelerate()
         {
-            localVel = transform.InverseTransformDirection(rigidbody.velocity);
+            Vector3 localVel = transform.InverseTransformDirection(rigidbody.velocity);
 
             if (verticalInput >= 0 || (localVel.z < 0 && verticalInput <= 0 ))
             {
