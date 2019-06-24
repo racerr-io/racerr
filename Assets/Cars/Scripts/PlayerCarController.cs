@@ -24,8 +24,8 @@ namespace Racerr.Car.Core
         [SerializeField] float motorForce = 4000;
         [SerializeField] float brakeForce = 10000;
         [SerializeField] int maxHealth = 100;
-        [SerializeField] int stiffnessNormal = 1;
-        [SerializeField] int stiffnessBraking = 3;
+        [SerializeField] int forwardStiffnessNormal = 1;
+        [SerializeField] int forwardStiffnessBraking = 3;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
         [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
         public int MaxHealth => maxHealth;
@@ -40,7 +40,7 @@ namespace Racerr.Car.Core
 
         float horizontalInput;
         float verticalInput;
-        int lastStiffness = 0;
+        int lastForwardStiffness = 0;
         int lastSidewaysStiffness = 0;
         new Rigidbody rigidbody;
         public bool IsAcceleratingBackwards => verticalInput < 0;
@@ -188,44 +188,46 @@ namespace Racerr.Car.Core
         /// </summary>
         void Accelerate()
         {
-            if (lastStiffness != stiffnessNormal)
+            if (lastForwardStiffness != forwardStiffnessNormal)
             {
                 WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.forwardFriction;
-                wheelFrictionCurve.stiffness = stiffnessNormal;
+                wheelFrictionCurve.stiffness = forwardStiffnessNormal;
 
                 wheelRearLeft.forwardFriction = wheelFrictionCurve;
                 wheelRearRight.forwardFriction = wheelFrictionCurve;
 
-                lastStiffness = stiffnessNormal;
+                lastForwardStiffness = forwardStiffnessNormal;
             }
+
             wheelRearRight.motorTorque = verticalInput * motorForce;
             wheelRearLeft.motorTorque = verticalInput * motorForce;
             wheelFrontRight.motorTorque = 0;
             wheelFrontLeft.motorTorque = 0;
             wheelRearRight.brakeTorque = 0;
             wheelRearLeft.brakeTorque = 0;
-            }
+        }
 
         /// <summary>
         /// Apply brakes + inverse acceleration and increase friction of wheels
         /// </summary>
         void Brake()
         {
-            if (lastStiffness != stiffnessBraking)
+            if (lastForwardStiffness != forwardStiffnessBraking)
             {
                 WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.forwardFriction;
-                wheelFrictionCurve.stiffness = stiffnessBraking;
+                wheelFrictionCurve.stiffness = forwardStiffnessBraking;
 
                 wheelRearLeft.forwardFriction = wheelFrictionCurve;
                 wheelRearRight.forwardFriction = wheelFrictionCurve;
 
-                lastStiffness = stiffnessBraking;
+                lastForwardStiffness = forwardStiffnessBraking;
             }
+
             wheelFrontRight.motorTorque = verticalInput * motorForce;
             wheelFrontLeft.motorTorque = verticalInput * motorForce;
             wheelRearRight.brakeTorque = brakeForce;
             wheelRearLeft.brakeTorque = brakeForce;
-            }
+        }
 
         /// <summary>
         /// Make the wheel meshes match the state of the wheel colliders.
