@@ -79,7 +79,7 @@ namespace Racerr.Car.Core
             {
                 GetInput();
                 Steer();
-                Accelerate();
+                Drive();
                 UpdateWheelPositions();
                 AddDownForce();
                 UpdateSidewaysFrictionWithSpeed();
@@ -149,14 +149,36 @@ namespace Racerr.Car.Core
         }
 
         /// <summary>
-        /// Apply torque to wheels to accelerate or reverse. Else apply brakes + inverse acceleration. 
+        /// Accelerate/Decelerate normally if player is going forward/reversing. Else apply brakes.
         /// </summary>
-        void Accelerate()
+        void Drive()
         {
             Vector3 localVel = transform.InverseTransformDirection(rigidbody.velocity);
 
-            if (verticalInput >= 0 || (localVel.z < 0 && verticalInput <= 0 ))
+            if (verticalInput >= 0 || (localVel.z < 0 && verticalInput <= 0))
             {
+                Accelerate();
+            }
+            else
+            {
+                Brake();
+            }
+        }
+
+        /// <summary>
+        /// Apply torque to wheels to accelerate or reverse.
+        /// </summary>
+        void Accelerate()
+        {
+                int stiffness = 1;
+
+                WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.forwardFriction;
+                wheelFrictionCurve.stiffness = stiffness;
+
+                wheelFrontLeft.forwardFriction = wheelFrictionCurve;
+                wheelFrontRight.forwardFriction = wheelFrictionCurve;
+                wheelRearLeft.forwardFriction = wheelFrictionCurve;
+                wheelRearRight.forwardFriction = wheelFrictionCurve;
                 wheelRearRight.motorTorque = verticalInput * motorForce;
                 wheelRearLeft.motorTorque = verticalInput * motorForce;
                 wheelFrontRight.motorTorque = 0;
@@ -164,14 +186,26 @@ namespace Racerr.Car.Core
                 wheelRearRight.brakeTorque = 0;
                 wheelRearLeft.brakeTorque = 0;
             }
-            else
-            {
-                wheelFrontRight.motorTorque = verticalInput * motorForce;
-                wheelFrontLeft.motorTorque = verticalInput * motorForce;
-                wheelRearRight.brakeTorque = brakeForce;
-                wheelRearLeft.brakeTorque = brakeForce;
+
+        /// <summary>
+        /// Apply brakes + inverse acceleration and increase friction of wheels
+        /// </summary>
+        void Brake()
+        {
+            int stiffness = 3;
+
+            WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.forwardFriction;
+            wheelFrictionCurve.stiffness = stiffness;
+
+            wheelFrontLeft.forwardFriction = wheelFrictionCurve;
+            wheelFrontRight.forwardFriction = wheelFrictionCurve;
+            wheelRearLeft.forwardFriction = wheelFrictionCurve;
+            wheelRearRight.forwardFriction = wheelFrictionCurve;
+            wheelFrontRight.motorTorque = verticalInput * motorForce;
+            wheelFrontLeft.motorTorque = verticalInput * motorForce;
+            wheelRearRight.brakeTorque = brakeForce;
+            wheelRearLeft.brakeTorque = brakeForce;
             }
-        }
 
         /// <summary>
         /// Make the wheel meshes match the state of the wheel colliders.
