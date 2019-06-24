@@ -24,6 +24,8 @@ namespace Racerr.Car.Core
         [SerializeField] float motorForce = 4000;
         [SerializeField] float brakeForce = 10000;
         [SerializeField] int maxHealth = 100;
+        [SerializeField] int stiffnessNormal = 1;
+        [SerializeField] int stiffnessBraking = 3;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
         [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
         public int MaxHealth => maxHealth;
@@ -185,13 +187,9 @@ namespace Racerr.Car.Core
         /// </summary>
         void Accelerate()
         {
-                int stiffness = 1;
-
                 WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.forwardFriction;
-                wheelFrictionCurve.stiffness = stiffness;
+                wheelFrictionCurve.stiffness = stiffnessNormal;
 
-                wheelFrontLeft.forwardFriction = wheelFrictionCurve;
-                wheelFrontRight.forwardFriction = wheelFrictionCurve;
                 wheelRearLeft.forwardFriction = wheelFrictionCurve;
                 wheelRearRight.forwardFriction = wheelFrictionCurve;
                 wheelRearRight.motorTorque = verticalInput * motorForce;
@@ -207,13 +205,9 @@ namespace Racerr.Car.Core
         /// </summary>
         void Brake()
         {
-            int stiffness = 3;
-
             WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.forwardFriction;
-            wheelFrictionCurve.stiffness = stiffness;
+            wheelFrictionCurve.stiffness = stiffnessBraking;
 
-            wheelFrontLeft.forwardFriction = wheelFrictionCurve;
-            wheelFrontRight.forwardFriction = wheelFrictionCurve;
             wheelRearLeft.forwardFriction = wheelFrictionCurve;
             wheelRearRight.forwardFriction = wheelFrictionCurve;
             wheelFrontRight.motorTorque = verticalInput * motorForce;
