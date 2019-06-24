@@ -133,10 +133,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  serverOnly: 0
+  localPlayerAuthority: 0
   m_AssetId: be519fc9c30ceda4cb275f6bbf57477e
+  m_SceneId: 0
 --- !u!54 &4900802751616375758
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -916,9 +916,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1927433695901393220}
     m_Modifications:
+    - target: {fileID: 1000011779176148, guid: b3eddff1dbf0b44e98e4236f32b877b5, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 1000011019239116, guid: b3eddff1dbf0b44e98e4236f32b877b5, type: 3}
       propertyPath: m_Name
       value: Building_3B
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011019239116, guid: b3eddff1dbf0b44e98e4236f32b877b5, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 4000010600608922, guid: b3eddff1dbf0b44e98e4236f32b877b5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -972,6 +980,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012078878278, guid: b3eddff1dbf0b44e98e4236f32b877b5, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013381409114, guid: b3eddff1dbf0b44e98e4236f32b877b5, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 65000010002539810, guid: b3eddff1dbf0b44e98e4236f32b877b5, type: 3}
     - {fileID: 64000012007272242, guid: b3eddff1dbf0b44e98e4236f32b877b5, type: 3}
@@ -998,6 +1014,10 @@ PrefabInstance:
     - target: {fileID: 1000010425619010, guid: 1a2887d71fa0d40a6957a9ddd0ec7a40, type: 3}
       propertyPath: m_Name
       value: Building_5A
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000010425619010, guid: 1a2887d71fa0d40a6957a9ddd0ec7a40, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 4000014195112852, guid: 1a2887d71fa0d40a6957a9ddd0ec7a40, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1081,6 +1101,10 @@ PrefabInstance:
     - target: {fileID: 1000013729573688, guid: b6934bd0f52b84f478a327f737169a5d, type: 3}
       propertyPath: m_Name
       value: Building_7B
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013729573688, guid: b6934bd0f52b84f478a327f737169a5d, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 4000012832504346, guid: b6934bd0f52b84f478a327f737169a5d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1307,6 +1331,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Building_13A
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012170533122, guid: 64a95b20fedc14d9f8c766b486f2e13c, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 4000012770288934, guid: 64a95b20fedc14d9f8c766b486f2e13c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.5
@@ -1359,16 +1387,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 64000014124441028, guid: 64a95b20fedc14d9f8c766b486f2e13c,
-        type: 3}
-      propertyPath: m_Convex
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 33000012362290228, guid: 64a95b20fedc14d9f8c766b486f2e13c,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 4300000, guid: 8b6a44f34a65c42dcb0c87b7c9fc089a, type: 3}
     - target: {fileID: 23000011435654820, guid: 64a95b20fedc14d9f8c766b486f2e13c,
         type: 3}
       propertyPath: m_Enabled
@@ -1379,6 +1397,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: edb31bde0e8a749d79fcd98e0355b8c4, type: 2}
+    - target: {fileID: 33000012362290228, guid: 64a95b20fedc14d9f8c766b486f2e13c,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 8b6a44f34a65c42dcb0c87b7c9fc089a, type: 3}
+    - target: {fileID: 64000014124441028, guid: 64a95b20fedc14d9f8c766b486f2e13c,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 64000014124441028, guid: 64a95b20fedc14d9f8c766b486f2e13c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 64a95b20fedc14d9f8c766b486f2e13c, type: 3}
@@ -1457,6 +1485,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Building_6C
       objectReference: {fileID: 0}
+    - target: {fileID: 1000011819752678, guid: d3d20f00d97834c33a60cf96258f05ff, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 64000010460636924, guid: d3d20f00d97834c33a60cf96258f05ff,
         type: 3}
       propertyPath: m_Convex
@@ -1487,6 +1519,10 @@ PrefabInstance:
     - target: {fileID: 1000012560679624, guid: 0632814996e2d4cd2a96f7c5a1bb3633, type: 3}
       propertyPath: m_Name
       value: Building_10A
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012560679624, guid: 0632814996e2d4cd2a96f7c5a1bb3633, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 4000012815528530, guid: 0632814996e2d4cd2a96f7c5a1bb3633, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1642,6 +1678,10 @@ PrefabInstance:
     - target: {fileID: 1000014097373864, guid: a3801d72a7a974c5ca5159c84c5910a5, type: 3}
       propertyPath: m_Name
       value: Building_2C
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000014097373864, guid: a3801d72a7a974c5ca5159c84c5910a5, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 4000010384869712, guid: a3801d72a7a974c5ca5159c84c5910a5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1804,6 +1844,10 @@ PrefabInstance:
     - target: {fileID: 1000014183895162, guid: cf511c7db9b5f4ed6bc4551a955e78ae, type: 3}
       propertyPath: m_Name
       value: Bench_2D
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000014183895162, guid: cf511c7db9b5f4ed6bc4551a955e78ae, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 4000014048402758, guid: cf511c7db9b5f4ed6bc4551a955e78ae, type: 3}
       propertyPath: m_LocalPosition.x

@@ -287,7 +287,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3771763194
+  m_SceneId: 3045876882
 --- !u!4 &160586558
 Transform:
   m_ObjectHideFlags: 0
@@ -317,6 +317,7 @@ MonoBehaviour:
   syncInterval: 0
   raceTimerSeconds: 5
   raceTimerSecondsSinglePlayer: 20
+  raceTimerSecondsEditor: 1
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +391,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 8.2652e-40, y: 9.1835e-41, z: 1.8e-43, w: 0}
+  m_BoundingSphereOverride: {x: 31.897366, y: 0.026750982, z: 0.05131668, w: -1}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -1078,7 +1079,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1439361278
+  m_SceneId: 734546832
 --- !u!114 &711767396
 MonoBehaviour:
   m_ObjectHideFlags: 0
