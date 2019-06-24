@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafda4cf4d1ff2d4db8a724fa87d3620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transparency: 0.2
   transparentMesh: {fileID: 4300000, guid: e8d9b499e949b4c7fbba32bf6199627d, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!1 &1960743228467704218
@@ -348,10 +349,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  serverOnly: 0
+  localPlayerAuthority: 0
   m_AssetId: 5849f63ff4d06f34f97c21eefd3ea46c
+  m_SceneId: 0
 --- !u!54 &3690797564922579685
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -464,6 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafda4cf4d1ff2d4db8a724fa87d3620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transparency: 0.2
   transparentMesh: {fileID: 4300000, guid: 83778d251aa1d46ee89cf0145c9637d9, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!65 &6629642676500580061
@@ -491,6 +493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafda4cf4d1ff2d4db8a724fa87d3620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transparency: 0.2
   transparentMesh: {fileID: 4300000, guid: 6706dca03bdc74c618deb1d1b651ba2d, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!65 &1998009933145842752
@@ -518,6 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafda4cf4d1ff2d4db8a724fa87d3620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transparency: 0.2
   transparentMesh: {fileID: 4300000, guid: c7ff716ae0b9741b7baca00f13524773, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!65 &3107760667813331783
@@ -545,6 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafda4cf4d1ff2d4db8a724fa87d3620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transparency: 0.2
   transparentMesh: {fileID: 4300000, guid: dd411c5f7e90941d69b1aeccf035920b, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!1 &5425220269329491671
@@ -602,6 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafda4cf4d1ff2d4db8a724fa87d3620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transparency: 0.2
   transparentMesh: {fileID: 4300000, guid: 07428d244f93840ffb3d74872ddc4c46, type: 3}
   transparentShader: {fileID: 4800000, guid: 234b657d53c24224dbcffcb5ead76161, type: 3}
 --- !u!1 &7301072056313751469
@@ -869,10 +875,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (5)
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.06
@@ -929,6 +931,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (5)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
 --- !u!4 &1248336305165733516 stripped
@@ -947,6 +953,10 @@ PrefabInstance:
     - target: {fileID: 1000010905371420, guid: 082cfc3d407414d47bd28abf2ae082d8, type: 3}
       propertyPath: m_Name
       value: Building_15A
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000010905371420, guid: 082cfc3d407414d47bd28abf2ae082d8, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 4000012276697794, guid: 082cfc3d407414d47bd28abf2ae082d8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1027,10 +1037,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.5
@@ -1087,6 +1093,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
 --- !u!4 &1945523257988653120 stripped
@@ -1102,10 +1112,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000013093142412, guid: f10eb7471db164f66b234cd27b77efc7, type: 3}
-      propertyPath: m_Name
-      value: Building_4L
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011102439858, guid: f10eb7471db164f66b234cd27b77efc7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.15
@@ -1158,6 +1164,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1000013093142412, guid: f10eb7471db164f66b234cd27b77efc7, type: 3}
+      propertyPath: m_Name
+      value: Building_4L
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013093142412, guid: f10eb7471db164f66b234cd27b77efc7, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 64000013279652128, guid: f10eb7471db164f66b234cd27b77efc7,
         type: 3}
       propertyPath: m_Convex
@@ -1185,10 +1199,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (4)
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9
@@ -1245,6 +1255,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (4)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
 --- !u!4 &2673626435959998764 stripped
@@ -1263,6 +1277,10 @@ PrefabInstance:
     - target: {fileID: 1000013698629460, guid: 3cfa21865269f470bb5a7d0b74b2aeb7, type: 3}
       propertyPath: m_Name
       value: Building_4D
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013698629460, guid: 3cfa21865269f470bb5a7d0b74b2aeb7, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 4000012170802976, guid: 3cfa21865269f470bb5a7d0b74b2aeb7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1346,6 +1364,10 @@ PrefabInstance:
     - target: {fileID: 1000012538544746, guid: 0feffba2c957641828b6d50406f56cd9, type: 3}
       propertyPath: m_Name
       value: Building_5H
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012538544746, guid: 0feffba2c957641828b6d50406f56cd9, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 4000012522992350, guid: 0feffba2c957641828b6d50406f56cd9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1431,10 +1453,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (3)
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.15
@@ -1491,6 +1509,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (3)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
 --- !u!4 &4478296327769703071 stripped
@@ -1509,6 +1531,10 @@ PrefabInstance:
     - target: {fileID: 1000013800958956, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
       propertyPath: m_Name
       value: Billboard_2B
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013800958956, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 4000013547078944, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1562,6 +1588,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1000013395877944, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011941764316, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 65000012059517860, guid: 1bb35547cc5dc4fff91ae98da05b10ca,
         type: 3}
       propertyPath: m_Size.x
@@ -1582,6 +1616,18 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1000013346555226, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000010910491836, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000010808106222, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 64000013115387020, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
@@ -1601,6 +1647,10 @@ PrefabInstance:
     - target: {fileID: 1000011866849716, guid: 8ce4a57aa35254b2198c902fa8d1dbee, type: 3}
       propertyPath: m_Name
       value: Building_9A
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011866849716, guid: 8ce4a57aa35254b2198c902fa8d1dbee, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 4000013905699518, guid: 8ce4a57aa35254b2198c902fa8d1dbee, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1688,6 +1738,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Building_9C
       objectReference: {fileID: 0}
+    - target: {fileID: 1000014247951900, guid: 56840a2df5e9a4d0ba4fa26820afe2c1, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 4000012856543426, guid: 56840a2df5e9a4d0ba4fa26820afe2c1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9
@@ -1772,10 +1826,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (2)
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.99
@@ -1832,6 +1882,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (2)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
 --- !u!4 &6321317037707495337 stripped
@@ -1847,10 +1901,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.32
@@ -1906,6 +1956,10 @@ PrefabInstance:
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}

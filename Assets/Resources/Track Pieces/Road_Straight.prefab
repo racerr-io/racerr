@@ -155,10 +155,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: cbb9ed024e5cf6d4194ab1b3ece343a9
   m_SceneId: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
-  m_AssetId: 
 --- !u!54 &3845345094565166345
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -469,6 +469,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Building_4K
       objectReference: {fileID: 0}
+    - target: {fileID: 1000013967626690, guid: 722484e3909aa4d2a9c4d8cde46a817a, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 4000013143465526, guid: 722484e3909aa4d2a9c4d8cde46a817a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.5
@@ -555,6 +559,10 @@ PrefabInstance:
     - target: {fileID: 1000012636682668, guid: 3be0fcbd05e3744a991102f49b2a25a3, type: 3}
       propertyPath: m_Name
       value: Building_10B
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012636682668, guid: 3be0fcbd05e3744a991102f49b2a25a3, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 4000010649314468, guid: 3be0fcbd05e3744a991102f49b2a25a3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -698,6 +706,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Building_17D
       objectReference: {fileID: 0}
+    - target: {fileID: 1000011746024164, guid: faa4977b688f545a482a878ff2430bea, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 64000012352236880, guid: faa4977b688f545a482a878ff2430bea,
         type: 3}
       propertyPath: m_Convex
@@ -728,6 +740,10 @@ PrefabInstance:
     - target: {fileID: 1000010015382236, guid: 1f9c790d1faed46e1936fd1a3e684e2e, type: 3}
       propertyPath: m_Name
       value: Building_17C
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000010015382236, guid: 1f9c790d1faed46e1936fd1a3e684e2e, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 4000011547349778, guid: 1f9c790d1faed46e1936fd1a3e684e2e, type: 3}
       propertyPath: m_LocalPosition.x

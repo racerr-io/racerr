@@ -12,7 +12,7 @@ namespace Racerr.Track
     {
         [SerializeField] int propDownForce = 8000;
         IEnumerable<Rigidbody> propRigidBodies = null;
-        IEnumerable<Rigidbody> PropRigidBodies => propRigidBodies ?? (propRigidBodies = GetComponentsInChildren<Rigidbody>().Where(p => p.CompareTag("Prop")));
+        IEnumerable<Rigidbody> PropRigidBodies => propRigidBodies ?? (propRigidBodies = GetComponentsInChildren<Rigidbody>().Where(p => p != null && p.CompareTag("Prop")));
 
         /// <summary>
         /// Called when object is instantiated.
@@ -40,24 +40,29 @@ namespace Racerr.Track
         }
 
         /// <summary>
-        /// Make tracks driveable by disabling convex mesh colliders and making them kinematic.
+        /// Make tracks driveable by disabling convex mesh colliders and destroying the top level rigidbody.
         /// </summary>
         /// <remarks>
         /// Making a track driveable means that it will stay still and have detailed mesh colliders,
         /// but the physics engine will not detect collisions with the track to save performance (since the Mesh Collider is not convex).
         /// The reason for doing this is that we need to make tracks detect collisions during track generation. Once the track is placed
-        /// we can make it driveable.
+        /// we can make it driveable. There is also no need for the rigidbody on the track, this was only useful for detecting collisions
+        /// with other tracks during track generation and can be safely removed.
         /// </remarks>
         public void MakeDriveable()
         {
-            GetComponent<Rigidbody>().isKinematic = true;
+            Rigidbody rigidbody = GetComponent<Rigidbody>();
+            rigidbody.isKinematic = true; // This is redundant step, but upon setting the mesh collider to non-convex Unity complains as
+                                          // the frame has not been updated yet. (Unity does not allow non-convex, non-kinematic rigidbodies
+                                          // on a gameobject). 
+            Destroy(rigidbody);
 
             foreach (MeshCollider meshCollider in GetComponentsInChildren<MeshCollider>())
             {
                 meshCollider.convex = false;
             }
         }
-        
+
         /// <summary>
         /// Remove physics from props, so that collisions on props such as street lights and signs are calculated only on the server.
         /// Weird teleporting glitching occurs if we calculate on both client and server.
