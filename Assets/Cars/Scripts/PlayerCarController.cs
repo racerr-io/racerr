@@ -23,13 +23,16 @@ namespace Racerr.Car.Core
         [SerializeField] float downforceWithFourWheels = 7500;
         [SerializeField] float motorForce = 4000;
         [SerializeField] float brakeForce = 10000;
+        [SerializeField] int maxHealth = 100;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
         [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
+        public int MaxHealth => maxHealth;
 
         [Header("Player Bar Properties")]
         [SerializeField] GameObject playerBarPrefab;
         [SerializeField] float playerBarStartDisplacement = 4; // Displacement from car centre at all times
         [SerializeField] float playerBarUpDisplacement = 1; // Additional displacement when car is moving south of the screen (need this due to camera angle changes)
+        public PlayerBar PlayerBar { get; private set; }
         public float PlayerBarStartDisplacement => playerBarStartDisplacement;
         public float PlayerBarUpDisplacement => playerBarUpDisplacement;
 
@@ -66,8 +69,8 @@ namespace Racerr.Car.Core
 
             // Instantiate and setup player's bar
             GameObject PlayerBarGO = Instantiate(playerBarPrefab);
-            PlayerBar playerBar = PlayerBarGO.GetComponent<PlayerBar>();
-            playerBar.Car = this;
+            PlayerBar = PlayerBarGO.GetComponent<PlayerBar>();
+            PlayerBar.Car = this;
         }
 
         /// <summary>
@@ -95,6 +98,18 @@ namespace Racerr.Car.Core
             if (collider.name == TrackPieceComponent.FinishLineCheckpoint || collider.name == TrackPieceComponent.Checkpoint)
             {
                 RacerrRaceSessionManager.Singleton.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
+            }
+        }
+
+        /// <summary>
+        /// Apply damage to car on collision with other players and world objects.
+        /// </summary>
+        /// <param name="collision">Collision information</param>
+        void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Environment"))
+            {
+                Player.Health -= 10;
             }
         }
 

@@ -98,7 +98,6 @@ namespace Racerr.Track
 
                 if (newTrackPiece.GetComponent<TrackPieceCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {
-                    newTrackPiece.GetComponent<TrackPieceState>().MakeDriveable();
                     newTrackPiece.transform.position = new Vector3(newTrackPiece.transform.position.x, 0, newTrackPiece.transform.position.z);
                     NetworkServer.Spawn(newTrackPiece);
                     GeneratedTrackPieces.Add(newTrackPiece);
@@ -115,7 +114,9 @@ namespace Racerr.Track
             // Once done we should set kinematic to false so cars can collide into them.
             foreach (GameObject trackPiece in GeneratedTrackPieces)
             {
-                trackPiece.GetComponent<TrackPieceState>().MakePropsNonKinematic();
+                TrackPieceState trackPieceState = trackPiece.GetComponent<TrackPieceState>();
+                trackPieceState.MakeDriveable();
+                trackPieceState.MakePropsNonKinematic();
             }
 
             currentTrackPiece.transform.Find(TrackPieceComponent.Checkpoint).name = TrackPieceComponent.FinishLineCheckpoint; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.

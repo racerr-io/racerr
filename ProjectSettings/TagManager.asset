@@ -10,6 +10,7 @@ TagManager:
   - Wheel Collider
   - Wheel Mesh
   - Prop
+  - Environment
   layers:
   - Default
   - TransparentFX

@@ -1,6 +1,7 @@
 ﻿using Racerr.Car.Core;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Racerr.UX.Car
 {
@@ -13,7 +14,8 @@ namespace Racerr.UX.Car
 
         public PlayerCarController Car { get; set; }
         Transform panel;
-
+        RectTransform healthBar; // The rectangle of the health bar
+        Image healthBarImage; // The thing/image inside the rectangle, in our case just simple colours.
         Rigidbody carRigidBody;
         Rigidbody CarRigidbody => (carRigidBody != null) ? carRigidBody : (carRigidBody = Car?.GetComponent<Rigidbody>());
 
@@ -25,6 +27,9 @@ namespace Racerr.UX.Car
         {
             panel = transform.Find("Panel");
             panel.GetComponentInChildren<TextMeshProUGUI>().text = Car.Player.PlayerName;
+            healthBar = panel.transform.Find("Health").GetComponent<RectTransform>();
+            healthBarImage = panel.transform.Find("Health").GetComponent<Image>();
+            SetHealthBar(Car.Player.Health);
         }
 
         /// <summary>
@@ -54,6 +59,25 @@ namespace Racerr.UX.Car
             else
             {
                 Destroy(gameObject); // Automatically delete the player bar if the car is destroyed / doesn't exist.
+            }
+        }
+
+        /// <summary>
+        /// Physically adjust the size of the health bar in the Player Bar.
+        /// </summary>
+        /// <param name="health">Value between 0 - 100 for the health</param>
+        public void SetHealthBar(int health)
+        {
+            healthBar.localScale = new Vector3(health / (float)Car.MaxHealth, healthBar.localScale.y, healthBar.localScale.z);
+            float halfMaxHealth = Car.MaxHealth / 2f;
+
+            if (health < halfMaxHealth)
+            {
+                healthBarImage.color = Color.Lerp(Color.red, Color.yellow, health / halfMaxHealth);
+            }
+            else
+            {
+                healthBarImage.color = Color.Lerp(Color.yellow, new Color(0, 0.7f, 0), (health - halfMaxHealth)/halfMaxHealth);
             }
         }
     }
