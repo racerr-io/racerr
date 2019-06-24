@@ -395,6 +395,7 @@ MonoBehaviour:
   downforceWithLessThanFourWheels: 1875
   downforceWithFourWheels: 7500
   motorForce: 2500
+  brakeForce: 10000
   wheelFrontLeft: {fileID: 7408604580659569208}
   wheelFrontRight: {fileID: 3703503969240960557}
   wheelRearLeft: {fileID: 962918361007395028}
@@ -407,6 +408,7 @@ MonoBehaviour:
     type: 3}
   playerBarStartDisplacement: 4
   playerBarUpDisplacement: 1
+  localVel: {x: 0, y: 0, z: 0}
 --- !u!114 &7135912957827115028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,7 +453,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 4169897227
+  m_SceneId: 3745540960
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0

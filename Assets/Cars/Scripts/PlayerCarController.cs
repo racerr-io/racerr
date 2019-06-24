@@ -22,7 +22,10 @@ namespace Racerr.Car.Core
         [SerializeField] float downforceWithLessThanFourWheels = 1875;
         [SerializeField] float downforceWithFourWheels = 7500;
         [SerializeField] float motorForce = 4000;
+        [SerializeField] float brakeForce = 10000;
         [SerializeField] int maxHealth = 100;
+        [SerializeField] int forwardStiffnessNormal = 1;
+        [SerializeField] int forwardStiffnessBraking = 3;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
         [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
         public int MaxHealth => maxHealth;
@@ -37,7 +40,8 @@ namespace Racerr.Car.Core
 
         float horizontalInput;
         float verticalInput;
-        int lastStiffness = 0;
+        int lastForwardStiffness = 0;
+        int lastSidewaysStiffness = 0;
         new Rigidbody rigidbody;
         public bool IsAcceleratingBackwards => verticalInput < 0;
         public Transform[] WheelTransforms => new[] { transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight };
@@ -81,7 +85,7 @@ namespace Racerr.Car.Core
             {
                 GetInput();
                 Steer();
-                Accelerate();
+                Drive();
                 UpdateWheelPositions();
                 AddDownForce();
                 UpdateSidewaysFrictionWithSpeed();
@@ -163,12 +167,66 @@ namespace Racerr.Car.Core
         }
 
         /// <summary>
-        /// Apply torque to wheels to accelerate. More torque means more speed.
+        /// Accelerate/Decelerate normally if player is going forward/reversing. Else apply brakes.
+        /// </summary>
+        void Drive()
+        {
+            Vector3 localVel = transform.InverseTransformDirection(rigidbody.velocity);
+
+            if (verticalInput >= 0 || (localVel.z < 0 && verticalInput <= 0))
+            {
+                Accelerate();
+            }
+            else
+            {
+                Brake();
+            }
+        }
+
+        /// <summary>
+        /// Apply torque to wheels to accelerate or reverse.
         /// </summary>
         void Accelerate()
         {
-            wheelRearLeft.motorTorque = verticalInput * motorForce;
+            if (lastForwardStiffness != forwardStiffnessNormal)
+            {
+                WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.forwardFriction;
+                wheelFrictionCurve.stiffness = forwardStiffnessNormal;
+
+                wheelRearLeft.forwardFriction = wheelFrictionCurve;
+                wheelRearRight.forwardFriction = wheelFrictionCurve;
+
+                lastForwardStiffness = forwardStiffnessNormal;
+            }
+
             wheelRearRight.motorTorque = verticalInput * motorForce;
+            wheelRearLeft.motorTorque = verticalInput * motorForce;
+            wheelFrontRight.motorTorque = 0;
+            wheelFrontLeft.motorTorque = 0;
+            wheelRearRight.brakeTorque = 0;
+            wheelRearLeft.brakeTorque = 0;
+        }
+
+        /// <summary>
+        /// Apply brakes + inverse acceleration and increase friction of wheels
+        /// </summary>
+        void Brake()
+        {
+            if (lastForwardStiffness != forwardStiffnessBraking)
+            {
+                WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.forwardFriction;
+                wheelFrictionCurve.stiffness = forwardStiffnessBraking;
+
+                wheelRearLeft.forwardFriction = wheelFrictionCurve;
+                wheelRearRight.forwardFriction = wheelFrictionCurve;
+
+                lastForwardStiffness = forwardStiffnessBraking;
+            }
+
+            wheelFrontRight.motorTorque = verticalInput * motorForce;
+            wheelFrontLeft.motorTorque = verticalInput * motorForce;
+            wheelRearRight.brakeTorque = brakeForce;
+            wheelRearLeft.brakeTorque = brakeForce;
         }
 
         /// <summary>
@@ -255,12 +313,12 @@ namespace Racerr.Car.Core
         {
             Vector3 currentSpeed = wheelFrontLeft.attachedRigidbody.velocity;
             int stiffness = Convert.ToInt32(Mathf.Lerp(1, 5, currentSpeed.magnitude / 50));
-            if (stiffness == lastStiffness)
+            if (stiffness == lastSidewaysStiffness)
             {
                 return;
             }
 
-            lastStiffness = stiffness;
+            lastSidewaysStiffness = stiffness;
             WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.sidewaysFriction;
             wheelFrictionCurve.stiffness = stiffness;
 
