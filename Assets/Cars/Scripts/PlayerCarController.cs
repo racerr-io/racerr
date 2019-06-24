@@ -41,6 +41,7 @@ namespace Racerr.Car.Core
         float horizontalInput;
         float verticalInput;
         int lastStiffness = 0;
+        int lastSidewaysStiffness = 0;
         new Rigidbody rigidbody;
         public bool IsAcceleratingBackwards => verticalInput < 0;
         public Transform[] WheelTransforms => new[] { transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight };
@@ -187,13 +188,15 @@ namespace Racerr.Car.Core
         /// </summary>
         void Accelerate()
         {
-            if (wheelFrontLeft.forwardFriction != stiffnessNormal)
+            if (lastStiffness != stiffnessNormal)
             {
                 WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.forwardFriction;
                 wheelFrictionCurve.stiffness = stiffnessNormal;
 
                 wheelRearLeft.forwardFriction = wheelFrictionCurve;
                 wheelRearRight.forwardFriction = wheelFrictionCurve;
+
+                lastStiffness = stiffnessNormal;
             }
             wheelRearRight.motorTorque = verticalInput * motorForce;
             wheelRearLeft.motorTorque = verticalInput * motorForce;
@@ -208,13 +211,15 @@ namespace Racerr.Car.Core
         /// </summary>
         void Brake()
         {
-            if (wheelFrontLeft.forwardFriction != stiffnessBraking)
+            if (lastStiffness != stiffnessBraking)
             {
                 WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.forwardFriction;
                 wheelFrictionCurve.stiffness = stiffnessBraking;
 
                 wheelRearLeft.forwardFriction = wheelFrictionCurve;
                 wheelRearRight.forwardFriction = wheelFrictionCurve;
+
+                lastStiffness = stiffnessBraking;
             }
             wheelFrontRight.motorTorque = verticalInput * motorForce;
             wheelFrontLeft.motorTorque = verticalInput * motorForce;
@@ -306,12 +311,12 @@ namespace Racerr.Car.Core
         {
             Vector3 currentSpeed = wheelFrontLeft.attachedRigidbody.velocity;
             int stiffness = Convert.ToInt32(Mathf.Lerp(1, 5, currentSpeed.magnitude / 50));
-            if (stiffness == lastStiffness)
+            if (stiffness == lastSidewaysStiffness)
             {
                 return;
             }
 
-            lastStiffness = stiffness;
+            lastSidewaysStiffness = stiffness;
             WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.sidewaysFriction;
             wheelFrictionCurve.stiffness = stiffness;
 
