@@ -187,17 +187,20 @@ namespace Racerr.Car.Core
         /// </summary>
         void Accelerate()
         {
+            if (wheelFrontLeft.forwardFriction != stiffnessNormal)
+            {
                 WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.forwardFriction;
                 wheelFrictionCurve.stiffness = stiffnessNormal;
 
                 wheelRearLeft.forwardFriction = wheelFrictionCurve;
                 wheelRearRight.forwardFriction = wheelFrictionCurve;
-                wheelRearRight.motorTorque = verticalInput * motorForce;
-                wheelRearLeft.motorTorque = verticalInput * motorForce;
-                wheelFrontRight.motorTorque = 0;
-                wheelFrontLeft.motorTorque = 0;
-                wheelRearRight.brakeTorque = 0;
-                wheelRearLeft.brakeTorque = 0;
+            }
+            wheelRearRight.motorTorque = verticalInput * motorForce;
+            wheelRearLeft.motorTorque = verticalInput * motorForce;
+            wheelFrontRight.motorTorque = 0;
+            wheelFrontLeft.motorTorque = 0;
+            wheelRearRight.brakeTorque = 0;
+            wheelRearLeft.brakeTorque = 0;
             }
 
         /// <summary>
@@ -205,11 +208,14 @@ namespace Racerr.Car.Core
         /// </summary>
         void Brake()
         {
-            WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.forwardFriction;
-            wheelFrictionCurve.stiffness = stiffnessBraking;
+            if (wheelFrontLeft.forwardFriction != stiffnessBraking)
+            {
+                WheelFrictionCurve wheelFrictionCurve = wheelFrontLeft.forwardFriction;
+                wheelFrictionCurve.stiffness = stiffnessBraking;
 
-            wheelRearLeft.forwardFriction = wheelFrictionCurve;
-            wheelRearRight.forwardFriction = wheelFrictionCurve;
+                wheelRearLeft.forwardFriction = wheelFrictionCurve;
+                wheelRearRight.forwardFriction = wheelFrictionCurve;
+            }
             wheelFrontRight.motorTorque = verticalInput * motorForce;
             wheelFrontLeft.motorTorque = verticalInput * motorForce;
             wheelRearRight.brakeTorque = brakeForce;
