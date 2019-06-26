@@ -8,6 +8,7 @@ namespace Racerr.MultiplayerService
     /// Custom designed interpolation for car driving.
     /// </summary>
     [RequireComponent(typeof(PlayerCarController))]
+    [RequireComponent(typeof(Rigidbody))]
     public class RacerrCarNetworkTransform : NetworkBehaviour
     {
         [SerializeField] [Range(0, 1)] float interpolationFactor = 0.4f;
@@ -17,7 +18,7 @@ namespace Racerr.MultiplayerService
         new Rigidbody rigidbody;
 
         /// <summary>
-        /// Called when car is instantiated. If car is someone elses car update the rigidbody and remove the wheel colliders
+        /// Called when car is instantiated. If car is someone else's car remove the wheel colliders
         /// as they intefere with movement.
         /// </summary>
         void Start()
@@ -26,9 +27,6 @@ namespace Racerr.MultiplayerService
 
             if (!hasAuthority)
             {
-                rigidbody.isKinematic = true;
-                rigidbody.useGravity = false;
-
                 foreach (WheelCollider wheelCollider in GetComponentsInChildren<WheelCollider>())
                 {
                     Destroy(wheelCollider);
