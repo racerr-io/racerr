@@ -3,7 +3,6 @@ using Racerr.UX.Camera;
 using Racerr.UX.Menu;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Racerr.MultiplayerService
 {
@@ -21,9 +20,9 @@ namespace Racerr.MultiplayerService
         /// Automatically start the server on headless mode (detected through whether it has a graphics device),
         /// or automatically connect client on server on normal mode.
         /// </summary>
-        void Start()
+        public override void Start()
         {
-            if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
+            if (isHeadless)
             {
                 Application.targetFrameRate = serverApplicationFrameRate;
                 Destroy(FindObjectOfType<StartMenu>().gameObject);
@@ -77,7 +76,7 @@ namespace Racerr.MultiplayerService
             {
                 StartMenu startMenu = FindObjectOfType<StartMenu>();
 
-                if (IsClientConnected())
+                if (NetworkClient.isConnected)
                 {
                     startMenu.ShowMenu();
                     break;
