@@ -26,7 +26,7 @@ namespace Racerr.Track
         {
             GameObject currentTrackPiece = firstTrackPiece;
             int numTracks = 0;
-            
+
             // Stores a validity map for the current track marked by numTrack index, where all of the possible track piece candidates are either valid or invalid.
             bool[,] validAvailableTracks = new bool[trackLength, availableTrackPiecePrefabs.Count];
             for (int numTracksIndex = 0; numTracksIndex < trackLength; numTracksIndex++)
@@ -37,13 +37,13 @@ namespace Racerr.Track
                 }
             }
 
-            while (numTracks < Math.Max(0, trackLength))
+            while (numTracks < trackLength)
             {
                 // Compile a list of valid track piece options.
                 List<int> validTrackOptions = new List<int>();
                 for (int candidateTrackPiece = 0; candidateTrackPiece < availableTrackPiecePrefabs.Count; candidateTrackPiece++)
                 {
-                    if (validAvailableTracks[numTracks, candidateTrackPiece] == true)
+                    if (validAvailableTracks[numTracks, candidateTrackPiece] == true && IsSameTrackPieceStyle(availableTrackPiecePrefabs[candidateTrackPiece]))
                     {
                         validTrackOptions.Add(candidateTrackPiece);
                     }
@@ -119,8 +119,20 @@ namespace Racerr.Track
                 trackPieceState.MakePropsNonKinematic();
             }
 
-            currentTrackPiece.transform.Find(TrackPieceComponent.Checkpoint).name = TrackPieceComponent.FinishLineCheckpoint; // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
+            // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
+            currentTrackPiece.transform.Find(TrackPieceComponent.Checkpoint).name = TrackPieceComponent.FinishLineCheckpoint;
             IsTrackGenerated = true;
+        }
+
+        bool IsSameTrackPieceStyle(GameObject candidateTrackPiece)
+        {
+            // Highway_RoadTransitiion
+            //   ^To     ^From
+            // So this is a Road -> Highway transition
+            // The Highway comes first as the transition piece will naturally be of a highway style
+            string previousTrackStyle = GeneratedTrackPieces[GeneratedTrackPieces.Count - 1].tag;
+            return previousTrackStyle == candidateTrackPiece.tag || candidateTrackPiece.name.Contains(previousTrackStyle + "Transition");
         }
     }
 }
+
