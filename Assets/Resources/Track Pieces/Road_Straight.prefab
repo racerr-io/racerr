@@ -66,6 +66,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -108,7 +109,7 @@ GameObject:
   - component: {fileID: 8708376107784197499}
   m_Layer: 0
   m_Name: Road_Straight
-  m_TagString: Track Piece
+  m_TagString: Road
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,8 +158,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: cbb9ed024e5cf6d4194ab1b3ece343a9
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 2474251893
 --- !u!54 &3845345094565166345
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -394,6 +395,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2806810492942551488}
     m_Modifications:
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.02
@@ -445,10 +450,6 @@ PrefabInstance:
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalScale.z
       value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
@@ -646,6 +647,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2806810492942551488}
     m_Modifications:
+    - target: {fileID: 1000011746024164, guid: faa4977b688f545a482a878ff2430bea, type: 3}
+      propertyPath: m_Name
+      value: Building_17D
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011746024164, guid: faa4977b688f545a482a878ff2430bea, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 4000013377081528, guid: faa4977b688f545a482a878ff2430bea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12
@@ -701,14 +710,6 @@ PrefabInstance:
     - target: {fileID: 4000013377081528, guid: faa4977b688f545a482a878ff2430bea, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000011746024164, guid: faa4977b688f545a482a878ff2430bea, type: 3}
-      propertyPath: m_Name
-      value: Building_17D
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000011746024164, guid: faa4977b688f545a482a878ff2430bea, type: 3}
-      propertyPath: m_TagString
-      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 64000012352236880, guid: faa4977b688f545a482a878ff2430bea,
         type: 3}

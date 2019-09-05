@@ -98,7 +98,7 @@ namespace Racerr.Track
 
                 if (newTrackPiece.GetComponent<TrackPieceCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {
-                    newTrackPiece.transform.position = new Vector3(newTrackPiece.transform.position.x, 0, newTrackPiece.transform.position.z);
+                    newTrackPiece.transform.position = new Vector3(newTrackPiece.transform.position.x, newTrackPiece.transform.position.y, newTrackPiece.transform.position.z);
                     NetworkServer.Spawn(newTrackPiece);
                     GeneratedTrackPieces.Add(newTrackPiece);
                     currentTrackPiece = newTrackPiece;
@@ -126,12 +126,21 @@ namespace Racerr.Track
 
         bool IsSameTrackPieceStyle(GameObject candidateTrackPiece)
         {
-            // Highway_RoadTransitiion
-            //   ^To     ^From
-            // So this is a Road -> Highway transition
-            // The Highway comes first as the transition piece will naturally be of a highway style
-            string previousTrackStyle = GeneratedTrackPieces[GeneratedTrackPieces.Count - 1].tag;
-            return previousTrackStyle == candidateTrackPiece.tag || candidateTrackPiece.name.Contains(previousTrackStyle + "Transition");
+            if (GeneratedTrackPieces.Count == 0)
+            {
+                // First track cannot be a transition piece.
+                return !candidateTrackPiece.name.Contains("Transition");
+            }
+            else
+            {
+                // Highway_RoadTransition
+                //   ^To     ^From
+                // So this is a Road -> Highway transition
+                // The Highway comes first as the transition piece will naturally be of a highway style
+                string previousTrackStyle = GeneratedTrackPieces[GeneratedTrackPieces.Count - 1].tag;
+                return previousTrackStyle == candidateTrackPiece.tag && !candidateTrackPiece.name.Contains("Transition")
+                    || previousTrackStyle != candidateTrackPiece.tag && candidateTrackPiece.name.Contains(previousTrackStyle + "Transition");
+            }
         }
     }
 }

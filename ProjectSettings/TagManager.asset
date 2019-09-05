@@ -11,6 +11,8 @@ TagManager:
   - Wheel Mesh
   - Prop
   - Environment
+  - Road
+  - Highway
   layers:
   - Default
   - TransparentFX
