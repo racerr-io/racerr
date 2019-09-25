@@ -54,8 +54,17 @@ public class HUDLivePositionTracker : NetworkBehaviour
         {
             if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing)
             {
+                // Calculate the remaining time before the race must end.
+                double CountDownTimer = 180f - RacerrRaceSessionManager.Singleton.RaceLength;
+                // Check if the player has finished and the timer is still over the threshold.
+                if (CountDownTimer > RacerrRaceSessionManager.Singleton.CountdownTimerThreshold/*&& Player is finished*/)
+                {
+                    CountDownTimer = RacerrRaceSessionManager.Singleton.CountdownTimerThreshold;
+                }
+                else if (CountDownTimer <= 0) RacerrRaceSessionManager.Singleton.EndRace(); 
+
                 // Calculate race timer on client to prevent gazillions of SyncVar updates every second.
-                livePositionTrackerText.text = RacerrRaceSessionManager.Singleton.RaceLength.ToRaceTimeFormat() + "\n" + serverText;
+                livePositionTrackerText.text = RacerrRaceSessionManager.Singleton.RaceLength.ToRaceTimeFormat() + "\n" + CountDownTimer.ToRaceTimeFormat() + "\n" + serverText;
             }
             else
             {
