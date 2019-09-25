@@ -24,8 +24,8 @@ namespace Racerr.Car.Core
         [SerializeField] float motorForce = 4000;
         [SerializeField] float brakeForce = 10000;
         [SerializeField] int maxHealth = 100;
-        [SerializeField] int forwardStiffnessNormal = 1;
-        [SerializeField] int forwardStiffnessBraking = 3;
+        [SerializeField] float forwardStiffnessNormal = 1;
+        [SerializeField] float forwardStiffnessBraking = 3;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
         [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
         public int MaxHealth => maxHealth;
@@ -37,13 +37,13 @@ namespace Racerr.Car.Core
         public PlayerBar PlayerBar { get; private set; }
         public float PlayerBarStartDisplacement => playerBarStartDisplacement;
         public float PlayerBarUpDisplacement => playerBarUpDisplacement;
+        public float HorizontalInput { get; set; }
+        public float VerticalInput { get; set; }
 
-        float horizontalInput;
-        float verticalInput;
-        int lastForwardStiffness = 0;
-        int lastSidewaysStiffness = 0;
+        float lastForwardStiffness = 0;
+        float lastSidewaysStiffness = 0;
         new Rigidbody rigidbody;
-        public bool IsAcceleratingBackwards => verticalInput < 0;
+        public bool IsAcceleratingBackwards => VerticalInput < 0;
         public Transform[] WheelTransforms => new[] { transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight };
         public int Velocity => Convert.ToInt32(rigidbody.velocity.magnitude * 2);
 
@@ -84,12 +84,13 @@ namespace Racerr.Car.Core
             if (hasAuthority)
             {
                 GetInput();
-                Steer();
-                Drive();
-                UpdateWheelPositions();
-                AddDownForce();
-                UpdateSidewaysFrictionWithSpeed();
             }
+
+            Steer();
+            Drive();
+            UpdateWheelPositions();
+            AddDownForce();
+            UpdateSidewaysFrictionWithSpeed();
         }
 
         /// <summary>
@@ -118,13 +119,11 @@ namespace Racerr.Car.Core
 
         /// <summary>
         /// Get input from users controls.
-        /// TODO: Turn this into a function called Move() that takes in inputs and create a new script for User input
-        /// so that AI can be decoupled.
         /// </summary>
         void GetInput()
         {
-            horizontalInput = Input.GetAxis("Horizontal");
-            verticalInput = Input.GetAxis("Vertical");
+            HorizontalInput = Input.GetAxis("Horizontal");
+            VerticalInput = Input.GetAxis("Vertical");
         }
 
         /// <summary>
@@ -132,8 +131,8 @@ namespace Racerr.Car.Core
         /// </summary>
         void Steer()
         {
-            float steeringAngle = CalculateSteeringAngle() * horizontalInput;
-            
+            float steeringAngle = CalculateSteeringAngle() * HorizontalInput;
+
             wheelFrontLeft.steerAngle = steeringAngle;
             wheelFrontRight.steerAngle = steeringAngle;
         }
@@ -173,7 +172,7 @@ namespace Racerr.Car.Core
         {
             Vector3 localVel = transform.InverseTransformDirection(rigidbody.velocity);
 
-            if (verticalInput >= 0 || (localVel.z < 0 && verticalInput <= 0))
+            if (VerticalInput >= 0 || (localVel.z < 0 && VerticalInput <= 0))
             {
                 Accelerate();
             }
@@ -199,8 +198,8 @@ namespace Racerr.Car.Core
                 lastForwardStiffness = forwardStiffnessNormal;
             }
 
-            wheelRearRight.motorTorque = verticalInput * motorForce;
-            wheelRearLeft.motorTorque = verticalInput * motorForce;
+            wheelRearRight.motorTorque = VerticalInput * motorForce;
+            wheelRearLeft.motorTorque = VerticalInput * motorForce;
             wheelFrontRight.motorTorque = 0;
             wheelFrontLeft.motorTorque = 0;
             wheelRearRight.brakeTorque = 0;
@@ -223,8 +222,8 @@ namespace Racerr.Car.Core
                 lastForwardStiffness = forwardStiffnessBraking;
             }
 
-            wheelFrontRight.motorTorque = verticalInput * motorForce;
-            wheelFrontLeft.motorTorque = verticalInput * motorForce;
+            wheelFrontRight.motorTorque = VerticalInput * motorForce;
+            wheelFrontLeft.motorTorque = VerticalInput * motorForce;
             wheelRearRight.brakeTorque = brakeForce;
             wheelRearLeft.brakeTorque = brakeForce;
         }

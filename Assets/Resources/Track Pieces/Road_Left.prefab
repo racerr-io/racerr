@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 9126894108220002572}
   m_Layer: 0
   m_Name: Road_Left
-  m_TagString: Track Piece
+  m_TagString: Road
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,8 +135,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: be519fc9c30ceda4cb275f6bbf57477e
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 3316088867
 --- !u!54 &4900802751616375758
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -320,6 +320,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -484,6 +485,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -606,6 +608,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -812,6 +815,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -916,10 +920,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1927433695901393220}
     m_Modifications:
-    - target: {fileID: 1000011779176148, guid: b3eddff1dbf0b44e98e4236f32b877b5, type: 3}
-      propertyPath: m_TagString
-      value: Environment
-      objectReference: {fileID: 0}
     - target: {fileID: 1000011019239116, guid: b3eddff1dbf0b44e98e4236f32b877b5, type: 3}
       propertyPath: m_Name
       value: Building_3B
@@ -981,6 +981,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1000012078878278, guid: b3eddff1dbf0b44e98e4236f32b877b5, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011779176148, guid: b3eddff1dbf0b44e98e4236f32b877b5, type: 3}
       propertyPath: m_TagString
       value: Environment
       objectReference: {fileID: 0}
@@ -1185,6 +1189,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1927433695901393220}
     m_Modifications:
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (2)
+      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.48
@@ -1237,10 +1245,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (2)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
 --- !u!4 &1060418294041632518 stripped
@@ -1256,6 +1260,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1927433695901393220}
     m_Modifications:
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.55
@@ -1307,10 +1315,6 @@ PrefabInstance:
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalScale.z
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
@@ -1429,6 +1433,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1927433695901393220}
     m_Modifications:
+    - target: {fileID: 1000011819752678, guid: d3d20f00d97834c33a60cf96258f05ff, type: 3}
+      propertyPath: m_Name
+      value: Building_6C
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011819752678, guid: d3d20f00d97834c33a60cf96258f05ff, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 4000013719839622, guid: d3d20f00d97834c33a60cf96258f05ff, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17
@@ -1480,14 +1492,6 @@ PrefabInstance:
     - target: {fileID: 4000013719839622, guid: d3d20f00d97834c33a60cf96258f05ff, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.50000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000011819752678, guid: d3d20f00d97834c33a60cf96258f05ff, type: 3}
-      propertyPath: m_Name
-      value: Building_6C
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000011819752678, guid: d3d20f00d97834c33a60cf96258f05ff, type: 3}
-      propertyPath: m_TagString
-      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 64000010460636924, guid: d3d20f00d97834c33a60cf96258f05ff,
         type: 3}
@@ -1604,6 +1608,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1927433695901393220}
     m_Modifications:
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (4)
+      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.41
@@ -1655,10 +1663,6 @@ PrefabInstance:
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalScale.z
       value: 2.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (4)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
@@ -1770,6 +1774,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1927433695901393220}
     m_Modifications:
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3 (3)
+      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.89
@@ -1821,10 +1829,6 @@ PrefabInstance:
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalScale.z
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3 (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
@@ -1923,6 +1927,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1927433695901393220}
     m_Modifications:
+    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
+      propertyPath: m_Name
+      value: Pavement_1A_3x3
+      objectReference: {fileID: 0}
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.5
@@ -1974,10 +1982,6 @@ PrefabInstance:
     - target: {fileID: 4000011608040396, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
       propertyPath: m_LocalScale.z
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000012915930132, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
-      propertyPath: m_Name
-      value: Pavement_1A_3x3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1faa6e02526444645a9328ac2da7ca31, type: 3}
