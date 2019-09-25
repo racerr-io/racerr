@@ -26,7 +26,7 @@ namespace Racerr.Track
         {
             GameObject collidedGameObject = collision.gameObject;
 
-            if (collidedGameObject.CompareTag("Road") || collidedGameObject.CompareTag("Highway"))
+            if (collidedGameObject.CompareTag(TrackPieceComponent.Road) || collidedGameObject.CompareTag(TrackPieceComponent.Highway))
             {
                 collidedGameObjects.Add(collidedGameObject);
             }
