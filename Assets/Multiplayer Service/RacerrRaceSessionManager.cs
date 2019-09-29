@@ -26,6 +26,7 @@ namespace Racerr.MultiplayerService
         [SerializeField] int raceTimerSeconds = 5;
         [SerializeField] int raceTimerSecondsSinglePlayer = 20;
         [SerializeField] int raceTimerSecondsEditor = 1;
+        [SerializeField] public double CountdownTimer = 180;
         [SerializeField] public int CountdownTimerThreshold = 30;
         List<Player> playersOnServer = new List<Player>();
         List<Player> playersInRace = new List<Player>();
@@ -191,7 +192,7 @@ namespace Racerr.MultiplayerService
         [Server]
         public void EndRace()
         {
-            foreach (Player player in DeadPlayers)
+            foreach (Player player in PlayersInRace)
             {
                 player.DestroyPlayersCar();
             }

@@ -60,10 +60,13 @@ namespace Racerr.MultiplayerService
         [Server]
         public void DestroyPlayersCar()
         {
-            NetworkServer.Destroy(carGO);
-            Destroy(carGO);
-            carGO = null;
-            car = null;
+            if (carGO != null)
+            {
+                NetworkServer.Destroy(carGO);
+                Destroy(carGO);
+                carGO = null;
+                car = null;
+            }
         }
 
         #endregion
