@@ -318,6 +318,8 @@ MonoBehaviour:
   raceTimerSeconds: 5
   raceTimerSecondsSinglePlayer: 20
   raceTimerSecondsEditor: 1
+  countdownTimerThreshold: 30
+  countdownTimer: 180
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0

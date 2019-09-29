@@ -26,13 +26,15 @@ namespace Racerr.MultiplayerService
         [SerializeField] int raceTimerSeconds = 5;
         [SerializeField] int raceTimerSecondsSinglePlayer = 20;
         [SerializeField] int raceTimerSecondsEditor = 1;
-        [SerializeField] public double CountdownTimer = 180;
-        [SerializeField] public int CountdownTimerThreshold = 30;
+        [SerializeField] int countdownTimerThreshold = 30;
+        [SerializeField] double countdownTimer = 180;
         List<Player> playersOnServer = new List<Player>();
         List<Player> playersInRace = new List<Player>();
         List<Player> finishedPlayers = new List<Player>();
         GameObject[] checkpointsInRace = null;
         bool timerActive = false;
+        public int CountdownTimerThreshold => countdownTimerThreshold;
+        public double CountdownTimer => countdownTimer;
         public IReadOnlyCollection<Player> PlayersOnServer => playersOnServer;
         public IReadOnlyCollection<Player> ReadyPlayers => playersOnServer.Where(p => p.IsReady).ToArray();
         public IReadOnlyCollection<Player> PlayersInRace => playersInRace;
