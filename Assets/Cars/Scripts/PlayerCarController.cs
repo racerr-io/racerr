@@ -117,7 +117,7 @@ namespace Racerr.Car.Core
         {
             if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Environment"))
             {
-                Player.Health -= 25;
+                Player.Health -= 10;
             }
         }
 
