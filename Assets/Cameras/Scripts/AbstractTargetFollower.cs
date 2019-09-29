@@ -1,3 +1,6 @@
+using Racerr.Car.Core;
+using Racerr.MultiplayerService;
+using System.Linq;
 using UnityEngine;
 
 namespace Racerr.UX.Camera
@@ -86,11 +89,8 @@ namespace Racerr.UX.Camera
         /// </summary>
         public void FindAndTargetPlayer()
         {
-            var targetObj = GameObject.FindGameObjectWithTag("Player");
-            if (targetObj)
-            {
-                SetTarget(targetObj.transform);
-            }
+            Player alivePlayer = RacerrRaceSessionManager.Singleton.PlayersInRace.Where(player => !player.IsDead).FirstOrDefault();
+            SetTarget(alivePlayer?.Car?.gameObject.transform);
         }
 
         /// <summary>

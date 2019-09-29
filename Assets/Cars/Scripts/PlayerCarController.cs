@@ -113,7 +113,7 @@ namespace Racerr.Car.Core
         {
             if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Environment"))
             {
-                Player.Health -= 10;
+                Player.Health -= 25;
             }
         }
 
@@ -170,6 +170,11 @@ namespace Racerr.Car.Core
         /// </summary>
         void Drive()
         {
+            if (Player.IsDead)
+            {
+                return;
+            }
+
             Vector3 localVel = transform.InverseTransformDirection(rigidbody.velocity);
 
             if (VerticalInput >= 0 || (localVel.z < 0 && VerticalInput <= 0))

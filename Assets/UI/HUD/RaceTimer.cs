@@ -103,7 +103,8 @@ namespace Racerr.UX.HUD
         [Client]
         void UpdateSpectatingLabel()
         {
-            if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing && Player.LocalPlayer.IsReady && Player.LocalPlayer.Car == null)
+            if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing && Player.LocalPlayer.IsReady && 
+                (Player.LocalPlayer.Car == null || Player.LocalPlayer.IsDead))
             {
                 gameStatusLabelGO.SetActive(true);
             }

@@ -34,7 +34,7 @@ public class HUDLivePositionTracker : NetworkBehaviour
             {
                 text += $"{count}. {player.PlayerName}";
 
-                if (player.PositionInfo.IsFinished)
+                if (player.IsDead || player.PositionInfo.IsFinished)
                 {
                     text += $" ({player.PositionInfo.TimeString})";
                 }

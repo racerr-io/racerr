@@ -1,5 +1,7 @@
 ﻿using Mirror;
 using Racerr.Car.Core;
+using Racerr.UX.Camera;
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -143,19 +145,25 @@ namespace Racerr.MultiplayerService
             get => health;
             set
             {
-                if (value >= 0)
+                value = Math.Max(0, value);
+
+                if (isServer)
                 {
-                    if (isServer)
+                    health = value;
+                }
+                else
+                {
+                    CmdSynchroniseHealth(value);
+
+                    if (health == 0 && hasAuthority)
                     {
-                        health = value;
-                    }
-                    else
-                    {
-                        CmdSynchroniseHealth(value);
+                        FindObjectOfType<AutoCam>().SetTarget(null);
                     }
                 }
             }
         }
+
+        public bool IsDead => Health == 0;
 
         #endregion
 
