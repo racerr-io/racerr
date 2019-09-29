@@ -145,17 +145,13 @@ namespace Racerr.MultiplayerService
             get => health;
             set
             {
-                value = Math.Max(0, value);
+                health = Math.Max(0, value);
 
-                if (isServer)
+                if (!isServer)
                 {
-                    health = value;
-                }
-                else
-                {
-                    CmdSynchroniseHealth(value);
+                    CmdSynchroniseHealth(health);
 
-                    if (value == 0 && hasAuthority)
+                    if (health == 0 && hasAuthority)
                     {
                         FindObjectOfType<AutoCam>().SetTarget(null);
                     }
