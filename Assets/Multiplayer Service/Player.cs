@@ -155,7 +155,7 @@ namespace Racerr.MultiplayerService
                 {
                     CmdSynchroniseHealth(value);
 
-                    if (health == 0 && hasAuthority)
+                    if (value == 0 && hasAuthority)
                     {
                         FindObjectOfType<AutoCam>().SetTarget(null);
                     }

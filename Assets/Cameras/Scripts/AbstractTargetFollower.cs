@@ -89,7 +89,7 @@ namespace Racerr.UX.Camera
         /// </summary>
         public void FindAndTargetPlayer()
         {
-            Player alivePlayer = RacerrRaceSessionManager.Singleton.PlayersInRace.Where(player => !player.IsDead).FirstOrDefault();
+            Player alivePlayer = FindObjectsOfType<Player>().Where(player => player.IsReady && !player.IsDead).FirstOrDefault();
             SetTarget(alivePlayer?.Car?.gameObject.transform);
         }
 
