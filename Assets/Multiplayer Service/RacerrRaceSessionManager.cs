@@ -36,6 +36,7 @@ namespace Racerr.MultiplayerService
         public IReadOnlyCollection<Player> ReadyPlayers => playersOnServer.Where(p => p.IsReady).ToArray();
         public IReadOnlyCollection<Player> PlayersInRace => playersInRace;
         public IReadOnlyCollection<Player> FinishedPlayers => finishedPlayers;
+        public IReadOnlyCollection<Player> DeadPlayers => playersInRace.Where(p => p.IsDead).ToArray();
         public IEnumerable<Player> PlayersInRaceOrdered
         {
             get
@@ -97,7 +98,7 @@ namespace Racerr.MultiplayerService
 #endif
                     FindObjectOfType<RaceTimer>().StartTimer(seconds);
                 }
-                else if (isCurrentlyRacing && (playersInRace.Count == 0 || finishedPlayers.Count == playersInRace.Count))
+                else if (isCurrentlyRacing && (playersInRace.Count == 0 || finishedPlayers.Count + DeadPlayers.Count == playersInRace.Count))
                 {
                     EndRace();
                 }
@@ -190,6 +191,11 @@ namespace Racerr.MultiplayerService
         [Server]
         public void EndRace()
         {
+            foreach (Player player in DeadPlayers)
+            {
+                player.DestroyPlayersCar();
+            }
+
             isCurrentlyRacing = false;
             checkpointsInRace = null;
             TrackGeneratorCommon.Singleton.DestroyIfRequired();

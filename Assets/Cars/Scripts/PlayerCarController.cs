@@ -86,9 +86,13 @@ namespace Racerr.Car.Core
                 GetInput();
             }
 
-            Steer();
-            Drive();
-            UpdateWheelPositions();
+            if (!Player.IsDead)
+            {
+                Steer();
+                Drive();
+                UpdateWheelPositions();
+            }
+            
             AddDownForce();
             UpdateSidewaysFrictionWithSpeed();
         }
@@ -122,8 +126,15 @@ namespace Racerr.Car.Core
         /// </summary>
         void GetInput()
         {
-            HorizontalInput = Input.GetAxis("Horizontal");
-            VerticalInput = Input.GetAxis("Vertical");
+            if (!Player.IsDead)
+            {
+                HorizontalInput = Input.GetAxis("Horizontal");
+                VerticalInput = Input.GetAxis("Vertical");
+            }
+            else
+            {
+                HorizontalInput = VerticalInput = 0;
+            }
         }
 
         /// <summary>
