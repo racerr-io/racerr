@@ -57,7 +57,7 @@ public class HUDLivePositionTracker : NetworkBehaviour
                 // Calculate the remaining time before the race must end.
                 double CountDownTimer = 180f - RacerrRaceSessionManager.Singleton.RaceLength;
                 // Check if the player has finished and the timer is still over the threshold.
-                if (CountDownTimer > RacerrRaceSessionManager.Singleton.CountdownTimerThreshold/*&& Player is finished*/)
+                if (CountDownTimer > RacerrRaceSessionManager.Singleton.CountdownTimerThreshold && RacerrRaceSessionManager.Singleton.DeadPlayers.Any())
                 {
                     CountDownTimer = RacerrRaceSessionManager.Singleton.CountdownTimerThreshold;
                 }
