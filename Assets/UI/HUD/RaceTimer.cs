@@ -15,7 +15,7 @@ namespace Racerr.UX.HUD
         const string WaitingForPlayersLabel = "Waiting For Players Label";
         const string GameStatusLabel = "Game Status Label";
 
-        [SyncVar(hook = "OnChangeSecondsRemaining")] int secondsRemaining;
+        [SyncVar(hook = nameof(OnChangeSecondsRemaining))] int secondsRemaining;
 
         Text secondsRemainingText;
         GameObject waitingForPlayersLabelGO;
