@@ -129,6 +129,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 32501242}
+  - component: {fileID: 32501244}
+  - component: {fileID: 32501243}
   m_Layer: 0
   m_Name: Intermission Status
   m_TagString: Untagged
@@ -152,6 +154,42 @@ Transform:
   m_Father: {fileID: 711767393}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &32501243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32501241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33ff53b3259016f49b7cac9940d486d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastSyncTime: 0
+  syncInterval: 0.1
+  <syncVarHookGuard>k__BackingField: 0
+  netIdentityCache: {fileID: 0}
+  secondsRemaining: 0
+  intermissionTimerLabelText: {fileID: 0}
+  waitingForPlayersLabelGO: {fileID: 0}
+  intermissionTimerLabelGO: {fileID: 0}
+--- !u!114 &32501244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32501241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2678440880
 --- !u!1 &109152876
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,7 +461,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: -0.046875, y: -0.5, z: 5.5, w: 6}
+  m_BoundingSphereOverride: {x: 0, y: 4e-45, z: -1.7471993e+21, w: 8.5911517e+15}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -1022,7 +1060,6 @@ GameObject:
   - component: {fileID: 711767391}
   - component: {fileID: 711767390}
   - component: {fileID: 711767395}
-  - component: {fileID: 711767394}
   - component: {fileID: 711767396}
   m_Layer: 0
   m_Name: HUD (Needs Refactoring)
@@ -1114,19 +1151,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &711767394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 711767389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df1bee11d551e4b4290c457ee4fc9173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncInterval: 0
 --- !u!114 &711767395
 MonoBehaviour:
   m_ObjectHideFlags: 0

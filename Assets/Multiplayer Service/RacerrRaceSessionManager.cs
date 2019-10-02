@@ -95,7 +95,7 @@ namespace Racerr.MultiplayerService
 #else
                     int seconds = ReadyPlayers.Count > 1 ? raceTimerSeconds : raceTimerSecondsSinglePlayer;
 #endif
-                    FindObjectOfType<RaceTimer>().StartTimer(seconds);
+                    FindObjectOfType<IntermissionStatus>().StartTimer(seconds);
                 }
                 else if (isCurrentlyRacing && (playersInRace.Count == 0 || finishedPlayers.Count + DeadPlayers.Count == playersInRace.Count))
                 {

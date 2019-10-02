@@ -9,39 +9,25 @@ namespace Racerr.UX.HUD
     /// <summary>
     /// Timer for beginning and ending the race.
     /// </summary>
-    public class RaceTimer : NetworkBehaviour
+    public class IntermissionStatus : NetworkBehaviour
     {
-        const string TimerLabel = "Timer Label";
+        const string IntermissionTimerLabel = "Intermission Timer Label";
         const string WaitingForPlayersLabel = "Waiting For Players Label";
-        const string GameStatusLabel = "Game Status Label";
 
         [SyncVar(hook = nameof(OnChangeSecondsRemaining))] int secondsRemaining;
 
-        Text secondsRemainingText;
+        Text intermissionTimerLabelText;
         GameObject waitingForPlayersLabelGO;
-        GameObject timerLabelGO;
-        GameObject gameStatusLabelGO;
-
+        GameObject intermissionTimerLabelGO;
+ 
         /// <summary>
         /// Initialise race timer with the labels.
         /// </summary>
         void Start()
         {
             waitingForPlayersLabelGO = transform.Find(WaitingForPlayersLabel).gameObject;
-            timerLabelGO = transform.Find(TimerLabel).gameObject;
-            gameStatusLabelGO = transform.Find(GameStatusLabel).gameObject;
-            secondsRemainingText = timerLabelGO.GetComponent<Text>();
-        }
-
-        /// <summary>
-        /// Check every frame on client whether we should display spectating.
-        /// </summary>
-        void Update()
-        {
-            if (isClient)
-            {
-                UpdateSpectatingLabel();
-            }
+            intermissionTimerLabelGO = transform.Find(IntermissionTimerLabel).gameObject;
+            intermissionTimerLabelText = intermissionTimerLabelGO.GetComponent<Text>();
         }
 
         /// <summary>
@@ -52,11 +38,8 @@ namespace Racerr.UX.HUD
         public void StartTimer(int seconds)
         {
             secondsRemaining = seconds;
+            StartCoroutine(CountdownTimer());
 
-            if (isServer)
-            {
-                StartCoroutine(CountdownTimer());
-            }
         }
 
         /// <summary>
@@ -88,12 +71,45 @@ namespace Racerr.UX.HUD
             if (secondsRemaining > 0 && Player.LocalPlayer.IsReady)
             {
                 ShowTimer();
-                secondsRemainingText.text = secondsRemaining.ToString();
+                intermissionTimerLabelText.text = secondsRemaining.ToString();
                 waitingForPlayersLabelGO.SetActive(secondsRemaining > 5);
             }
             else
             {
                 HideTimer();
+            }
+        }
+
+        /// <summary>
+        /// Show the timer UI 
+        /// (note the waiting for players is determined in OnChangeSecondsRemaining() hook)
+        /// </summary>
+        [Client]
+        void ShowTimer()
+        {
+            intermissionTimerLabelGO.SetActive(true);
+        }
+
+        /// <summary>
+        /// Hide the timer UI.
+        /// </summary>
+        [Client]
+        void HideTimer()
+        {
+            waitingForPlayersLabelGO.SetActive(false);
+            intermissionTimerLabelGO.SetActive(false);
+        }
+
+        /* TODO: Move to Game Status
+        
+        /// <summary>
+        /// Check every frame on client whether we should display spectating.
+        /// </summary>
+        void Update()
+        {
+            if (isClient)
+            {
+                UpdateSpectatingLabel();
             }
         }
 
@@ -114,24 +130,6 @@ namespace Racerr.UX.HUD
             }
         }
 
-        /// <summary>
-        /// Show the timer UI 
-        /// (note the waiting for players is determined in OnChangeSecondsRemaining() hook)
-        /// </summary>
-        [Client]
-        void ShowTimer()
-        {
-            timerLabelGO.SetActive(true);
-        }
-
-        /// <summary>
-        /// Hide the timer UI.
-        /// </summary>
-        [Client]
-        void HideTimer()
-        {
-            waitingForPlayersLabelGO.SetActive(false);
-            timerLabelGO.SetActive(false);
-        }
+        */
     }
 }
