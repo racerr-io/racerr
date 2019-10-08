@@ -52,6 +52,6 @@ MonoBehaviour:
   UseMasterAudio: 0
   UseOrientationDetector: 0
   UsePlaymaker: 0
-  UseTextMeshPro: 0
-  AssetDatabaseSaveAssetsNeeded: 1
+  UseTextMeshPro: 1
+  AssetDatabaseSaveAssetsNeeded: 0
   AssetDatabaseRefreshNeeded: 0
