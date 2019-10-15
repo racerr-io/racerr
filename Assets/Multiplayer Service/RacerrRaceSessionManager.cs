@@ -21,7 +21,10 @@ namespace Racerr.MultiplayerService
         [SyncVar] double raceStartTime;
         public double RaceStartTime => raceStartTime;
         public double RaceLength => NetworkTime.time - RaceStartTime;
-
+        [SyncVar] int intermissionSecondsRemaining;
+        public int IntermissionSecondsRemaining => intermissionSecondsRemaining;
+        public bool IntermissionActive => intermissionSecondsRemaining > 0;
+        
         // Server only properties
         [SerializeField] int raceTimerSeconds = 5;
         [SerializeField] int raceTimerSecondsSinglePlayer = 20;
@@ -29,8 +32,7 @@ namespace Racerr.MultiplayerService
         List<Player> playersOnServer = new List<Player>();
         List<Player> playersInRace = new List<Player>();
         List<Player> finishedPlayers = new List<Player>();
-        GameObject[] checkpointsInRace = null;
-        bool timerActive = false;
+
         public IReadOnlyCollection<Player> PlayersOnServer => playersOnServer;
         public IReadOnlyCollection<Player> ReadyPlayers => playersOnServer.Where(p => p.IsReady).ToArray();
         public IReadOnlyCollection<Player> PlayersInRace => playersInRace;
@@ -46,6 +48,7 @@ namespace Racerr.MultiplayerService
                     .ThenBy(player =>
                     {
                         Vector3? currCarPosition = player.Car?.transform.position;
+                        GameObject[] checkpointsInRace = TrackGeneratorCommon.Singleton.CheckpointsInRace;
                         if (currCarPosition == null || checkpointsInRace == null)
                         {
                             // For some reason the player has no car or the race hasn't started,
@@ -87,15 +90,9 @@ namespace Racerr.MultiplayerService
         {
             if (isServer)
             {
-                if (playersOnServer.Any(p => p.IsReady) && !isCurrentlyRacing && !timerActive)
+                if (playersOnServer.Any(p => p.IsReady) && !isCurrentlyRacing && !IntermissionActive && !TrackGeneratorCommon.Singleton.IsTrackGenerating)
                 {
-                    timerActive = true;
-#if UNITY_EDITOR
-                    int seconds = raceTimerSecondsEditor;
-#else
-                    int seconds = ReadyPlayers.Count > 1 ? raceTimerSeconds : raceTimerSecondsSinglePlayer;
-#endif
-                    FindObjectOfType<IntermissionStatus>().StartTimer(seconds);
+                    StartIntermissionTimer();
                 }
                 else if (isCurrentlyRacing && (playersInRace.Count == 0 || finishedPlayers.Count + DeadPlayers.Count == playersInRace.Count))
                 {
@@ -129,6 +126,37 @@ namespace Racerr.MultiplayerService
         }
 
         /// <summary>
+        /// Start the intermission timer, which will start the race after it reaches 0.
+        /// </summary>
+        /// <param name="seconds">Seconds to count down.</param>
+        [Server]
+        public void StartIntermissionTimer()
+        {
+#if UNITY_EDITOR
+            intermissionSecondsRemaining = raceTimerSecondsEditor;
+#else
+            intermissionSecondsRemaining = ReadyPlayers.Count > 1 ? raceTimerSeconds : raceTimerSecondsSinglePlayer;
+#endif
+            StartCoroutine(IntermissionTimer());
+        }
+
+        /// <summary>
+        /// Coroutine for counting down the intermission timer.
+        /// </summary>
+        /// <returns>IEnumerator for coroutine.</returns>
+        [Server]
+        IEnumerator IntermissionTimer()
+        {
+            while (intermissionSecondsRemaining > 0)
+            {
+                yield return new WaitForSeconds(1);
+                intermissionSecondsRemaining--;
+            }
+
+            StartRace();
+        }
+
+        /// <summary>
         /// Start a new race, provided one is not currently occuring.
         /// </summary>
         [Server]
@@ -153,22 +181,6 @@ namespace Racerr.MultiplayerService
                 TrackGeneratorCommon.Singleton.GenerateIfRequired();
                 while (!TrackGeneratorCommon.Singleton.IsTrackGenerated) yield return null;
 
-                // Create a list of all checkpoints in race using the Generated track pices.
-                // We assume all track pieces are either Checkpoint or FinishingLineCheckpoint.
-                checkpointsInRace = TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Select(trackPiece => 
-                {
-                    GameObject result = trackPiece.transform.Find(TrackPieceComponent.Checkpoint)?.gameObject;
-
-                    if (result == null)
-                    {
-                        // Special case for the finishing line, it has a different label.
-                        result = trackPiece.transform.Find(TrackPieceComponent.FinishLineCheckpoint).gameObject;
-                    }
-
-                    return result;
-                }).ToArray();
-
-                timerActive = false;
                 Vector3 currPosition = new Vector3(0, 1, 10);
                 playersInRace.AddRange(ReadyPlayers);
 
@@ -196,7 +208,7 @@ namespace Racerr.MultiplayerService
             }
 
             isCurrentlyRacing = false;
-            checkpointsInRace = null;
+
             TrackGeneratorCommon.Singleton.DestroyIfRequired();
         }
 

@@ -41,7 +41,6 @@ namespace Racerr.MultiplayerService
 #else
                 StartClient();
 #endif
-                StartCoroutine(UpdateStartMenu());
             }
         }
 
@@ -64,32 +63,6 @@ namespace Racerr.MultiplayerService
         {
             RacerrRaceSessionManager.Singleton.RemovePlayer(conn.playerController.gameObject);
             NetworkServer.DestroyPlayerForConnection(conn);
-        }
-
-        /// <summary>
-        /// Show connection message and update start menu user interface depending on user's connection to server.
-        /// </summary>
-        /// <returns>IEnumerator for coroutine to run concurrently.</returns>
-        IEnumerator UpdateStartMenu()
-        {
-            while (true)
-            {
-                StartMenu startMenu = FindObjectOfType<StartMenu>();
-
-                if (NetworkClient.isConnected)
-                {
-                    startMenu.ShowMenu();
-                    break;
-                }
-                else if (secondsWaitingForConnection >= connectionWaitTime)
-                {
-                    startMenu.ShowErrorMessage();
-                    break;
-                }
-
-                secondsWaitingForConnection++;
-                yield return new WaitForSeconds(1);
-            }
         }
     }
 }

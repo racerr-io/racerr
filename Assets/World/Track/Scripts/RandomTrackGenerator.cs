@@ -121,7 +121,8 @@ namespace Racerr.Track
 
             // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
             currentTrackPiece.transform.Find(TrackPieceComponent.Checkpoint).name = TrackPieceComponent.FinishLineCheckpoint;
-            IsTrackGenerated = true;
+
+            FinishTrackGeneration();
         }
 
         bool IsSameTrackPieceStyle(GameObject candidateTrackPiece)
