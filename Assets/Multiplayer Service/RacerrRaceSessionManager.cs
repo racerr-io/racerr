@@ -21,14 +21,14 @@ namespace Racerr.MultiplayerService
         [SyncVar] double raceStartTime;
         public double RaceStartTime => raceStartTime;
         public double RaceLength => NetworkTime.time - RaceStartTime;
-        [SyncVar] int intermissionSecondsRemaining;
+        [SyncVar (hook = nameof(OnIntermissionSecondsRemainingChange))] int intermissionSecondsRemaining;
         public int IntermissionSecondsRemaining => intermissionSecondsRemaining;
         public bool IntermissionActive => intermissionSecondsRemaining > 0;
         
         // Server only properties
-        [SerializeField] int raceTimerSeconds = 5;
-        [SerializeField] int raceTimerSecondsSinglePlayer = 20;
-        [SerializeField] int raceTimerSecondsEditor = 1;
+        [SerializeField] int intermissionTimerSeconds = 5;
+        [SerializeField] int intermissionTimerSecondsSinglePlayer = 20;
+        [SerializeField] int intermissionTimerSecondsEditor = 1;
         List<Player> playersOnServer = new List<Player>();
         List<Player> playersInRace = new List<Player>();
         List<Player> finishedPlayers = new List<Player>();
@@ -133,7 +133,7 @@ namespace Racerr.MultiplayerService
         public void StartIntermissionTimer()
         {
 #if UNITY_EDITOR
-            intermissionSecondsRemaining = raceTimerSecondsEditor;
+            intermissionSecondsRemaining = intermissionTimerSecondsEditor;
 #else
             intermissionSecondsRemaining = ReadyPlayers.Count > 1 ? raceTimerSeconds : raceTimerSecondsSinglePlayer;
 #endif
@@ -154,6 +154,14 @@ namespace Racerr.MultiplayerService
             }
 
             StartRace();
+        }
+
+        [Client]
+        void OnIntermissionSecondsRemainingChange(int intermissionSecondsRemaining)
+        {
+            this.intermissionSecondsRemaining = intermissionSecondsRemaining;
+
+
         }
 
         /// <summary>

@@ -494,7 +494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0.1
-  trackLength: 25
+  trackLength: 2
   firstTrackPiece: {fileID: 4442780298096383131, guid: cbb9ed024e5cf6d4194ab1b3ece343a9,
     type: 3}
   origin: {fileID: 1034402543}
@@ -541,9 +541,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0
-  raceTimerSeconds: 5
-  raceTimerSecondsSinglePlayer: 20
-  raceTimerSecondsEditor: 1
+  intermissionTimerSeconds: 5
+  intermissionTimerSecondsSinglePlayer: 20
+  intermissionTimerSecondsEditor: 5
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1671,30 +1671,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1503551373}
     m_Modifications:
-    - target: {fileID: 399039177847461608, guid: d87e356e474fd3843a2f4b3e232fb3d8,
+    - target: {fileID: 399039179085626716, guid: d87e356e474fd3843a2f4b3e232fb3d8,
         type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 399039177847461608, guid: d87e356e474fd3843a2f4b3e232fb3d8,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 399039177847461608, guid: d87e356e474fd3843a2f4b3e232fb3d8,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 399039177847461608, guid: d87e356e474fd3843a2f4b3e232fb3d8,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 399039177847461608, guid: d87e356e474fd3843a2f4b3e232fb3d8,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 0
+      propertyPath: m_Name
+      value: Leaderboard
       objectReference: {fileID: 0}
     - target: {fileID: 399039179085626707, guid: d87e356e474fd3843a2f4b3e232fb3d8,
         type: 3}
@@ -1801,10 +1781,30 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 399039179085626716, guid: d87e356e474fd3843a2f4b3e232fb3d8,
+    - target: {fileID: 399039177847461608, guid: d87e356e474fd3843a2f4b3e232fb3d8,
         type: 3}
-      propertyPath: m_Name
-      value: Leaderboard
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 399039177847461608, guid: d87e356e474fd3843a2f4b3e232fb3d8,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 399039177847461608, guid: d87e356e474fd3843a2f4b3e232fb3d8,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 399039177847461608, guid: d87e356e474fd3843a2f4b3e232fb3d8,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 399039177847461608, guid: d87e356e474fd3843a2f4b3e232fb3d8,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d87e356e474fd3843a2f4b3e232fb3d8, type: 3}
@@ -2769,6 +2769,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1503551373}
     m_Modifications:
+    - target: {fileID: 5887324450321724486, guid: 08c481e88d77f684696e515de5a0df2c,
+        type: 3}
+      propertyPath: m_Name
+      value: Race Timer
+      objectReference: {fileID: 0}
     - target: {fileID: 1267990761692994253, guid: 08c481e88d77f684696e515de5a0df2c,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -2788,11 +2793,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5887324450321724486, guid: 08c481e88d77f684696e515de5a0df2c,
-        type: 3}
-      propertyPath: m_Name
-      value: Race Timer
       objectReference: {fileID: 0}
     - target: {fileID: 5953184500479393418, guid: 08c481e88d77f684696e515de5a0df2c,
         type: 3}
@@ -5491,7 +5491,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2075103231}
+        m_MethodName: OnStartRaceButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!95 &1187478242
@@ -5644,7 +5655,7 @@ GameObject:
   - component: {fileID: 1375910745}
   - component: {fileID: 1375910744}
   m_Layer: 0
-  m_Name: Text
+  m_Name: Player Name Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7537,6 +7548,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 867409032}
     m_Modifications:
+    - target: {fileID: 5887324450321724486, guid: 08c481e88d77f684696e515de5a0df2c,
+        type: 3}
+      propertyPath: m_Name
+      value: Race Timer
+      objectReference: {fileID: 0}
     - target: {fileID: 1267990761692994253, guid: 08c481e88d77f684696e515de5a0df2c,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -7556,11 +7572,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5887324450321724486, guid: 08c481e88d77f684696e515de5a0df2c,
-        type: 3}
-      propertyPath: m_Name
-      value: Race Timer
       objectReference: {fileID: 0}
     - target: {fileID: 5953184500479393418, guid: 08c481e88d77f684696e515de5a0df2c,
         type: 3}
@@ -7690,6 +7701,7 @@ GameObject:
   - component: {fileID: 2075103227}
   - component: {fileID: 2075103226}
   - component: {fileID: 2075103225}
+  - component: {fileID: 2075103231}
   m_Layer: 0
   m_Name: View - Main Menu
   m_TagString: Untagged
@@ -8264,6 +8276,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &2075103231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075103223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10c2bf8124e3ffd4a9de3a53edb5dd1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2078906160
 GameObject:
   m_ObjectHideFlags: 0
@@ -8604,6 +8628,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 867409032}
     m_Modifications:
+    - target: {fileID: 399039179085626716, guid: d87e356e474fd3843a2f4b3e232fb3d8,
+        type: 3}
+      propertyPath: m_Name
+      value: Leaderboard
+      objectReference: {fileID: 0}
     - target: {fileID: 399039179085626707, guid: d87e356e474fd3843a2f4b3e232fb3d8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8708,11 +8737,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 399039179085626716, guid: d87e356e474fd3843a2f4b3e232fb3d8,
-        type: 3}
-      propertyPath: m_Name
-      value: Leaderboard
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d87e356e474fd3843a2f4b3e232fb3d8, type: 3}
