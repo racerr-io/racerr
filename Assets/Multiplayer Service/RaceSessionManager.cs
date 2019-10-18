@@ -94,9 +94,9 @@ namespace Racerr.MultiplayerService
                     ServerStateMachine.Singleton.ChangeState(ServerState.Intermission);
                     // StartIntermissionTimer()
                 }
-                else if (isCurrentlyRacing && (playersInRace.Count == 0 || finishedPlayers.Count + DeadPlayers.Count == playersInRace.Count))
+                else if layersInRace.Count == 0 || finishedPlayers.Count + DeadPlayers.Count == playersInRace.Count))
                 {
-                    EndRace();
+                    EndRace();(isCurrentlyRacing && (p
                 }
             }
         }
