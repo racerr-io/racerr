@@ -30,7 +30,7 @@ public class HUDLivePositionTracker : NetworkBehaviour
             string text = string.Empty;
             int count = 1;
 
-            foreach (Player player in RacerrRaceSessionManager.Singleton.PlayersInRaceOrdered)
+            foreach (Player player in RaceSessionManager.Singleton.PlayersInRaceOrdered)
             {
                 text += $"{count}. {player.PlayerName}";
 
@@ -52,10 +52,10 @@ public class HUDLivePositionTracker : NetworkBehaviour
         // Only show the timer when player is ready (i.e. clicked "Race!")
         if (isClient && Player.LocalPlayer != null && Player.LocalPlayer.IsReady)
         {
-            if (RacerrRaceSessionManager.Singleton.IsCurrentlyRacing)
+            if (RaceSessionManager.Singleton.IsCurrentlyRacing)
             {
                 // Calculate race timer on client to prevent gazillions of SyncVar updates every second.
-                livePositionTrackerText.text = RacerrRaceSessionManager.Singleton.RaceLength.ToRaceTimeFormat() + "\n" + serverText;
+                livePositionTrackerText.text = RaceSessionManager.Singleton.RaceLength.ToRaceTimeFormat() + "\n" + serverText;
             }
             else
             {

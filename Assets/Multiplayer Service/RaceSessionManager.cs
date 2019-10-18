@@ -1,6 +1,5 @@
 ﻿using Mirror;
 using Racerr.Track;
-using Racerr.UX.HUD;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +11,10 @@ namespace Racerr.MultiplayerService
     /// Racerr Race Session Manager. Manages the current race, cars and players
     /// on the current dedicated server.
     /// </summary>
-    public class RacerrRaceSessionManager : NetworkBehaviour
+    public class RaceSessionManager : NetworkBehaviour
     {
         // Server and client properties
-        public static RacerrRaceSessionManager Singleton;
+        public static RaceSessionManager Singleton;
         [SyncVar] bool isCurrentlyRacing;
         public bool IsCurrentlyRacing => isCurrentlyRacing;
         [SyncVar] double raceStartTime;

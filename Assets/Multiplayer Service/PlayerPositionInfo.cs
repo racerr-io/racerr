@@ -25,7 +25,7 @@ namespace Racerr.MultiplayerService
                 }
                 else
                 {
-                    double playerRaceLength = FinishingTime - RacerrRaceSessionManager.Singleton.RaceStartTime;
+                    double playerRaceLength = FinishingTime - RaceSessionManager.Singleton.RaceStartTime;
                     return playerRaceLength.ToRaceTimeFormat();
                 }
             }

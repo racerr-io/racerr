@@ -55,7 +55,7 @@ namespace Racerr.UX.HUD
                 secondsRemaining--;
             }
 
-            RacerrRaceSessionManager.Singleton.StartRace();
+            RaceSessionManager.Singleton.StartRace();
         }
 
         /// <summary>

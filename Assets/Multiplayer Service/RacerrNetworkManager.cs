@@ -52,7 +52,7 @@ namespace Racerr.MultiplayerService
         {
             GameObject player = Instantiate(playerObject);
             NetworkServer.AddPlayerForConnection(conn, player);
-            RacerrRaceSessionManager.Singleton.AddNewPlayer(player);
+            RaceSessionManager.Singleton.AddNewPlayer(player);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Racerr.MultiplayerService
         /// <param name="conn">Player's connection info.</param>
         public override void OnServerDisconnect(NetworkConnection conn)
         {
-            RacerrRaceSessionManager.Singleton.RemovePlayer(conn.playerController.gameObject);
+            RaceSessionManager.Singleton.RemovePlayer(conn.playerController.gameObject);
             NetworkServer.DestroyPlayerForConnection(conn);
         }
     }
