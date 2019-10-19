@@ -22,48 +22,49 @@ public abstract class State : NetworkBehaviour
 /// </summary>
 public abstract class RaceSessionState : State
 {
-    protected RaceSessionData RaceSessionData { get; set; }
-    public void RemovePlayer(Player player) {
-        RaceSessionData.playersInRace.Remove(player);
-        RaceSessionData.finishedPlayers.Remove(player);
-    }
-}
-
-/// <summary>
-/// Data passed around between Race and Intermission states (Intermission needs the most recent race data to be displayed).
-/// </summary>
-public class RaceSessionData {
-    List<Player> playersInRace = new List<Player>();
-    List<Player> finishedPlayers = new List<Player>();
-
-    public IReadOnlyCollection<Player> PlayersInRace => playersInRace;
-    public IReadOnlyCollection<Player> FinishedPlayers => finishedPlayers;
-    public IReadOnlyCollection<Player> DeadPlayers => playersInRace.Where(p => p.IsDead).ToArray();
-    public IEnumerable<Player> PlayersInRaceOrdered
+    /// <summary>
+    /// Data passed around between Race and Intermission states (Intermission needs the most recent race data to be displayed).
+    /// </summary>
+    public class RaceSessionData
     {
-        get
+        List<Player> playersInRace = new List<Player>();
+        List<Player> finishedPlayers = new List<Player>();
+
+        public IReadOnlyCollection<Player> PlayersInRace => playersInRace;
+        public IReadOnlyCollection<Player> FinishedPlayers => finishedPlayers;
+        public IReadOnlyCollection<Player> DeadPlayers => playersInRace.Where(p => p.IsDead).ToArray();
+        public IEnumerable<Player> PlayersInRaceOrdered
         {
-            return PlayersInRace
-                .OrderBy(player => player.PositionInfo.FinishingTime)
-                .ThenByDescending(player => player.PositionInfo.Checkpoints.Count)
-                .ThenBy(player =>
-                {
-                    Vector3? currCarPosition = player.Car?.transform.position;
-                    GameObject[] checkpointsInRace = TrackGeneratorCommon.Singleton.CheckpointsInRace;
-                    if (currCarPosition == null || checkpointsInRace == null)
+            get
+            {
+                return PlayersInRace
+                    .OrderBy(player => player.PositionInfo.FinishingTime)
+                    .ThenByDescending(player => player.PositionInfo.Checkpoints.Count)
+                    .ThenBy(player =>
                     {
+                        Vector3? currCarPosition = player.Car?.transform.position;
+                        GameObject[] checkpointsInRace = TrackGeneratorCommon.Singleton.CheckpointsInRace;
+                        if (currCarPosition == null || checkpointsInRace == null)
+                        {
                         // For some reason the player has no car or the race hasn't started,
                         // so let's just be safe rather than crash.
                         return float.PositiveInfinity;
-                    }
+                        }
 
                     // checkpointsInRace is sorted in the order of the checkpoints in the race,
                     // so to grab the next checkpoint for this car we use the checkpoint count for this player as an index.
                     int nextCheckpoint = player.PositionInfo.Checkpoints.Count;
-                    Vector3 nextCheckpointPosition = checkpointsInRace[nextCheckpoint].transform.position;
-                    return Vector3.Distance(currCarPosition.Value, nextCheckpointPosition);
-                });
+                        Vector3 nextCheckpointPosition = checkpointsInRace[nextCheckpoint].transform.position;
+                        return Vector3.Distance(currCarPosition.Value, nextCheckpointPosition);
+                    });
+            }
         }
+    }
+
+    protected RaceSessionData RaceSessionData { get; set; }
+    public void RemovePlayer(Player player) {
+        RaceSessionData.playersInRace.Remove(player);
+        RaceSessionData.finishedPlayers.Remove(player);
     }
 }
 
