@@ -122,15 +122,24 @@ public class RaceState : RaceSessionState
         bool isRaceFinished = RaceSessionData.finishedPlayers.Count + RaceSessionData.DeadPlayers.Count == RaceSessionData.playersInRace.Count;
         bool isRaceEmpty = RaceSessionData.playersInRace.Count == 0;
 
-        if (isRaceFinished || isRaceEmpty) 
+        if (isRaceFinished) 
         {
             TransitionToIntermission();
+        }
+        else if (isRaceEmpty)
+        {
+            TransitionToIdle();
         }
     }
 
     public void TransitionToIntermission()
     {
         ServerStateMachine.Singleton.ChangeState(ServerStateEnum.Intermission, RaceSessionData);
+    }
+
+    public void TransitionToIdle()
+    {
+        ServerStateMachine.Singleton.ChangeState(ServerStateEnum.Idle);
     }
 }
 
@@ -162,7 +171,7 @@ public class IntermissionState : RaceSessionState
     /// Transition function called on entering the intermission state.
     /// Initialises the race session data of the race that just finished, OR null if transitioned from idle state.
     /// Initialises the duration of the intermission based on whether the game is in the Unity Editor or not.
-    /// Immediately begins the intermission timer countdown.a
+    /// Immediately begins the intermission timer countdown.
     /// </summary>
     /// <param name="raceSessionData">Data of the race that just finished, OR null if transitioned from idle state.</param>
     public override void Enter(object raceSessionData)
@@ -224,9 +233,9 @@ public class ServerStateMachine : NetworkBehaviour
     [SyncVar(hook = nameof(OnChangeState))] ServerStateEnum stateType;
     State currentState;
 
-    List<Player> playersOnServer = new List<Player>();
-    public IReadOnlyCollection<Player> PlayersOnServer => playersOnServer;
-    public IReadOnlyCollection<Player> ReadyPlayers => playersOnServer.Where(p => p.IsReady).ToArray();
+    List<Player> playersInServer = new List<Player>();
+    public IReadOnlyCollection<Player> PlayersOnServer => playersInServer;
+    public IReadOnlyCollection<Player> ReadyPlayers => playersInServer.Where(p => p.IsReady).ToArray();
 
     /// <summary>
     /// Run when this script is instantiated.
@@ -262,7 +271,7 @@ public class ServerStateMachine : NetworkBehaviour
     public void AddNewPlayer(GameObject playerGameObject)
     {
         Player player = playerGameObject.GetComponent<Player>();
-        playersOnServer.Add(player);
+        playersInServer.Add(player);
     }
 
     /// <summary>
@@ -273,7 +282,7 @@ public class ServerStateMachine : NetworkBehaviour
     public void RemovePlayer(GameObject playerGameObject)
     {
         Player player = playerGameObject.GetComponent<Player>();
-        playersOnServer.Remove(player);
+        playersInServer.Remove(player);
         (RaceSessionState as RaceSessionState)?.Remove(player);
     }
 
@@ -289,7 +298,7 @@ public class ServerStateMachine : NetworkBehaviour
         currentState?.Exit();
         currentState?.SetActive(false);
 
-        this.stateType = stateType; // When server changes this line, 
+        this.stateType = stateType;
         
         switch (stateType)
         {
