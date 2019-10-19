@@ -122,13 +122,13 @@ public class RaceState : RaceSessionState
         bool isRaceFinished = RaceSessionData.finishedPlayers.Count + RaceSessionData.DeadPlayers.Count == RaceSessionData.playersInRace.Count;
         bool isRaceEmpty = RaceSessionData.playersInRace.Count == 0;
 
-        if (isRaceFinished) 
-        {
-            TransitionToIntermission();
-        }
-        else if (isRaceEmpty)
+        if (isRaceEmpty)
         {
             TransitionToIdle();
+        }
+        else if (isRaceFinished) 
+        {
+            TransitionToIntermission();
         }
     }
 
