@@ -87,6 +87,7 @@ namespace Racerr.MultiplayerService
         /// </summary>
         void LateUpdate()
         {
+            /*
             if (isServer)
             {
                 if (playersOnServer.Any(p => p.IsReady) && !isCurrentlyRacing && !IntermissionActive && !TrackGeneratorCommon.Singleton.IsTrackGenerating)
@@ -99,6 +100,7 @@ namespace Racerr.MultiplayerService
                     EndRace();(isCurrentlyRacing && (p
                 }
             }
+            */
         }
 
         /// <summary>
@@ -155,12 +157,12 @@ namespace Racerr.MultiplayerService
 
             if (PlayersInRace.Any())
             {
-                ServerStateMachine.Singleton.ChangeState(ServerState.Race);
+             //   ServerStateMachine.Singleton.ChangeState(ServerState.Race);
                 StartRace();
             }
             else
             {
-                ServerStateMachine.Singleton.ChangeState(ServerState.Idle);
+            //    ServerStateMachine.Singleton.ChangeState(ServerState.Idle);
             }
         }
 

@@ -1,7 +1,9 @@
 ﻿using Mirror;
 using Racerr.MultiplayerService;
+using Racerr.Track;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum ServerStateEnum
@@ -13,8 +15,8 @@ public enum ServerStateEnum
 
 public abstract class State : NetworkBehaviour
 {
-    public void Enter(object optionalData = null) {}
-    public void Exit() {}
+    public virtual void Enter(object optionalData = null) {}
+    public virtual void Exit() {}
 }
 
 /// <summary>
@@ -27,12 +29,9 @@ public abstract class RaceSessionState : State
     /// </summary>
     public class RaceSessionData
     {
-        List<Player> playersInRace = new List<Player>();
-        List<Player> finishedPlayers = new List<Player>();
-
-        public IReadOnlyCollection<Player> PlayersInRace => playersInRace;
-        public IReadOnlyCollection<Player> FinishedPlayers => finishedPlayers;
-        public IReadOnlyCollection<Player> DeadPlayers => playersInRace.Where(p => p.IsDead).ToArray();
+        public List<Player> PlayersInRace { get; } = new List<Player>();
+        public List<Player> FinishedPlayers { get; } = new List<Player>();
+        public IReadOnlyCollection<Player> DeadPlayers => PlayersInRace.Where(p => p.IsDead).ToArray();
         public IEnumerable<Player> PlayersInRaceOrdered
         {
             get
@@ -61,10 +60,10 @@ public abstract class RaceSessionState : State
         }
     }
 
-    protected RaceSessionData RaceSessionData { get; set; }
+    protected RaceSessionData raceSessionData;
     public void RemovePlayer(Player player) {
-        RaceSessionData.playersInRace.Remove(player);
-        RaceSessionData.finishedPlayers.Remove(player);
+        raceSessionData.PlayersInRace.Remove(player);
+        raceSessionData.FinishedPlayers.Remove(player);
     }
 }
 
@@ -74,9 +73,9 @@ public class RaceState : RaceSessionState
     /// Initialises brand new race session data independant of previous race sessions.
     /// Then starts generating the track, which will then start the race.
     /// </summary>
-    public override void Enter()
+    public override void Enter(object optionalData = null)
     {
-        RaceSessionData = new RaceSessionData();
+        raceSessionData = new RaceSessionData();
         StartCoroutine(TrackGenThenStartRace());
     }
 
@@ -101,17 +100,17 @@ public class RaceState : RaceSessionState
     void StartRace() 
     {
         Vector3 currPosition = new Vector3(0, 1, 10);
-        ServerStateMachine.Singleton.playersInRace.AddRange(ServerStateMachine.Singleton.ReadyPlayers);
+        raceSessionData.PlayersInRace.AddRange(ServerStateMachine.Singleton.ReadyPlayers);
 
-        foreach (Player player in PlayersInRace)
+        foreach (Player player in raceSessionData.PlayersInRace)
         {
             player.CreateCarForPlayer(currPosition);
             player.PositionInfo = new PlayerPositionInfo();
             currPosition += new Vector3(0, 0, 10);
         }
 
-        raceStartTime = NetworkTime.time;
-        isCurrentlyRacing = true;
+        //raceStartTime = NetworkTime.time;
+        //isCurrentlyRacing = true;
     }
     
     /// <summary>
@@ -120,8 +119,8 @@ public class RaceState : RaceSessionState
     /// </summary>
     void LateUpdate() 
     {
-        bool isRaceFinished = RaceSessionData.finishedPlayers.Count + RaceSessionData.DeadPlayers.Count == RaceSessionData.playersInRace.Count;
-        bool isRaceEmpty = RaceSessionData.playersInRace.Count == 0;
+        bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count;
+        bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
 
         if (isRaceEmpty)
         {
@@ -135,7 +134,7 @@ public class RaceState : RaceSessionState
 
     public void TransitionToIntermission()
     {
-        ServerStateMachine.Singleton.ChangeState(ServerStateEnum.Intermission, RaceSessionData);
+        ServerStateMachine.Singleton.ChangeState(ServerStateEnum.Intermission, raceSessionData);
     }
 
     public void TransitionToIdle()
@@ -152,7 +151,7 @@ public class IdleState : State
     /// </summary>
     void LateUpdate()
     {
-        if (ServerStateMachine.Singleton.playersOnServer.Any(p => p.IsReady))
+        if (ServerStateMachine.Singleton.PlayersOnServer.Any(p => p.IsReady))
         {
             TransitionToIntermission();
         }
@@ -166,6 +165,10 @@ public class IdleState : State
 
 public class IntermissionState : RaceSessionState
 {
+    [SerializeField] int intermissionTimerSecondsEditor;
+    [SerializeField] int intermissionTimerSeconds;
+    [SerializeField] int intermissionTimerSecondsSinglePlayer;
+
     [SyncVar] int intermissionSecondsRemaining;
 
     /// <summary>
@@ -177,9 +180,9 @@ public class IntermissionState : RaceSessionState
     /// <param name="raceSessionData">Data of the race that just finished, OR null if transitioned from idle state.</param>
     public override void Enter(object raceSessionData)
     {
-        RaceSessionData = raceSessionData as RaceSessionData;
+        this.raceSessionData = raceSessionData as RaceSessionData;
 #if UNITY_EDITOR
-        intermissionSecondsRemaining = ServerStateMachine.Singleton.intermissionTimerSecondsEditor;
+        intermissionSecondsRemaining = intermissionTimerSecondsEditor;
 #else
         intermissionSecondsRemaining = ServerStateMachine.Singleton.ReadyPlayers.Count > 1 ? 
             ServerStateMachine.Singleton.intermissionTimerSeconds : 
@@ -203,7 +206,7 @@ public class IntermissionState : RaceSessionState
         }
 
         // Intermission Timer fully finished - now we transition to states based on whether or not there are players.
-        if (ServerStateMachine.Singleton.PlayersInRace.Any())
+        if (raceSessionData.PlayersInRace.Any())
         {
             TransitionToRace();
         }
@@ -214,22 +217,17 @@ public class IntermissionState : RaceSessionState
     }
 
     void TransitionToRace() {
-        ServerStateMachine.Singleton.ChangeState(ServerState.Race);
+        ServerStateMachine.Singleton.ChangeState(ServerStateEnum.Race);
     }
 
     void TransitionToIdle() {
-        ServerStateMachine.Singleton.ChangeState(ServerState.Idle);
+        ServerStateMachine.Singleton.ChangeState(ServerStateEnum.Idle);
     }
 }
 
 public class ServerStateMachine : NetworkBehaviour
 {
     public static ServerStateMachine Singleton;
-    
-    [Header("Intermission")]
-    [SerializeField] int intermissionTimerSeconds = 5;
-    [SerializeField] int intermissionTimerSecondsSinglePlayer = 20;
-    [SerializeField] int intermissionTimerSecondsEditor = 1;
 
     [SyncVar(hook = nameof(OnChangeState))] ServerStateEnum stateType;
     State currentState;
@@ -261,7 +259,7 @@ public class ServerStateMachine : NetworkBehaviour
     /// </summary>
     void Start()
     {
-        ChangeState(ServerState.Idle);
+        ChangeState(ServerStateEnum.Idle);
     }
 
     /// <summary>
@@ -284,7 +282,7 @@ public class ServerStateMachine : NetworkBehaviour
     {
         Player player = playerGameObject.GetComponent<Player>();
         playersInServer.Remove(player);
-        (RaceSessionState as RaceSessionState)?.Remove(player);
+        (currentState as RaceSessionState)?.RemovePlayer(player);
     }
 
     /// <summary>
@@ -296,9 +294,13 @@ public class ServerStateMachine : NetworkBehaviour
     /// <param name="optionalData">Optional data to be passed to the transitioning state.</param>
     public void ChangeState(ServerStateEnum stateType, object optionalData = null)
     {
-        currentState?.Exit();
-        currentState?.SetActive(false);
-
+        if (currentState != null)
+        {
+            // Only time when the current state will be null is when the server starts.
+            currentState.Exit();
+            currentState.enabled = false;
+        }
+       
         this.stateType = stateType;
         
         switch (stateType)
@@ -309,7 +311,7 @@ public class ServerStateMachine : NetworkBehaviour
             default: Debug.LogError("Invalid State"); break;
         }
 
-        currentState.SetActive(true);
+        currentState.enabled = true;
         currentState.Enter(optionalData);
     }
 
