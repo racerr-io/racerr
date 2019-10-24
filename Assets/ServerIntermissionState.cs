@@ -29,9 +29,7 @@ namespace Racerr.StateMachine.Server
 #if UNITY_EDITOR
             intermissionSecondsTotal = intermissionTimerSecondsEditor;
 #else
-            intermissionSecondsTotal = ServerStateMachine.Singleton.ReadyPlayers.Count > 1 ? 
-            ServerStateMachine.Singleton.intermissionTimerSeconds : 
-            ServerStateMachine.Singleton.intermissionTimerSecondsSinglePlayer;
+            intermissionSecondsTotal = ServerStateMachine.Singleton.ReadyPlayers.Count > 1 ? intermissionTimerSeconds : intermissionTimerSecondsSinglePlayer;
 #endif
             StartCoroutine(IntermissionTimerAndTrackGeneration());
         }
