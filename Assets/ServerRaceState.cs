@@ -77,7 +77,7 @@ namespace Racerr.StateMachine.Server
         /// Called every game tick.
         /// Checks whether or not to transition to intermission state, based on if the race is finished or empty.
         /// </summary>
-        void FixedUpdate()
+        protected override void FixedUpdate()
         {
             if (isCurrentlyRacing)
             {  

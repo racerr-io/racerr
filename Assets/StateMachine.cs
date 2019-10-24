@@ -29,6 +29,7 @@ namespace Racerr.StateMachine
     {
         public virtual void Enter(object optionalData = null) { }
         public virtual void Exit() { }
+        protected virtual void FixedUpdate() { }
     }
 
     /// <summary>

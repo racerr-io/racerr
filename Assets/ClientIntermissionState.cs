@@ -29,7 +29,7 @@ namespace Racerr.StateMachine.Client
             intermissionView.Hide();
         }
 
-        void FixedUpdate()
+        protected override void FixedUpdate()
         {
             intermissionTimerTMP.text = serverIntermissionState.IntermissionSecondsRemaining.ToString();
             if (ServerStateMachine.Singleton.StateType == StateEnum.Race)

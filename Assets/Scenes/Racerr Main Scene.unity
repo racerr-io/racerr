@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -471,11 +471,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 160586558}
-  - component: {fileID: 160586559}
   - component: {fileID: 160586556}
   - component: {fileID: 160586557}
   m_Layer: 0
-  m_Name: Session and Track Manager
+  m_Name: Track Generator
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -494,7 +493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0.1
-  trackLength: 3
+  trackLength: 25
   firstTrackPiece: {fileID: 4442780298096383131, guid: cbb9ed024e5cf6d4194ab1b3ece343a9,
     type: 3}
   origin: {fileID: 1034402543}
@@ -528,22 +527,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &160586559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160586555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2167bf61d4cc9a4a8d6f934c9db6c42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncInterval: 0
-  intermissionTimerSeconds: 10
-  intermissionTimerSecondsSinglePlayer: 20
-  intermissionTimerSecondsEditor: 20
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -6959,7 +6942,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609746729}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc5ea9c5c7ca2af4a8dba4d340b39904, type: 3}
   m_Name: 
@@ -6974,7 +6957,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609746729}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fdba8c2d93c3e54698287bdbf34bfd3, type: 3}
   m_Name: 
@@ -6988,7 +6971,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609746729}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6aef4804dad46c4a9e363b4236bebb2, type: 3}
   m_Name: 
@@ -7001,7 +6984,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609746729}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce9f3a246a813884092bdccb8587ade5, type: 3}
   m_Name: 

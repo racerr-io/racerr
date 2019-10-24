@@ -72,11 +72,6 @@ namespace Racerr.StateMachine.Server
             }
         }
 
-        void LateUpdate()
-        {
-            // Leave this here for the tick in the editor
-        }
-
         void TransitionToRace()
         {
             ServerStateMachine.Singleton.ChangeState(StateEnum.Race);

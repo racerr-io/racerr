@@ -19,7 +19,7 @@ namespace Racerr.StateMachine.Client
             raceView.Hide();
         }
 
-        void FixedUpdate()
+        protected override void FixedUpdate()
         {
             if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
             {
