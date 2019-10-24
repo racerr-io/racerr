@@ -14,6 +14,7 @@ namespace Racerr.StateMachine.Server
 
         int intermissionSecondsTotal;
         [SyncVar] int intermissionSecondsRemaining;
+        public int IntermissionSecondsRemaining => intermissionSecondsRemaining;
 
         /// <summary>
         /// Transition function called on entering the intermission state.

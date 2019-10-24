@@ -494,7 +494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0.1
-  trackLength: 25
+  trackLength: 3
   firstTrackPiece: {fileID: 4442780298096383131, guid: cbb9ed024e5cf6d4194ab1b3ece343a9,
     type: 3}
   origin: {fileID: 1034402543}
@@ -541,9 +541,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0
-  intermissionTimerSeconds: 5
+  intermissionTimerSeconds: 10
   intermissionTimerSecondsSinglePlayer: 20
-  intermissionTimerSecondsEditor: 5
+  intermissionTimerSecondsEditor: 20
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -2022,7 +2022,7 @@ GameObject:
   - component: {fileID: 867409034}
   - component: {fileID: 867409033}
   m_Layer: 0
-  m_Name: View - Game
+  m_Name: View - Race
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2544,7 +2544,7 @@ MonoBehaviour:
   UpdateShowProgressorOnHide: 0
   UseCustomStartAnchoredPosition: 1
   ViewCategory: racerr.io
-  ViewName: Game
+  ViewName: Race
 --- !u!225 &867409036
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -6884,9 +6884,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0
-  intermissionTimerSecondsEditor: 5
-  intermissionTimerSeconds: 5
-  intermissionTimerSecondsSinglePlayer: 5
+  intermissionTimerSecondsEditor: 10
+  intermissionTimerSeconds: 20
+  intermissionTimerSecondsSinglePlayer: 10
 --- !u!114 &1584656527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6965,6 +6965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0.1
+  serverIntermissionState: {fileID: 1584656526}
   intermissionView: {fileID: 1503551376}
 --- !u!114 &1609746733
 MonoBehaviour:
@@ -7006,6 +7007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0.1
+  raceView: {fileID: 867409035}
 --- !u!114 &1609746736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7935,7 +7937,7 @@ GameObject:
   - component: {fileID: 2075103225}
   - component: {fileID: 2075103231}
   m_Layer: 0
-  m_Name: View - Main Menu
+  m_Name: View - Start Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8457,7 +8459,7 @@ MonoBehaviour:
   UpdateShowProgressorOnHide: 0
   UseCustomStartAnchoredPosition: 1
   ViewCategory: racerr.io
-  ViewName: Main Menu
+  ViewName: Start Menu
 --- !u!225 &2075103228
 CanvasGroup:
   m_ObjectHideFlags: 0

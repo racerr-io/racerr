@@ -15,6 +15,6 @@ MonoBehaviour:
   CategoryName: racerr.io
   DatabaseType: 2
   Names:
-  - Main Menu
-  - Game
   - Intermission
+  - Race
+  - Start Menu

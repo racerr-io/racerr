@@ -48,8 +48,7 @@ namespace Racerr.StateMachine.Server
         void LateUpdate()
         {
             if (isCurrentlyRacing)
-            {
-                
+            {  
                 bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count;
                 bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
 

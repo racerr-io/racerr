@@ -129,7 +129,6 @@ namespace Racerr.StateMachine
             if (isClientOnly)
             {
                 ChangeState(stateType);
-
             }
         }
     }
