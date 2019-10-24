@@ -42,10 +42,42 @@ namespace Racerr.StateMachine.Server
         }
 
         /// <summary>
+        /// Server side only - call this function once the car finishes the race so that
+        /// their car is removed and they are marked as finished.
+        /// </summary>
+        /// <param name="player">The player that finished.</param>
+        [Server]
+        public void NotifyPlayerFinished(Player player)
+        {
+            raceSessionData.FinishedPlayers.Add(player);
+            player.PositionInfo.FinishingTime = NetworkTime.time;
+            player.DestroyPlayersCar();
+        }
+
+        /// <summary>
+        /// Server side only - call this function when the car moves through a checkpoint.
+        /// Adds checkpoint to a set of checkpoints the player has passed through so that
+        /// we can calculate their position.
+        /// Additionally, check if the player has actually finished the race.
+        /// </summary>
+        /// <param name="player">The player that passed through.</param>
+        /// <param name="checkpoint">The checkpoint the player hit.</param>
+        [Server]
+        public void NotifyPlayerPassedThroughCheckpoint(Player player, GameObject checkpoint)
+        {
+            player.PositionInfo.Checkpoints.Add(checkpoint);
+
+            if (checkpoint.name == TrackPieceComponent.FinishLineCheckpoint)
+            {
+                NotifyPlayerFinished(player);
+            }
+        }
+
+        /// <summary>
         /// Called every game tick.
         /// Checks whether or not to transition to intermission state, based on if the race is finished or empty.
         /// </summary>
-        void LateUpdate()
+        void FixedUpdate()
         {
             if (isCurrentlyRacing)
             {  

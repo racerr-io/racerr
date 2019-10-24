@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using Racerr.MultiplayerService;
+using Racerr.StateMachine.Server;
 using Racerr.Track;
 using Racerr.UX.Camera;
 using Racerr.UX.Car;
@@ -14,6 +15,8 @@ namespace Racerr.Car.Core
     /// </summary>
     public class PlayerCarController : NetworkBehaviour
     {
+        ServerRaceState serverRaceState;
+
         [Header("Car Properties")]
         [SerializeField] float lowSpeedConstantSteeringAngle = 30;
         [SerializeField] float velocityAffected50SpeedSteeringAngle = 280;
@@ -61,6 +64,8 @@ namespace Racerr.Car.Core
         /// </summary>
         void Start()
         {
+            serverRaceState = FindObjectOfType<ServerRaceState>();
+
             Player = PlayerGO.GetComponent<Player>();
             rigidbody = GetComponent<Rigidbody>();
 
@@ -105,7 +110,8 @@ namespace Racerr.Car.Core
         {
             if (collider.name == TrackPieceComponent.FinishLineCheckpoint || collider.name == TrackPieceComponent.Checkpoint)
             {
-                RaceSessionManager.Singleton.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
+                //RaceSessionManager.Singleton.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
+                serverRaceState.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
             }
         }
 

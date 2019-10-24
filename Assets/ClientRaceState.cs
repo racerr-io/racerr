@@ -1,4 +1,6 @@
 ﻿using Doozy.Engine.UI;
+using Racerr.MultiplayerService;
+using Racerr.StateMachine.Server;
 using UnityEngine;
 
 namespace Racerr.StateMachine.Client
@@ -15,6 +17,28 @@ namespace Racerr.StateMachine.Client
         public override void Exit()
         {
             raceView.Hide();
+        }
+
+        void FixedUpdate()
+        {
+            if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
+            {
+                TransitionToIntermission();
+            }
+            else if (Player.LocalPlayer.IsDead)
+            {
+                TransitionToSpectate();
+            }
+        }
+
+        void TransitionToIntermission()
+        {
+            ClientStateMachine.Singleton.ChangeState(StateEnum.Intermission);
+        }
+
+        void TransitionToSpectate()
+        {
+            ClientStateMachine.Singleton.ChangeState(StateEnum.ClientSpectate);
         }
     }
 }
