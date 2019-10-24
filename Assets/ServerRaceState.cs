@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Racerr.StateMachine.Server
 {
-    public class RaceState : RaceSessionState
+    public class ServerRaceState : RaceSessionState
     {
         /// <summary>
         /// Initialises brand new race session data independant of previous race sessions.
@@ -73,12 +73,12 @@ namespace Racerr.StateMachine.Server
 
         public void TransitionToIntermission()
         {
-            ServerStateMachine.Singleton.ChangeState(ServerStateEnum.Intermission, raceSessionData);
+            ServerStateMachine.Singleton.ChangeState(StateEnum.Intermission, raceSessionData);
         }
 
         public void TransitionToIdle()
         {
-            ServerStateMachine.Singleton.ChangeState(ServerStateEnum.Idle);
+            ServerStateMachine.Singleton.ChangeState(StateEnum.ServerIdle);
         }
     }
 }

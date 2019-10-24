@@ -12,5 +12,7 @@ public class MainMenu : MonoBehaviour
         string playerName = GetComponentsInChildren<TMP_InputField>().Single(t => t.name == "Player Name Text").text;
         Player.LocalPlayer.PlayerName = string.IsNullOrWhiteSpace(playerName) ? defaultPlayerName : playerName;
         Player.LocalPlayer.IsReady = true;
+
+        Debug.Log("FAILED COMP4128");
     }
 }

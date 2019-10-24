@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Racerr.StateMachine.Server
 {
-    public class IntermissionState : RaceSessionState
+    public class ServerIntermissionState : RaceSessionState
     {
         [SerializeField] int intermissionTimerSecondsEditor;
         [SerializeField] int intermissionTimerSeconds;
@@ -65,12 +65,12 @@ namespace Racerr.StateMachine.Server
 
         void TransitionToRace()
         {
-            ServerStateMachine.Singleton.ChangeState(ServerStateEnum.Race);
+            ServerStateMachine.Singleton.ChangeState(StateEnum.Race);
         }
 
         void TransitionToIdle()
         {
-            ServerStateMachine.Singleton.ChangeState(ServerStateEnum.Idle);
+            ServerStateMachine.Singleton.ChangeState(StateEnum.ServerIdle);
         }
     }
 }

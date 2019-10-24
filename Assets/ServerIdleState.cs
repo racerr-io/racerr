@@ -2,7 +2,7 @@
 
 namespace Racerr.StateMachine.Server
 {
-    public class IdleState : State
+    public class ServerIdleState : State
     {
         /// <summary>
         /// Called every game tick.
@@ -18,7 +18,7 @@ namespace Racerr.StateMachine.Server
 
         void TransitionToIntermission()
         {
-            ServerStateMachine.Singleton.ChangeState(ServerStateEnum.Intermission);
+            ServerStateMachine.Singleton.ChangeState(StateEnum.Intermission);
         }
     }
 }
