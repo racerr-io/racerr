@@ -902,6 +902,10 @@ PrefabInstance:
       propertyPath: m_FollowTilt
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: baec086904791744185aaa07a6cf55c2, type: 3}
+      propertyPath: updateType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 9200000, guid: baec086904791744185aaa07a6cf55c2, type: 3}
     - {fileID: 11400002, guid: baec086904791744185aaa07a6cf55c2, type: 3}

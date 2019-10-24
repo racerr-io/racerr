@@ -21,6 +21,18 @@ namespace Racerr.StateMachine.Server
             StartRace();
         }
 
+        [Server]
+        public override void Exit()
+        {
+            foreach (Player player in raceSessionData.PlayersInRace)
+            {
+                if (player.Car != null)
+                {
+                    player.DestroyPlayersCar();
+                }
+            }
+        }
+
         /// <summary>
         /// Procedure to actually setup and start the race.
         /// Called only after track is generated.
