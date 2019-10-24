@@ -24,6 +24,7 @@ namespace Racerr.StateMachine.Server
         /// <param name="raceSessionData">Data of the race that just finished, OR null if transitioned from idle state.</param>
         public override void Enter(object raceSessionData)
         {
+            Debug.Log("ENTERING INTERMISSION");
             this.raceSessionData = raceSessionData as RaceSessionData;
 #if UNITY_EDITOR
             intermissionSecondsTotal = intermissionTimerSecondsEditor;
@@ -32,19 +33,20 @@ namespace Racerr.StateMachine.Server
             ServerStateMachine.Singleton.intermissionTimerSeconds : 
             ServerStateMachine.Singleton.intermissionTimerSecondsSinglePlayer;
 #endif
-            StartCoroutine(IntermissionTimer());
+            StartCoroutine(IntermissionTimerAndTrackGeneration());
         }
 
         /// <summary>
         /// Coroutine for counting down the intermission timer.
+        /// When timer reaches half time, the previous track is destroyed and a new one
         /// When timer reaches 0, forces a state change depending on whether or not there are players.
         /// </summary>
         /// <returns>IEnumerator for coroutine.</returns>
         [Server]
-        IEnumerator IntermissionTimer()
+        IEnumerator IntermissionTimerAndTrackGeneration()
         {
             intermissionSecondsRemaining = intermissionSecondsTotal;
-            while (intermissionSecondsTotal > 0)
+            while (intermissionSecondsRemaining > 0)
             {
                 yield return new WaitForSeconds(1);
                 intermissionSecondsRemaining--;
@@ -57,17 +59,25 @@ namespace Racerr.StateMachine.Server
                 }
             }
 
+            Debug.Log("PRE PLAYERS IN SERVER CHECK");
             // Intermission Timer fully finished - now we transition to states based on whether or not there are players.
             if (ServerStateMachine.Singleton.PlayersInServer.Any())
             {
+                Debug.Log("PRE IS TRACK GEN CHECK");
                 // Only transition to race if track is generated
                 while (!TrackGeneratorCommon.Singleton.IsTrackGenerated) yield return null;
+                Debug.Log("TRANSITION TO RACE");
                 TransitionToRace();
             }
             else
             {
                 TransitionToIdle();
             }
+        }
+
+        void LateUpdate()
+        {
+            // Leave this here for the tick in the editor
         }
 
         void TransitionToRace()

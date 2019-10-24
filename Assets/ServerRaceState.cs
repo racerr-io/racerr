@@ -8,12 +8,16 @@ namespace Racerr.StateMachine.Server
 {
     public class ServerRaceState : RaceSessionState
     {
+        bool isCurrentlyRacing;
+
         /// <summary>
         /// Initialises brand new race session data independant of previous race sessions.
         /// Then starts generating the track, which will then start the race.
         /// </summary>
         public override void Enter(object optionalData = null)
         {
+            Debug.Log("ENTERED RACE STATE");
+            isCurrentlyRacing = false;
             raceSessionData = new RaceSessionData();
             StartRace();
         }
@@ -27,6 +31,7 @@ namespace Racerr.StateMachine.Server
             Vector3 currPosition = new Vector3(0, 1, 10);
             raceSessionData.PlayersInRace.AddRange(ServerStateMachine.Singleton.ReadyPlayers);
 
+            Debug.Log("Players in Race BEFORE RACE START: " + raceSessionData.PlayersInRace.Count);
             foreach (Player player in raceSessionData.PlayersInRace)
             {
                 player.CreateCarForPlayer(currPosition);
@@ -34,8 +39,9 @@ namespace Racerr.StateMachine.Server
                 currPosition += new Vector3(0, 0, 10);
             }
 
+            Debug.Log("RACE STARTED");
             //raceStartTime = NetworkTime.time;
-            //isCurrentlyRacing = true;
+            isCurrentlyRacing = true;
         }
 
         /// <summary>
@@ -44,16 +50,23 @@ namespace Racerr.StateMachine.Server
         /// </summary>
         void LateUpdate()
         {
-            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count;
-            bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
+            if (isCurrentlyRacing)
+            {
+                
+                bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count;
+                bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
 
-            if (isRaceEmpty)
-            {
-                TransitionToIdle();
-            }
-            else if (isRaceFinished)
-            {
-                TransitionToIntermission();
+                if (isRaceEmpty)
+                {
+                    //TransitionToIdle();
+                }
+                else if (isRaceFinished)
+                {
+                    Debug.Log("Players In Race: " + raceSessionData.PlayersInRace.Count);
+                    Debug.Log("Finished Players: " + raceSessionData.FinishedPlayers.Count);
+                    Debug.Log("Dead Players: " + raceSessionData.DeadPlayers.Count);
+                    // TransitionToIntermission();
+                }
             }
         }
 
