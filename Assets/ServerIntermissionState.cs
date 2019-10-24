@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Racerr.Track;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Racerr.StateMachine.Server
         [SerializeField] int intermissionTimerSeconds;
         [SerializeField] int intermissionTimerSecondsSinglePlayer;
 
+        int intermissionSecondsTotal;
         [SyncVar] int intermissionSecondsRemaining;
 
         /// <summary>
@@ -24,9 +26,9 @@ namespace Racerr.StateMachine.Server
         {
             this.raceSessionData = raceSessionData as RaceSessionData;
 #if UNITY_EDITOR
-            intermissionSecondsRemaining = intermissionTimerSecondsEditor;
+            intermissionSecondsTotal = intermissionTimerSecondsEditor;
 #else
-        intermissionSecondsRemaining = ServerStateMachine.Singleton.ReadyPlayers.Count > 1 ? 
+            intermissionSecondsTotal = ServerStateMachine.Singleton.ReadyPlayers.Count > 1 ? 
             ServerStateMachine.Singleton.intermissionTimerSeconds : 
             ServerStateMachine.Singleton.intermissionTimerSecondsSinglePlayer;
 #endif
@@ -41,26 +43,31 @@ namespace Racerr.StateMachine.Server
         [Server]
         IEnumerator IntermissionTimer()
         {
-            while (intermissionSecondsRemaining > 0)
+            intermissionSecondsRemaining = intermissionSecondsTotal;
+            while (intermissionSecondsTotal > 0)
             {
                 yield return new WaitForSeconds(1);
                 intermissionSecondsRemaining--;
+                
+                // Destroy previous track and generate new track for next race when halfway in intermission
+                if (intermissionSecondsRemaining == intermissionSecondsTotal / 2)
+                {
+                    TrackGeneratorCommon.Singleton.DestroyIfRequired();
+                    TrackGeneratorCommon.Singleton.GenerateIfRequired();
+                }
             }
 
             // Intermission Timer fully finished - now we transition to states based on whether or not there are players.
             if (ServerStateMachine.Singleton.PlayersInServer.Any())
             {
+                // Only transition to race if track is generated
+                while (!TrackGeneratorCommon.Singleton.IsTrackGenerated) yield return null;
                 TransitionToRace();
             }
             else
             {
                 TransitionToIdle();
             }
-        }
-
-        void LateUpdate()
-        {
-            
         }
 
         void TransitionToRace()

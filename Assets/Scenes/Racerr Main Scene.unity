@@ -494,7 +494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0.1
-  trackLength: 2
+  trackLength: 25
   firstTrackPiece: {fileID: 4442780298096383131, guid: cbb9ed024e5cf6d4194ab1b3ece343a9,
     type: 3}
   origin: {fileID: 1034402543}
@@ -617,7 +617,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 6.344131e-17, y: NaN, z: -3.0316488e-13, w: -6.3739956e-28}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0.000008795468}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0

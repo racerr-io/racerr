@@ -15,20 +15,6 @@ namespace Racerr.StateMachine.Server
         public override void Enter(object optionalData = null)
         {
             raceSessionData = new RaceSessionData();
-            StartCoroutine(TrackGenThenStartRace());
-        }
-
-        /// <summary>
-        /// Coroutine for race starting, since we need to wait for the track 
-        /// to be generated before executing more code (simulating a semaphore).
-        /// </summary>
-        /// <returns>IEnumerator for coroutine.</returns>
-        [Server]
-        IEnumerator TrackGenThenStartRace()
-        {
-            TrackGeneratorCommon.Singleton.GenerateIfRequired();
-            while (!TrackGeneratorCommon.Singleton.IsTrackGenerated) yield return null;
-
             StartRace();
         }
 
