@@ -83,6 +83,7 @@ namespace Racerr.StateMachine
     public abstract class StateMachine : NetworkBehaviour
     {
         [SyncVar(hook = nameof(OnChangeState))] StateEnum stateType;
+        public StateEnum StateType => stateType;
         protected State CurrentState { get; set; }
 
         /// <summary>

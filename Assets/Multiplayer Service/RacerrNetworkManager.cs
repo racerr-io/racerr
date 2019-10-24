@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Racerr.StateMachine.Server;
 using Racerr.UX.Camera;
 using Racerr.UX.Menu;
 using System.Collections;
@@ -52,7 +53,7 @@ namespace Racerr.MultiplayerService
         {
             GameObject player = Instantiate(playerObject);
             NetworkServer.AddPlayerForConnection(conn, player);
-            RaceSessionManager.Singleton.AddNewPlayer(player);
+            ServerStateMachine.Singleton.AddNewPlayer(player);
         }
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace Racerr.MultiplayerService
         /// <param name="conn">Player's connection info.</param>
         public override void OnServerDisconnect(NetworkConnection conn)
         {
-            RaceSessionManager.Singleton.RemovePlayer(conn.playerController.gameObject);
+            ServerStateMachine.Singleton.RemovePlayer(conn.playerController.gameObject);
             NetworkServer.DestroyPlayerForConnection(conn);
         }
     }

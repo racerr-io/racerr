@@ -48,7 +48,7 @@ namespace Racerr.StateMachine.Server
             }
 
             // Intermission Timer fully finished - now we transition to states based on whether or not there are players.
-            if (raceSessionData.PlayersInRace.Any())
+            if (ServerStateMachine.Singleton.PlayersInServer.Any())
             {
                 TransitionToRace();
             }

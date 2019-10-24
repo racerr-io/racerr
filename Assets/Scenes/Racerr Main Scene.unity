@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2979,6 +2979,7 @@ GameObject:
   - component: {fileID: 1187478241}
   - component: {fileID: 1187478240}
   - component: {fileID: 1187478242}
+  - component: {fileID: 1187478244}
   m_Layer: 0
   m_Name: Button - Start Race
   m_TagString: Untagged
@@ -5392,6 +5393,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1187478238}
   m_CullTransparentMesh: 0
+--- !u!114 &1187478244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187478238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d7e59016d37c7c4bb2685ebfb450926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonCategory: racerr.io
+  ButtonName: Start Race
+  DebugMode: 0
+  Event:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1609746733}
+        m_MethodName: OnStartRaceButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: Doozy.Engine.UI.UIButtonEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  ListenForAllUIButtons: 0
+  TriggerAction: 0
 --- !u!1 &1209623272
 GameObject:
   m_ObjectHideFlags: 0
@@ -6850,9 +6884,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0
-  intermissionTimerSecondsEditor: 0
-  intermissionTimerSeconds: 0
-  intermissionTimerSecondsSinglePlayer: 0
+  intermissionTimerSecondsEditor: 5
+  intermissionTimerSeconds: 5
+  intermissionTimerSecondsSinglePlayer: 5
 --- !u!114 &1584656527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6931,6 +6965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0.1
+  intermissionView: {fileID: 1503551376}
 --- !u!114 &1609746733
 MonoBehaviour:
   m_ObjectHideFlags: 0
