@@ -134,12 +134,14 @@ namespace Racerr.MultiplayerService
         [Server]
         public void StartIntermissionTimer()
         {
+            /*
 #if UNITY_EDITOR
             intermissionSecondsRemaining = intermissionTimerSecondsEditor;
 #else
             intermissionSecondsRemaining = ReadyPlayers.Count > 1 ? raceTimerSeconds : raceTimerSecondsSinglePlayer;
 #endif
             StartCoroutine(IntermissionTimer());
+            */
         }
 
         /// <summary>
