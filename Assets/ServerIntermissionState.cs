@@ -24,7 +24,6 @@ namespace Racerr.StateMachine.Server
         /// <param name="raceSessionData">Data of the race that just finished, OR null if transitioned from idle state.</param>
         public override void Enter(object raceSessionData)
         {
-            Debug.Log("ENTERING INTERMISSION");
             this.raceSessionData = raceSessionData as RaceSessionData;
 #if UNITY_EDITOR
             intermissionSecondsTotal = intermissionTimerSecondsEditor;
@@ -59,14 +58,11 @@ namespace Racerr.StateMachine.Server
                 }
             }
 
-            Debug.Log("PRE PLAYERS IN SERVER CHECK");
             // Intermission Timer fully finished - now we transition to states based on whether or not there are players.
             if (ServerStateMachine.Singleton.PlayersInServer.Any())
             {
-                Debug.Log("PRE IS TRACK GEN CHECK");
                 // Only transition to race if track is generated
                 while (!TrackGeneratorCommon.Singleton.IsTrackGenerated) yield return null;
-                Debug.Log("TRANSITION TO RACE");
                 TransitionToRace();
             }
             else

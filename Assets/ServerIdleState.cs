@@ -13,7 +13,6 @@ namespace Racerr.StateMachine.Server
         {
             if (ServerStateMachine.Singleton.PlayersInServer.Any(p => p.IsReady))
             {
-                Debug.Log("IDLE TO TRANSITION TO INTERMISSION");
                 TransitionToIntermission();
             }
         }

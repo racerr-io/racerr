@@ -16,7 +16,6 @@ namespace Racerr.StateMachine.Server
         /// </summary>
         public override void Enter(object optionalData = null)
         {
-            Debug.Log("ENTERED RACE STATE");
             isCurrentlyRacing = false;
             raceSessionData = new RaceSessionData();
             StartRace();
@@ -31,7 +30,6 @@ namespace Racerr.StateMachine.Server
             Vector3 currPosition = new Vector3(0, 1, 10);
             raceSessionData.PlayersInRace.AddRange(ServerStateMachine.Singleton.ReadyPlayers);
 
-            Debug.Log("Players in Race BEFORE RACE START: " + raceSessionData.PlayersInRace.Count);
             foreach (Player player in raceSessionData.PlayersInRace)
             {
                 player.CreateCarForPlayer(currPosition);
@@ -39,7 +37,6 @@ namespace Racerr.StateMachine.Server
                 currPosition += new Vector3(0, 0, 10);
             }
 
-            Debug.Log("RACE STARTED");
             //raceStartTime = NetworkTime.time;
             isCurrentlyRacing = true;
         }
@@ -58,14 +55,11 @@ namespace Racerr.StateMachine.Server
 
                 if (isRaceEmpty)
                 {
-                    //TransitionToIdle();
+                    TransitionToIdle();
                 }
                 else if (isRaceFinished)
                 {
-                    Debug.Log("Players In Race: " + raceSessionData.PlayersInRace.Count);
-                    Debug.Log("Finished Players: " + raceSessionData.FinishedPlayers.Count);
-                    Debug.Log("Dead Players: " + raceSessionData.DeadPlayers.Count);
-                    // TransitionToIntermission();
+                    TransitionToIntermission();
                 }
             }
         }

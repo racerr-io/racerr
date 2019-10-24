@@ -125,7 +125,12 @@ namespace Racerr.StateMachine
         /// <param name="stateType">Default hook parameter (the updated variable)</param>
         void OnChangeState(StateEnum stateType)
         {
-            ChangeState(stateType);
+            // Confirm we are only calling this on the client to prevent dupe state calls when testing locally
+            if (isClientOnly)
+            {
+                ChangeState(stateType);
+
+            }
         }
     }
 }
