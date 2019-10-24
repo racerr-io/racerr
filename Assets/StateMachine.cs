@@ -86,6 +86,7 @@ namespace Racerr.StateMachine
         [SyncVar(hook = nameof(OnChangeState))] StateEnum stateType;
         public StateEnum StateType => stateType;
         protected State CurrentState { get; set; }
+        protected abstract bool IsStatesActivatable { get; }
 
         /// <summary>
         /// Changes the state of the Server State Machine.
@@ -96,7 +97,7 @@ namespace Racerr.StateMachine
         /// <param name="optionalData">Optional data to be passed to the transitioning state.</param>
         public void ChangeState(StateEnum stateType, object optionalData = null)
         {
-            if (CurrentState != null)
+            if (CurrentState != null && IsStatesActivatable)
             {
                 // Only time when the current state will be null is when the server starts.
                 CurrentState.Exit();
@@ -108,8 +109,11 @@ namespace Racerr.StateMachine
                 ChangeStateCore(stateType);
                 this.stateType = stateType;
 
-                CurrentState.enabled = true;
-                CurrentState.Enter(optionalData);
+                if (IsStatesActivatable)
+                {
+                    CurrentState.enabled = true;
+                    CurrentState.Enter(optionalData);
+                }
             } 
             catch (InvalidOperationException e)
             {

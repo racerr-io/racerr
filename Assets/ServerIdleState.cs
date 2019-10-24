@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Mirror;
+using System.Linq;
 
 namespace Racerr.StateMachine.Server
 {
@@ -8,6 +9,8 @@ namespace Racerr.StateMachine.Server
         /// Called every game tick.
         /// Checks whether or not to transition to intermission state, based on if the server has any connected players.
         /// </summary>
+        ///
+        [Server]
         protected override void FixedUpdate()
         {
             if (ServerStateMachine.Singleton.PlayersInServer.Any(p => p.IsReady))
@@ -16,6 +19,7 @@ namespace Racerr.StateMachine.Server
             }
         }
 
+        [Server]
         void TransitionToIntermission()
         {
             ServerStateMachine.Singleton.ChangeState(StateEnum.Intermission);

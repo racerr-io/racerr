@@ -10,6 +10,7 @@ namespace Racerr.StateMachine.Server
     public sealed class ServerStateMachine : StateMachine
     {
         public static ServerStateMachine Singleton;
+        protected override bool IsStatesActivatable => isServer;
 
         List<Player> playersInServer = new List<Player>();
         public IReadOnlyCollection<Player> PlayersInServer => playersInServer;

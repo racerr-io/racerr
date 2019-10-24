@@ -23,6 +23,7 @@ namespace Racerr.StateMachine.Server
         /// Immediately begins the intermission timer countdown.
         /// </summary>
         /// <param name="raceSessionData">Data of the race that just finished, OR null if transitioned from idle state.</param>
+        [Server]
         public override void Enter(object raceSessionData)
         {
             this.raceSessionData = raceSessionData as RaceSessionData;
@@ -70,11 +71,13 @@ namespace Racerr.StateMachine.Server
             }
         }
 
+        [Server]
         void TransitionToRace()
         {
             ServerStateMachine.Singleton.ChangeState(StateEnum.Race);
         }
 
+        [Server]
         void TransitionToIdle()
         {
             ServerStateMachine.Singleton.ChangeState(StateEnum.ServerIdle);

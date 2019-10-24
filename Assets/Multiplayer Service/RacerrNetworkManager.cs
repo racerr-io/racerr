@@ -14,8 +14,6 @@ namespace Racerr.MultiplayerService
     {
         [SerializeField] int serverApplicationFrameRate = 60;
         [SerializeField] GameObject playerObject;
-        [SerializeField] [Range(1,20)] int connectionWaitTime = 5;
-        int secondsWaitingForConnection = 0;
 
         /// <summary>
         /// Automatically start the server on headless mode (detected through whether it has a graphics device),
@@ -26,7 +24,6 @@ namespace Racerr.MultiplayerService
             if (isHeadless)
             {
                 Application.targetFrameRate = serverApplicationFrameRate;
-                Destroy(FindObjectOfType<StartMenu>().gameObject);
 
                 foreach (AbstractTargetFollower camera in FindObjectsOfType<AbstractTargetFollower>())
                 {

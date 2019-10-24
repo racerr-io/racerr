@@ -1,4 +1,5 @@
 ﻿using Doozy.Engine.UI;
+using Mirror;
 using Racerr.MultiplayerService;
 using Racerr.StateMachine.Server;
 using UnityEngine;
@@ -9,16 +10,19 @@ namespace Racerr.StateMachine.Client
     {
         [SerializeField] UIView raceView;
 
+        [Client]
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
         }
 
+        [Client]
         public override void Exit()
         {
             raceView.Hide();
         }
 
+        [Client]
         protected override void FixedUpdate()
         {
             if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
@@ -31,11 +35,13 @@ namespace Racerr.StateMachine.Client
             }
         }
 
+        [Client]
         void TransitionToIntermission()
         {
             ClientStateMachine.Singleton.ChangeState(StateEnum.Intermission);
         }
 
+        [Client]
         void TransitionToSpectate()
         {
             ClientStateMachine.Singleton.ChangeState(StateEnum.ClientSpectate);

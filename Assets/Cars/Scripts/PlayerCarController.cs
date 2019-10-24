@@ -71,7 +71,6 @@ namespace Racerr.Car.Core
 
             if (hasAuthority)
             {
-                FindObjectOfType<HUDSpeed>().Car = this;
                 FindObjectOfType<AutoCam>().SetTarget(transform);
             }
 

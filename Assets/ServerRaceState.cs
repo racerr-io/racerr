@@ -1,7 +1,6 @@
 ﻿using Mirror;
 using Racerr.MultiplayerService;
 using Racerr.Track;
-using System.Collections;
 using UnityEngine;
 
 namespace Racerr.StateMachine.Server
@@ -14,6 +13,7 @@ namespace Racerr.StateMachine.Server
         /// Initialises brand new race session data independant of previous race sessions.
         /// Then starts generating the track, which will then start the race.
         /// </summary>
+        [Server]
         public override void Enter(object optionalData = null)
         {
             isCurrentlyRacing = false;
@@ -25,6 +25,7 @@ namespace Racerr.StateMachine.Server
         /// Procedure to actually setup and start the race.
         /// Called only after track is generated.
         /// </summary>
+        [Server]
         void StartRace()
         {
             Vector3 currPosition = new Vector3(0, 1, 10);
@@ -37,7 +38,6 @@ namespace Racerr.StateMachine.Server
                 currPosition += new Vector3(0, 0, 10);
             }
 
-            //raceStartTime = NetworkTime.time;
             isCurrentlyRacing = true;
         }
 
@@ -77,6 +77,7 @@ namespace Racerr.StateMachine.Server
         /// Called every game tick.
         /// Checks whether or not to transition to intermission state, based on if the race is finished or empty.
         /// </summary>
+        [Server]
         protected override void FixedUpdate()
         {
             if (isCurrentlyRacing)
@@ -95,11 +96,13 @@ namespace Racerr.StateMachine.Server
             }
         }
 
+        [Server]
         public void TransitionToIntermission()
         {
             ServerStateMachine.Singleton.ChangeState(StateEnum.Intermission, raceSessionData);
         }
 
+        [Server]
         public void TransitionToIdle()
         {
             ServerStateMachine.Singleton.ChangeState(StateEnum.ServerIdle);

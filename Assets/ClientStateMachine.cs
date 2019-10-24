@@ -6,6 +6,7 @@ namespace Racerr.StateMachine.Client
     public sealed class ClientStateMachine : StateMachine
     {
         public static ClientStateMachine Singleton;
+        protected override bool IsStatesActivatable => isClient;
 
         /// <summary>
         /// Run when this script is instantiated.
