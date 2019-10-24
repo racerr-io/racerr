@@ -1,7 +1,6 @@
 ﻿using Mirror;
 using Racerr.MultiplayerService;
 using Racerr.Track;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -25,7 +24,20 @@ namespace Racerr.StateMachine
         #endregion
     }
 
-    public abstract class State : NetworkBehaviour
+    public interface IState
+    {
+        void Enter(object optionalData = null);
+        void Exit();
+    }
+
+    public abstract class NetworkedState : NetworkBehaviour, IState
+    {
+        public virtual void Enter(object optionalData = null) { }
+        public virtual void Exit() { }
+        protected virtual void FixedUpdate() { }
+    }
+
+    public abstract class LocalState : MonoBehaviour, IState
     {
         public virtual void Enter(object optionalData = null) { }
         public virtual void Exit() { }
@@ -35,7 +47,7 @@ namespace Racerr.StateMachine
     /// <summary>
     /// Race Session State which defines extra interface for handling Race Session Data.
     /// </summary>
-    public abstract class RaceSessionState : State
+    public abstract class RaceSessionState : NetworkedState
     {
         /// <summary>
         /// Data passed around between Race and Intermission states (Intermission needs the most recent race data to be displayed).
@@ -81,60 +93,9 @@ namespace Racerr.StateMachine
         }
     }
 
-    public abstract class StateMachine : NetworkBehaviour
+    public interface IStateMachine
     {
-        [SyncVar(hook = nameof(OnChangeState))] StateEnum stateType;
-        public StateEnum StateType => stateType;
-        protected State CurrentState { get; set; }
-        protected abstract bool IsStatesActivatable { get; }
-
-        /// <summary>
-        /// Changes the state of the Server State Machine.
-        /// Intended to be PROTECTED - only the Server States should be able to call this from their encapsulated transition methods.
-        /// Changes the internal state of the Server State Machine based on the given state type Enum.
-        /// </summary>
-        /// <param name="stateType">The new state type to be changed to.</param>
-        /// <param name="optionalData">Optional data to be passed to the transitioning state.</param>
-        public void ChangeState(StateEnum stateType, object optionalData = null)
-        {
-            if (CurrentState != null && IsStatesActivatable)
-            {
-                // Only time when the current state will be null is when the server starts.
-                CurrentState.Exit();
-                CurrentState.enabled = false;
-            }
-
-            try 
-            {
-                ChangeStateCore(stateType);
-                this.stateType = stateType;
-
-                if (IsStatesActivatable)
-                {
-                    CurrentState.enabled = true;
-                    CurrentState.Enter(optionalData);
-                }
-            } 
-            catch (InvalidOperationException e)
-            {
-                Debug.LogError(e);
-            }
-        }
-
-        protected abstract void ChangeStateCore(StateEnum stateType);
-
-        /// <summary>
-        /// Hook for stateType SyncVar.
-        /// Executed on clients when server changes the state.
-        /// </summary>
-        /// <param name="stateType">Default hook parameter (the updated variable)</param>
-        void OnChangeState(StateEnum stateType)
-        {
-            // Confirm we are only calling this on the client to prevent dupe state calls when testing locally
-            if (isClientOnly)
-            {
-                ChangeState(stateType);
-            }
-        }
+        StateEnum StateType { get; }
+        void ChangeState(StateEnum stateType, object optionalData = null);
     }
 }

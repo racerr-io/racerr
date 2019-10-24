@@ -1,12 +1,16 @@
-﻿using System;
+﻿using Mirror;
+using System;
 using UnityEngine;
 
 namespace Racerr.StateMachine.Client
 {
-    public sealed class ClientStateMachine : StateMachine
+    public sealed class ClientStateMachine : MonoBehaviour, IStateMachine
     {
         public static ClientStateMachine Singleton;
-        protected override bool IsStatesActivatable => isClient;
+
+        StateEnum stateType;
+        public StateEnum StateType { get; }
+        LocalState currentState;
 
         /// <summary>
         /// Run when this script is instantiated.
@@ -31,18 +35,43 @@ namespace Racerr.StateMachine.Client
         /// </summary>
         void Start()
         {
-            ChangeState(StateEnum.ClientStartMenu);
+            if (NetworkManager.isHeadless)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                ChangeState(StateEnum.ClientStartMenu);
+            }
         }
 
-        protected override void ChangeStateCore(StateEnum stateType)
+        public void ChangeState(StateEnum stateType, object optionalData = null)
         {
-            switch (stateType)
+            if (currentState != null)
             {
-                case StateEnum.Intermission: CurrentState = GetComponent<ClientIntermissionState>(); break;
-                case StateEnum.Race: CurrentState = GetComponent<ClientRaceState>(); break;
-                case StateEnum.ClientSpectate: CurrentState = GetComponent<ClientSpectateState>(); break;
-                case StateEnum.ClientStartMenu: CurrentState = GetComponent<ClientStartMenuState>(); break;
-                default: throw new InvalidOperationException("Invalid Client ChangeState attempt: " + stateType.ToString());
+                // Only time when the current state will be null is when the server starts.
+                currentState.Exit();
+                currentState.enabled = false;
+            }
+
+            try
+            {
+                switch (stateType)
+                {
+                    case StateEnum.Intermission: currentState = GetComponent<ClientIntermissionState>(); break;
+                    case StateEnum.Race: currentState = GetComponent<ClientRaceState>(); break;
+                    case StateEnum.ClientSpectate: currentState = GetComponent<ClientSpectateState>(); break;
+                    case StateEnum.ClientStartMenu: currentState = GetComponent<ClientStartMenuState>(); break;
+                    default: throw new InvalidOperationException("Invalid Client ChangeState attempt: " + stateType.ToString());
+                }
+                this.stateType = stateType;
+
+                currentState.enabled = true;
+                currentState.Enter(optionalData);
+            }
+            catch (InvalidOperationException e)
+            {
+                Debug.LogError(e);
             }
         }
     }

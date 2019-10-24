@@ -24,6 +24,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Net.Security;
+using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -61,6 +63,11 @@ namespace Ninja.WebSockets.Internal
 
         public event EventHandler<PongEventArgs> Pong;
 
+        Queue<ArraySegment<byte>> _messageQueue = new Queue<ArraySegment<byte>>();
+        SemaphoreSlim _sendSemaphore = new SemaphoreSlim(1, 1);
+        public WebSocketHttpContext Context { get; set; }
+
+
         internal WebSocketImplementation(Guid guid, Func<MemoryStream> recycledStreamFactory, Stream stream, TimeSpan keepAliveInterval, string secWebSocketExtensions, bool includeExceptionInCloseResponse, bool isClient, string subProtocol)
         {
             _guid = guid;
@@ -96,9 +103,7 @@ namespace Ninja.WebSockets.Internal
             {
                 // the ping pong manager starts a task
                 // but we don't have to keep a reference to it
-#pragma warning disable 0219
-                PingPongManager pingPongManager = new PingPongManager(guid, this, keepAliveInterval, _internalReadCts.Token);
-#pragma warning restore 0219
+                _ = new PingPongManager(guid, this, keepAliveInterval, _internalReadCts.Token);
             }
         }
 
@@ -133,6 +138,10 @@ namespace Ninja.WebSockets.Internal
                         {
                             frame = await WebSocketFrameReader.ReadAsync(_stream, buffer, linkedCts.Token);
                             Events.Log.ReceivedFrame(_guid, frame.OpCode, frame.IsFinBitSet, frame.Count);
+                        }
+                        catch (SocketException)
+                        {
+                            // do nothing, the socket has been disconnected
                         }
                         catch (InternalBufferOverflowException ex)
                         {
@@ -520,7 +529,41 @@ namespace Ninja.WebSockets.Internal
         async Task WriteStreamToNetwork(MemoryStream stream, CancellationToken cancellationToken)
         {
             ArraySegment<byte> buffer = GetBuffer(stream);
-            await _stream.WriteAsync(buffer.Array, buffer.Offset, buffer.Count, cancellationToken).ConfigureAwait(false);
+            if(_stream is SslStream)
+            {
+                _messageQueue.Enqueue(buffer);
+                await _sendSemaphore.WaitAsync();
+                try
+                {
+                    while (_messageQueue.Count > 0)
+                    {
+                        var _buf = _messageQueue.Dequeue();
+                        try
+                        {
+                            if (_stream != null && _stream.CanWrite)
+                            {
+                                await _stream.WriteAsync(_buf.Array, _buf.Offset, _buf.Count, cancellationToken).ConfigureAwait(false);
+                            }
+                        }
+                        catch (IOException)
+                        {
+                            // do nothing, the socket is not connected
+                        }
+                        catch (SocketException)
+                        {
+                            // do nothing, the socket is not connected
+                        }
+                    }
+                }
+                finally
+                {
+                    _sendSemaphore.Release();
+                }
+            }
+            else
+            {
+                await _stream.WriteAsync(buffer.Array, buffer.Offset, buffer.Count, cancellationToken).ConfigureAwait(false);
+            }
         }
 
         /// <summary>

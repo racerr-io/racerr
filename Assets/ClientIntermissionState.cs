@@ -1,13 +1,12 @@
-﻿using System.Linq;
-using Doozy.Engine.UI;
-using Mirror;
+﻿using Doozy.Engine.UI;
 using Racerr.StateMachine.Server;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
 namespace Racerr.StateMachine.Client
 {
-    public class ClientIntermissionState : State
+    public class ClientIntermissionState : LocalState
     {
         [SerializeField] ServerIntermissionState serverIntermissionState;
         [SerializeField] UIView intermissionView;
@@ -18,19 +17,16 @@ namespace Racerr.StateMachine.Client
             intermissionTimerTMP = intermissionView.gameObject.GetComponentsInChildren<TextMeshProUGUI>().Single(t => t.name == "Text (TMP) - Intermission Timer");
         }
 
-        [Client]
         public override void Enter(object optionalData = null)
         {
             intermissionView.Show();
         }
 
-        [Client]
         public override void Exit()
         {
             intermissionView.Hide();
         }
 
-        [Client]
         protected override void FixedUpdate()
         {
             intermissionTimerTMP.text = serverIntermissionState.IntermissionSecondsRemaining.ToString();
@@ -40,7 +36,6 @@ namespace Racerr.StateMachine.Client
             }
         }
 
-        [Client]
         void TransitionToRace()
         {
             ClientStateMachine.Singleton.ChangeState(StateEnum.Race);

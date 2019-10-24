@@ -7,10 +7,13 @@ using UnityEngine;
 
 namespace Racerr.StateMachine.Server
 {
-    public sealed class ServerStateMachine : StateMachine
+    public sealed class ServerStateMachine : NetworkBehaviour, IStateMachine
     {
         public static ServerStateMachine Singleton;
-        protected override bool IsStatesActivatable => isServer;
+
+        [SyncVar] StateEnum stateType;
+        public StateEnum StateType => stateType;
+        NetworkedState currentState;
 
         List<Player> playersInServer = new List<Player>();
         public IReadOnlyCollection<Player> PlayersInServer => playersInServer;
@@ -39,7 +42,47 @@ namespace Racerr.StateMachine.Server
         /// </summary>
         void Start()
         {
-            ChangeState(StateEnum.ServerIdle);
+            if (isServer)
+            {
+                ChangeState(StateEnum.ServerIdle);
+            }
+        }
+
+        /// <summary>
+        /// Changes the state of the Server State Machine.
+        /// Intended to be PROTECTED - only the Server States should be able to call this from their encapsulated transition methods.
+        /// Changes the internal state of the Server State Machine based on the given state type Enum.
+        /// </summary>
+        /// <param name="stateType">The new state type to be changed to.</param>
+        /// <param name="optionalData">Optional data to be passed to the transitioning state.</param>
+        [Server]
+        public void ChangeState(StateEnum stateType, object optionalData = null)
+        {
+            if (currentState != null)
+            {
+                // Only time when the current state will be null is when the server starts.
+                currentState.Exit();
+                currentState.enabled = false;
+            }
+
+            try
+            {
+                switch (stateType)
+                {
+                    case StateEnum.Intermission: currentState = GetComponent<ServerIntermissionState>(); break;
+                    case StateEnum.Race: currentState = GetComponent<ServerRaceState>(); break;
+                    case StateEnum.ServerIdle: currentState = GetComponent<ServerIdleState>(); break;
+                    default: throw new InvalidOperationException("Invalid Server ChangeState attempt: " + stateType.ToString());
+                }
+                this.stateType = stateType;
+
+                currentState.enabled = true;
+                currentState.Enter(optionalData);
+            }
+            catch (InvalidOperationException e)
+            {
+                Debug.LogError(e);
+            }
         }
 
         /// <summary>
@@ -62,18 +105,7 @@ namespace Racerr.StateMachine.Server
         {
             Player player = playerGameObject.GetComponent<Player>();
             playersInServer.Remove(player);
-            (CurrentState as RaceSessionState)?.RemovePlayer(player);
-        }
-
-        protected override void ChangeStateCore(StateEnum stateType)
-        {
-            switch (stateType)
-            {
-                case StateEnum.Intermission: CurrentState = GetComponent<ServerIntermissionState>(); break;
-                case StateEnum.Race: CurrentState = GetComponent<ServerRaceState>(); break;
-                case StateEnum.ServerIdle: CurrentState = GetComponent<ServerIdleState>(); break;
-                default: throw new InvalidOperationException("Invalid Server ChangeState attempt: " + stateType.ToString());
-            }
+            (currentState as RaceSessionState)?.RemovePlayer(player);
         }
     }
 }

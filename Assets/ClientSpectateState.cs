@@ -1,19 +1,20 @@
-﻿using Mirror;
+﻿using Racerr.StateMachine.Server;
 
 namespace Racerr.StateMachine.Client
 {
-    public class ClientSpectateState : State
+    public class ClientSpectateState : LocalState
     {
-        [Client]
-        public override void Enter(object optionalData = null)
+        protected override void FixedUpdate()
         {
-            // 
+            if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
+            {
+                TransitionToIntermission();
+            }
         }
 
-        [Client]
-        public override void Exit()
+        void TransitionToIntermission()
         {
-            // 
+            ClientStateMachine.Singleton.ChangeState(StateEnum.Intermission);
         }
     }
 }

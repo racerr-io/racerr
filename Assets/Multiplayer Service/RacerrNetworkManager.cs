@@ -1,8 +1,6 @@
 ﻿using Mirror;
 using Racerr.StateMachine.Server;
 using Racerr.UX.Camera;
-using Racerr.UX.Menu;
-using System.Collections;
 using UnityEngine;
 
 namespace Racerr.MultiplayerService
@@ -46,7 +44,7 @@ namespace Racerr.MultiplayerService
         /// Upon player joining, add the new player, associate them with the Player game object and synchronise on all clients.
         /// </summary>
         /// <param name="conn">Player's connection info.</param>
-        public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
+        public override void OnServerAddPlayer(NetworkConnection conn)
         {
             GameObject player = Instantiate(playerObject);
             NetworkServer.AddPlayerForConnection(conn, player);
@@ -59,7 +57,7 @@ namespace Racerr.MultiplayerService
         /// <param name="conn">Player's connection info.</param>
         public override void OnServerDisconnect(NetworkConnection conn)
         {
-            ServerStateMachine.Singleton.RemovePlayer(conn.playerController.gameObject);
+            ServerStateMachine.Singleton.RemovePlayer(conn.identity.gameObject);
             NetworkServer.DestroyPlayerForConnection(conn);
         }
     }

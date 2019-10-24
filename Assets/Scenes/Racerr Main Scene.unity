@@ -314,6 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c0536f3fe2e854883391417a237109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
   syncInterval: 0.1
   trackLength: 25
   firstTrackPiece: {fileID: 4442780298096383131, guid: cbb9ed024e5cf6d4194ab1b3ece343a9,
@@ -5884,6 +5885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7698f523b981841b51871984c12d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
   syncInterval: 0
 --- !u!114 &1584656524
 MonoBehaviour:
@@ -5913,6 +5915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1768e577d0089e46b76d1517a8516d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
   syncInterval: 0.1
 --- !u!114 &1584656526
 MonoBehaviour:
@@ -5926,6 +5929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707d7776cd648ac4ca04be43d87c7c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
   syncInterval: 0
   intermissionTimerSecondsEditor: 10
   intermissionTimerSeconds: 20
@@ -5942,6 +5946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d336bf763c5e84aa58929d3447f9cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
   syncInterval: 0.1
 --- !u!1 &1609746729
 GameObject:
@@ -5957,7 +5962,6 @@ GameObject:
   - component: {fileID: 1609746735}
   - component: {fileID: 1609746734}
   - component: {fileID: 1609746733}
-  - component: {fileID: 1609746731}
   m_Layer: 0
   m_Name: Client
   m_TagString: Untagged
@@ -5979,22 +5983,6 @@ Transform:
   m_Father: {fileID: 900443654}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1609746731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1609746729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serverOnly: 0
-  localPlayerAuthority: 1
-  m_AssetId: 
-  m_SceneId: 3804937479
 --- !u!114 &1609746732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6007,7 +5995,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc5ea9c5c7ca2af4a8dba4d340b39904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncInterval: 0.1
   serverIntermissionState: {fileID: 1584656526}
   intermissionView: {fileID: 1503551376}
 --- !u!114 &1609746733
@@ -6022,7 +6009,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fdba8c2d93c3e54698287bdbf34bfd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncInterval: 0.1
   startMenuView: {fileID: 2075103227}
 --- !u!114 &1609746734
 MonoBehaviour:
@@ -6036,7 +6022,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6aef4804dad46c4a9e363b4236bebb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncInterval: 0.1
 --- !u!114 &1609746735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6049,7 +6034,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9f3a246a813884092bdccb8587ade5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncInterval: 0.1
   raceView: {fileID: 867409035}
 --- !u!114 &1609746736
 MonoBehaviour:
@@ -6063,7 +6047,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c7df520d894cfb4aba336c421b13764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncInterval: 0
 --- !u!1 &1654418109
 GameObject:
   m_ObjectHideFlags: 0
@@ -6152,7 +6135,7 @@ MonoBehaviour:
   OnClientDataReceived:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Mirror.UnityEventArraySegment, Mirror, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: Mirror.ClientDataReceivedEvent, Mirror, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   OnClientError:
     m_PersistentCalls:
@@ -6171,7 +6154,7 @@ MonoBehaviour:
   OnServerDataReceived:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Mirror.UnityEventIntArraySegment, Mirror, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: Mirror.ServerDataReceivedEvent, Mirror, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   OnServerError:
     m_PersistentCalls:
@@ -6183,6 +6166,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Mirror.UnityEventInt, Mirror, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   port: 7778
+  Secure: 0
+  CertificatePath: 
+  CertificatePassword: 
   NoDelay: 1
 --- !u!114 &1813844548
 MonoBehaviour:
@@ -6206,6 +6192,7 @@ MonoBehaviour:
   transport: {fileID: 1813844547}
   networkAddress: racerr.io
   maxConnections: 20
+  authenticator: {fileID: 0}
   playerPrefab: {fileID: 1018952010411425780, guid: aa65098f076c6e141991513d2b3608c8,
     type: 3}
   autoCreatePlayer: 1

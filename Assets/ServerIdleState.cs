@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Racerr.StateMachine.Server
 {
-    public class ServerIdleState : State
+    public class ServerIdleState : NetworkedState
     {
         /// <summary>
         /// Called every game tick.
