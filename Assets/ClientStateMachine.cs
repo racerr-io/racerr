@@ -8,8 +8,7 @@ namespace Racerr.StateMachine.Client
     {
         public static ClientStateMachine Singleton;
 
-        StateEnum stateType;
-        public StateEnum StateType { get; }
+        public StateEnum StateType { get; private set; }
         LocalState currentState;
 
         /// <summary>
@@ -64,7 +63,7 @@ namespace Racerr.StateMachine.Client
                     case StateEnum.ClientStartMenu: currentState = GetComponent<ClientStartMenuState>(); break;
                     default: throw new InvalidOperationException("Invalid Client ChangeState attempt: " + stateType.ToString());
                 }
-                this.stateType = stateType;
+                StateType = stateType;
 
                 currentState.enabled = true;
                 currentState.Enter(optionalData);

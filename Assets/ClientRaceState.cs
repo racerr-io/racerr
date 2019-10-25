@@ -1,13 +1,17 @@
 ﻿using Doozy.Engine.UI;
 using Racerr.MultiplayerService;
 using Racerr.StateMachine.Server;
+using TMPro;
 using UnityEngine;
 
 namespace Racerr.StateMachine.Client
 {
     public class ClientRaceState : LocalState
     {
+        [SerializeField] ServerRaceState serverRaceState;
         [SerializeField] UIView raceView;
+        [SerializeField] TextMeshProUGUI raceTimerTMP;
+        [SerializeField] TextMeshProUGUI speedTMP;
 
         public override void Enter(object optionalData = null)
         {
@@ -20,7 +24,7 @@ namespace Racerr.StateMachine.Client
         }
 
         protected override void FixedUpdate()
-        {
+        {   
             if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
             {
                 TransitionToIntermission();
@@ -28,6 +32,11 @@ namespace Racerr.StateMachine.Client
             else if (Player.LocalPlayer.IsDead)
             {
                 TransitionToSpectate();
+            }
+            else
+            {
+                raceTimerTMP.text = serverRaceState.CurrentRaceLength.ToRaceTimeFormat();
+                speedTMP.text = Player.LocalPlayer.Car.Velocity.ToString() + " KPH";
             }
         }
 

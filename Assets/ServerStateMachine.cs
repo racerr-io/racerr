@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using Racerr.MultiplayerService;
+using Racerr.Track;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,15 @@ namespace Racerr.StateMachine.Server
         public static ServerStateMachine Singleton;
 
         [SyncVar] StateEnum stateType;
-        public StateEnum StateType => stateType;
+        public StateEnum StateType
+        {
+            get => stateType;
+            private set => stateType = value;
+        }
+
         NetworkedState currentState;
 
-        List<Player> playersInServer = new List<Player>();
+        readonly List<Player> playersInServer = new List<Player>();
         public IReadOnlyCollection<Player> PlayersInServer => playersInServer;
         public IReadOnlyCollection<Player> ReadyPlayers => playersInServer.Where(p => p.IsReady).ToArray();
 
@@ -74,7 +80,7 @@ namespace Racerr.StateMachine.Server
                     case StateEnum.ServerIdle: currentState = GetComponent<ServerIdleState>(); break;
                     default: throw new InvalidOperationException("Invalid Server ChangeState attempt: " + stateType.ToString());
                 }
-                this.stateType = stateType;
+                StateType = stateType;
 
                 currentState.enabled = true;
                 currentState.Enter(optionalData);
@@ -106,6 +112,58 @@ namespace Racerr.StateMachine.Server
             Player player = playerGameObject.GetComponent<Player>();
             playersInServer.Remove(player);
             (currentState as RaceSessionState)?.RemovePlayer(player);
+        }
+    }
+
+
+    /// <summary>
+    /// Race Session State which defines extra interface for handling Race Session Data.
+    /// </summary>
+    public abstract class RaceSessionState : NetworkedState
+    {
+        /// <summary>
+        /// Data passed around between Race and Intermission states (Intermission needs the most recent race data to be displayed).
+        /// </summary>
+        public sealed class RaceSessionData
+        {
+            public double RaceStartTime { get; set; }
+            public double? FinishedRaceLength { get; set; }
+            public List<Player> PlayersInRace { get; } = new List<Player>();
+            public List<Player> FinishedPlayers { get; } = new List<Player>();
+            public IReadOnlyCollection<Player> DeadPlayers => PlayersInRace.Where(p => p.IsDead).ToArray();
+            public IEnumerable<Player> PlayersInRaceOrdered
+            {
+                get
+                {
+                    return PlayersInRace
+                        .OrderBy(player => player.PositionInfo.FinishingTime)
+                        .ThenByDescending(player => player.PositionInfo.Checkpoints.Count)
+                        .ThenBy(player =>
+                        {
+                            Vector3? currCarPosition = player.Car?.transform.position;
+                            GameObject[] checkpointsInRace = TrackGeneratorCommon.Singleton.CheckpointsInRace;
+                            if (currCarPosition == null || checkpointsInRace == null)
+                            {
+                                // For some reason the player has no car or the race hasn't started,
+                                // so let's just be safe rather than crash.
+                                return float.PositiveInfinity;
+                            }
+
+                            // checkpointsInRace is sorted in the order of the checkpoints in the race,
+                            // so to grab the next checkpoint for this car we use the checkpoint count for this player as an index.
+                            int nextCheckpoint = player.PositionInfo.Checkpoints.Count;
+                            Vector3 nextCheckpointPosition = checkpointsInRace[nextCheckpoint].transform.position;
+                            return Vector3.Distance(currCarPosition.Value, nextCheckpointPosition);
+                        });
+                }
+            }
+        }
+
+        protected RaceSessionData raceSessionData = null;
+        public void RemovePlayer(Player player)
+        {
+            raceSessionData.PlayersInRace.Remove(player);
+            raceSessionData.FinishedPlayers.Remove(player);
         }
     }
 }

@@ -7,7 +7,7 @@
     /// <returns>String in M:SS.FFF format.</returns>
     public static string ToRaceTimeFormat(this float time)
     {
-        return ToRaceTimeFormat(time);
+        return ToRaceTimeFormat((double)time);
     }
 
     /// <summary>

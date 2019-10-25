@@ -7,6 +7,7 @@ namespace Racerr.StateMachine.Server
 {
     public class ServerRaceState : RaceSessionState
     {
+        public double CurrentRaceLength => NetworkTime.time - raceSessionData.RaceStartTime;
         bool isCurrentlyRacing;
 
         /// <summary>
@@ -24,6 +25,7 @@ namespace Racerr.StateMachine.Server
         [Server]
         public override void Exit()
         {
+            raceSessionData.FinishedRaceLength = CurrentRaceLength;
             foreach (Player player in raceSessionData.PlayersInRace)
             {
                 if (player.Car != null)
@@ -51,6 +53,7 @@ namespace Racerr.StateMachine.Server
             }
 
             isCurrentlyRacing = true;
+            raceSessionData.RaceStartTime = NetworkTime.time;
         }
 
         /// <summary>

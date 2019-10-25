@@ -316,7 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  trackLength: 25
+  trackLength: 3
   firstTrackPiece: {fileID: 4442780298096383131, guid: cbb9ed024e5cf6d4194ab1b3ece343a9,
     type: 3}
   origin: {fileID: 1034402543}
@@ -1333,6 +1333,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 745663668}
   m_CullTransparentMesh: 0
+--- !u!114 &748826963 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1267990761692994253, guid: 08c481e88d77f684696e515de5a0df2c,
+    type: 3}
+  m_PrefabInstance: {fileID: 2049200810}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &765364611
 GameObject:
   m_ObjectHideFlags: 0
@@ -2205,6 +2217,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1074721264 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1267990761692994253, guid: 08c481e88d77f684696e515de5a0df2c,
+    type: 3}
+  m_PrefabInstance: {fileID: 964843820}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1135169373
 GameObject:
   m_ObjectHideFlags: 0
@@ -5936,8 +5960,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   intermissionTimerSecondsEditor: 10
-  intermissionTimerSeconds: 20
-  intermissionTimerSecondsSinglePlayer: 10
+  intermissionTimerSeconds: 10
+  intermissionTimerSecondsSinglePlayer: 20
 --- !u!114 &1584656527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6001,6 +6025,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverIntermissionState: {fileID: 1584656526}
   intermissionView: {fileID: 1503551376}
+  intermissionTimerTMP: {fileID: 142992644}
+  raceTimerTMP: {fileID: 1074721264}
 --- !u!114 &1609746733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6038,7 +6064,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9f3a246a813884092bdccb8587ade5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serverRaceState: {fileID: 1584656525}
   raceView: {fileID: 867409035}
+  raceTimerTMP: {fileID: 748826963}
+  speedTMP: {fileID: 2131060799}
 --- !u!114 &1609746736
 MonoBehaviour:
   m_ObjectHideFlags: 0
