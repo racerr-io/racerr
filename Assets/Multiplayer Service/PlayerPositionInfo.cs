@@ -9,8 +9,9 @@ namespace Racerr.MultiplayerService
     public class PlayerPositionInfo
     {
         public HashSet<GameObject> Checkpoints { get; } = new HashSet<GameObject>();
-        public double FinishingTime { get; set; } = double.PositiveInfinity;
-        public bool IsFinished => !double.IsPositiveInfinity(FinishingTime);
+        public double StartTime { get; set; }
+        public double FinishTime { get; set; } = double.PositiveInfinity;
+        public bool IsFinished => !double.IsPositiveInfinity(FinishTime);
 
         /// <summary>
         /// Returns a properly formatted string (in M:SS.FFF format) showing their race length duration.
@@ -25,7 +26,7 @@ namespace Racerr.MultiplayerService
                 }
                 else
                 {
-                    double playerRaceLength = FinishingTime - RaceSessionManager.Singleton.RaceStartTime;
+                    double playerRaceLength = FinishTime - StartTime;
                     return playerRaceLength.ToRaceTimeFormat();
                 }
             }

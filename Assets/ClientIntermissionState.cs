@@ -1,5 +1,6 @@
 ﻿using Doozy.Engine.UI;
 using Racerr.StateMachine.Server;
+using Racerr.UX.Camera;
 using TMPro;
 using UnityEngine;
 
@@ -11,19 +12,31 @@ namespace Racerr.StateMachine.Client
         [SerializeField] UIView intermissionView;
         [SerializeField] TextMeshProUGUI intermissionTimerTMP;
         [SerializeField] TextMeshProUGUI raceTimerTMP;
+        [SerializeField] TextMeshProUGUI leaderboardTMP;
+        [SerializeField] Transform origin;
 
         public override void Enter(object optionalData = null)
         {
             intermissionView.Show();
 
-            if (serverIntermissionState.PreviousRaceLength != null)
+            raceTimerTMP.text = serverIntermissionState.PreviousRaceLength.ToRaceTimeFormat();
+
+            string leaderboardText = string.Empty;
+            foreach (RaceSessionState.PlayerPositionDTO playerPositionDTO in serverIntermissionState.playerPositions)
             {
-                raceTimerTMP.text = serverIntermissionState.PreviousRaceLength.Value.ToRaceTimeFormat();
+                leaderboardText += $"{playerPositionDTO.position}. {playerPositionDTO.playerName}";
+
+                if (playerPositionDTO.timeString != null)
+                {
+                    leaderboardText += $" ({playerPositionDTO.timeString})";
+                }
+
+                leaderboardText += "\n";
             }
-            else
-            {
-                raceTimerTMP.text = 0d.ToRaceTimeFormat();
-            }
+
+            leaderboardTMP.text = leaderboardText;
+
+            FindObjectOfType<AutoCam>().SetTarget(origin); // dodgy code fix l8r
         }
 
         public override void Exit()

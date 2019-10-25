@@ -316,7 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  trackLength: 3
+  trackLength: 25
   firstTrackPiece: {fileID: 4442780298096383131, guid: cbb9ed024e5cf6d4194ab1b3ece343a9,
     type: 3}
   origin: {fileID: 1034402543}
@@ -787,6 +787,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &631677442 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 399039177847461608, guid: d87e356e474fd3843a2f4b3e232fb3d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 734334094}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &674709688
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1105,7 +1117,7 @@ PrefabInstance:
     - target: {fileID: 399039179085626707, guid: d87e356e474fd3843a2f4b3e232fb3d8,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 399039179085626707, guid: d87e356e474fd3843a2f4b3e232fb3d8,
         type: 3}
@@ -6027,6 +6039,8 @@ MonoBehaviour:
   intermissionView: {fileID: 1503551376}
   intermissionTimerTMP: {fileID: 142992644}
   raceTimerTMP: {fileID: 1074721264}
+  leaderboardTMP: {fileID: 631677442}
+  origin: {fileID: 1034402543}
 --- !u!114 &1609746733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6068,6 +6082,7 @@ MonoBehaviour:
   raceView: {fileID: 867409035}
   raceTimerTMP: {fileID: 748826963}
   speedTMP: {fileID: 2131060799}
+  leaderboardTMP: {fileID: 399039178944417852}
 --- !u!114 &1609746736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7317,7 +7332,7 @@ PrefabInstance:
     - target: {fileID: 399039179085626707, guid: d87e356e474fd3843a2f4b3e232fb3d8,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 399039179085626707, guid: d87e356e474fd3843a2f4b3e232fb3d8,
         type: 3}
@@ -7356,3 +7371,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d87e356e474fd3843a2f4b3e232fb3d8, type: 3}
+--- !u!114 &399039178944417852 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 399039177847461608, guid: d87e356e474fd3843a2f4b3e232fb3d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 399039178944417851}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

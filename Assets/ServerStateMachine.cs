@@ -115,28 +115,34 @@ namespace Racerr.StateMachine.Server
         }
     }
 
-
     /// <summary>
     /// Race Session State which defines extra interface for handling Race Session Data.
     /// </summary>
     public abstract class RaceSessionState : NetworkedState
     {
+        #region Race Session Data
+        [SyncVar] protected RaceSessionData raceSessionData = new RaceSessionData(0);
+        public double CurrentRaceLength => NetworkTime.time - raceSessionData.raceStartTime;
+
         /// <summary>
         /// Data passed around between Race and Intermission states (Intermission needs the most recent race data to be displayed).
         /// </summary>
-        public sealed class RaceSessionData
+        public readonly struct RaceSessionData
         {
-            public double RaceStartTime { get; set; }
-            public double? FinishedRaceLength { get; set; }
-            public List<Player> PlayersInRace { get; } = new List<Player>();
-            public List<Player> FinishedPlayers { get; } = new List<Player>();
+            // Synchronised
+            public readonly double raceStartTime;
+            public readonly double finishedRaceLength;
+
+            // Server Only
+            public List<Player> PlayersInRace { get; }
+            public List<Player> FinishedPlayers { get; }
             public IReadOnlyCollection<Player> DeadPlayers => PlayersInRace.Where(p => p.IsDead).ToArray();
             public IEnumerable<Player> PlayersInRaceOrdered
             {
                 get
                 {
                     return PlayersInRace
-                        .OrderBy(player => player.PositionInfo.FinishingTime)
+                        .OrderBy(player => player.PositionInfo.FinishTime)
                         .ThenByDescending(player => player.PositionInfo.Checkpoints.Count)
                         .ThenBy(player =>
                         {
@@ -157,13 +163,72 @@ namespace Racerr.StateMachine.Server
                         });
                 }
             }
+
+            public RaceSessionData(double raceStartTime, double finishedRaceLength = 0)
+            {
+                this.raceStartTime = raceStartTime;
+                this.finishedRaceLength = finishedRaceLength;
+                this.PlayersInRace = new List<Player>();
+                this.FinishedPlayers = new List<Player>();
+            }
+
+            public RaceSessionData(double raceStartTime, double finishedRaceLength, List<Player> playersInRace, List<Player> finishedPlayers)
+            {
+                this.raceStartTime = raceStartTime;
+                this.finishedRaceLength = finishedRaceLength;
+                this.PlayersInRace = playersInRace;
+                this.FinishedPlayers = finishedPlayers;
+            }
         }
 
-        protected RaceSessionData raceSessionData = null;
+        [Server]
         public void RemovePlayer(Player player)
         {
             raceSessionData.PlayersInRace.Remove(player);
             raceSessionData.FinishedPlayers.Remove(player);
         }
+
+        #endregion
+
+        #region Player Position Synchronisation
+
+        public readonly struct PlayerPositionDTO
+        {
+            public readonly int position;
+            public readonly string playerName;
+            public readonly string timeString;
+
+            public PlayerPositionDTO(int position, string playerName, string timeString = null)
+            {
+                this.position = position;
+                this.playerName = playerName;
+                this.timeString = timeString;
+            }
+        }
+        public class SyncListPlayerPositionDTO : SyncList<PlayerPositionDTO> { }
+        public readonly SyncListPlayerPositionDTO playerPositions = new SyncListPlayerPositionDTO();
+
+        [Server]
+        protected void UpdateAndSyncPlayerPositions()
+        {
+            playerPositions.Clear();
+            
+            int count = 1;
+            foreach (Player player in raceSessionData.PlayersInRaceOrdered)
+            {
+                if (player.IsDead || player.PositionInfo.IsFinished)
+                {
+                    playerPositions.Add(new PlayerPositionDTO(count, player.PlayerName, player.PositionInfo.TimeString));
+                }
+                else
+                {
+                    playerPositions.Add(new PlayerPositionDTO(count, player.PlayerName));
+                }
+
+                count++;
+            }
+        }
+
+        #endregion
     }
 }

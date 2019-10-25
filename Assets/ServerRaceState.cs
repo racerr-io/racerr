@@ -7,7 +7,6 @@ namespace Racerr.StateMachine.Server
 {
     public class ServerRaceState : RaceSessionState
     {
-        public double CurrentRaceLength => NetworkTime.time - raceSessionData.RaceStartTime;
         bool isCurrentlyRacing;
 
         /// <summary>
@@ -18,14 +17,13 @@ namespace Racerr.StateMachine.Server
         public override void Enter(object optionalData = null)
         {
             isCurrentlyRacing = false;
-            raceSessionData = new RaceSessionData();
+            raceSessionData = new RaceSessionData(NetworkTime.time);
             StartRace();
         }
 
         [Server]
         public override void Exit()
         {
-            raceSessionData.FinishedRaceLength = CurrentRaceLength;
             foreach (Player player in raceSessionData.PlayersInRace)
             {
                 if (player.Car != null)
@@ -48,12 +46,14 @@ namespace Racerr.StateMachine.Server
             foreach (Player player in raceSessionData.PlayersInRace)
             {
                 player.CreateCarForPlayer(currPosition);
-                player.PositionInfo = new PlayerPositionInfo();
+                player.PositionInfo = new PlayerPositionInfo
+                {
+                    StartTime = raceSessionData.raceStartTime
+                };
                 currPosition += new Vector3(0, 0, 10);
             }
 
             isCurrentlyRacing = true;
-            raceSessionData.RaceStartTime = NetworkTime.time;
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Racerr.StateMachine.Server
         public void NotifyPlayerFinished(Player player)
         {
             raceSessionData.FinishedPlayers.Add(player);
-            player.PositionInfo.FinishingTime = NetworkTime.time;
+            player.PositionInfo.FinishTime = NetworkTime.time;
             player.DestroyPlayersCar();
         }
 
@@ -108,13 +108,21 @@ namespace Racerr.StateMachine.Server
                 {
                     TransitionToIntermission();
                 }
+
+                UpdateAndSyncPlayerPositions();
             }
         }
 
         [Server]
         public void TransitionToIntermission()
         {
-            ServerStateMachine.Singleton.ChangeState(StateEnum.Intermission, raceSessionData);
+            RaceSessionData raceSessionDataForIntermission = new RaceSessionData(
+                raceSessionData.raceStartTime, 
+                CurrentRaceLength, 
+                raceSessionData.PlayersInRace, 
+                raceSessionData.FinishedPlayers
+            );
+            ServerStateMachine.Singleton.ChangeState(StateEnum.Intermission, raceSessionDataForIntermission);
         }
 
         [Server]

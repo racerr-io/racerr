@@ -12,6 +12,7 @@ namespace Racerr.StateMachine.Client
         [SerializeField] UIView raceView;
         [SerializeField] TextMeshProUGUI raceTimerTMP;
         [SerializeField] TextMeshProUGUI speedTMP;
+        [SerializeField] TextMeshProUGUI leaderboardTMP;
 
         public override void Enter(object optionalData = null)
         {
@@ -37,6 +38,21 @@ namespace Racerr.StateMachine.Client
             {
                 raceTimerTMP.text = serverRaceState.CurrentRaceLength.ToRaceTimeFormat();
                 speedTMP.text = Player.LocalPlayer.Car.Velocity.ToString() + " KPH";
+
+                string leaderboardText = string.Empty;
+                foreach (RaceSessionState.PlayerPositionDTO playerPositionDTO in serverRaceState.playerPositions)
+                {
+                    leaderboardText += $"{playerPositionDTO.position}. {playerPositionDTO.playerName}";
+
+                    if (playerPositionDTO.timeString != null)
+                    {
+                        leaderboardText += $" ({playerPositionDTO.timeString})";
+                    }
+
+                    leaderboardText += "\n";
+                }
+
+                leaderboardTMP.text = leaderboardText;
             }
         }
 

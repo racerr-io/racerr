@@ -8,14 +8,14 @@ namespace Racerr.StateMachine.Server
 {
     public class ServerIntermissionState : RaceSessionState
     {
-        [SerializeField] int intermissionTimerSecondsEditor;
-        [SerializeField] int intermissionTimerSeconds;
-        [SerializeField] int intermissionTimerSecondsSinglePlayer;
+        [SerializeField] int intermissionTimerSecondsEditor = 10;
+        [SerializeField] int intermissionTimerSeconds = 10;
+        [SerializeField] int intermissionTimerSecondsSinglePlayer = 20;
 
         int intermissionSecondsTotal;
         [SyncVar] int intermissionSecondsRemaining;
         public int IntermissionSecondsRemaining => intermissionSecondsRemaining;
-        public double? PreviousRaceLength => raceSessionData?.FinishedRaceLength;
+        public double PreviousRaceLength => raceSessionData.finishedRaceLength;
 
         /// <summary>
         /// Transition function called on entering the intermission state.
@@ -27,7 +27,13 @@ namespace Racerr.StateMachine.Server
         [Server]
         public override void Enter(object raceSessionData)
         {
-            this.raceSessionData = raceSessionData as RaceSessionData;
+            if (raceSessionData != null)
+            {
+                this.raceSessionData = (RaceSessionData)raceSessionData;
+            }
+
+            UpdateAndSyncPlayerPositions();
+
 #if UNITY_EDITOR
             intermissionSecondsTotal = intermissionTimerSecondsEditor;
 #else
