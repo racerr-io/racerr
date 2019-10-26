@@ -4,7 +4,6 @@ using Racerr.StateMachine.Server;
 using Racerr.Track;
 using Racerr.UX.Camera;
 using Racerr.UX.Car;
-using Racerr.UX.HUD;
 using System;
 using UnityEngine;
 
@@ -109,7 +108,6 @@ namespace Racerr.Car.Core
         {
             if (collider.name == TrackPieceComponent.FinishLineCheckpoint || collider.name == TrackPieceComponent.Checkpoint)
             {
-                //RaceSessionManager.Singleton.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
                 serverRaceState.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
             }
         }

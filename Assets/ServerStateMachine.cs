@@ -52,6 +52,10 @@ namespace Racerr.StateMachine.Server
             {
                 ChangeState(StateEnum.ServerIdle);
             }
+            else
+            {
+                enabled = false;
+            }
         }
 
         /// <summary>

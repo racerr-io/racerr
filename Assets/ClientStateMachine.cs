@@ -34,13 +34,13 @@ namespace Racerr.StateMachine.Client
         /// </summary>
         void Start()
         {
-            if (NetworkManager.isHeadless)
+            if (!NetworkManager.isHeadless)
             {
-                Destroy(gameObject);
+                ChangeState(StateEnum.ClientStartMenu);
             }
             else
             {
-                ChangeState(StateEnum.ClientStartMenu);
+                Destroy(gameObject);
             }
         }
 

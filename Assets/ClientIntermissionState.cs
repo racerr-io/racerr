@@ -47,6 +47,7 @@ namespace Racerr.StateMachine.Client
         protected override void FixedUpdate()
         {
             intermissionTimerTMP.text = serverIntermissionState.IntermissionSecondsRemaining.ToString();
+
             if (ServerStateMachine.Singleton.StateType == StateEnum.Race)
             {
                 TransitionToRace();
