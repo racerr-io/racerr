@@ -146,7 +146,7 @@ namespace Racerr.StateMachine.Server
                 get
                 {
                     return PlayersInRace
-                        .OrderBy(player => player.PositionInfo.FinishTime)
+                        .OrderBy(player => player.PositionInfo.finishTime)
                         .ThenByDescending(player => player.PositionInfo.Checkpoints.Count)
                         .ThenBy(player =>
                         {

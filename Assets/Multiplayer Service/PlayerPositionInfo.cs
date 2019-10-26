@@ -6,12 +6,15 @@ namespace Racerr.MultiplayerService
     /// <summary>
     /// Simple class for holding Player position info in a race.
     /// </summary>
-    public class PlayerPositionInfo
+    public readonly struct PlayerPositionInfo
     {
-        public HashSet<GameObject> Checkpoints { get; } = new HashSet<GameObject>();
-        public double StartTime { get; set; }
-        public double FinishTime { get; set; } = double.PositiveInfinity;
-        public bool IsFinished => !double.IsPositiveInfinity(FinishTime);
+        // Syncronished Fields
+        public readonly double startTime;
+        public readonly double finishTime;
+
+        // Server Only Properties
+        public bool IsFinished => !double.IsPositiveInfinity(finishTime);
+        public HashSet<GameObject> Checkpoints { get; }
 
         /// <summary>
         /// Returns a properly formatted string (in M:SS.FFF format) showing their race length duration.
@@ -26,10 +29,17 @@ namespace Racerr.MultiplayerService
                 }
                 else
                 {
-                    double playerRaceLength = FinishTime - StartTime;
+                    double playerRaceLength = finishTime - startTime;
                     return playerRaceLength.ToRaceTimeFormat();
                 }
             }
+        }
+
+        public PlayerPositionInfo(double startTime, double finishTime = double.PositiveInfinity)
+        {
+            this.Checkpoints = new HashSet<GameObject>();
+            this.startTime = startTime;
+            this.finishTime = finishTime;
         }
     }
 }

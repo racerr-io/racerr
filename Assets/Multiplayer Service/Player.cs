@@ -76,6 +76,7 @@ namespace Racerr.MultiplayerService
         [SyncVar] bool isReady;
         [SyncVar] [SerializeField] GameObject carPrefab;
         [SyncVar(hook = nameof(OnPlayerHealthChanged))] int health = 100;
+        [SyncVar] PlayerPositionInfo positionInfo;
 
         /// <summary>
         /// When playerHealth SyncVar updates, this function is called to update
@@ -161,6 +162,22 @@ namespace Racerr.MultiplayerService
 
         public bool IsDead => Health == 0;
 
+        public PlayerPositionInfo PositionInfo
+        {
+            get => positionInfo;
+            set
+            {
+                if (isServer)
+                {
+                    positionInfo = value;
+                }
+                else
+                {
+                    CmdSynchronisePositionInfo(value);
+                }
+            }
+        }
+
         #endregion
 
         #region Commands for synchronising SyncVars
@@ -199,13 +216,13 @@ namespace Racerr.MultiplayerService
             this.health = health;
         }
 
-        #endregion
+        [Command]
+        void CmdSynchronisePositionInfo(PlayerPositionInfo positionInfo)
+        {
+            this.positionInfo = positionInfo;
+        }
 
         #endregion
-
-        #region Server Only
-
-        public PlayerPositionInfo PositionInfo { get; set; }
 
         #endregion
     }
