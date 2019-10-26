@@ -30,9 +30,8 @@ namespace Racerr.StateMachine.Server
             if (raceSessionData != null)
             {
                 this.raceSessionData = (RaceSessionData)raceSessionData;
+                UpdateAndSyncPlayerPositions();
             }
-
-            UpdateAndSyncPlayerPositions();
 
 #if UNITY_EDITOR
             intermissionSecondsTotal = intermissionTimerSecondsEditor;
