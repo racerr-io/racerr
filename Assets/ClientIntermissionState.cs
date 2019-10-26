@@ -24,11 +24,11 @@ namespace Racerr.StateMachine.Client
             string leaderboardText = string.Empty;
             foreach (RaceSessionState.PlayerLeaderboardItemDTO playerPositionDTO in serverIntermissionState.LeaderboardItems)
             {
-                leaderboardText += $"{playerPositionDTO.Position}. {playerPositionDTO.PlayerName}";
+                leaderboardText += $"{playerPositionDTO.position}. {playerPositionDTO.playerName}";
 
-                if (playerPositionDTO.TimeString != null)
+                if (playerPositionDTO.timeString != null)
                 {
-                    leaderboardText += $" ({playerPositionDTO.TimeString})";
+                    leaderboardText += $" ({playerPositionDTO.timeString})";
                 }
 
                 leaderboardText += "\n";

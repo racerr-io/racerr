@@ -134,12 +134,10 @@ namespace Racerr.StateMachine.Server
         public readonly struct RaceSessionData
         {
             // Client and Server Properties
-            readonly double raceStartTime;
-            readonly double finishedRaceLength;
+            public readonly double raceStartTime;
+            public readonly double finishedRaceLength;
 
-            public double CurrentRaceLength => NetworkTime.time - RaceStartTime;
-            public double RaceStartTime => raceStartTime;
-            public double FinishedRaceLength => finishedRaceLength;
+            public double CurrentRaceLength => NetworkTime.time - raceStartTime;
 
             // Server Only Properties
             public List<Player> PlayersInRace { get; }
@@ -150,7 +148,7 @@ namespace Racerr.StateMachine.Server
                 get
                 {
                     return PlayersInRace
-                        .OrderBy(player => player.PositionInfo.FinishTime)
+                        .OrderBy(player => player.PositionInfo.finishTime)
                         .ThenByDescending(player => player.PositionInfo.Checkpoints.Count)
                         .ThenBy(player =>
                         {
@@ -202,13 +200,9 @@ namespace Racerr.StateMachine.Server
 
         public readonly struct PlayerLeaderboardItemDTO
         {
-            readonly int position;
-            readonly string playerName;
-            readonly string timeString;
-
-            public int Position => position;
-            public string PlayerName => playerName;
-            public string TimeString => timeString;
+            public readonly int position;
+            public readonly string playerName;
+            public readonly string timeString;
 
             public PlayerLeaderboardItemDTO(int position, string playerName, string timeString = null)
             {
@@ -217,28 +211,28 @@ namespace Racerr.StateMachine.Server
                 this.timeString = timeString;
             }
         }
-        public class SyncListPlayerLeaderboardItemDTO : SyncList<PlayerLeaderboardItemDTO> { }
+        class SyncListPlayerLeaderboardItemDTO : SyncList<PlayerLeaderboardItemDTO> { }
         readonly SyncListPlayerLeaderboardItemDTO leaderboardItems = new SyncListPlayerLeaderboardItemDTO();
-        public SyncListPlayerLeaderboardItemDTO LeaderboardItems => leaderboardItems;
+        public IReadOnlyCollection<PlayerLeaderboardItemDTO> LeaderboardItems => leaderboardItems;
 
         [Server]
         protected void UpdateAndSyncLeaderboard()
         {
             leaderboardItems.Clear();
             
-            int count = 1;
+            int position = 1;
             foreach (Player player in raceSessionData.PlayersInRaceOrdered)
             {
                 if (player.IsDead || player.PositionInfo.IsFinished)
                 {
-                    leaderboardItems.Add(new PlayerLeaderboardItemDTO(count, player.PlayerName, player.PositionInfo.TimeString));
+                    leaderboardItems.Add(new PlayerLeaderboardItemDTO(position, player.PlayerName, player.PositionInfo.TimeString));
                 }
                 else
                 {
-                    leaderboardItems.Add(new PlayerLeaderboardItemDTO(count, player.PlayerName));
+                    leaderboardItems.Add(new PlayerLeaderboardItemDTO(position, player.PlayerName));
                 }
 
-                count++;
+                position++;
             }
         }
 

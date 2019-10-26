@@ -9,11 +9,8 @@ namespace Racerr.MultiplayerService
     public readonly struct PlayerPositionInfo
     {
         // Syncronished Fields
-        readonly double startTime;
-        readonly double finishTime;
-
-        public double StartTime => startTime;
-        public double FinishTime => finishTime;
+        public readonly double startTime;
+        public readonly double finishTime;
 
         // Server Only Properties
         public bool IsFinished => !double.IsPositiveInfinity(finishTime);
