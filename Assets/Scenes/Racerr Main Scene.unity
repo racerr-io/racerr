@@ -4778,7 +4778,7 @@ MonoBehaviour:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
+    m_SelectedTrigger: Normal
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 0}
@@ -6025,10 +6025,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverIntermissionState: {fileID: 1584656526}
   intermissionView: {fileID: 1503551376}
+  origin: {fileID: 1034402543}
   intermissionTimerTMP: {fileID: 142992644}
   raceTimerTMP: {fileID: 1074721264}
   leaderboardTMP: {fileID: 631677442}
-  origin: {fileID: 1034402543}
 --- !u!114 &1609746733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6495,7 +6495,6 @@ GameObject:
   - component: {fileID: 2075103227}
   - component: {fileID: 2075103226}
   - component: {fileID: 2075103225}
-  - component: {fileID: 2075103231}
   m_Layer: 0
   m_Name: View - Start Menu
   m_TagString: Untagged
@@ -7070,18 +7069,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &2075103231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2075103223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10c2bf8124e3ffd4a9de3a53edb5dd1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2131060797
 GameObject:
   m_ObjectHideFlags: 0

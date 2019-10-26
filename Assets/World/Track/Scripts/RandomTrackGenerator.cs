@@ -93,7 +93,7 @@ namespace Racerr.Track
                 newTrackPiece.transform.position = trackPieceLinkTransform.transform.position;
                 newTrackPiece.transform.rotation *= trackPieceLinkTransform.rotation;
 
-                yield return new WaitForFixedUpdate(); // Wait for next physics calculation so that Track Piece Collision Detector works properly.
+                yield return new WaitForSeconds(0.15f); // Wait for next physics calculation so that Track Piece Collision Detector works properly.
 
                 if (newTrackPiece.GetComponent<TrackPieceCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {

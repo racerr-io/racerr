@@ -58,6 +58,8 @@ namespace Racerr.Car.Core
 
         public Player Player { get; private set; }
 
+        AutoCam cam;
+
         /// <summary>
         /// Called when car instantiated. Setup the user's view of the car.
         /// </summary>
@@ -68,15 +70,12 @@ namespace Racerr.Car.Core
             Player = PlayerGO.GetComponent<Player>();
             rigidbody = GetComponent<Rigidbody>();
 
-            if (hasAuthority)
-            {
-                FindObjectOfType<AutoCam>().SetTarget(transform);
-            }
-
             // Instantiate and setup player's bar
             GameObject PlayerBarGO = Instantiate(playerBarPrefab);
             PlayerBar = PlayerBarGO.GetComponent<PlayerBar>();
             PlayerBar.Car = this;
+
+            cam = FindObjectOfType<AutoCam>();
         }
 
         /// <summary>
@@ -87,6 +86,15 @@ namespace Racerr.Car.Core
             if (hasAuthority)
             {
                 GetInput();
+
+                if (cam != null && !Player.IsDead && cam.Target != transform)
+                {
+                    cam.SetTarget(transform);
+                }
+                else if (cam != null && Player.IsDead && cam.Target == transform)
+                {
+                    cam.SetTarget(null);
+                }
             }
 
             if (!Player.IsDead)
