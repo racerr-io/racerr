@@ -30,7 +30,7 @@ namespace Racerr.StateMachine.Client
             {
                 TransitionToIntermission();
             }
-            else if (Player.LocalPlayer.IsDead)
+            else if (Player.LocalPlayer.IsDead || Player.LocalPlayer.PositionInfo.IsFinished)
             {
                 TransitionToSpectate();
             }
