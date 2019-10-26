@@ -40,13 +40,13 @@ namespace Racerr.StateMachine.Client
                 speedTMP.text = Player.LocalPlayer.Car.Velocity.ToString() + " KPH";
 
                 string leaderboardText = string.Empty;
-                foreach (RaceSessionState.PlayerPositionDTO playerPositionDTO in serverRaceState.playerPositions)
+                foreach (RaceSessionState.PlayerLeaderboardItemDTO playerPositionDTO in serverRaceState.LeaderboardItems)
                 {
-                    leaderboardText += $"{playerPositionDTO.position}. {playerPositionDTO.playerName}";
+                    leaderboardText += $"{playerPositionDTO.Position}. {playerPositionDTO.PlayerName}";
 
-                    if (playerPositionDTO.timeString != null)
+                    if (playerPositionDTO.TimeString != null)
                     {
-                        leaderboardText += $" ({playerPositionDTO.timeString})";
+                        leaderboardText += $" ({playerPositionDTO.TimeString})";
                     }
 
                     leaderboardText += "\n";

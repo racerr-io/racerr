@@ -22,13 +22,13 @@ namespace Racerr.StateMachine.Client
             raceTimerTMP.text = serverIntermissionState.PreviousRaceLength.ToRaceTimeFormat();
 
             string leaderboardText = string.Empty;
-            foreach (RaceSessionState.PlayerPositionDTO playerPositionDTO in serverIntermissionState.playerPositions)
+            foreach (RaceSessionState.PlayerLeaderboardItemDTO playerPositionDTO in serverIntermissionState.LeaderboardItems)
             {
-                leaderboardText += $"{playerPositionDTO.position}. {playerPositionDTO.playerName}";
+                leaderboardText += $"{playerPositionDTO.Position}. {playerPositionDTO.PlayerName}";
 
-                if (playerPositionDTO.timeString != null)
+                if (playerPositionDTO.TimeString != null)
                 {
-                    leaderboardText += $" ({playerPositionDTO.timeString})";
+                    leaderboardText += $" ({playerPositionDTO.TimeString})";
                 }
 
                 leaderboardText += "\n";

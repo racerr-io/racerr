@@ -42,7 +42,7 @@ namespace Racerr.MultiplayerService
             get
             {
                 return PlayersInRace
-                    .OrderBy(player => player.PositionInfo.finishTime)
+                    .OrderBy(player => player.PositionInfo.FinishTime)
                     .ThenByDescending(player => player.PositionInfo.Checkpoints.Count)
                     .ThenBy(player =>
                     {
@@ -241,7 +241,7 @@ namespace Racerr.MultiplayerService
         public void NotifyPlayerFinished(Player player)
         {
             finishedPlayers.Add(player);
-            player.PositionInfo = new PlayerPositionInfo(player.PositionInfo.startTime, NetworkTime.time);
+            player.PositionInfo = new PlayerPositionInfo(player.PositionInfo.StartTime, NetworkTime.time);
             player.DestroyPlayersCar();
         }
 

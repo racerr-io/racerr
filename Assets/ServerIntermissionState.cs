@@ -15,7 +15,7 @@ namespace Racerr.StateMachine.Server
         int intermissionSecondsTotal;
         [SyncVar] int intermissionSecondsRemaining;
         public int IntermissionSecondsRemaining => intermissionSecondsRemaining;
-        public double PreviousRaceLength => raceSessionData.finishedRaceLength;
+        public double PreviousRaceLength => raceSessionData.FinishedRaceLength;
 
         /// <summary>
         /// Transition function called on entering the intermission state.
@@ -30,7 +30,7 @@ namespace Racerr.StateMachine.Server
             if (raceSessionData != null)
             {
                 this.raceSessionData = (RaceSessionData)raceSessionData;
-                UpdateAndSyncPlayerPositions();
+                UpdateAndSyncLeaderboard();
             }
 
 #if UNITY_EDITOR

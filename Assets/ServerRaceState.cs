@@ -46,7 +46,7 @@ namespace Racerr.StateMachine.Server
             foreach (Player player in raceSessionData.PlayersInRace)
             {
                 player.CreateCarForPlayer(currPosition);
-                player.PositionInfo = new PlayerPositionInfo(raceSessionData.raceStartTime);
+                player.PositionInfo = new PlayerPositionInfo(raceSessionData.RaceStartTime);
                 currPosition += new Vector3(0, 0, 10);
             }
 
@@ -62,7 +62,7 @@ namespace Racerr.StateMachine.Server
         public void NotifyPlayerFinished(Player player)
         {
             raceSessionData.FinishedPlayers.Add(player);
-            player.PositionInfo = new PlayerPositionInfo(player.PositionInfo.startTime, NetworkTime.time);
+            player.PositionInfo = new PlayerPositionInfo(player.PositionInfo.StartTime, NetworkTime.time);
             player.DestroyPlayersCar();
         }
 
@@ -106,7 +106,7 @@ namespace Racerr.StateMachine.Server
                     TransitionToIntermission();
                 }
 
-                UpdateAndSyncPlayerPositions();
+                UpdateAndSyncLeaderboard();
             }
         }
 
@@ -114,7 +114,7 @@ namespace Racerr.StateMachine.Server
         public void TransitionToIntermission()
         {
             RaceSessionData raceSessionDataForIntermission = new RaceSessionData(
-                raceSessionData.raceStartTime, 
+                raceSessionData.RaceStartTime, 
                 CurrentRaceLength, 
                 raceSessionData.PlayersInRace, 
                 raceSessionData.FinishedPlayers
