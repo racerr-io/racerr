@@ -4,13 +4,18 @@ using UnityEngine;
 namespace Racerr.MultiplayerService
 {
     /// <summary>
-    /// Simple class for holding Player position info in a race.
+    /// Holds Player Position Info so we can determine a player's status in the race.
+    /// Some properties are synced with the client so it can determine how to transition the UI.
+    /// E.g. if the client discovers they've finished, they should show the spectate UI.
+    /// Some properties such as the Checkpoints are not synced as they are used solely by the server.
     /// </summary>
-    public class PlayerPositionInfo
+    public readonly struct PlayerPositionInfo
     {
-        public HashSet<GameObject> Checkpoints { get; } = new HashSet<GameObject>();
-        public double FinishingTime { get; set; } = double.PositiveInfinity;
-        public bool IsFinished => !double.IsPositiveInfinity(FinishingTime);
+        /* Server and Client Properties */
+        public readonly double startTime;
+        public readonly double finishTime;
+
+        public bool IsFinished => !double.IsPositiveInfinity(finishTime);
 
         /// <summary>
         /// Returns a properly formatted string (in M:SS.FFF format) showing their race length duration.
@@ -25,10 +30,20 @@ namespace Racerr.MultiplayerService
                 }
                 else
                 {
-                    double playerRaceLength = FinishingTime - RacerrRaceSessionManager.Singleton.RaceStartTime;
+                    double playerRaceLength = finishTime - startTime;
                     return playerRaceLength.ToRaceTimeFormat();
                 }
             }
+        }
+
+        /* Server Only Properties */
+        public HashSet<GameObject> Checkpoints { get; }
+
+        public PlayerPositionInfo(double startTime, double finishTime = double.PositiveInfinity)
+        {
+            this.Checkpoints = new HashSet<GameObject>();
+            this.startTime = startTime;
+            this.finishTime = finishTime;
         }
     }
 }

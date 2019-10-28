@@ -1,9 +1,9 @@
 ﻿using Mirror;
 using Racerr.MultiplayerService;
+using Racerr.StateMachine.Server;
 using Racerr.Track;
 using Racerr.UX.Camera;
 using Racerr.UX.Car;
-using Racerr.UX.HUD;
 using System;
 using UnityEngine;
 
@@ -14,6 +14,8 @@ namespace Racerr.Car.Core
     /// </summary>
     public class PlayerCarController : NetworkBehaviour
     {
+        ServerRaceState serverRaceState;
+
         [Header("Car Properties")]
         [SerializeField] float lowSpeedConstantSteeringAngle = 30;
         [SerializeField] float velocityAffected50SpeedSteeringAngle = 280;
@@ -56,24 +58,24 @@ namespace Racerr.Car.Core
 
         public Player Player { get; private set; }
 
+        AutoCam cam;
+
         /// <summary>
         /// Called when car instantiated. Setup the user's view of the car.
         /// </summary>
         void Start()
         {
+            serverRaceState = FindObjectOfType<ServerRaceState>();
+
             Player = PlayerGO.GetComponent<Player>();
             rigidbody = GetComponent<Rigidbody>();
-
-            if (hasAuthority)
-            {
-                FindObjectOfType<HUDSpeed>().Car = this;
-                FindObjectOfType<AutoCam>().SetTarget(transform);
-            }
 
             // Instantiate and setup player's bar
             GameObject PlayerBarGO = Instantiate(playerBarPrefab);
             PlayerBar = PlayerBarGO.GetComponent<PlayerBar>();
             PlayerBar.Car = this;
+
+            cam = FindObjectOfType<AutoCam>();
         }
 
         /// <summary>
@@ -84,6 +86,15 @@ namespace Racerr.Car.Core
             if (hasAuthority)
             {
                 GetInput();
+
+                if (cam != null && !Player.IsDead && cam.Target != transform)
+                {
+                    cam.SetTarget(transform);
+                }
+                else if (cam != null && Player.IsDead && cam.Target == transform)
+                {
+                    cam.SetTarget(null);
+                }
             }
 
             if (!Player.IsDead)
@@ -105,7 +116,7 @@ namespace Racerr.Car.Core
         {
             if (collider.name == TrackPieceComponent.FinishLineCheckpoint || collider.name == TrackPieceComponent.Checkpoint)
             {
-                RacerrRaceSessionManager.Singleton.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
+                serverRaceState.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
             }
         }
 

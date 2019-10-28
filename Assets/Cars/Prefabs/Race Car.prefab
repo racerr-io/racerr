@@ -309,7 +309,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018952010411425780}
   serializedVersion: 2
-  m_Mass: 1000
+  m_Mass: 2000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -389,7 +389,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37525eb4cb7c4a44baac0b9e94008c63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncInterval: 0.1
+  syncMode: 0
+  syncInterval: 0
   lowSpeedConstantSteeringAngle: 30
   velocityAffected50SpeedSteeringAngle: 280
   constant50SpeedSteeringAngle: 2
@@ -425,6 +426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9db865986f75ee44eba89ace4646af65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
   syncInterval: 0.1
   waitTime: 1
   velocityThreshold: 1
@@ -440,6 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76b4b1b513f7c1e4886472bee2224c77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
   syncInterval: 0
   interpolationFactor: 0.4
 --- !u!114 &2388928030589524058
@@ -457,7 +460,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 2319562929
+  m_SceneId: 627262251
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0
