@@ -44,6 +44,7 @@ namespace Racerr.StateMachine.Client
             }
             else
             {
+                // On server - destroy this entire game object which includes destroying all of its children client state scripts.
                 Destroy(gameObject);
             }
         }
@@ -75,14 +76,14 @@ namespace Racerr.StateMachine.Client
                     default: throw new InvalidOperationException("Invalid Client ChangeState attempt: " + stateType.ToString());
                 }
                 StateType = stateType;
-
-                currentState.enabled = true;
-                currentState.Enter(optionalData);
             }
             catch (InvalidOperationException e)
             {
                 Debug.LogError(e);
             }
+
+            currentState.enabled = true;
+            currentState.Enter(optionalData);
         }
     }
 }

@@ -3,6 +3,9 @@
     /// <summary>
     /// Convert seconds to M:SS.FFF format.
     /// </summary>
+    /// <remarks>
+    /// Delegating function to ToRaceTimeFormat to convert float into the required double parameter type.
+    /// </remarks>
     /// <param name="time">Time in seconds</param>
     /// <returns>String in M:SS.FFF format.</returns>
     public static string ToRaceTimeFormat(this float time)

@@ -13,8 +13,8 @@ namespace Racerr.StateMachine.Server
     /// Used by the Server to basically manage everything related to multiplayer.
     /// Intended to be synchronised to clients, so that they can read the StateType
     /// and change the experience they provide to the user accordingly.
-    /// Note that this state will disable itself on clients, so physics functions do not run
-    /// (networking is still active).
+    /// Note that this state will disable itself on clients, so Unity script
+    /// functions do not run (networking is still active).
     /// </summary>
     public sealed class ServerStateMachine : NetworkBehaviour, IStateMachine
     {
@@ -93,14 +93,14 @@ namespace Racerr.StateMachine.Server
                     default: throw new InvalidOperationException("Invalid Server ChangeState attempt: " + stateType.ToString());
                 }
                 StateType = stateType;
-
-                currentState.enabled = true;
-                currentState.Enter(optionalData);
             }
             catch (InvalidOperationException e)
             {
                 Debug.LogError(e);
             }
+            
+            currentState.enabled = true;
+            currentState.Enter(optionalData);
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace Racerr.StateMachine.Server
         /// which are then synchronised to every client.
         /// </summary>
         [Server]
-        protected void SyncLeaderboard()
+        protected void UpdateLeaderboard()
         {
             leaderboardItems.Clear();
             

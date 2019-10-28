@@ -11,11 +11,12 @@ namespace Racerr.StateMachine.Server
     /// </summary>
     public class ServerRaceState : RaceSessionState
     {
+        // Flag to keep track of whether we are racing or not to guard the transitions in FixedUpdate from being called.
         bool isCurrentlyRacing;
 
         /// <summary>
-        /// Initialises brand new race session data independant of previous race sessions.
-        /// Then starts generating the track, which will then start the race.
+        /// Initialises brand new race session data independent of previous race sessions.
+        /// Then starts the race, assuming track has already been generated during intermission state.
         /// </summary>
         [Server]
         public override void Enter(object optionalData = null)
@@ -27,7 +28,7 @@ namespace Racerr.StateMachine.Server
 
         /// <summary>
         /// When exiting the race, destroy any players which remain on the track. 
-        /// Note that players remain on the track after the race after dying (their uncontrollable corpse remains).
+        /// Note that players remain on the track after the race from dying (their uncontrollable corpse remains).
         /// </summary>
         [Server]
         public override void Exit()
@@ -43,7 +44,6 @@ namespace Racerr.StateMachine.Server
 
         /// <summary>
         /// Procedure to actually setup and start the race.
-        /// Called only after track is generated.
         /// </summary>
         [Server]
         void StartRace()
@@ -114,7 +114,7 @@ namespace Racerr.StateMachine.Server
                     TransitionToIntermission();
                 }
 
-                SyncLeaderboard(); // Ensure clients have a live updated view of the leaderboard always.
+                UpdateLeaderboard(); // Ensure clients have a live updated view of the leaderboard always.
             }
         }
 

@@ -33,14 +33,13 @@ namespace Racerr.StateMachine.Server
             if (raceSessionData != null)
             {
                 this.raceSessionData = (RaceSessionData)raceSessionData;
-                
             }
             else
             {
                 this.raceSessionData = new RaceSessionData(0);
             }
 
-            SyncLeaderboard(); // To ensure the leaderboard has valid info from the new race session data.
+            UpdateLeaderboard(); // To ensure the leaderboard has valid info from the new race session data.
 
 #if UNITY_EDITOR
             intermissionSecondsTotal = intermissionTimerSecondsEditor;
@@ -69,6 +68,7 @@ namespace Racerr.StateMachine.Server
                 if (intermissionSecondsRemaining == intermissionSecondsTotal / 2)
                 {
                     TrackGeneratorCommon.Singleton.DestroyIfRequired();
+                    this.raceSessionData = new RaceSessionData(0);
                     TrackGeneratorCommon.Singleton.GenerateIfRequired();
                 }
             }
