@@ -14,8 +14,13 @@ namespace Racerr.Track
         [SerializeField] int trackLength = 50;
 
         public static TrackGeneratorCommon Singleton;
-        public bool IsTrackGenerated { get; protected set; }
+        public bool IsTrackGenerated { get; private set; }
+        public bool IsTrackGenerating { get; private set; }
         public List<GameObject> GeneratedTrackPieces { get; } = new List<GameObject>();
+
+        // Create a list of all checkpoints in race using the Generated track pices.
+        // We assume all track pieces are either Checkpoint or FinishingLineCheckpoint.
+        public GameObject[] CheckpointsInRace { get; private set; }
 
         /// <summary>
         /// Run when this script is instantiated.
@@ -42,9 +47,32 @@ namespace Racerr.Track
         {
             if (isServer && !IsTrackGenerated)
             {
+                IsTrackGenerating = true;
                 IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Track Pieces");
                 StartCoroutine(GenerateTrack(trackLength, availableTrackPiecePrefabs));
             }
+        }
+
+        /// <summary>
+        /// Called on track generation finish by subclass track generators.
+        /// </summary>
+        public void FinishTrackGeneration()
+        {
+            IsTrackGenerating = false;
+            IsTrackGenerated = true;
+
+            CheckpointsInRace = GeneratedTrackPieces.Select(trackPiece =>
+            {
+                GameObject result = trackPiece.transform.Find(TrackPieceComponent.Checkpoint)?.gameObject;
+
+                if (result == null)
+                {
+                    // Special case for the finishing line, it has a different label.
+                    result = trackPiece.transform.Find(TrackPieceComponent.FinishLineCheckpoint).gameObject;
+                }
+
+                return result;
+            }).ToArray();
         }
 
         /// <summary>
@@ -57,6 +85,7 @@ namespace Racerr.Track
                 GeneratedTrackPieces.ForEach(NetworkServer.Destroy);
                 GeneratedTrackPieces.RemoveAll(_ => true);
                 IsTrackGenerated = false;
+                CheckpointsInRace = null;
             }
         }
 

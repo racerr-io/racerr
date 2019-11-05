@@ -1,5 +1,4 @@
 ﻿using Mirror;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -94,7 +93,7 @@ namespace Racerr.Track
                 newTrackPiece.transform.position = trackPieceLinkTransform.transform.position;
                 newTrackPiece.transform.rotation *= trackPieceLinkTransform.rotation;
 
-                yield return new WaitForFixedUpdate(); // Wait for next physics calculation so that Track Piece Collision Detector works properly.
+                yield return new WaitForSeconds(0.15f); // Wait for next physics calculation so that Track Piece Collision Detector works properly.
 
                 if (newTrackPiece.GetComponent<TrackPieceCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {
@@ -121,7 +120,8 @@ namespace Racerr.Track
 
             // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
             currentTrackPiece.transform.Find(TrackPieceComponent.Checkpoint).name = TrackPieceComponent.FinishLineCheckpoint;
-            IsTrackGenerated = true;
+
+            FinishTrackGeneration();
         }
 
         bool IsSameTrackPieceStyle(GameObject candidateTrackPiece)

@@ -9,13 +9,15 @@ namespace Mirror
     {
         public ULocalConnectionToClient() : base ("localClient")
         {
-            // local player always has connectionId == 0
-            connectionId = 0;
         }
 
-        internal override bool SendBytes(byte[] bytes, int channelId = Channels.DefaultReliable)
+        internal override bool Send(ArraySegment<byte> segment, int channelId = Channels.DefaultReliable)
         {
-            NetworkClient.localClientPacketQueue.Enqueue(bytes);
+            // LocalConnection doesn't support allocation-free sends yet.
+            // previously we allocated in Mirror. now we do it here.
+            byte[] data = new byte[segment.Count];
+            Array.Copy(segment.Array, segment.Offset, data, 0, segment.Count);
+            NetworkClient.localClientPacketQueue.Enqueue(data);
             return true;
         }
     }
@@ -26,13 +28,11 @@ namespace Mirror
     {
         public ULocalConnectionToServer() : base("localServer")
         {
-            // local player always has connectionId == 0
-            connectionId = 0;
         }
 
-        internal override bool SendBytes(byte[] bytes, int channelId = Channels.DefaultReliable)
+        internal override bool Send(ArraySegment<byte> segment, int channelId = Channels.DefaultReliable)
         {
-            if (bytes.Length == 0)
+            if (segment.Count == 0)
             {
                 Debug.LogError("LocalConnection.SendBytes cannot send zero bytes");
                 return false;
@@ -40,7 +40,7 @@ namespace Mirror
 
             // handle the server's message directly
             // TODO any way to do this without NetworkServer.localConnection?
-            NetworkServer.localConnection.TransportReceive(new ArraySegment<byte>(bytes));
+            NetworkServer.localConnection.TransportReceive(segment, channelId);
             return true;
         }
     }
