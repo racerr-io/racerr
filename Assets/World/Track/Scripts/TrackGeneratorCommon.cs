@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Racerr.MultiplayerService;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,13 +44,13 @@ namespace Racerr.Track
         /// <summary>
         /// Generate the track for all players on the server.
         /// </summary>
-        public void GenerateIfRequired()
+        public void GenerateIfRequired(IReadOnlyCollection<Player> playersToSpawn)
         {
             if (isServer && !IsTrackGenerated)
             {
                 IsTrackGenerating = true;
                 IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Track Pieces");
-                StartCoroutine(GenerateTrack(trackLength, availableTrackPiecePrefabs));
+                StartCoroutine(GenerateTrack(trackLength, availableTrackPiecePrefabs, playersToSpawn));
             }
         }
 
@@ -96,7 +97,7 @@ namespace Racerr.Track
         /// <param name="trackLength">Number of Track Pieces this track should be composed of.</param>
         /// <param name="availableTrackPiecePrefabs">Collection of Track Pieces we can Instantiate.</param>
         /// <returns>IEnumerator for Unity coroutine, so that track generation can be done concurrently with main thread (useful for calculating collisions).</returns>
-        abstract protected IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs);
+        abstract protected IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs, IReadOnlyCollection<Player> playersToSpawn);
 
         /// <summary>
         /// Each Track Piece has an ending point called 'Link'. This function will return the Transform (position and rotation info) for this link.

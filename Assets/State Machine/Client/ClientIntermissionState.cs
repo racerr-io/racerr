@@ -46,9 +46,6 @@ namespace Racerr.StateMachine.Client
                 leaderboardText += "\n";
             }
             leaderboardTMP.text = leaderboardText;
-
-            // Move the camera to the starting point, which is where the new track spawns. TODO: Refactor camera system.
-            FindObjectOfType<TargetObserverCamera>().SetTarget(origin);
         }
 
         /// <summary>

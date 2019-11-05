@@ -151,11 +151,6 @@ namespace Racerr.MultiplayerService
                 if (!isServer)
                 {
                     CmdSynchroniseHealth(health);
-
-                    if (health == 0 && hasAuthority)
-                    {
-                        FindObjectOfType<TargetObserverCamera>().SetTarget(null);
-                    }
                 }
             }
         }

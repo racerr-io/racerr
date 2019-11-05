@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Racerr.UX.Camera;
 using System;
 using UnityEngine;
 
@@ -14,6 +15,9 @@ namespace Racerr.StateMachine.Client
 
         public StateEnum StateType { get; private set; }
         LocalState currentState;
+
+        [SerializeField] TargetObserverCamera mainCamera;
+        public TargetObserverCamera MainCamera => mainCamera;
 
         /// <summary>
         /// Run when this script is instantiated.

@@ -2,7 +2,6 @@
 using Racerr.MultiplayerService;
 using Racerr.StateMachine.Server;
 using Racerr.Track;
-using Racerr.UX.Camera;
 using Racerr.UX.Car;
 using System;
 using UnityEngine;
@@ -58,8 +57,6 @@ namespace Racerr.Car.Core
 
         public Player Player { get; private set; }
 
-        TargetObserverCamera cam;
-
         /// <summary>
         /// Called when car instantiated. Setup the user's view of the car.
         /// </summary>
@@ -74,8 +71,6 @@ namespace Racerr.Car.Core
             GameObject PlayerBarGO = Instantiate(playerBarPrefab);
             PlayerBar = PlayerBarGO.GetComponent<PlayerBar>();
             PlayerBar.Car = this;
-
-            cam = FindObjectOfType<TargetObserverCamera>();
         }
 
         /// <summary>
@@ -86,15 +81,6 @@ namespace Racerr.Car.Core
             if (hasAuthority)
             {
                 GetInput();
-
-                if (cam != null && !Player.IsDead && cam.Target != transform)
-                {
-                    cam.SetTarget(transform);
-                }
-                else if (cam != null && Player.IsDead && cam.Target == transform)
-                {
-                    cam.SetTarget(null);
-                }
             }
 
             if (!Player.IsDead)

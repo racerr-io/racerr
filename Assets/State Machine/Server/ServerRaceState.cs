@@ -11,9 +11,6 @@ namespace Racerr.StateMachine.Server
     /// </summary>
     public class ServerRaceState : RaceSessionState
     {
-        // Flag to keep track of whether we are racing or not to guard the transitions in FixedUpdate from being called.
-        bool isCurrentlyRacing;
-
         /// <summary>
         /// Initialises brand new race session data independent of previous race sessions.
         /// Then starts the race, assuming track has already been generated during intermission state.
@@ -21,9 +18,14 @@ namespace Racerr.StateMachine.Server
         [Server]
         public override void Enter(object optionalData = null)
         {
-            isCurrentlyRacing = false;
             raceSessionData = new RaceSessionData(NetworkTime.time);
-            StartRace();
+            EnableAllPlayerCarControllers();
+        }
+
+        /// TODO: Disable car controllers on track gen in intermission and enable them here
+        void EnableAllPlayerCarControllers()
+        {
+
         }
 
         /// <summary>
@@ -40,25 +42,6 @@ namespace Racerr.StateMachine.Server
                     player.DestroyPlayersCar();
                 }
             }
-        }
-
-        /// <summary>
-        /// Procedure to actually setup and start the race.
-        /// </summary>
-        [Server]
-        void StartRace()
-        {
-            Vector3 currPosition = new Vector3(0, 1, 10);
-            raceSessionData.PlayersInRace.AddRange(ServerStateMachine.Singleton.ReadyPlayers);
-
-            foreach (Player player in raceSessionData.PlayersInRace)
-            {
-                player.CreateCarForPlayer(currPosition);
-                player.PositionInfo = new PlayerPositionInfo(raceSessionData.raceStartTime);
-                currPosition += new Vector3(0, 0, 10);
-            }
-
-            isCurrentlyRacing = true;
         }
 
         /// <summary>
@@ -100,22 +83,19 @@ namespace Racerr.StateMachine.Server
         [Server]
         protected override void FixedUpdate()
         {
-            if (isCurrentlyRacing)
-            {  
-                bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count;
-                bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
+            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count;
+            bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
 
-                if (isRaceEmpty)
-                {
-                    TransitionToIdle();
-                }
-                else if (isRaceFinished)
-                {
-                    TransitionToIntermission();
-                }
-
-                UpdateLeaderboard(); // Ensure clients have a live updated view of the leaderboard always.
+            if (isRaceEmpty)
+            {
+                TransitionToIdle();
             }
+            else if (isRaceFinished)
+            {
+                TransitionToIntermission();
+            }
+
+            UpdateLeaderboard(); // Ensure clients have a live updated view of the leaderboard always.
         }
 
         [Server]
@@ -124,9 +104,9 @@ namespace Racerr.StateMachine.Server
             // Copy over the Race Session Data to the Intermission State so the previous race's leaderboard and timer
             // is shown while players wait for the next race.
             RaceSessionData raceSessionDataForIntermission = new RaceSessionData(
-                raceSessionData.raceStartTime, 
-                CurrentRaceLength, 
-                raceSessionData.PlayersInRace, 
+                raceSessionData.raceStartTime,
+                CurrentRaceLength,
+                raceSessionData.PlayersInRace,
                 raceSessionData.FinishedPlayers
             );
             ServerStateMachine.Singleton.ChangeState(StateEnum.Intermission, raceSessionDataForIntermission);

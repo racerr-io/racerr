@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Racerr.StateMachine.Client;
 using Racerr.UX.Camera;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace Racerr.Track
                 RemovePhysicsFromProps();
             }
 
-            FindObjectOfType<TargetObserverCamera>()?.SetTarget(transform);
+            ClientStateMachine.Singleton.MainCamera.Target = transform;
         }
 
         /// <summary>

@@ -966,7 +966,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   target: {fileID: 0}
-  autoTargetPlayer: 1
 --- !u!81 &676124696
 AudioListener:
   m_ObjectHideFlags: 0
@@ -6154,6 +6153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c7df520d894cfb4aba336c421b13764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 674678301}
 --- !u!1 &1654418109
 GameObject:
   m_ObjectHideFlags: 0

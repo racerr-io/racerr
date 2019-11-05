@@ -63,13 +63,14 @@ namespace Racerr.StateMachine.Server
             {
                 yield return new WaitForSeconds(1);
                 intermissionSecondsRemaining--;
-                
+
                 // Destroy previous track and generate new track for next race when halfway in intermission
                 if (intermissionSecondsRemaining == intermissionSecondsTotal / 2)
                 {
                     TrackGeneratorCommon.Singleton.DestroyIfRequired();
+                    // "Forget" about the most recent race as we are starting the next one by overwriting it with dummy data.
                     this.raceSessionData = new RaceSessionData(0);
-                    TrackGeneratorCommon.Singleton.GenerateIfRequired();
+                    TrackGeneratorCommon.Singleton.GenerateIfRequired(ServerStateMachine.Singleton.ReadyPlayers);
                 }
             }
 
