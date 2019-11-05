@@ -453,7 +453,7 @@ GameObject:
   - component: {fileID: 188414874}
   - component: {fileID: 188414873}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: Event System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -912,6 +912,7 @@ GameObject:
   m_Component:
   - component: {fileID: 674323002}
   - component: {fileID: 673825848}
+  - component: {fileID: 674678299}
   - component: {fileID: 680162616}
   - component: {fileID: 676124696}
   m_Layer: 0
@@ -921,6 +922,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &674678299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 674678298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e488fcd3e40c4ee4fa8108eafb71b1b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &674678300
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,8 +944,7 @@ GameObject:
   m_Component:
   - component: {fileID: 674323004}
   - component: {fileID: 677717368}
-  - component: {fileID: 681227256}
-  - component: {fileID: 674709690}
+  - component: {fileID: 674678301}
   m_Layer: 0
   m_Name: Camera Target
   m_TagString: Untagged
@@ -940,7 +952,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &674709690
+--- !u!114 &674678301
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -949,9 +961,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 674678300}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e488fcd3e40c4ee4fa8108eafb71b1b0, type: 3}
+  m_Script: {fileID: 11500000, guid: dc61b6ea934047b4297c7b641b34e7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 3
+  target: {fileID: 0}
+  autoTargetPlayer: 1
 --- !u!81 &676124696
 AudioListener:
   m_ObjectHideFlags: 0
@@ -984,28 +999,6 @@ Behaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 674678298}
   m_Enabled: 1
---- !u!114 &681227256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 674678300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8d3968294210ba4a9d2bb96dfa74a16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  autoTargetPlayer: 1
-  updateType: 0
-  moveSpeed: 3
-  rollSpeed: 0.2
-  followVelocity: 0
-  followTilt: 1
-  spinTurnLimit: 90
-  targetVelocityLowerLimit: 4
-  smoothTurnTime: 0.2
 --- !u!1 &683854787
 GameObject:
   m_ObjectHideFlags: 0
