@@ -27,7 +27,7 @@ namespace Racerr.Track
                 RemovePhysicsFromProps();
             }
 
-            FindObjectOfType<AutoCam>()?.SetTarget(transform);
+            FindObjectOfType<TargetObserverCamera>()?.SetTarget(transform);
         }
 
         /// <summary>

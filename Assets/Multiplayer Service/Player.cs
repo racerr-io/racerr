@@ -154,7 +154,7 @@ namespace Racerr.MultiplayerService
 
                     if (health == 0 && hasAuthority)
                     {
-                        FindObjectOfType<AutoCam>().SetTarget(null);
+                        FindObjectOfType<TargetObserverCamera>().SetTarget(null);
                     }
                 }
             }

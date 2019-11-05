@@ -58,7 +58,7 @@ namespace Racerr.Car.Core
 
         public Player Player { get; private set; }
 
-        AutoCam cam;
+        TargetObserverCamera cam;
 
         /// <summary>
         /// Called when car instantiated. Setup the user's view of the car.
@@ -75,7 +75,7 @@ namespace Racerr.Car.Core
             PlayerBar = PlayerBarGO.GetComponent<PlayerBar>();
             PlayerBar.Car = this;
 
-            cam = FindObjectOfType<AutoCam>();
+            cam = FindObjectOfType<TargetObserverCamera>();
         }
 
         /// <summary>
