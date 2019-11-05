@@ -11,12 +11,10 @@ namespace Racerr.UX.Camera
     public class TargetObserverCamera : MonoBehaviour
     {
         [SerializeField] float moveSpeed = 3; // How fast the rig will move to keep up with target's position
-
         [SerializeField] Transform target;    // The target object to follow
         [SerializeField] bool autoTargetPlayer = true;  // Whether the rig should automatically target the player.
 
         public Transform Target => target;
-        Rigidbody TargetRigidbody { get; set; }
 
         /// <summary>
         /// if auto targeting is used, find the object tagged "Player"
@@ -28,8 +26,6 @@ namespace Racerr.UX.Camera
             {
                 FindAndTargetPlayer();
             }
-            if (target == null) return;
-            TargetRigidbody = target.GetComponent<Rigidbody>();
         }
 
         /// <summary>
