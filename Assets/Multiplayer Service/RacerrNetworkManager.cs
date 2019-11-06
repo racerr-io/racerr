@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Doozy.Engine.UI;
+using Mirror;
 using Racerr.StateMachine.Server;
 using Racerr.UX.Camera;
 using UnityEngine;
@@ -23,10 +24,12 @@ namespace Racerr.MultiplayerService
             {
                 Application.targetFrameRate = serverApplicationFrameRate;
 
-                foreach (AbstractTargetFollower camera in FindObjectsOfType<AbstractTargetFollower>())
+                foreach (TargetObserverCamera camera in FindObjectsOfType<TargetObserverCamera>())
                 {
                     Destroy(camera.gameObject);
                 }
+
+                Destroy(FindObjectOfType<UICanvas>().gameObject);
 
                 StartServer();
             }

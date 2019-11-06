@@ -192,7 +192,7 @@ namespace Racerr.StateMachine.Server
             {
                 this.raceStartTime = raceStartTime;
                 this.finishedRaceLength = finishedRaceLength;
-                this.PlayersInRace = new List<Player>(ServerStateMachine.Singleton.ReadyPlayers);
+                this.PlayersInRace = new List<Player>(ServerStateMachine.Singleton.ReadyPlayers.Where(player => player.Car != null));
                 this.FinishedPlayers = new List<Player>();
 
                 foreach (Player player in PlayersInRace)

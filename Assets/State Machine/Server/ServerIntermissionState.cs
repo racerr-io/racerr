@@ -68,8 +68,6 @@ namespace Racerr.StateMachine.Server
                 if (intermissionSecondsRemaining == intermissionSecondsTotal / 2)
                 {
                     TrackGeneratorCommon.Singleton.DestroyIfRequired();
-                    // "Forget" about the most recent race as we are starting the next one by overwriting it with dummy data.
-                    this.raceSessionData = new RaceSessionData(0);
                     TrackGeneratorCommon.Singleton.GenerateIfRequired(ServerStateMachine.Singleton.ReadyPlayers);
                 }
             }
