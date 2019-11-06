@@ -23,14 +23,7 @@ namespace Racerr.MultiplayerService
             if (isHeadless)
             {
                 Application.targetFrameRate = serverApplicationFrameRate;
-
-                foreach (TargetObserverCamera camera in FindObjectsOfType<TargetObserverCamera>())
-                {
-                    Destroy(camera.gameObject);
-                }
-
-                Destroy(FindObjectOfType<UICanvas>().gameObject);
-
+                RemoveClientOnlyGOs();
                 StartServer();
             }
             else
@@ -41,6 +34,19 @@ namespace Racerr.MultiplayerService
                 StartClient();
 #endif
             }
+        }
+
+        /// <summary>
+        /// Remove game objects which are only specific to the client, to optimise server performance.
+        /// </summary>
+        void RemoveClientOnlyGOs()
+        {
+            foreach (TargetObserverCamera camera in FindObjectsOfType<TargetObserverCamera>())
+            {
+                Destroy(camera.gameObject);
+            }
+
+            Destroy(FindObjectOfType<UICanvas>().gameObject);
         }
 
         /// <summary>

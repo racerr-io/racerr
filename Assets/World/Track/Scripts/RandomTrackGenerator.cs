@@ -95,14 +95,15 @@ namespace Racerr.Track
                 newTrackPiece.transform.position = trackPieceLinkTransform.transform.position;
                 newTrackPiece.transform.rotation *= trackPieceLinkTransform.rotation;
 
+                // Spawn the players cars onto the starting piece of the track
                 if (numTracks == 0)
                 {
-                    Vector3 currPosition = new Vector3(0, 1, 10);
+                    Vector3 gridStartPosition = new Vector3(0, 1, 10);
 
                     foreach (Player player in playersToSpawn.Where(player => player != null))
                     {
-                        player.CreateCarForPlayer(currPosition);
-                        currPosition += new Vector3(0, 0, 10);
+                        player.CreateCarForPlayer(gridStartPosition);
+                        gridStartPosition += new Vector3(0, 0, 10);
                         yield return new WaitForFixedUpdate();
                     }
                 }
