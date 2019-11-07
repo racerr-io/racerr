@@ -29,7 +29,7 @@ namespace Racerr.StateMachine.Client
         public override void Enter(object optionalData = null)
         {
             intermissionView.Show();
-            TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Callback += UpdateCameraTarget;
+            TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Callback += SetCameraTargetOnTrackGenerated;
 
             // Race Timer. TODO: Extract Race Timer to its own script
             raceTimerTMP.text = serverIntermissionState.FinishedRaceLength.ToRaceTimeFormat();
@@ -55,7 +55,7 @@ namespace Racerr.StateMachine.Client
         /// </summary>
         public override void Exit()
         {
-            TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Callback -= UpdateCameraTarget;
+            TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Callback -= SetCameraTargetOnTrackGenerated;
             intermissionView.Hide();
         }
 
@@ -67,7 +67,7 @@ namespace Racerr.StateMachine.Client
         /// <param name="op">Operation Type</param>
         /// <param name="itemIndex">The index of the newly added track (unused)</param>
         /// <param name="item">The track itself that was added</param>
-        void UpdateCameraTarget(Mirror.SyncList<GameObject>.Operation op, int itemIndex, GameObject item)
+        void SetCameraTargetOnTrackGenerated(Mirror.SyncList<GameObject>.Operation op, int itemIndex, GameObject item)
         {
             if (op == Mirror.SyncList<GameObject>.Operation.OP_ADD)
             {
