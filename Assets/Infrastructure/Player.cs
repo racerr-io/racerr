@@ -1,5 +1,5 @@
 ﻿using Mirror;
-using Racerr.Car.Core;
+using Racerr.Car;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,14 +14,14 @@ namespace Racerr.Infrastructure
         #region Player's Car
 
         [SyncVar] GameObject carGO;
-        PlayerCarController car;
-        public PlayerCarController Car
+        CarController car;
+        public CarController Car
         {
             get
             {
                 if (car == null && carGO != null)
                 {
-                    car = carGO.GetComponent<PlayerCarController>();
+                    car = carGO.GetComponent<CarController>();
                 }
 
                 return car;
@@ -37,7 +37,7 @@ namespace Racerr.Infrastructure
         {
             // Instantiate and setup car
             GameObject carGO = Instantiate(carPrefab, carPosition, carPrefab.transform.rotation);
-            car = carGO.GetComponent<PlayerCarController>();
+            car = carGO.GetComponent<CarController>();
             car.PlayerGO = gameObject;
 
             // Setup and sync over network
