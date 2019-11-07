@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Racerr.StateMachine.Client;
 using Racerr.UX.Camera;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +27,6 @@ namespace Racerr.Track
                 MakeDriveable();
                 RemovePhysicsFromProps();
             }
-
-            FindObjectOfType<AutoCam>()?.SetTarget(transform);
         }
 
         /// <summary>

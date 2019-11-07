@@ -16,10 +16,10 @@ public class BuildingTransparencyRaycaster : MonoBehaviour
         {
             foreach (Transform wheelTransform in car.WheelTransforms)
             {
-                Vector3 direction = wheelTransform.position - Camera.main.transform.position;
+                Vector3 direction = wheelTransform.position - transform.position;
                 RaycastHit raycastHit;
 
-                if (Physics.Raycast(Camera.main.transform.position, direction, out raycastHit))
+                if (Physics.Raycast(transform.position, direction, out raycastHit))
                 {
                     BuildingState buildingState = raycastHit.collider.gameObject.GetComponent<BuildingState>();
 

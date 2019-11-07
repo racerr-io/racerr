@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Racerr.MultiplayerService;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,22 @@ namespace Racerr.Track
     /// </summary>
     public abstract class TrackGeneratorCommon : NetworkBehaviour
     {
+        /* Client and Server Properties */
+        public static TrackGeneratorCommon Singleton;
+
         [SerializeField] int trackLength = 50;
 
-        public static TrackGeneratorCommon Singleton;
+        // Synchronise all Generated Track Pieces to all clients
+        // Purpose of the synchronisation is to allow clients to update their camera.
+        // Must declare empty class and readonly field as dictated by Mirror.
+        public class SyncListGameObject : SyncList<GameObject> { }
+        readonly SyncListGameObject generatedTrackPieces = new SyncListGameObject();
+        public SyncListGameObject GeneratedTrackPieces => generatedTrackPieces;
+
+
+        /* Server Only Properties */
         public bool IsTrackGenerated { get; private set; }
         public bool IsTrackGenerating { get; private set; }
-        public List<GameObject> GeneratedTrackPieces { get; } = new List<GameObject>();
 
         // Create a list of all checkpoints in race using the Generated track pices.
         // We assume all track pieces are either Checkpoint or FinishingLineCheckpoint.
@@ -43,13 +54,13 @@ namespace Racerr.Track
         /// <summary>
         /// Generate the track for all players on the server.
         /// </summary>
-        public void GenerateIfRequired()
+        public void GenerateIfRequired(IReadOnlyCollection<Player> playersToSpawn)
         {
             if (isServer && !IsTrackGenerated)
             {
                 IsTrackGenerating = true;
                 IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Track Pieces");
-                StartCoroutine(GenerateTrack(trackLength, availableTrackPiecePrefabs));
+                StartCoroutine(GenerateTrack(trackLength, availableTrackPiecePrefabs, playersToSpawn));
             }
         }
 
@@ -82,8 +93,12 @@ namespace Racerr.Track
         {
             if (isServer && IsTrackGenerated)
             {
-                GeneratedTrackPieces.ForEach(NetworkServer.Destroy);
-                GeneratedTrackPieces.RemoveAll(_ => true);
+                foreach (GameObject trackPiece in GeneratedTrackPieces)
+                {
+                    NetworkServer.Destroy(trackPiece);
+                }
+
+                GeneratedTrackPieces.Clear();
                 IsTrackGenerated = false;
                 CheckpointsInRace = null;
             }
@@ -96,7 +111,7 @@ namespace Racerr.Track
         /// <param name="trackLength">Number of Track Pieces this track should be composed of.</param>
         /// <param name="availableTrackPiecePrefabs">Collection of Track Pieces we can Instantiate.</param>
         /// <returns>IEnumerator for Unity coroutine, so that track generation can be done concurrently with main thread (useful for calculating collisions).</returns>
-        abstract protected IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs);
+        abstract protected IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs, IReadOnlyCollection<Player> playersToSpawn);
 
         /// <summary>
         /// Each Track Piece has an ending point called 'Link'. This function will return the Transform (position and rotation info) for this link.

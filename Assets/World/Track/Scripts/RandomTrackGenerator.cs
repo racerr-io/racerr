@@ -1,6 +1,8 @@
 ﻿using Mirror;
+using Racerr.MultiplayerService;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,7 +23,7 @@ namespace Racerr.Track
         /// <param name="trackLength">Number of Track Pieces this track should be composed of.</param>
         /// <param name="availableTrackPiecePrefabs">Collection of Track Pieces we can Instantiate.</param>
         /// <returns>IEnumerator for Unity coroutine, so that we can WaitForFixedUpdate() to check if a track is colliding with another one every time we instantiate a new track.</returns>
-        protected override IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs)
+        protected override IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs, IReadOnlyCollection<Player> playersToSpawn)
         {
             GameObject currentTrackPiece = firstTrackPiece;
             int numTracks = 0;
@@ -92,6 +94,19 @@ namespace Racerr.Track
                 newTrackPiece.name = $"Auto Generated Track Piece { numTracks + 1 } ({ newTrackPiecePrefab.name })";
                 newTrackPiece.transform.position = trackPieceLinkTransform.transform.position;
                 newTrackPiece.transform.rotation *= trackPieceLinkTransform.rotation;
+
+                // Spawn the players cars onto the starting piece of the track
+                if (numTracks == 0)
+                {
+                    Vector3 gridStartPosition = new Vector3(0, 1, 10);
+
+                    foreach (Player player in playersToSpawn.Where(player => player != null))
+                    {
+                        player.CreateCarForPlayer(gridStartPosition);
+                        gridStartPosition += new Vector3(0, 0, 10);
+                        yield return new WaitForFixedUpdate();
+                    }
+                }
 
                 yield return new WaitForSeconds(0.15f); // Wait for next physics calculation so that Track Piece Collision Detector works properly.
 

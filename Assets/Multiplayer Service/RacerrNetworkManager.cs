@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Doozy.Engine.UI;
+using Mirror;
 using Racerr.StateMachine.Server;
 using Racerr.UX.Camera;
 using UnityEngine;
@@ -22,12 +23,7 @@ namespace Racerr.MultiplayerService
             if (isHeadless)
             {
                 Application.targetFrameRate = serverApplicationFrameRate;
-
-                foreach (AbstractTargetFollower camera in FindObjectsOfType<AbstractTargetFollower>())
-                {
-                    Destroy(camera.gameObject);
-                }
-
+                RemoveClientOnlyGOs();
                 StartServer();
             }
             else
@@ -38,6 +34,19 @@ namespace Racerr.MultiplayerService
                 StartClient();
 #endif
             }
+        }
+
+        /// <summary>
+        /// Remove game objects which are only specific to the client, to optimise server performance.
+        /// </summary>
+        void RemoveClientOnlyGOs()
+        {
+            foreach (TargetObserverCamera camera in FindObjectsOfType<TargetObserverCamera>())
+            {
+                Destroy(camera.gameObject);
+            }
+
+            Destroy(FindObjectOfType<UICanvas>().gameObject);
         }
 
         /// <summary>

@@ -98,7 +98,7 @@ namespace Racerr.StateMachine.Server
             {
                 Debug.LogError(e);
             }
-            
+
             currentState.enabled = true;
             currentState.Enter(optionalData);
         }
@@ -133,7 +133,7 @@ namespace Racerr.StateMachine.Server
     public abstract class RaceSessionState : NetworkedState
     {
         #region Race Session Data
-        [SyncVar] protected RaceSessionData raceSessionData = new RaceSessionData(0);
+        [SyncVar] protected RaceSessionData raceSessionData;
         public double CurrentRaceLength => raceSessionData.CurrentRaceLength;
 
         /// <summary>
@@ -192,8 +192,13 @@ namespace Racerr.StateMachine.Server
             {
                 this.raceStartTime = raceStartTime;
                 this.finishedRaceLength = finishedRaceLength;
-                this.PlayersInRace = new List<Player>();
+                this.PlayersInRace = new List<Player>(ServerStateMachine.Singleton.ReadyPlayers.Where(player => player.Car != null));
                 this.FinishedPlayers = new List<Player>();
+
+                foreach (Player player in PlayersInRace)
+                {
+                    player.PositionInfo = new PlayerPositionInfo(raceStartTime);
+                }
             }
 
             public RaceSessionData(double raceStartTime, double finishedRaceLength, List<Player> playersInRace, List<Player> finishedPlayers)
@@ -255,7 +260,7 @@ namespace Racerr.StateMachine.Server
         protected void UpdateLeaderboard()
         {
             leaderboardItems.Clear();
-            
+
             int position = 1;
             foreach (Player player in raceSessionData.PlayersInRaceOrdered)
             {

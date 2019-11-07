@@ -27,6 +27,7 @@ namespace Racerr.StateMachine.Client
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
+            ClientStateMachine.Singleton.SetCameraTarget(Player.LocalPlayer.Car.transform);
         }
 
         /// <summary>
@@ -34,6 +35,7 @@ namespace Racerr.StateMachine.Client
         /// </summary>
         public override void Exit()
         {
+            ClientStateMachine.Singleton.SetCameraTarget(null);
             raceView.Hide();
         }
 
@@ -44,7 +46,7 @@ namespace Racerr.StateMachine.Client
         /// Otherwise, it means the race is still going and we are still racing, so we will update the UI elements accordingly.
         /// </summary>
         protected override void FixedUpdate()
-        {   
+        {
             if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
             {
                 TransitionToIntermission();
