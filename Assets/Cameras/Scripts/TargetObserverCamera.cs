@@ -26,7 +26,7 @@ namespace Racerr.UX.Camera
         }
 
         /// <summary>
-        /// Automatically follow the target strategy.
+        /// Follow the camera's current transform target, by applying a smooth lerp transition.
         /// </summary>
         void FollowTarget()
         {
