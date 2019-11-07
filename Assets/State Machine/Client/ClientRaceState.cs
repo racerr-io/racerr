@@ -1,5 +1,4 @@
 ﻿using Doozy.Engine.UI;
-using Racerr.MultiplayerService;
 using Racerr.StateMachine.Server;
 using TMPro;
 using UnityEngine;
@@ -27,7 +26,7 @@ namespace Racerr.StateMachine.Client
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
-            ClientStateMachine.Singleton.SetCameraTarget(Player.LocalPlayer.Car.transform);
+            ClientStateMachine.Singleton.SetCameraTarget(ClientStateMachine.Singleton.LocalPlayer.Car.transform);
         }
 
         /// <summary>
@@ -51,7 +50,7 @@ namespace Racerr.StateMachine.Client
             {
                 TransitionToIntermission();
             }
-            else if (Player.LocalPlayer.IsDead || Player.LocalPlayer.PositionInfo.IsFinished)
+            else if (ClientStateMachine.Singleton.LocalPlayer.IsDead || ClientStateMachine.Singleton.LocalPlayer.PositionInfo.IsFinished)
             {
                 TransitionToSpectate();
             }
@@ -61,7 +60,7 @@ namespace Racerr.StateMachine.Client
                 raceTimerTMP.text = serverRaceState.CurrentRaceLength.ToRaceTimeFormat();
 
                 // Speed. TODO: Extract Speed to its own script
-                speedTMP.text = Player.LocalPlayer.Car.Velocity.ToString() + " KPH";
+                speedTMP.text = ClientStateMachine.Singleton.LocalPlayer.Car.Velocity.ToString() + " KPH";
 
                 // Leaderboard. TODO: Extract Leaderboard to its own script
                 string leaderboardText = string.Empty;

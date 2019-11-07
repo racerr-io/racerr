@@ -1,5 +1,5 @@
 ﻿using Racerr.Car.Core;
-using Racerr.MultiplayerService;
+using Racerr.StateMachine.Client;
 using UnityEngine;
 
 public class BuildingTransparencyRaycaster : MonoBehaviour
@@ -10,7 +10,7 @@ public class BuildingTransparencyRaycaster : MonoBehaviour
     /// </summary>
     void Update()
     {
-        PlayerCarController car = Player.LocalPlayer?.Car;
+        PlayerCarController car = ClientStateMachine.Singleton.LocalPlayer?.Car;
 
         if (car != null)
         {

@@ -12,13 +12,6 @@ namespace Racerr.MultiplayerService
     /// </summary>
     public class Player : NetworkBehaviour
     {
-        #region Local Player
-
-        static Player localPlayer;
-        public static Player LocalPlayer => localPlayer ?? (localPlayer = FindObjectsOfType<Player>().SingleOrDefault(p => p.isLocalPlayer));
-
-        #endregion
-
         #region Player's Car
 
         [SyncVar] GameObject carGO;

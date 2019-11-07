@@ -1,6 +1,8 @@
 ﻿using Mirror;
+using Racerr.MultiplayerService;
 using Racerr.UX.Camera;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Racerr.StateMachine.Client
@@ -17,6 +19,9 @@ namespace Racerr.StateMachine.Client
         LocalState currentState;
 
         [SerializeField] TargetObserverCamera mainCamera;
+
+        Player localPlayer;
+        public Player LocalPlayer => localPlayer ?? (localPlayer = FindObjectsOfType<Player>().SingleOrDefault(player => player.isLocalPlayer));
 
         /// <summary>
         /// Run when this script is instantiated.
@@ -41,15 +46,7 @@ namespace Racerr.StateMachine.Client
         /// </summary>
         void Start()
         {
-            if (!NetworkManager.isHeadless)
-            {
-                ChangeState(StateEnum.ClientStartMenu);
-            }
-            else
-            {
-                // On server - destroy this entire game object which includes destroying all of its children client state scripts.
-                Destroy(gameObject);
-            }
+            ChangeState(StateEnum.ClientStartMenu);
         }
 
         /// <summary>
