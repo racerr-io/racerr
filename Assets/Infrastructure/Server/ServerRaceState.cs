@@ -46,7 +46,7 @@ namespace Racerr.Infrastructure.Server
         public void NotifyPlayerFinished(Player player)
         {
             raceSessionData.FinishedPlayers.Add(player);
-            player.PositionInfo = new PlayerPositionInfo(player.PositionInfo.startTime, NetworkTime.time);
+            player.PosInfo = new Player.PositionInfo(player.PosInfo.startTime, NetworkTime.time);
             player.DestroyPlayersCar();
         }
 
@@ -61,7 +61,7 @@ namespace Racerr.Infrastructure.Server
         [Server]
         public void NotifyPlayerPassedThroughCheckpoint(Player player, GameObject checkpoint)
         {
-            player.PositionInfo.Checkpoints.Add(checkpoint);
+            player.PosInfo.Checkpoints.Add(checkpoint);
 
             if (checkpoint.name == TrackPieceComponent.FinishLineCheckpoint)
             {

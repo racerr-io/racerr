@@ -50,7 +50,7 @@ namespace Racerr.Infrastructure.Client
             {
                 TransitionToIntermission();
             }
-            else if (ClientStateMachine.Singleton.LocalPlayer.IsDead || ClientStateMachine.Singleton.LocalPlayer.PositionInfo.IsFinished)
+            else if (ClientStateMachine.Singleton.LocalPlayer.IsDead || ClientStateMachine.Singleton.LocalPlayer.PosInfo.IsFinished)
             {
                 TransitionToSpectate();
             }

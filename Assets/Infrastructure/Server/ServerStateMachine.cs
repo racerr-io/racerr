@@ -165,8 +165,8 @@ namespace Racerr.Infrastructure.Server
                 get
                 {
                     return PlayersInRace
-                        .OrderBy(player => player.PositionInfo.finishTime)
-                        .ThenByDescending(player => player.PositionInfo.Checkpoints.Count)
+                        .OrderBy(player => player.PosInfo.finishTime)
+                        .ThenByDescending(player => player.PosInfo.Checkpoints.Count)
                         .ThenBy(player =>
                         {
                             Vector3? currCarPosition = player.Car?.transform.position;
@@ -180,7 +180,7 @@ namespace Racerr.Infrastructure.Server
 
                             // checkpointsInRace is sorted in the order of the checkpoints in the race,
                             // so to grab the next checkpoint for this car we use the checkpoint count for this player as an index.
-                            int nextCheckpoint = player.PositionInfo.Checkpoints.Count;
+                            int nextCheckpoint = player.PosInfo.Checkpoints.Count;
                             Vector3 nextCheckpointPosition = checkpointsInRace[nextCheckpoint].transform.position;
                             return Vector3.Distance(currCarPosition.Value, nextCheckpointPosition);
                         });
@@ -196,7 +196,7 @@ namespace Racerr.Infrastructure.Server
 
                 foreach (Player player in PlayersInRace)
                 {
-                    player.PositionInfo = new PlayerPositionInfo(raceStartTime);
+                    player.PosInfo = new Player.PositionInfo(raceStartTime);
                 }
             }
 
@@ -263,9 +263,9 @@ namespace Racerr.Infrastructure.Server
             int position = 1;
             foreach (Player player in raceSessionData.PlayersInRaceOrdered)
             {
-                if (player.IsDead || player.PositionInfo.IsFinished)
+                if (player.IsDead || player.PosInfo.IsFinished)
                 {
-                    leaderboardItems.Add(new PlayerLeaderboardItemDTO(position, player.PlayerName, player.PositionInfo.TimeString));
+                    leaderboardItems.Add(new PlayerLeaderboardItemDTO(position, player.PlayerName, player.PosInfo.TimeString));
                 }
                 else
                 {

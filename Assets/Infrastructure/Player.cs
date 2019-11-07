@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using Racerr.Car.Core;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Racerr.Infrastructure
@@ -67,7 +68,7 @@ namespace Racerr.Infrastructure
         [SyncVar] bool isReady;
         [SyncVar] [SerializeField] GameObject carPrefab;
         [SyncVar(hook = nameof(OnPlayerHealthChanged))] int health = 100;
-        [SyncVar] PlayerPositionInfo positionInfo;
+        [SyncVar] PositionInfo positionInfo;
 
         /// <summary>
         /// When playerHealth SyncVar updates, this function is called to update
@@ -148,7 +149,7 @@ namespace Racerr.Infrastructure
 
         public bool IsDead => Health == 0;
 
-        public PlayerPositionInfo PositionInfo
+        public PositionInfo PosInfo
         {
             get => positionInfo;
             set
@@ -203,12 +204,61 @@ namespace Racerr.Infrastructure
         }
 
         [Command]
-        void CmdSynchronisePositionInfo(PlayerPositionInfo positionInfo)
+        void CmdSynchronisePositionInfo(PositionInfo positionInfo)
         {
             this.positionInfo = positionInfo;
         }
 
         #endregion
+
+        #endregion
+
+        #region Position Info 
+
+        /// <summary>
+        /// Holds Player Position Info so we can determine a player's status in the race.
+        /// Some properties are synced with the client so it can determine how to transition the UI.
+        /// E.g. if the client discovers they've finished, they should show the spectate UI.
+        /// Some properties such as the Checkpoints are not synced as they are used solely by the server.
+        /// </summary>
+        public readonly struct PositionInfo
+        {
+            /* Server and Client Properties */
+            public readonly double startTime;
+            public readonly double finishTime;
+
+            public bool IsFinished => !double.IsPositiveInfinity(finishTime);
+
+            /// <summary>
+            /// Returns a properly formatted string (in M:SS.FFF format) showing their race length duration.
+            /// </summary>
+            public string TimeString
+            {
+                get
+                {
+                    if (!IsFinished)
+                    {
+                        return "DNF";
+                    }
+                    else
+                    {
+                        double playerRaceLength = finishTime - startTime;
+                        return playerRaceLength.ToRaceTimeFormat();
+                    }
+                }
+            }
+
+            /* Server Only Properties */
+            public HashSet<GameObject> Checkpoints { get; }
+
+            public PositionInfo(double startTime, double finishTime = double.PositiveInfinity)
+            {
+                this.Checkpoints = new HashSet<GameObject>();
+                this.startTime = startTime;
+                this.finishTime = finishTime;
+            }
+
+        }
 
         #endregion
     }
