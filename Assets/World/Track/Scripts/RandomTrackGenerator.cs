@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 namespace Racerr.Track
 {
     /// <summary>
-    /// A track generator that randomly ge  nerates your tracks.
+    /// A track generator that randomly generates your tracks.
     /// </summary>
     public class RandomTrackGenerator : TrackGeneratorCommon
     {
