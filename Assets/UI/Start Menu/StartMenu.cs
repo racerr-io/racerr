@@ -1,4 +1,5 @@
 ﻿using Racerr.MultiplayerService;
+using Racerr.StateMachine.Client;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -46,15 +47,15 @@ namespace Racerr.UX.Menu
 
             if (!string.IsNullOrWhiteSpace(usersName))
             {
-                Player.LocalPlayer.PlayerName = usersName;
+                ClientStateMachine.Singleton.LocalPlayer.PlayerName = usersName;
             }
             else
             {
-                Player.LocalPlayer.PlayerName = "Player";
+                ClientStateMachine.Singleton.LocalPlayer.PlayerName = "Player";
             }
             
             gameObject.SetActive(false);
-            Player.LocalPlayer.IsReady = true;
+            ClientStateMachine.Singleton.LocalPlayer.IsReady = true;
         }
     }
 }

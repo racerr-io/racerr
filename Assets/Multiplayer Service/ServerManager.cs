@@ -1,7 +1,5 @@
-﻿using Doozy.Engine.UI;
-using Mirror;
+﻿using Mirror;
 using Racerr.StateMachine.Server;
-using Racerr.UX.Camera;
 using UnityEngine;
 
 namespace Racerr.MultiplayerService
@@ -9,10 +7,11 @@ namespace Racerr.MultiplayerService
     /// <summary>
     /// Customised version of the Network Manager for our needs.
     /// </summary>
-    public class RacerrNetworkManager : NetworkManager
+    public class ServerManager : NetworkManager
     {
         [SerializeField] int serverApplicationFrameRate = 60;
         [SerializeField] GameObject playerObject;
+        [SerializeField] GameObject[] destroyOnServerLoad;
 
         /// <summary>
         /// Automatically start the server on headless mode (detected through whether it has a graphics device),
@@ -23,7 +22,7 @@ namespace Racerr.MultiplayerService
             if (isHeadless)
             {
                 Application.targetFrameRate = serverApplicationFrameRate;
-                RemoveClientOnlyGOs();
+                DestroySelectedGameObjectsOnServerLoad();
                 StartServer();
             }
             else
@@ -39,14 +38,12 @@ namespace Racerr.MultiplayerService
         /// <summary>
         /// Remove game objects which are only specific to the client, to optimise server performance.
         /// </summary>
-        void RemoveClientOnlyGOs()
+        void DestroySelectedGameObjectsOnServerLoad()
         {
-            foreach (TargetObserverCamera camera in FindObjectsOfType<TargetObserverCamera>())
+            foreach (GameObject gameObject in destroyOnServerLoad)
             {
-                Destroy(camera.gameObject);
+                Destroy(gameObject);
             }
-
-            Destroy(FindObjectOfType<UICanvas>().gameObject);
         }
 
         /// <summary>

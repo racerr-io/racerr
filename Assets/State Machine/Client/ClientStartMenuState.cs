@@ -36,9 +36,9 @@ namespace Racerr.StateMachine.Client
         /// </summary>
         public void OnStartRaceButtonClick()
         {
-            Player.LocalPlayer.IsReady = true;
+            ClientStateMachine.Singleton.LocalPlayer.IsReady = true;
             string playerName = startMenuView.gameObject.GetComponentsInChildren<TMP_InputField>().Single(t => t.name == "Player Name Text").text;
-            Player.LocalPlayer.PlayerName = string.IsNullOrWhiteSpace(playerName) ? defaultPlayerName : playerName;
+            ClientStateMachine.Singleton.LocalPlayer.PlayerName = string.IsNullOrWhiteSpace(playerName) ? defaultPlayerName : playerName;
             StartCoroutine(WaitUntilServerNotIdleThenTransition());
         }
 
