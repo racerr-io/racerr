@@ -12,12 +12,22 @@ namespace Racerr.Track
     /// </summary>
     public abstract class TrackGeneratorCommon : NetworkBehaviour
     {
+        /* Client and Server Properties */
+        public static TrackGeneratorCommon Singleton;
+
         [SerializeField] int trackLength = 50;
 
-        public static TrackGeneratorCommon Singleton;
+        // Synchronise all Generated Track Pieces to all clients
+        // Purpose of the synchronisation is to allow clients to update their camera.
+        // Must declare empty class and readonly field as dictated by Mirror.
+        public class SyncListGameObject : SyncList<GameObject> { }
+        readonly SyncListGameObject generatedTrackPieces = new SyncListGameObject();
+        public SyncListGameObject GeneratedTrackPieces => generatedTrackPieces;
+
+
+        /* Server Only Properties */
         public bool IsTrackGenerated { get; private set; }
         public bool IsTrackGenerating { get; private set; }
-        public List<GameObject> GeneratedTrackPieces { get; } = new List<GameObject>();
 
         // Create a list of all checkpoints in race using the Generated track pices.
         // We assume all track pieces are either Checkpoint or FinishingLineCheckpoint.
@@ -83,8 +93,12 @@ namespace Racerr.Track
         {
             if (isServer && IsTrackGenerated)
             {
-                GeneratedTrackPieces.ForEach(NetworkServer.Destroy);
-                GeneratedTrackPieces.RemoveAll(_ => true);
+                foreach (GameObject trackPiece in GeneratedTrackPieces)
+                {
+                    NetworkServer.Destroy(trackPiece);
+                }
+
+                GeneratedTrackPieces.Clear();
                 IsTrackGenerated = false;
                 CheckpointsInRace = null;
             }

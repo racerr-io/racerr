@@ -27,8 +27,6 @@ namespace Racerr.Track
                 MakeDriveable();
                 RemovePhysicsFromProps();
             }
-
-            ClientStateMachine.Singleton.MainCamera.Target = transform;
         }
 
         /// <summary>

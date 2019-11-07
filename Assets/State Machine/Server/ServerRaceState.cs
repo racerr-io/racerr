@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using Racerr.MultiplayerService;
 using Racerr.Track;
+using System.Linq;
 using UnityEngine;
 
 namespace Racerr.StateMachine.Server
@@ -8,24 +9,20 @@ namespace Racerr.StateMachine.Server
     /// <summary>
     /// Manages the currently running race. Keeps track of all the Players in the race and
     /// ensures transition to Idle / Intermission once all players have left or finished the race.
+    /// <remarks>
+    /// Assumes the track has already been generated before transitioning into this state.
+    /// </remarks>
     /// </summary>
     public class ServerRaceState : RaceSessionState
     {
         /// <summary>
         /// Initialises brand new race session data independent of previous race sessions.
-        /// Then starts the race, assuming track has already been generated during intermission state.
         /// </summary>
         [Server]
         public override void Enter(object optionalData = null)
         {
             raceSessionData = new RaceSessionData(NetworkTime.time);
-            EnableAllPlayerCarControllers();
-        }
-
-        /// TODO: Disable car controllers on track gen in intermission and enable them here
-        void EnableAllPlayerCarControllers()
-        {
-
+          //  EnableAllPlayerCarControllers(); /// TODO: Disable car controllers on track gen in intermission and enable them here
         }
 
         /// <summary>
@@ -35,12 +32,9 @@ namespace Racerr.StateMachine.Server
         [Server]
         public override void Exit()
         {
-            foreach (Player player in raceSessionData.PlayersInRace)
+            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.Car != null))
             {
-                if (player.Car != null)
-                {
-                    player.DestroyPlayersCar();
-                }
+                player.DestroyPlayersCar();
             }
         }
 

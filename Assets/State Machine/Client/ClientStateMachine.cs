@@ -17,7 +17,6 @@ namespace Racerr.StateMachine.Client
         LocalState currentState;
 
         [SerializeField] TargetObserverCamera mainCamera;
-        public TargetObserverCamera MainCamera => mainCamera;
 
         /// <summary>
         /// Run when this script is instantiated.
@@ -51,6 +50,16 @@ namespace Racerr.StateMachine.Client
                 // On server - destroy this entire game object which includes destroying all of its children client state scripts.
                 Destroy(gameObject);
             }
+        }
+
+        /// <summary>
+        /// Move the main camera's target to point to the target transform.
+        /// Should only be called by client states.
+        /// </summary>
+        /// <param name="targetTransform">New target transform</param>
+        public void SetCameraTarget(Transform targetTransform)
+        {
+            mainCamera.Target = targetTransform;
         }
 
         /// <summary>

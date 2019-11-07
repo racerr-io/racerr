@@ -27,7 +27,7 @@ namespace Racerr.StateMachine.Client
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
-            ClientStateMachine.Singleton.MainCamera.Target = Player.LocalPlayer.Car.transform;
+            ClientStateMachine.Singleton.SetCameraTarget(Player.LocalPlayer.Car.transform);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Racerr.StateMachine.Client
         /// </summary>
         public override void Exit()
         {
-            ClientStateMachine.Singleton.MainCamera.Target = null;
+            ClientStateMachine.Singleton.SetCameraTarget(null);
             raceView.Hide();
         }
 

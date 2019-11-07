@@ -1,5 +1,6 @@
 ﻿using Doozy.Engine.UI;
 using Racerr.StateMachine.Server;
+using Racerr.Track;
 using Racerr.UX.Camera;
 using TMPro;
 using UnityEngine;
@@ -28,6 +29,7 @@ namespace Racerr.StateMachine.Client
         public override void Enter(object optionalData = null)
         {
             intermissionView.Show();
+            TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Callback += UpdateCameraTarget;
 
             // Race Timer. TODO: Extract Race Timer to its own script
             raceTimerTMP.text = serverIntermissionState.FinishedRaceLength.ToRaceTimeFormat();
@@ -53,7 +55,24 @@ namespace Racerr.StateMachine.Client
         /// </summary>
         public override void Exit()
         {
+            TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Callback -= UpdateCameraTarget;
             intermissionView.Hide();
+        }
+
+        /// <summary>
+        /// Delegate function that should be attached to the callback of Track Generator's Generated Track Pieces Sync List.
+        /// It is called automatically when the Sync List updates on the server.
+        /// The purpose of this is to move the camera to the latest generated track on the client.
+        /// </summary>
+        /// <param name="op">Operation Type</param>
+        /// <param name="itemIndex">The index of the newly added track (unused)</param>
+        /// <param name="item">The track itself that was added</param>
+        void UpdateCameraTarget(Mirror.SyncList<GameObject>.Operation op, int itemIndex, GameObject item)
+        {
+            if (op == Mirror.SyncList<GameObject>.Operation.OP_ADD)
+            {
+                ClientStateMachine.Singleton.SetCameraTarget(item.transform);
+            }
         }
 
         /// <summary>
