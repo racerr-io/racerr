@@ -1,11 +1,10 @@
 ﻿using Doozy.Engine.UI;
-using Racerr.StateMachine.Server;
+using Racerr.Infrastructure.Server;
 using Racerr.Track;
-using Racerr.UX.Camera;
 using TMPro;
 using UnityEngine;
 
-namespace Racerr.StateMachine.Client
+namespace Racerr.Infrastructure.Client
 {
     /// <summary>
     /// A state which shows an intermission screen to the user, indicating that they will soon start a race!
@@ -14,7 +13,6 @@ namespace Racerr.StateMachine.Client
     {
         [SerializeField] ServerIntermissionState serverIntermissionState;
         [SerializeField] UIView intermissionView;
-        [SerializeField] Transform origin;
 
         // TODO: These items should be extracted to their own script, setting text fields is not the responsibility of this class.
         [SerializeField] TextMeshProUGUI intermissionTimerTMP;

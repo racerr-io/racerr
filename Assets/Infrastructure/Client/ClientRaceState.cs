@@ -1,9 +1,9 @@
 ﻿using Doozy.Engine.UI;
-using Racerr.StateMachine.Server;
+using Racerr.Infrastructure.Server;
 using TMPro;
 using UnityEngine;
 
-namespace Racerr.StateMachine.Client
+namespace Racerr.Infrastructure.Client
 {
     /// <summary>
     /// A state for the client when they are currently enjoying the race. Intended to show them race information,

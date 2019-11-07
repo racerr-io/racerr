@@ -1,5 +1,5 @@
-﻿using Racerr.MultiplayerService;
-using Racerr.StateMachine.Client;
+﻿using Racerr.Infrastructure;
+using Racerr.Infrastructure.Client;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;

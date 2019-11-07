@@ -1,7 +1,7 @@
 ﻿using Mirror;
 using UnityEngine;
 
-namespace Racerr.StateMachine
+namespace Racerr.Infrastructure
 {
     /// <summary>
     /// Used by State Machine to allow the caller to easily change the state of the

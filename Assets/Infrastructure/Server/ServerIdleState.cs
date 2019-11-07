@@ -1,7 +1,7 @@
 ﻿using Mirror;
 using System.Linq;
 
-namespace Racerr.StateMachine.Server
+namespace Racerr.Infrastructure.Server
 {
     /// <summary>
     /// When there is no one on the server, the server will be on this state.

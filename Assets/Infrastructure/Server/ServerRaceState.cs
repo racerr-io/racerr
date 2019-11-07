@@ -1,10 +1,9 @@
 ﻿using Mirror;
-using Racerr.MultiplayerService;
 using Racerr.Track;
 using System.Linq;
 using UnityEngine;
 
-namespace Racerr.StateMachine.Server
+namespace Racerr.Infrastructure.Server
 {
     /// <summary>
     /// Manages the currently running race. Keeps track of all the Players in the race and

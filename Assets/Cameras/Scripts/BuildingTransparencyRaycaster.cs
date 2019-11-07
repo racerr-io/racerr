@@ -1,5 +1,5 @@
 ﻿using Racerr.Car.Core;
-using Racerr.StateMachine.Client;
+using Racerr.Infrastructure.Client;
 using UnityEngine;
 
 public class BuildingTransparencyRaycaster : MonoBehaviour

@@ -1,12 +1,11 @@
 ﻿using Mirror;
-using Racerr.MultiplayerService;
 using Racerr.Track;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Racerr.StateMachine.Server
+namespace Racerr.Infrastructure.Server
 {
     /// <summary>
     /// State Machine used to control the current state of the race on the server.

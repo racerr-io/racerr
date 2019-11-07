@@ -1,11 +1,9 @@
-﻿using Mirror;
-using Racerr.MultiplayerService;
-using Racerr.UX.Camera;
+﻿using Racerr.UX.Camera;
 using System;
 using System.Linq;
 using UnityEngine;
 
-namespace Racerr.StateMachine.Client
+namespace Racerr.Infrastructure.Client
 {
     /// <summary>
     /// A state machine for the client, with the sole purpose of controlling all aspects of the user interface for the client.

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Racerr.MultiplayerService
+namespace Racerr.Infrastructure
 {
     /// <summary>
     /// Holds Player Position Info so we can determine a player's status in the race.

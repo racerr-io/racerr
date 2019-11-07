@@ -1,11 +1,9 @@
 ﻿using Mirror;
 using Racerr.Car.Core;
-using Racerr.UX.Camera;
 using System;
-using System.Linq;
 using UnityEngine;
 
-namespace Racerr.MultiplayerService
+namespace Racerr.Infrastructure
 {
     /// <summary>
     /// Player information, such as their stats and their associated car in the game.

@@ -1,8 +1,7 @@
 ﻿using Mirror;
-using Racerr.StateMachine.Server;
 using UnityEngine;
 
-namespace Racerr.MultiplayerService
+namespace Racerr.Infrastructure.Server
 {
     /// <summary>
     /// Customised version of the Network Manager for our needs.

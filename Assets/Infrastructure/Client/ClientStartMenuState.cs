@@ -1,12 +1,12 @@
 ﻿using Doozy.Engine.UI;
-using Racerr.MultiplayerService;
-using Racerr.StateMachine.Server;
+using Racerr.Infrastructure;
+using Racerr.Infrastructure.Server;
 using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace Racerr.StateMachine.Client
+namespace Racerr.Infrastructure.Client
 {
     public class ClientStartMenuState : LocalState
     {

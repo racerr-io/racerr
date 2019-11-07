@@ -1,5 +1,5 @@
 ﻿using Mirror;
-using Racerr.StateMachine.Client;
+using Racerr.Infrastructure.Client;
 using Racerr.UX.Camera;
 using System.Collections.Generic;
 using System.Linq;

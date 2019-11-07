@@ -4,7 +4,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-namespace Racerr.StateMachine.Server
+namespace Racerr.Infrastructure.Server
 {
     /// <summary>
     /// A state which manages the countdown of the race and displays information of the finished race.

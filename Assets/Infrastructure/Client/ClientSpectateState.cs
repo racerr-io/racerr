@@ -1,6 +1,6 @@
-﻿using Racerr.StateMachine.Server;
+﻿using Racerr.Infrastructure.Server;
 
-namespace Racerr.StateMachine.Client
+namespace Racerr.Infrastructure.Client
 {
     /// <summary>
     /// A state for the client when they are spectating the race. They will spectate the race

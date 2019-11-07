@@ -2,7 +2,7 @@
 using Racerr.Car.Core;
 using UnityEngine;
 
-namespace Racerr.MultiplayerService
+namespace Racerr.Infrastructure
 {
     /// <summary>
     /// Custom designed interpolation for car driving.
