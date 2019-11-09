@@ -128,7 +128,7 @@ namespace Racerr.Track
             // Once done we should set kinematic to false so cars can collide into them.
             foreach (GameObject trackPiece in GeneratedTrackPieces)
             {
-                TrackPieceState trackPieceState = trackPiece.GetComponent<TrackPieceState>();
+                TrackPieceManager trackPieceState = trackPiece.GetComponent<TrackPieceManager>();
                 trackPieceState.MakeDriveable();
                 trackPieceState.MakePropsNonKinematic();
             }

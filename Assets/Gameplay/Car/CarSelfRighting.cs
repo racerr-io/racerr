@@ -1,7 +1,7 @@
 using Mirror;
 using UnityEngine;
 
-namespace Racerr.Car
+namespace Racerr.Gameplay.Car
 {
     /// <summary>
     /// Automatically put the car the right way up, if it has come to rest upside-down.

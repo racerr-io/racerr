@@ -6,7 +6,7 @@ using Racerr.UX.Car;
 using System;
 using UnityEngine;
 
-namespace Racerr.Car
+namespace Racerr.Gameplay.Car
 {
     /// <summary>
     /// Car controller for all cars in Racerr.

@@ -452,7 +452,7 @@ GameObject:
   - component: {fileID: 188414874}
   - component: {fileID: 188414873}
   m_Layer: 0
-  m_Name: Event System
+  m_Name: User Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6302,7 +6302,7 @@ MonoBehaviour:
   networkAddress: racerr.io
   maxConnections: 20
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 1018952010411425780, guid: aa65098f076c6e141991513d2b3608c8,
+  playerPrefab: {fileID: 8860773397577860574, guid: 9f9445acfc573b24ea79c43374fc0738,
     type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
@@ -6317,15 +6317,11 @@ MonoBehaviour:
   - {fileID: 6098622089286647885, guid: f97af7b666611434582977f2250e2b6b, type: 3}
   - {fileID: 4812132155584618507, guid: 106072e8ebf69294c89488b8bfe7961e, type: 3}
   serverApplicationFrameRate: 60
-  playerObject: {fileID: 8860773397577860574, guid: 9f9445acfc573b24ea79c43374fc0738,
-    type: 3}
   destroyOnServerLoad:
   - {fileID: 1609746729}
   - {fileID: 170076733}
   - {fileID: 683854787}
-  - {fileID: 188414872}
-  - {fileID: 485997901}
-  - {fileID: 431411652}
+  - {fileID: 1750170194}
 --- !u!4 &1813844549
 Transform:
   m_ObjectHideFlags: 0

@@ -1,6 +1,4 @@
 ﻿using Mirror;
-using Racerr.Infrastructure.Client;
-using Racerr.UX.Camera;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,7 +8,7 @@ namespace Racerr.Track
     /// <summary>
     /// Manages state of the track and whether it is ready for driving.
     /// </summary>
-    public class TrackPieceState : NetworkBehaviour
+    public class TrackPieceManager : NetworkBehaviour
     {
         [SerializeField] int propDownForce = 8000;
         IEnumerable<Rigidbody> propRigidBodies = null;

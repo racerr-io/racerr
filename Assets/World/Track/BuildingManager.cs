@@ -4,8 +4,12 @@ using UnityEngine;
 
 namespace Racerr.Track
 {
+    /// <summary>
+    /// Manages all the functionality of buildings on the track, 
+    /// such as making them transparent upon raycast hit
+    /// </summary>
     [RequireComponent(typeof(MeshFilter)), RequireComponent(typeof(MeshRenderer))]
-    public class BuildingState : MonoBehaviour
+    public class BuildingManager : MonoBehaviour
     {
         bool raycastIsHitting = false;
         bool isTransparent = false;
@@ -21,6 +25,7 @@ namespace Racerr.Track
 
         /// <summary>
         /// Saves original mesh renderer and filter. Also keeps track of currently active children.
+        /// This is done so that we can revert to the building's initial state after it is made transparent.
         /// </summary>
         void Start()
         {
@@ -74,7 +79,7 @@ namespace Racerr.Track
         }
 
         /// <summary>
-        /// Revert back to the original state.
+        /// Revert the building's mesh and shader back to its original state when it was instantiated.
         /// </summary>
         /// <returns>IEnumerator for coroutine.</returns>
         IEnumerator RevertToOriginal()
@@ -86,7 +91,7 @@ namespace Racerr.Track
         }
 
         /// <summary>
-        /// Fade transparency of material over time.
+        /// Fade transparency of building's material over time.
         /// </summary>
         /// <param name="newAlphaValue">New transparency level.</param>
         /// <param name="time">How fast to fade.</param>
@@ -105,6 +110,7 @@ namespace Racerr.Track
 
         /// <summary>
         /// Sets raycastIsHitting a building to be true.
+        /// Called externally by raycaster which triggers the transparent effect of the building.
         /// </summary>
         public void HitRay()
         {

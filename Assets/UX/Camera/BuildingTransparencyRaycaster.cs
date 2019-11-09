@@ -1,4 +1,4 @@
-﻿using Racerr.Car;
+﻿using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Client;
 using Racerr.Track;
 using UnityEngine;
@@ -24,7 +24,7 @@ namespace Racerr.UX.Camera
 
                     if (Physics.Raycast(transform.position, direction, out raycastHit))
                     {
-                        BuildingState buildingState = raycastHit.collider.gameObject.GetComponent<BuildingState>();
+                        BuildingManager buildingState = raycastHit.collider.gameObject.GetComponent<BuildingManager>();
 
                         if (buildingState != null)
                         {

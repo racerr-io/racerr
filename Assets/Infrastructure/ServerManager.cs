@@ -9,8 +9,7 @@ namespace Racerr.Infrastructure
     /// </summary>
     public class ServerManager : NetworkManager
     {
-        [SerializeField] int serverApplicationFrameRate = 60;
-        [SerializeField] GameObject playerObject;
+        [Header("Other")]
         [SerializeField] GameObject[] destroyOnServerLoad;
 
         /// <summary>
@@ -21,7 +20,7 @@ namespace Racerr.Infrastructure
         {
             if (isHeadless)
             {
-                Application.targetFrameRate = serverApplicationFrameRate;
+                Application.targetFrameRate = serverTickRate;
                 DestroySelectedGameObjectsOnServerLoad();
                 StartServer();
             }
@@ -52,7 +51,7 @@ namespace Racerr.Infrastructure
         /// <param name="conn">Player's connection info.</param>
         public override void OnServerAddPlayer(NetworkConnection conn)
         {
-            GameObject player = Instantiate(playerObject);
+            GameObject player = Instantiate(playerPrefab);
             NetworkServer.AddPlayerForConnection(conn, player);
             ServerStateMachine.Singleton.AddNewPlayer(player);
         }
