@@ -410,6 +410,7 @@ MonoBehaviour:
   transformFrontRight: {fileID: 568409965407692664}
   transformRearLeft: {fileID: 3350860790886171492}
   transformRearRight: {fileID: 3618877289108449134}
+  isDisabled: 1
   playerBarPrefab: {fileID: 4182034153008739931, guid: fae0477d4f724c842b5bfdacd350b2f5,
     type: 3}
   playerBarStartDisplacement: 4
@@ -459,8 +460,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 1
-  m_AssetId: aa65098f076c6e141991513d2b3608c8
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 3543592344
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0
