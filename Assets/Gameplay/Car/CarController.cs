@@ -29,7 +29,13 @@ namespace Racerr.Gameplay.Car
         [SerializeField] float forwardStiffnessBraking = 3;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
         [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
+        [SerializeField] bool isDisabled; // Cars are instantiated to disabled state by default (in inspector).
         public int MaxHealth => maxHealth;
+        public bool IsDisabled
+        {
+            get => isDisabled;
+            set => isDisabled = value;
+        }
 
         [Header("Player Bar Properties")]
         [SerializeField] GameObject playerBarPrefab;
@@ -83,7 +89,7 @@ namespace Racerr.Gameplay.Car
                 GetInput();
             }
 
-            if (!Player.IsDead)
+            if (!Player.IsDead && !IsDisabled)
             {
                 Steer();
                 Drive();
@@ -123,7 +129,7 @@ namespace Racerr.Gameplay.Car
         /// </summary>
         void GetInput()
         {
-            if (!Player.IsDead)
+            if (!Player.IsDead && !IsDisabled)
             {
                 HorizontalInput = Input.GetAxis("Horizontal");
                 VerticalInput = Input.GetAxis("Vertical");
