@@ -1,4 +1,4 @@
-﻿namespace Racerr.Track
+﻿namespace Racerr.World.Track
 {
     public static class TrackPieceComponent
     {

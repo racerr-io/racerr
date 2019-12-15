@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Racerr.Track
+namespace Racerr.World.Track
 {
     /// <summary>
     /// A track generator that randomly generates your tracks.

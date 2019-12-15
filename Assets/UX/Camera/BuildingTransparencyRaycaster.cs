@@ -1,6 +1,6 @@
 ﻿using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Client;
-using Racerr.Track;
+using Racerr.World.Track;
 using UnityEngine;
 
 namespace Racerr.UX.Camera

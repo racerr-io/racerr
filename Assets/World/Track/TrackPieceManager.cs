@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Racerr.Track
+namespace Racerr.World.Track
 {
     /// <summary>
     /// Manages state of the track and whether it is ready for driving.

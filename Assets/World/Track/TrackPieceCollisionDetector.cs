@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Racerr.Track
+namespace Racerr.World.Track
 {
     /// <summary>
     /// Determine if this track piece is colliding with another track.

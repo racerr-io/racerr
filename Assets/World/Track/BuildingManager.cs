@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Racerr.Track
+namespace Racerr.World.Track
 {
     /// <summary>
     /// Manages all the functionality of buildings on the track, 

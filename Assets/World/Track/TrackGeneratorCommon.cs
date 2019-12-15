@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Racerr.Track
+namespace Racerr.World.Track
 {
     /// <summary>
     /// Track Generator - all track generators must inherit from this class.
