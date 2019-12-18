@@ -70,7 +70,7 @@ namespace Racerr.Infrastructure.Client
         {
             if (op == Mirror.SyncList<GameObject>.Operation.OP_ADD)
             {
-                ClientStateMachine.Singleton.SetCameraTarget(item.transform);
+                ClientStateMachine.Singleton.SetPlayerCameraTarget(item.transform);
             }
         }
 

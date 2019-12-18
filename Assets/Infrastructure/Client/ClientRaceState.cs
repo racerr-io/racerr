@@ -14,6 +14,7 @@ namespace Racerr.Infrastructure.Client
     {
         [SerializeField] ServerRaceState serverRaceState;
         [SerializeField] UIView raceView;
+        [SerializeField] GameObject minimapUIGroup;
 
         // TODO: These items should be extracted to their own script, setting text fields is not the responsibility of this class.
         [SerializeField] TextMeshProUGUI raceTimerTMP;
@@ -27,7 +28,9 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
-            ClientStateMachine.Singleton.SetCameraTarget(ClientStateMachine.Singleton.LocalPlayer.Car.transform);
+            minimapUIGroup.SetActive(true);
+            ClientStateMachine.Singleton.SetPlayerCameraTarget(ClientStateMachine.Singleton.LocalPlayer.Car.transform);
+            ClientStateMachine.Singleton.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.Car.transform);
         }
 
         /// <summary>
@@ -35,7 +38,9 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         public override void Exit()
         {
-            ClientStateMachine.Singleton.SetCameraTarget(null);
+            ClientStateMachine.Singleton.SetMinimapCameraTarget(null);
+            ClientStateMachine.Singleton.SetPlayerCameraTarget(null);
+            minimapUIGroup.SetActive(false);
             raceView.Hide();
         }
 
