@@ -29,7 +29,7 @@ namespace Racerr.Gameplay.Car
         [SerializeField] float forwardStiffnessBraking = 3;
         [SerializeField] WheelCollider wheelFrontLeft, wheelFrontRight, wheelRearLeft, wheelRearRight;
         [SerializeField] Transform transformFrontLeft, transformFrontRight, transformRearLeft, transformRearRight;
-        [SerializeField] bool isDisabled; // Cars are instantiated to disabled state by default (in inspector).
+        [SyncVar] [SerializeField] bool isDisabled; // Cars are instantiated to disabled state by default (in inspector).
         public int MaxHealth => maxHealth;
         public bool IsDisabled
         {

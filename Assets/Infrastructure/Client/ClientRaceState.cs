@@ -27,7 +27,8 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
-            ClientStateMachine.Singleton.SetCameraTarget(ClientStateMachine.Singleton.LocalPlayer.Car.transform);
+            ClientStateMachine.Singleton.SetPlayerCameraTarget(ClientStateMachine.Singleton.LocalPlayer.Car.transform);
+            ClientStateMachine.Singleton.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.Car.transform);
         }
 
         /// <summary>
@@ -35,7 +36,8 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         public override void Exit()
         {
-            ClientStateMachine.Singleton.SetCameraTarget(null);
+            ClientStateMachine.Singleton.SetMinimapCameraTarget(null);
+            ClientStateMachine.Singleton.SetPlayerCameraTarget(null);
             raceView.Hide();
         }
 
