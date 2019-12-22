@@ -14,6 +14,8 @@ namespace Racerr.Infrastructure.Server
     /// </summary>
     public class ServerRaceState : RaceSessionState
     {
+        [SerializeField] double raceFinishTime = 180;
+
         /// <summary>
         /// Initialises brand new race session data independent of previous race sessions.
         /// </summary>
@@ -76,7 +78,7 @@ namespace Racerr.Infrastructure.Server
         [Server]
         protected override void FixedUpdate()
         {
-            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count;
+            bool isRaceFinished = (raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count) || (CurrentRaceLength >= raceFinishTime);
             bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
 
             if (isRaceEmpty)
