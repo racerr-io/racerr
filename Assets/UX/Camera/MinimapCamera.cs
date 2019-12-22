@@ -36,9 +36,6 @@ namespace Racerr.UX.Camera
                 Vector3 newPosition = target.position;
                 newPosition.y = transform.position.y;
                 transform.position = newPosition;
-
-                // Camera position moves towards target position
-                // transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * moveSpeed);
             }
         }
     }
