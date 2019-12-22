@@ -14,9 +14,14 @@ namespace Racerr.Infrastructure.Server
     /// </summary>
     public class ServerRaceState : RaceSessionState
     {
-        [SerializeField] double raceFinishTime = 180;
+        [SerializeField] double raceFinishTime = 90;
+        [SerializeField] int playerFinishCountdownTime = 30;
+        [SerializeField] int countdownTime = 10;
 
         public double RaceFinishTime => raceFinishTime;
+        public int PlayerFinishCountdownTime => playerFinishCountdownTime;
+        public int CountdownTime => countdownTime;
+        public bool isAnyPlayerFinished => raceSessionData.FinishedPlayers.Count > 0;
 
         /// <summary>
         /// Initialises brand new race session data independent of previous race sessions.
