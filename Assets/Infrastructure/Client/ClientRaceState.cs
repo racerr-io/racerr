@@ -3,6 +3,7 @@ using Racerr.Infrastructure.Server;
 using Racerr.Utility;
 using TMPro;
 using UnityEngine;
+using System;
 
 namespace Racerr.Infrastructure.Client
 {
@@ -17,6 +18,7 @@ namespace Racerr.Infrastructure.Client
 
         // TODO: These items should be extracted to their own script, setting text fields is not the responsibility of this class.
         [SerializeField] TextMeshProUGUI raceTimerTMP;
+        [SerializeField] TextMeshProUGUI countdownTimerTMP;
         [SerializeField] TextMeshProUGUI speedTMP;
         [SerializeField] TextMeshProUGUI leaderboardTMP;
 
@@ -59,6 +61,17 @@ namespace Racerr.Infrastructure.Client
             {
                 // Race Timer. TODO: Extract Race Timer to its own script
                 raceTimerTMP.text = serverRaceState.CurrentRaceLength.ToRaceTimeFormat();
+
+                // Countdown Timer.
+                if (serverRaceState.RaceFinishTime - serverRaceState.CurrentRaceLength > 10)
+                {
+                    countdownTimerTMP.gameObject.SetActive(false);
+                }
+                else
+                {
+                    countdownTimerTMP.gameObject.SetActive(true);
+                    countdownTimerTMP.text = Math.Ceiling(serverRaceState.RaceFinishTime - serverRaceState.CurrentRaceLength).ToString();
+                }
 
                 // Speed. TODO: Extract Speed to its own script
                 speedTMP.text = ClientStateMachine.Singleton.LocalPlayer.Car.Velocity.ToString() + " KPH";
