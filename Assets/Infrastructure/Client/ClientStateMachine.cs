@@ -17,7 +17,8 @@ namespace Racerr.Infrastructure.Client
         public StateEnum StateType { get; private set; }
         LocalState currentState;
 
-        [SerializeField] TargetObserverCamera mainCamera;
+        [SerializeField] TargetObserverCamera playerCamera;
+        [SerializeField] MinimapCamera minimapCamera;
 
         Player localPlayer;
         public Player LocalPlayer => localPlayer ?? (localPlayer = FindObjectsOfType<Player>().SingleOrDefault(player => player.isLocalPlayer));
@@ -49,13 +50,23 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Move the main camera's target to point to the target transform.
+        /// Move the player camera's target to point to the target transform.
         /// Should only be called by client states.
         /// </summary>
         /// <param name="targetTransform">New target transform</param>
-        public void SetCameraTarget(Transform targetTransform)
+        public void SetPlayerCameraTarget(Transform targetTransform)
         {
-            mainCamera.Target = targetTransform;
+            playerCamera.Target = targetTransform;
+        }
+
+        /// <summary>
+        /// Move the minimap camera's target to point to the target transform.
+        /// Should only be called by client states.
+        /// </summary>
+        /// <param name="targetTransform">New target transform</param>
+        public void SetMinimapCameraTarget(Transform targetTransform)
+        {
+            minimapCamera.Target = targetTransform;
         }
 
         /// <summary>
