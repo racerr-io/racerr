@@ -62,8 +62,8 @@ namespace Racerr.Infrastructure.Client
                 // Race Timer. TODO: Extract Race Timer to its own script
                 raceTimerTMP.text = serverRaceState.CurrentRaceLength.ToRaceTimeFormat();
 
-                // Countdown Timer.
-                double leftoverTime = serverRaceState.RaceFinishTime - serverRaceState.CurrentRaceLength;
+                // Countdown Timer. If any player has finished and reduces the current countdown timer, use that as leftover time.
+                double leftoverTime = (serverRaceState.PlayerFinishRaceFinishTime != null && serverRaceState.PlayerFinishRaceFinishTime < serverRaceState.RaceFinishTime) ? (double)serverRaceState.PlayerFinishRaceFinishTime - serverRaceState.CurrentRaceLength : serverRaceState.RaceFinishTime - serverRaceState.CurrentRaceLength;
 
                 if (leftoverTime > serverRaceState.CountdownTime)
                 {

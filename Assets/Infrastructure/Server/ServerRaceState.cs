@@ -21,7 +21,7 @@ namespace Racerr.Infrastructure.Server
         public double RaceFinishTime => raceFinishTime;
         public int PlayerFinishCountdownTime => playerFinishCountdownTime;
         public int CountdownTime => countdownTime;
-        public bool isAnyPlayerFinished => raceSessionData.FinishedPlayers.Count > 0;
+        public double? PlayerFinishRaceFinishTime = null;
 
         /// <summary>
         /// Initialises brand new race session data independent of previous race sessions.
@@ -87,6 +87,11 @@ namespace Racerr.Infrastructure.Server
         {
             bool isRaceFinished = (raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count) || (CurrentRaceLength >= RaceFinishTime);
             bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
+
+            if (raceSessionData.FinishedPlayers.Count > 0 && PlayerFinishRaceFinishTime == null)
+            {
+                PlayerFinishRaceFinishTime = CurrentRaceLength + PlayerFinishCountdownTime;
+            }
 
             if (isRaceEmpty)
             {
