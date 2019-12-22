@@ -1,0 +1,3742 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1191057322584292}
+  m_IsPrefabParent: 1
+--- !u!1 &1095339129215000
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4357259808115472}
+  - component: {fileID: 114284589197989428}
+  m_Layer: 0
+  m_Name: WheelController_BR (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1100434485853706
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4275477189209322}
+  - component: {fileID: 33729477588189124}
+  - component: {fileID: 23923838697914970}
+  m_Layer: 0
+  m_Name: Wheel_FR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1190913732512038
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4575498073715552}
+  - component: {fileID: 114779041982590018}
+  m_Layer: 0
+  m_Name: WheelController_BL (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1191057322584292
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4125302086907454}
+  - component: {fileID: 54833374512108974}
+  - component: {fileID: 114442076334152960}
+  - component: {fileID: 114079937972883766}
+  m_Layer: 0
+  m_Name: Car
+  m_TagString: Vehicle
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1218316961425870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4615999919367262}
+  m_Layer: 0
+  m_Name: EnterExitPoint
+  m_TagString: EnterExitPoint
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1251062388393094
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4585539627453616}
+  - component: {fileID: 65922944211894640}
+  m_Layer: 0
+  m_Name: collider (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1282516784725390
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4041053665168504}
+  - component: {fileID: 20409430512051828}
+  - component: {fileID: 124357001179118614}
+  - component: {fileID: 81890118586156062}
+  - component: {fileID: 114344984189972926}
+  m_Layer: 21
+  m_Name: Vehicle Camera Drag
+  m_TagString: VehicleCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!1 &1364035160893726
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4590439655160496}
+  m_Layer: 0
+  m_Name: Wheels
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1374978151186030
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4568367526278470}
+  - component: {fileID: 114094963636011954}
+  m_Layer: 0
+  m_Name: WheelController_FL (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1427934257168084
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4404770259443010}
+  - component: {fileID: 20524061338815418}
+  - component: {fileID: 124122736033598044}
+  - component: {fileID: 81281564821942570}
+  - component: {fileID: 114466393066539652}
+  - component: {fileID: 114979811953704406}
+  m_Layer: 21
+  m_Name: Vehicle Camera Hood
+  m_TagString: VehicleCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!1 &1473367709009580
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4629536349921984}
+  - component: {fileID: 114347743269992984}
+  m_Layer: 0
+  m_Name: WheelController_FR (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1631378846309116
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4781191035781138}
+  - component: {fileID: 33986510423543384}
+  - component: {fileID: 23335105998829348}
+  m_Layer: 0
+  m_Name: Wheel_BL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1649484224054916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4544138827061684}
+  - component: {fileID: 33154193498431248}
+  - component: {fileID: 23465633281403120}
+  m_Layer: 0
+  m_Name: Body
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1730960558237712
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4843296442618210}
+  - component: {fileID: 33753771282051650}
+  - component: {fileID: 23078087002758150}
+  m_Layer: 0
+  m_Name: Wheel_BR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1850636390914316
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4642265622617676}
+  - component: {fileID: 33689767962822108}
+  - component: {fileID: 23682461857437696}
+  m_Layer: 0
+  m_Name: Wheel_FL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1855262948826368
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4025187010103000}
+  - component: {fileID: 65778751014596372}
+  m_Layer: 0
+  m_Name: collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1909090747219308
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4607187530357954}
+  m_Layer: 0
+  m_Name: WheelControllers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1937912027255472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4037939653567298}
+  - component: {fileID: 114959098648790424}
+  m_Layer: 0
+  m_Name: Cameras
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1938215312317698
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4379521684873474}
+  - component: {fileID: 20776001135890058}
+  - component: {fileID: 124691852493013798}
+  - component: {fileID: 81842995534928132}
+  - component: {fileID: 114858637884777456}
+  m_Layer: 21
+  m_Name: Vehicle Camera Follow
+  m_TagString: VehicleCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!1 &1952036070101662
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4438060985323786}
+  - component: {fileID: 20867821822563484}
+  - component: {fileID: 124124108025029316}
+  - component: {fileID: 81313230326237170}
+  - component: {fileID: 114868641246060986}
+  m_Layer: 21
+  m_Name: Vehicle Camera Wheel
+  m_TagString: VehicleCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4025187010103000
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1855262948826368}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.517, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4544138827061684}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4037939653567298
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1937912027255472}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4379521684873474}
+  - {fileID: 4041053665168504}
+  - {fileID: 4404770259443010}
+  - {fileID: 4438060985323786}
+  m_Father: {fileID: 4125302086907454}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4041053665168504
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282516784725390}
+  m_LocalRotation: {x: -0.045375142, y: 0.000000059604638, z: -0, w: 0.99897003}
+  m_LocalPosition: {x: -0.07, y: 2.358, z: -5.259}
+  m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000004}
+  m_Children: []
+  m_Father: {fileID: 4037939653567298}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: -5.201, y: 0, z: 0}
+--- !u!4 &4125302086907454
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1191057322584292}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 250.15805, y: -3.8790002, z: -60.683105}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4544138827061684}
+  - {fileID: 4607187530357954}
+  - {fileID: 4590439655160496}
+  - {fileID: 4615999919367262}
+  - {fileID: 4037939653567298}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!4 &4275477189209322
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1100434485853706}
+  m_LocalRotation: {x: -0.00000069340007, y: -0.000000119209275, z: -8.526512e-14,
+    w: 1}
+  m_LocalPosition: {x: 0.66659546, y: 0.27394056, z: 1.2184906}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4590439655160496}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4357259808115472
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1095339129215000}
+  m_LocalRotation: {x: -0.00000069340007, y: -0.000000119209275, z: -8.526512e-14,
+    w: 1}
+  m_LocalPosition: {x: 0.6, y: 0.3529997, z: -1.0697021}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4607187530357954}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4379521684873474
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938215312317698}
+  m_LocalRotation: {x: -0.045375142, y: 0.00000008026107, z: -0.000000001724501, w: 0.99897003}
+  m_LocalPosition: {x: 0, y: 1.399, z: -3.101}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4037939653567298}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -5.201, y: 0, z: 0}
+--- !u!4 &4404770259443010
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1427934257168084}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.002, y: 0.987, z: 0.655}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4037939653567298}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4438060985323786
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1952036070101662}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.93, y: 0.31, z: 0.57}
+  m_LocalScale: {x: 1.0000012, y: 1, z: 1.0000012}
+  m_Children: []
+  m_Father: {fileID: 4037939653567298}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4544138827061684
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1649484224054916}
+  m_LocalRotation: {x: 0.00000008146034, y: 0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: -0.000001502037}
+  m_LocalScale: {x: 1, y: 0.99999994, z: 0.99999994}
+  m_Children:
+  - {fileID: 4025187010103000}
+  - {fileID: 4585539627453616}
+  m_Father: {fileID: 4125302086907454}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4568367526278470
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1374978151186030}
+  m_LocalRotation: {x: 0.00000008146034, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.60166, y: 0.353, z: 1.2184753}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4607187530357954}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4575498073715552
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1190913732512038}
+  m_LocalRotation: {x: 0.00000008146034, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.60166, y: 0.3529997, z: -1.0696716}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4607187530357954}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4585539627453616
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1251062388393094}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.000061035156, y: 0.979, z: -0}
+  m_LocalScale: {x: 1.0000005, y: 1.0000001, z: 1.0000006}
+  m_Children: []
+  m_Father: {fileID: 4544138827061684}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4590439655160496
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1364035160893726}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4781191035781138}
+  - {fileID: 4843296442618210}
+  - {fileID: 4642265622617676}
+  - {fileID: 4275477189209322}
+  m_Father: {fileID: 4125302086907454}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4607187530357954
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1909090747219308}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4575498073715552}
+  - {fileID: 4357259808115472}
+  - {fileID: 4568367526278470}
+  - {fileID: 4629536349921984}
+  m_Father: {fileID: 4125302086907454}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4615999919367262
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1218316961425870}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.089, y: 0.658, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4125302086907454}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4629536349921984
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1473367709009580}
+  m_LocalRotation: {x: -0.00000069340007, y: -0.000000119209275, z: -8.526512e-14,
+    w: 1}
+  m_LocalPosition: {x: 0.6, y: 0.35300016, z: 1.2184448}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4607187530357954}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4642265622617676
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850636390914316}
+  m_LocalRotation: {x: 0.00000008146034, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.6702881, y: 0.27394032, z: 1.2184753}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4590439655160496}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4781191035781138
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1631378846309116}
+  m_LocalRotation: {x: 0.00000008146034, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.6702881, y: 0.2739401, z: -1.0696716}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4590439655160496}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4843296442618210
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1730960558237712}
+  m_LocalRotation: {x: -0.00000069340007, y: -0.000000119209275, z: -8.526512e-14,
+    w: 1}
+  m_LocalPosition: {x: 0.66659546, y: 0.2739401, z: -1.0696716}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4590439655160496}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &20409430512051828
+Camera:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282516784725390}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.05
+  far clip plane: 1000
+  field of view: 74
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: 1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!20 &20524061338815418
+Camera:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1427934257168084}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.05
+  far clip plane: 1000
+  field of view: 74
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: 1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!20 &20776001135890058
+Camera:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938215312317698}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.05
+  far clip plane: 1000
+  field of view: 74
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: 1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!20 &20867821822563484
+Camera:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1952036070101662}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.05
+  far clip plane: 1000
+  field of view: 68
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: 1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!23 &23078087002758150
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1730960558237712}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: a9cb3bb9d1660014a83549363babb84b, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!23 &23335105998829348
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1631378846309116}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: a9cb3bb9d1660014a83549363babb84b, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!23 &23465633281403120
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1649484224054916}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: a9cb3bb9d1660014a83549363babb84b, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!23 &23682461857437696
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850636390914316}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: a9cb3bb9d1660014a83549363babb84b, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!23 &23923838697914970
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1100434485853706}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: a9cb3bb9d1660014a83549363babb84b, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &33154193498431248
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1649484224054916}
+  m_Mesh: {fileID: 4300004, guid: 31c6a005511165f4ba215c1eb0ea308e, type: 3}
+--- !u!33 &33689767962822108
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850636390914316}
+  m_Mesh: {fileID: 4300002, guid: 31c6a005511165f4ba215c1eb0ea308e, type: 3}
+--- !u!33 &33729477588189124
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1100434485853706}
+  m_Mesh: {fileID: 4300008, guid: 31c6a005511165f4ba215c1eb0ea308e, type: 3}
+--- !u!33 &33753771282051650
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1730960558237712}
+  m_Mesh: {fileID: 4300006, guid: 31c6a005511165f4ba215c1eb0ea308e, type: 3}
+--- !u!33 &33986510423543384
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1631378846309116}
+  m_Mesh: {fileID: 4300000, guid: 31c6a005511165f4ba215c1eb0ea308e, type: 3}
+--- !u!54 &54833374512108974
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1191057322584292}
+  serializedVersion: 2
+  m_Mass: 1200
+  m_Drag: 0.02
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65778751014596372
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1855262948826368}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.3184618, y: 0.49249652, z: 3.4299765}
+  m_Center: {x: -0.0023887157, y: -0.05974134, z: 0.064228304}
+--- !u!65 &65922944211894640
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1251062388393094}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0534965, y: 0.4074629, z: 1.5907043}
+  m_Center: {x: -0.0023944369, y: -0.12837198, z: -0.36578333}
+--- !u!81 &81281564821942570
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1427934257168084}
+  m_Enabled: 0
+--- !u!81 &81313230326237170
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1952036070101662}
+  m_Enabled: 0
+--- !u!81 &81842995534928132
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938215312317698}
+  m_Enabled: 0
+--- !u!81 &81890118586156062
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282516784725390}
+  m_Enabled: 0
+--- !u!114 &114079937972883766
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1191057322584292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d5902ab101a14a6e939520e3d9c893b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  input:
+    leftBlinker: 0
+    rightBlinker: 0
+    lowBeamLights: 0
+    fullBeamLights: 0
+    hazardLights: 0
+    trailerAttachDetach: 0
+    flipOver: 0
+    horn: 0
+  sound:
+    spatialBlend: 1
+    masterVolume: 1
+    engineIdleComponent:
+      volume: 0.3
+      pitch: 0.9
+      clips:
+      - {fileID: 8300000, guid: 26fb7228b0cb3b1428a016e1157efe13, type: 3}
+      volumeRange: 0.5
+      pitchRange: 1.5
+      smoothing: 0.1
+      maxDistortion: 0.4
+    engineStartStopComponent:
+      volume: 0.4
+      pitch: 1
+      clips:
+      - {fileID: 8300000, guid: d40fa21dff1e4064092d3df957cbc63e, type: 3}
+      - {fileID: 8300000, guid: e9cad956627ce624c832032d32aafae1, type: 3}
+    turboWhistleComponent:
+      volume: 0.04
+      pitch: 0.8
+      clips:
+      - {fileID: 8300000, guid: 686ed42021a5f4c47b8908d49b23985d, type: 3}
+      pitchRange: 1.4
+    turboFlutterComponent:
+      volume: 0.04
+      pitch: 1
+      clips:
+      - {fileID: 8300000, guid: fbc3347e118773e409df0b1d95db697e, type: 3}
+    transmissionWhineComponent:
+      volume: 0.05
+      pitch: 0.1
+      clips: []
+      pitchRange: 0.2
+    gearChangeComponent:
+      volume: 0.1
+      pitch: 1
+      clips:
+      - {fileID: 8300000, guid: 53a2bc904054cea4cb0a3554275715aa, type: 3}
+    suspensionComponent:
+      volume: 0.1
+      pitch: 1
+      clips:
+      - {fileID: 8300000, guid: f42fc0c5a45782343b4c11e3ef053f94, type: 3}
+    surfaceComponent:
+      volume: 0.25
+      pitch: 1
+      clips: []
+    skidComponent:
+      volume: 0.45
+      pitch: 1
+      clips: []
+      forwardSkidVolume: 0.8
+      sideSkidVolume: 0.9
+    crashComponent:
+      volume: 0.32
+      pitch: 1
+      clips:
+      - {fileID: 8300000, guid: cd188fb1d3e802347aef458cada843fd, type: 3}
+    airBrakeComponent:
+      volume: 0.1
+      pitch: 1
+      clips: []
+    blinkerComponent:
+      volume: 0.1
+      pitch: 1
+      clips:
+      - {fileID: 8300000, guid: 3028c86f6c3a29b4981722d5aafd7bb4, type: 3}
+      - {fileID: 8300000, guid: 4a30f69cddd6ef54e84c4b6935a861df, type: 3}
+    hornComponent:
+      volume: 0.1
+      pitch: 1
+      clips:
+      - {fileID: 8300000, guid: 867a31e1b4b4a22419a24751156d2ada, type: 3}
+    insideVehicle: 0
+    interiorAttenuation: -7
+    lowPassFrequency: 6000
+    lowPassQ: 1
+    masterGroup: {fileID: 0}
+    engineMixerGroup: {fileID: 0}
+    transmissionMixerGroup: {fileID: 0}
+    surfaceNoiseMixerGroup: {fileID: 0}
+    turboMixerGroup: {fileID: 0}
+    suspensionMixerGroup: {fileID: 0}
+    crashMixerGroup: {fileID: 0}
+    otherMixerGroup: {fileID: 0}
+  effects:
+    skidmarks:
+      enabled: 1
+      skidmarkStrength: 0.5
+      maxSkidmarkAlpha: 0.6
+      persistentSkidmarks: 0
+      persistentSkidmarkDistance: 100
+      maxMarksPerSection: 120
+      minDistance: 0.11
+      threadAlbedo: {fileID: 0}
+      threadBump: {fileID: 0}
+      threadNormal: {fileID: 0}
+    lights:
+      enabled: 1
+      stopLights:
+        lightSources: []
+        lightMeshRenderers: []
+      rearLights:
+        lightSources: []
+        lightMeshRenderers: []
+      reverseLights:
+        lightSources: []
+        lightMeshRenderers: []
+      headLights:
+        lightSources: []
+        lightMeshRenderers: []
+      fullBeams:
+        lightSources: []
+        lightMeshRenderers: []
+      leftBlinkers:
+        lightSources: []
+        lightMeshRenderers: []
+      rightBlinkers:
+        lightSources: []
+        lightMeshRenderers: []
+    exhausts:
+      emit: 0
+      baseIntensity: 12
+      intensityRange: 20
+      soot: 0.4
+      startSize: 0.3
+      lifeDistance: 2.5
+      vaporColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.35}
+      sootColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.5}
+      particleSystems: []
+  steering:
+    lowSpeedAngle: 30
+    highSpeedAngle: 14
+    crossoverSpeed: 35
+    degreesPerSecondLimit: 250
+    steeringWheelTurnRatio: 2
+    steeringWheel: {fileID: 0}
+    trackedSteerIntensity: 1
+  engine:
+    runOnStartup: 0
+    runOnEnable: 1
+    stopOnDisable: 1
+    starting: 0
+    stopping: 0
+    minRPM: 600
+    maxRPM: 5000
+    maxPower: 150
+    maxRpmChange: 10000
+    throttleSmoothing: 0.2
+    powerCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.75
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 0.92
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    forcedInduction:
+      useForcedInduction: 1
+      spoolUpTime: 1
+      maxPowerGainMultiplier: 0.4
+      flutterSoundFlag: 0
+  transmission:
+    transmissionType: 2
+    reverseType: 0
+    differentialType: 0
+    forwardGears:
+    - 8
+    - 5.5
+    - 4
+    - 3
+    - 2.2
+    - 1.7
+    - 1.3
+    reverseGears:
+    - -5
+    gearMultiplier: 1
+    targetShiftUpRPM: 3600
+    targetShiftDownRPM: 1400
+    dynamicShiftPoint: 1
+    shiftPointRandomness: 0.05
+    shiftDuration: 0.2
+    shiftDurationRandomness: 0.2
+    postShiftBan: 0.5
+    automaticClutch: 1
+    clutchPedalPressedPercent: 0
+    clutchEngagementCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    targetClutchRPM: 1500
+  axles:
+  - leftWheel:
+      brakeCoefficient: 1
+      wheelController: {fileID: 114094963636011954}
+    rightWheel:
+      brakeCoefficient: 1
+      wheelController: {fileID: 114347743269992984}
+    geometry:
+      steerCoefficient: 1
+      ackermannPercent: 0.15
+      toeAngle: 0
+      casterAngle: 0
+      camberAtTop: 0
+      camberAtBottom: 0
+      isSolid: 0
+      antiRollBarForce: 11000
+    powerCoefficient: 1
+    brakeCoefficient: 1
+    handbrakeCoefficient: 0
+    differentialStrength: 0
+    differentialType: 2
+  - leftWheel:
+      brakeCoefficient: 1
+      wheelController: {fileID: 114779041982590018}
+    rightWheel:
+      brakeCoefficient: 1
+      wheelController: {fileID: 114284589197989428}
+    geometry:
+      steerCoefficient: 0
+      ackermannPercent: 0.15
+      toeAngle: 0
+      casterAngle: 0
+      camberAtTop: 0
+      camberAtBottom: 0
+      isSolid: 0
+      antiRollBarForce: 8800
+    powerCoefficient: 1
+    brakeCoefficient: 1
+    handbrakeCoefficient: 1
+    differentialStrength: 0
+    differentialType: 2
+  brakes:
+    maxTorque: 5000
+    frictionTorque: 120
+    smoothing: 0.9
+    brakeWhileIdle: 1
+    airBrakes: 0
+    airBrakePressure: 0
+  tracks:
+    trackedVehicle: 0
+    wheelEnlargementCoefficient: 2
+    textureOffsetSpeedCoefficient: 1
+    leftTrackRenderer: {fileID: 0}
+    rightTrackRenderer: {fileID: 0}
+    leftSprockets: []
+    rightSprockets: []
+  groundDetection: {fileID: 0}
+  drivingAssists:
+    abs:
+      enabled: 0
+      active: 0
+      intensity: 0.3
+    tcs:
+      enabled: 0
+      active: 0
+      intensity: 0.3
+      powerReduction: 0
+      prevPowerReduction: 0
+    stability:
+      enabled: 0
+      active: 0
+      intensity: 0.3
+    driftAssist:
+      enabled: 0
+      active: 0
+      intensity: 0.3
+  damage:
+    enabled: 0
+    performanceDegradation: 0
+    allowedDamage: 50000
+    deformationVerticesPerFrame: 8000
+    deformationRadius: 0.6
+    deformationStrength: 1.6
+    deformationRandomness: 0.1
+    decelerationThreshold: 30
+    ignoreTags: []
+    previousCollisionHash: 0
+  fuel:
+    useFuel: 0
+    capacity: 50
+    amount: 50
+    efficiency: 0.45
+  rigging:
+    enabled: 0
+    solidAxle: 0
+    axleBones: []
+    wheelBones: []
+  flipOver:
+    enabled: 1
+    manual: 0
+    timeout: 3
+    allowedAngle: 70
+    maxDetectionSpeed: 1
+    rotationSpeed: 80
+    flippedOver: 0
+  trailer:
+    isTrailer: 0
+    attachmentPoint: {fileID: 0}
+    trailersTag: Trailer
+    attachDistanceThreshold: 0.5
+    attachOnPlay: 0
+    breakForce: Infinity
+    trailerInRange: 0
+    trailerStand: {fileID: 0}
+    attached: 0
+    maxNoTrailerPowerReduction: 0
+  metrics:
+    odometer:
+      value: 0
+    topSpeed:
+      value: 0
+    averageSpeed:
+      value: 0
+    totalDriftTime:
+      value: 0
+    continousDriftTime:
+      value: 0
+    totalDriftDistance:
+      value: 0
+    continousDriftDistance:
+      value: 0
+  forwardSlipThreshold: 0.35
+  sideSlipThreshold: 0.1
+  speedLimiter: 0
+  freezeWhenStill: 1
+  freezeWhenInactive: 1
+  vehicleRigidbody: {fileID: 54833374512108974}
+--- !u!114 &114094963636011954
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1374978151186030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fc64011ec59d184a9dc2eabf8397a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheel:
+    mass: 25
+    rimOffset: 0.07
+    tireRadius: 0.25
+    width: 0.17
+    rpm: 0
+    prevWorldPosition: {x: 0, y: 0, z: 0}
+    worldPosition: {x: 104.63534, y: 3.7349403, z: 49.96222}
+    prevGroundPoint: {x: 0, y: 0, z: 0}
+    worldRotation: {x: 0, y: 0, z: 0, w: 0}
+    camberCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: -3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: -0.5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    camberAngle: 0
+    inertia: 0
+    angularVelocity: 0
+    freeRollingAngularVelocity: 0
+    residualAngularVelocity: 0
+    steerAngle: 0
+    rotationAngle: 0
+    visual: {fileID: 1850636390914316}
+    nonRotating: {fileID: 0}
+    rim: {fileID: 0}
+    rimCollider: {fileID: 0}
+    up: {x: 0.0000001629207, y: 1, z: 0}
+    inside: {x: 0, y: 0, z: 0}
+    forward: {x: 1.0000001, y: -0.0000001629207, z: -0.00000011920929}
+    right: {x: -0.00000011920929, y: 0, z: -1.0000001}
+    velocity: {x: 0, y: 0, z: 0}
+    prevVelocity: {x: 0, y: 0, z: 0}
+    acceleration: {x: 0, y: 0, z: 0}
+    tireLoad: 0
+    motorTorque: 0
+    brakeTorque: 0
+    nonRotatingPostionOffset: {x: 0, y: 0, z: 0}
+  spring:
+    maxLength: 0.25
+    forceCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0.38864458
+        outSlope: 0.38864458
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 1.938452
+        outSlope: 1.938452
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    maxForce: 22000
+    length: 0
+    prevLength: 0
+    compressionPercent: 0
+    force: 0
+    velocity: 0
+    targetPoint: {x: 0, y: 0, z: 0}
+    overflow: 0
+    prevOverflow: 0
+    overflowVelocity: 0
+    bottomOutForce: 0
+    bottomedOut: 0
+    overExtended: 0
+  damper:
+    dampingCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 100
+        value: 400
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    unitBumpForce: 800
+    unitReboundForce: 1000
+    force: 0
+    maxForce: 0
+  fFriction:
+    forceCoefficient: 1.1
+    slipCoefficient: 1
+    maxForce: 0
+    slip: 0
+    speed: 0
+    force: 0
+  sFriction:
+    forceCoefficient: 1.1
+    slipCoefficient: 1
+    maxForce: 0
+    slip: 0
+    speed: 0
+    force: 0
+  wheelHits: []
+  scanIgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 1048580
+  forwardScanResolution: 8
+  sideToSideScanResolution: 3
+  hasHit: 1
+  prevHasHit: 1
+  debug: 0
+  parent: {fileID: 1191057322584292}
+  useRimCollider: 1
+  vehicleSide: -1
+  activeFrictionPresetEnum: 0
+  activeFrictionPreset:
+    name: TarmacDry
+    BCDE: {x: 12.5, y: 2.05, z: 0.92, w: 0.97}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 22.237984
+        outSlope: 22.237984
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.016949153
+        value: 0.37691498
+        inSlope: 19.13816
+        outSlope: 19.13816
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.033898305
+        value: 0.6487512
+        inSlope: 12.548119
+        outSlope: 12.548119
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.050847456
+        value: 0.8022749
+        inSlope: 6.718657
+        outSlope: 6.718657
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.06779661
+        value: 0.8765023
+        inSlope: 3.1222453
+        outSlope: 3.1222453
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.084745765
+        value: 0.9081137
+        inSlope: 1.247359
+        outSlope: 1.247359
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.10169491
+        value: 0.91878563
+        inSlope: 0.33695725
+        outSlope: 0.33695725
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.118644066
+        value: 0.919536
+        inSlope: -0.09050511
+        outSlope: -0.09050511
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.13559322
+        value: 0.91571766
+        inSlope: -0.28383082
+        outSlope: -0.28383082
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.15254237
+        value: 0.9099146
+        inSlope: -0.36400563
+        outSlope: -0.36400563
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.16949153
+        value: 0.9033785
+        inSlope: -0.3894347
+        outSlope: -0.3894347
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.18644068
+        value: 0.89671344
+        inSlope: -0.38863304
+        outSlope: -0.38863304
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.20338982
+        value: 0.8902045
+        inSlope: -0.37572318
+        outSlope: -0.37572318
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.22033899
+        value: 0.88397706
+        inSlope: -0.35778636
+        outSlope: -0.35778636
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.23728813
+        value: 0.87807614
+        inSlope: -0.33837435
+        outSlope: -0.33837435
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.2542373
+        value: 0.87250674
+        inSlope: -0.31922954
+        outSlope: -0.31922954
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.27118644
+        value: 0.8672548
+        inSlope: -0.30116454
+        outSlope: -0.30116454
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.2881356
+        value: 0.8622978
+        inSlope: -0.28451484
+        outSlope: -0.28451484
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.30508474
+        value: 0.8576102
+        inSlope: -0.26936126
+        outSlope: -0.26936126
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.3220339
+        value: 0.8531669
+        inSlope: -0.25566205
+        outSlope: -0.25566205
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.33898306
+        value: 0.8489437
+        inSlope: -0.24332051
+        outSlope: -0.24332051
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.3559322
+        value: 0.8449187
+        inSlope: -0.23221134
+        outSlope: -0.23221134
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.37288135
+        value: 0.84107214
+        inSlope: -0.22221343
+        outSlope: -0.22221343
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.3898305
+        value: 0.8373861
+        inSlope: -0.21320371
+        outSlope: -0.21320371
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.40677965
+        value: 0.8338449
+        inSlope: -0.20506947
+        outSlope: -0.20506947
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.42372882
+        value: 0.83043456
+        inSlope: -0.19771609
+        outSlope: -0.19771609
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.44067797
+        value: 0.82714266
+        inSlope: -0.19104865
+        outSlope: -0.19104865
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.45762712
+        value: 0.82395834
+        inSlope: -0.18499294
+        outSlope: -0.18499294
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.47457626
+        value: 0.8208717
+        inSlope: -0.17947704
+        outSlope: -0.17947704
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.4915254
+        value: 0.8178744
+        inSlope: -0.17443925
+        outSlope: -0.17443925
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5084746
+        value: 0.8149585
+        inSlope: -0.1698343
+        outSlope: -0.1698343
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5254237
+        value: 0.8121173
+        inSlope: -0.16560376
+        outSlope: -0.16560376
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5423729
+        value: 0.8093448
+        inSlope: -0.16171578
+        outSlope: -0.16171578
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.55932206
+        value: 0.8066354
+        inSlope: -0.15813434
+        outSlope: -0.15813434
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5762712
+        value: 0.80398434
+        inSlope: -0.15482163
+        outSlope: -0.15482163
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.59322035
+        value: 0.8013872
+        inSlope: -0.15175508
+        outSlope: -0.15175508
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6101695
+        value: 0.7988401
+        inSlope: -0.14891186
+        outSlope: -0.14891186
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.62711865
+        value: 0.79633933
+        inSlope: -0.14627057
+        outSlope: -0.14627057
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6440678
+        value: 0.7938818
+        inSlope: -0.14380388
+        outSlope: -0.14380388
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.66101694
+        value: 0.7914646
+        inSlope: -0.14150047
+        outSlope: -0.14150047
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6779661
+        value: 0.78908515
+        inSlope: -0.1393465
+        outSlope: -0.1393465
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.69491524
+        value: 0.786741
+        inSlope: -0.13733144
+        outSlope: -0.13733144
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7118644
+        value: 0.78442985
+        inSlope: -0.13543396
+        outSlope: -0.13543396
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7288136
+        value: 0.78215003
+        inSlope: -0.13365124
+        outSlope: -0.13365124
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7457627
+        value: 0.7798993
+        inSlope: -0.13197203
+        outSlope: -0.13197203
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7627119
+        value: 0.7776764
+        inSlope: -0.13038072
+        outSlope: -0.13038072
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.779661
+        value: 0.7754796
+        inSlope: -0.12888615
+        outSlope: -0.12888615
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7966102
+        value: 0.7733074
+        inSlope: -0.12746014
+        outSlope: -0.12746014
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.8135593
+        value: 0.77115893
+        inSlope: -0.12611501
+        outSlope: -0.12611501
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.8305085
+        value: 0.7690323
+        inSlope: -0.124836475
+        outSlope: -0.124836475
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.84745765
+        value: 0.7669272
+        inSlope: -0.123605855
+        outSlope: -0.123605855
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.86440676
+        value: 0.7648423
+        inSlope: -0.12244536
+        outSlope: -0.12244536
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.88135594
+        value: 0.7627765
+        inSlope: -0.121339366
+        outSlope: -0.121339366
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.89830506
+        value: 0.7607291
+        inSlope: -0.12027909
+        outSlope: -0.12027909
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.91525424
+        value: 0.75869924
+        inSlope: -0.11926607
+        outSlope: -0.11926607
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9322034
+        value: 0.75668615
+        inSlope: -0.11829216
+        outSlope: -0.11829216
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9491525
+        value: 0.75468934
+        inSlope: -0.11735849
+        outSlope: -0.11735849
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9661017
+        value: 0.7527079
+        inSlope: -0.11645997
+        outSlope: -0.11645997
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9830508
+        value: 0.75074154
+        inSlope: -0.1155896
+        outSlope: -0.1155896
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 0.7487896
+        inSlope: -0.11516388
+        outSlope: -0.11516388
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  wheelHit:
+    angleForward: 0
+    distanceFromTire: 0
+    offset: {x: 0, y: 0}
+    weight: 0
+    valid: 0
+    curvatureOffset: 0
+    groundPoint: {x: 0, y: 0, z: 0}
+    forwardDir: {x: 0, y: 0, z: 0}
+    forwardSlip: 0
+    sidewaysDir: {x: 0, y: 0, z: 0}
+    sidewaysSlip: 0
+    force: 0
+  singleRay: 0
+  singleWheelHit:
+    angleForward: 0
+    distanceFromTire: 0
+    offset: {x: 0, y: 0}
+    weight: 0
+    valid: 0
+    curvatureOffset: 0
+    groundPoint: {x: 0, y: 0, z: 0}
+    forwardDir: {x: 0, y: 0, z: 0}
+    forwardSlip: 0
+    sidewaysDir: {x: 0, y: 0, z: 0}
+    sidewaysSlip: 0
+    force: 0
+  trackedVehicle: 0
+  trackedOffset: 0
+  applyForceToOthers: 0
+  maxPutDownForce: 0
+--- !u!114 &114284589197989428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1095339129215000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fc64011ec59d184a9dc2eabf8397a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheel:
+    mass: 25
+    rimOffset: 0.07
+    tireRadius: 0.25
+    width: 0.17
+    rpm: 0
+    prevWorldPosition: {x: 0, y: 0, z: 0}
+    worldPosition: {x: 102.34719, y: 3.73494, z: 48.625336}
+    prevGroundPoint: {x: 0, y: 0, z: 0}
+    worldRotation: {x: 0, y: 0, z: 0, w: 0}
+    camberCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: -3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: -0.5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    camberAngle: 0
+    inertia: 0
+    angularVelocity: 0
+    freeRollingAngularVelocity: 0
+    residualAngularVelocity: 0
+    steerAngle: 0
+    rotationAngle: 0
+    visual: {fileID: 1730960558237712}
+    nonRotating: {fileID: 0}
+    rim: {fileID: 0}
+    rimCollider: {fileID: 0}
+    up: {x: -0.0000013868002, y: 1, z: -2.842171e-13}
+    inside: {x: 0, y: 0, z: 0}
+    forward: {x: 1.0000001, y: 0.0000013868002, z: 0.000000059604165}
+    right: {x: 0.000000059604165, y: -5.684342e-14, z: -1.0000001}
+    velocity: {x: 0, y: 0, z: 0}
+    prevVelocity: {x: 0, y: 0, z: 0}
+    acceleration: {x: 0, y: 0, z: 0}
+    tireLoad: 0
+    motorTorque: 0
+    brakeTorque: 0
+    nonRotatingPostionOffset: {x: 0, y: 0, z: 0}
+  spring:
+    maxLength: 0.25
+    forceCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0.38864458
+        outSlope: 0.38864458
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 1.938452
+        outSlope: 1.938452
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    maxForce: 22000
+    length: 0
+    prevLength: 0
+    compressionPercent: 0
+    force: 0
+    velocity: 0
+    targetPoint: {x: 0, y: 0, z: 0}
+    overflow: 0
+    prevOverflow: 0
+    overflowVelocity: 0
+    bottomOutForce: 0
+    bottomedOut: 0
+    overExtended: 0
+  damper:
+    dampingCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 100
+        value: 400
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    unitBumpForce: 800
+    unitReboundForce: 1000
+    force: 0
+    maxForce: 0
+  fFriction:
+    forceCoefficient: 1.1
+    slipCoefficient: 1
+    maxForce: 0
+    slip: 0
+    speed: 0
+    force: 0
+  sFriction:
+    forceCoefficient: 1.1
+    slipCoefficient: 1
+    maxForce: 0
+    slip: 0
+    speed: 0
+    force: 0
+  wheelHits: []
+  scanIgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 1048580
+  forwardScanResolution: 8
+  sideToSideScanResolution: 3
+  hasHit: 1
+  prevHasHit: 1
+  debug: 0
+  parent: {fileID: 1191057322584292}
+  useRimCollider: 1
+  vehicleSide: 1
+  activeFrictionPresetEnum: 0
+  activeFrictionPreset:
+    name: TarmacDry
+    BCDE: {x: 12.5, y: 2.05, z: 0.92, w: 0.97}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 22.237984
+        outSlope: 22.237984
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.016949153
+        value: 0.37691498
+        inSlope: 19.13816
+        outSlope: 19.13816
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.033898305
+        value: 0.6487512
+        inSlope: 12.548119
+        outSlope: 12.548119
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.050847456
+        value: 0.8022749
+        inSlope: 6.718657
+        outSlope: 6.718657
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.06779661
+        value: 0.8765023
+        inSlope: 3.1222453
+        outSlope: 3.1222453
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.084745765
+        value: 0.9081137
+        inSlope: 1.247359
+        outSlope: 1.247359
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.10169491
+        value: 0.91878563
+        inSlope: 0.33695725
+        outSlope: 0.33695725
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.118644066
+        value: 0.919536
+        inSlope: -0.09050511
+        outSlope: -0.09050511
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.13559322
+        value: 0.91571766
+        inSlope: -0.28383082
+        outSlope: -0.28383082
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.15254237
+        value: 0.9099146
+        inSlope: -0.36400563
+        outSlope: -0.36400563
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.16949153
+        value: 0.9033785
+        inSlope: -0.3894347
+        outSlope: -0.3894347
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.18644068
+        value: 0.89671344
+        inSlope: -0.38863304
+        outSlope: -0.38863304
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.20338982
+        value: 0.8902045
+        inSlope: -0.37572318
+        outSlope: -0.37572318
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.22033899
+        value: 0.88397706
+        inSlope: -0.35778636
+        outSlope: -0.35778636
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.23728813
+        value: 0.87807614
+        inSlope: -0.33837435
+        outSlope: -0.33837435
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.2542373
+        value: 0.87250674
+        inSlope: -0.31922954
+        outSlope: -0.31922954
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.27118644
+        value: 0.8672548
+        inSlope: -0.30116454
+        outSlope: -0.30116454
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.2881356
+        value: 0.8622978
+        inSlope: -0.28451484
+        outSlope: -0.28451484
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.30508474
+        value: 0.8576102
+        inSlope: -0.26936126
+        outSlope: -0.26936126
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.3220339
+        value: 0.8531669
+        inSlope: -0.25566205
+        outSlope: -0.25566205
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.33898306
+        value: 0.8489437
+        inSlope: -0.24332051
+        outSlope: -0.24332051
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.3559322
+        value: 0.8449187
+        inSlope: -0.23221134
+        outSlope: -0.23221134
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.37288135
+        value: 0.84107214
+        inSlope: -0.22221343
+        outSlope: -0.22221343
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.3898305
+        value: 0.8373861
+        inSlope: -0.21320371
+        outSlope: -0.21320371
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.40677965
+        value: 0.8338449
+        inSlope: -0.20506947
+        outSlope: -0.20506947
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.42372882
+        value: 0.83043456
+        inSlope: -0.19771609
+        outSlope: -0.19771609
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.44067797
+        value: 0.82714266
+        inSlope: -0.19104865
+        outSlope: -0.19104865
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.45762712
+        value: 0.82395834
+        inSlope: -0.18499294
+        outSlope: -0.18499294
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.47457626
+        value: 0.8208717
+        inSlope: -0.17947704
+        outSlope: -0.17947704
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.4915254
+        value: 0.8178744
+        inSlope: -0.17443925
+        outSlope: -0.17443925
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5084746
+        value: 0.8149585
+        inSlope: -0.1698343
+        outSlope: -0.1698343
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5254237
+        value: 0.8121173
+        inSlope: -0.16560376
+        outSlope: -0.16560376
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5423729
+        value: 0.8093448
+        inSlope: -0.16171578
+        outSlope: -0.16171578
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.55932206
+        value: 0.8066354
+        inSlope: -0.15813434
+        outSlope: -0.15813434
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5762712
+        value: 0.80398434
+        inSlope: -0.15482163
+        outSlope: -0.15482163
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.59322035
+        value: 0.8013872
+        inSlope: -0.15175508
+        outSlope: -0.15175508
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6101695
+        value: 0.7988401
+        inSlope: -0.14891186
+        outSlope: -0.14891186
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.62711865
+        value: 0.79633933
+        inSlope: -0.14627057
+        outSlope: -0.14627057
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6440678
+        value: 0.7938818
+        inSlope: -0.14380388
+        outSlope: -0.14380388
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.66101694
+        value: 0.7914646
+        inSlope: -0.14150047
+        outSlope: -0.14150047
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6779661
+        value: 0.78908515
+        inSlope: -0.1393465
+        outSlope: -0.1393465
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.69491524
+        value: 0.786741
+        inSlope: -0.13733144
+        outSlope: -0.13733144
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7118644
+        value: 0.78442985
+        inSlope: -0.13543396
+        outSlope: -0.13543396
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7288136
+        value: 0.78215003
+        inSlope: -0.13365124
+        outSlope: -0.13365124
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7457627
+        value: 0.7798993
+        inSlope: -0.13197203
+        outSlope: -0.13197203
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7627119
+        value: 0.7776764
+        inSlope: -0.13038072
+        outSlope: -0.13038072
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.779661
+        value: 0.7754796
+        inSlope: -0.12888615
+        outSlope: -0.12888615
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7966102
+        value: 0.7733074
+        inSlope: -0.12746014
+        outSlope: -0.12746014
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.8135593
+        value: 0.77115893
+        inSlope: -0.12611501
+        outSlope: -0.12611501
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.8305085
+        value: 0.7690323
+        inSlope: -0.124836475
+        outSlope: -0.124836475
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.84745765
+        value: 0.7669272
+        inSlope: -0.123605855
+        outSlope: -0.123605855
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.86440676
+        value: 0.7648423
+        inSlope: -0.12244536
+        outSlope: -0.12244536
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.88135594
+        value: 0.7627765
+        inSlope: -0.121339366
+        outSlope: -0.121339366
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.89830506
+        value: 0.7607291
+        inSlope: -0.12027909
+        outSlope: -0.12027909
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.91525424
+        value: 0.75869924
+        inSlope: -0.11926607
+        outSlope: -0.11926607
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9322034
+        value: 0.75668615
+        inSlope: -0.11829216
+        outSlope: -0.11829216
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9491525
+        value: 0.75468934
+        inSlope: -0.11735849
+        outSlope: -0.11735849
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9661017
+        value: 0.7527079
+        inSlope: -0.11645997
+        outSlope: -0.11645997
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9830508
+        value: 0.75074154
+        inSlope: -0.1155896
+        outSlope: -0.1155896
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 0.7487896
+        inSlope: -0.11516388
+        outSlope: -0.11516388
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  wheelHit:
+    angleForward: 0
+    distanceFromTire: 0
+    offset: {x: 0, y: 0}
+    weight: 0
+    valid: 0
+    curvatureOffset: 0
+    groundPoint: {x: 0, y: 0, z: 0}
+    forwardDir: {x: 0, y: 0, z: 0}
+    forwardSlip: 0
+    sidewaysDir: {x: 0, y: 0, z: 0}
+    sidewaysSlip: 0
+    force: 0
+  singleRay: 0
+  singleWheelHit:
+    angleForward: 0
+    distanceFromTire: 0
+    offset: {x: 0, y: 0}
+    weight: 0
+    valid: 0
+    curvatureOffset: 0
+    groundPoint: {x: 0, y: 0, z: 0}
+    forwardDir: {x: 0, y: 0, z: 0}
+    forwardSlip: 0
+    sidewaysDir: {x: 0, y: 0, z: 0}
+    sidewaysSlip: 0
+    force: 0
+  trackedVehicle: 0
+  trackedOffset: 0
+  applyForceToOthers: 0
+  maxPutDownForce: 0
+--- !u!114 &114344984189972926
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282516784725390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed8c99d9552ef84689c55f411f2f0a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 4125302086907454}
+  distance: 4
+  minDistance: 4
+  maxDistance: 9
+  horizontalMouseSensitivity: 5
+  verticalMouseSensitivity: 5
+  mouseWheelSensitivity: 5
+  verticalMinAngle: -40
+  verticalMaxAngle: 80
+  smoothing: 0.1
+  distanceSmoothing: 0.05
+  followTargetsRotation: 1
+--- !u!114 &114347743269992984
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1473367709009580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fc64011ec59d184a9dc2eabf8397a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheel:
+    mass: 25
+    rimOffset: 0.07
+    tireRadius: 0.25
+    width: 0.17
+    rpm: 0
+    prevWorldPosition: {x: 0, y: 0, z: 0}
+    worldPosition: {x: 104.63535, y: 3.7349405, z: 48.625336}
+    prevGroundPoint: {x: 0, y: 0, z: 0}
+    worldRotation: {x: 0, y: 0, z: 0, w: 0}
+    camberCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: -3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: -0.5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    camberAngle: 0
+    inertia: 0
+    angularVelocity: 0
+    freeRollingAngularVelocity: 0
+    residualAngularVelocity: 0
+    steerAngle: 0
+    rotationAngle: 0
+    visual: {fileID: 1100434485853706}
+    nonRotating: {fileID: 0}
+    rim: {fileID: 0}
+    rimCollider: {fileID: 0}
+    up: {x: -0.0000013868002, y: 1, z: -2.842171e-13}
+    inside: {x: 0, y: 0, z: 0}
+    forward: {x: 1.0000001, y: 0.0000013868002, z: 0.000000059604165}
+    right: {x: 0.000000059604165, y: -5.684342e-14, z: -1.0000001}
+    velocity: {x: 0, y: 0, z: 0}
+    prevVelocity: {x: 0, y: 0, z: 0}
+    acceleration: {x: 0, y: 0, z: 0}
+    tireLoad: 0
+    motorTorque: 0
+    brakeTorque: 0
+    nonRotatingPostionOffset: {x: 0, y: 0, z: 0}
+  spring:
+    maxLength: 0.25
+    forceCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0.38864458
+        outSlope: 0.38864458
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 1.938452
+        outSlope: 1.938452
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    maxForce: 22000
+    length: 0
+    prevLength: 0
+    compressionPercent: 0
+    force: 0
+    velocity: 0
+    targetPoint: {x: 0, y: 0, z: 0}
+    overflow: 0
+    prevOverflow: 0
+    overflowVelocity: 0
+    bottomOutForce: 0
+    bottomedOut: 0
+    overExtended: 0
+  damper:
+    dampingCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 100
+        value: 400
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    unitBumpForce: 800
+    unitReboundForce: 1000
+    force: 0
+    maxForce: 0
+  fFriction:
+    forceCoefficient: 1.1
+    slipCoefficient: 1
+    maxForce: 0
+    slip: 0
+    speed: 0
+    force: 0
+  sFriction:
+    forceCoefficient: 1.1
+    slipCoefficient: 1
+    maxForce: 0
+    slip: 0
+    speed: 0
+    force: 0
+  wheelHits: []
+  scanIgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 1048580
+  forwardScanResolution: 8
+  sideToSideScanResolution: 3
+  hasHit: 1
+  prevHasHit: 1
+  debug: 0
+  parent: {fileID: 1191057322584292}
+  useRimCollider: 1
+  vehicleSide: 1
+  activeFrictionPresetEnum: 0
+  activeFrictionPreset:
+    name: TarmacDry
+    BCDE: {x: 12.5, y: 2.05, z: 0.92, w: 0.97}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 22.237984
+        outSlope: 22.237984
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.016949153
+        value: 0.37691498
+        inSlope: 19.13816
+        outSlope: 19.13816
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.033898305
+        value: 0.6487512
+        inSlope: 12.548119
+        outSlope: 12.548119
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.050847456
+        value: 0.8022749
+        inSlope: 6.718657
+        outSlope: 6.718657
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.06779661
+        value: 0.8765023
+        inSlope: 3.1222453
+        outSlope: 3.1222453
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.084745765
+        value: 0.9081137
+        inSlope: 1.247359
+        outSlope: 1.247359
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.10169491
+        value: 0.91878563
+        inSlope: 0.33695725
+        outSlope: 0.33695725
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.118644066
+        value: 0.919536
+        inSlope: -0.09050511
+        outSlope: -0.09050511
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.13559322
+        value: 0.91571766
+        inSlope: -0.28383082
+        outSlope: -0.28383082
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.15254237
+        value: 0.9099146
+        inSlope: -0.36400563
+        outSlope: -0.36400563
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.16949153
+        value: 0.9033785
+        inSlope: -0.3894347
+        outSlope: -0.3894347
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.18644068
+        value: 0.89671344
+        inSlope: -0.38863304
+        outSlope: -0.38863304
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.20338982
+        value: 0.8902045
+        inSlope: -0.37572318
+        outSlope: -0.37572318
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.22033899
+        value: 0.88397706
+        inSlope: -0.35778636
+        outSlope: -0.35778636
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.23728813
+        value: 0.87807614
+        inSlope: -0.33837435
+        outSlope: -0.33837435
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.2542373
+        value: 0.87250674
+        inSlope: -0.31922954
+        outSlope: -0.31922954
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.27118644
+        value: 0.8672548
+        inSlope: -0.30116454
+        outSlope: -0.30116454
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.2881356
+        value: 0.8622978
+        inSlope: -0.28451484
+        outSlope: -0.28451484
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.30508474
+        value: 0.8576102
+        inSlope: -0.26936126
+        outSlope: -0.26936126
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.3220339
+        value: 0.8531669
+        inSlope: -0.25566205
+        outSlope: -0.25566205
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.33898306
+        value: 0.8489437
+        inSlope: -0.24332051
+        outSlope: -0.24332051
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.3559322
+        value: 0.8449187
+        inSlope: -0.23221134
+        outSlope: -0.23221134
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.37288135
+        value: 0.84107214
+        inSlope: -0.22221343
+        outSlope: -0.22221343
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.3898305
+        value: 0.8373861
+        inSlope: -0.21320371
+        outSlope: -0.21320371
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.40677965
+        value: 0.8338449
+        inSlope: -0.20506947
+        outSlope: -0.20506947
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.42372882
+        value: 0.83043456
+        inSlope: -0.19771609
+        outSlope: -0.19771609
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.44067797
+        value: 0.82714266
+        inSlope: -0.19104865
+        outSlope: -0.19104865
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.45762712
+        value: 0.82395834
+        inSlope: -0.18499294
+        outSlope: -0.18499294
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.47457626
+        value: 0.8208717
+        inSlope: -0.17947704
+        outSlope: -0.17947704
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.4915254
+        value: 0.8178744
+        inSlope: -0.17443925
+        outSlope: -0.17443925
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5084746
+        value: 0.8149585
+        inSlope: -0.1698343
+        outSlope: -0.1698343
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5254237
+        value: 0.8121173
+        inSlope: -0.16560376
+        outSlope: -0.16560376
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5423729
+        value: 0.8093448
+        inSlope: -0.16171578
+        outSlope: -0.16171578
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.55932206
+        value: 0.8066354
+        inSlope: -0.15813434
+        outSlope: -0.15813434
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5762712
+        value: 0.80398434
+        inSlope: -0.15482163
+        outSlope: -0.15482163
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.59322035
+        value: 0.8013872
+        inSlope: -0.15175508
+        outSlope: -0.15175508
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6101695
+        value: 0.7988401
+        inSlope: -0.14891186
+        outSlope: -0.14891186
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.62711865
+        value: 0.79633933
+        inSlope: -0.14627057
+        outSlope: -0.14627057
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6440678
+        value: 0.7938818
+        inSlope: -0.14380388
+        outSlope: -0.14380388
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.66101694
+        value: 0.7914646
+        inSlope: -0.14150047
+        outSlope: -0.14150047
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6779661
+        value: 0.78908515
+        inSlope: -0.1393465
+        outSlope: -0.1393465
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.69491524
+        value: 0.786741
+        inSlope: -0.13733144
+        outSlope: -0.13733144
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7118644
+        value: 0.78442985
+        inSlope: -0.13543396
+        outSlope: -0.13543396
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7288136
+        value: 0.78215003
+        inSlope: -0.13365124
+        outSlope: -0.13365124
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7457627
+        value: 0.7798993
+        inSlope: -0.13197203
+        outSlope: -0.13197203
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7627119
+        value: 0.7776764
+        inSlope: -0.13038072
+        outSlope: -0.13038072
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.779661
+        value: 0.7754796
+        inSlope: -0.12888615
+        outSlope: -0.12888615
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7966102
+        value: 0.7733074
+        inSlope: -0.12746014
+        outSlope: -0.12746014
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.8135593
+        value: 0.77115893
+        inSlope: -0.12611501
+        outSlope: -0.12611501
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.8305085
+        value: 0.7690323
+        inSlope: -0.124836475
+        outSlope: -0.124836475
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.84745765
+        value: 0.7669272
+        inSlope: -0.123605855
+        outSlope: -0.123605855
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.86440676
+        value: 0.7648423
+        inSlope: -0.12244536
+        outSlope: -0.12244536
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.88135594
+        value: 0.7627765
+        inSlope: -0.121339366
+        outSlope: -0.121339366
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.89830506
+        value: 0.7607291
+        inSlope: -0.12027909
+        outSlope: -0.12027909
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.91525424
+        value: 0.75869924
+        inSlope: -0.11926607
+        outSlope: -0.11926607
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9322034
+        value: 0.75668615
+        inSlope: -0.11829216
+        outSlope: -0.11829216
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9491525
+        value: 0.75468934
+        inSlope: -0.11735849
+        outSlope: -0.11735849
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9661017
+        value: 0.7527079
+        inSlope: -0.11645997
+        outSlope: -0.11645997
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9830508
+        value: 0.75074154
+        inSlope: -0.1155896
+        outSlope: -0.1155896
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 0.7487896
+        inSlope: -0.11516388
+        outSlope: -0.11516388
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  wheelHit:
+    angleForward: 0
+    distanceFromTire: 0
+    offset: {x: 0, y: 0}
+    weight: 0
+    valid: 0
+    curvatureOffset: 0
+    groundPoint: {x: 0, y: 0, z: 0}
+    forwardDir: {x: 0, y: 0, z: 0}
+    forwardSlip: 0
+    sidewaysDir: {x: 0, y: 0, z: 0}
+    sidewaysSlip: 0
+    force: 0
+  singleRay: 0
+  singleWheelHit:
+    angleForward: 0
+    distanceFromTire: 0
+    offset: {x: 0, y: 0}
+    weight: 0
+    valid: 0
+    curvatureOffset: 0
+    groundPoint: {x: 0, y: 0, z: 0}
+    forwardDir: {x: 0, y: 0, z: 0}
+    forwardSlip: 0
+    sidewaysDir: {x: 0, y: 0, z: 0}
+    sidewaysSlip: 0
+    force: 0
+  trackedVehicle: 0
+  trackedOffset: 0
+  applyForceToOthers: 0
+  maxPutDownForce: 0
+--- !u!114 &114442076334152960
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1191057322584292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fde3b0a987d9ab4ba8272b85857ae03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  centerOfMassOffset: {x: 0.0016147883, y: -0.3090611, z: 0.11104062}
+  showCOM: 1
+--- !u!114 &114466393066539652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1427934257168084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fc4c112cdc0434e8fb02f42cb2c11c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vehicleController: {fileID: 114079937972883766}
+  positionSmoothing: 0.276
+  positionIntensity: 0.434
+  maxPositionOffsetMagnitude: 0.282
+--- !u!114 &114779041982590018
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1190913732512038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fc64011ec59d184a9dc2eabf8397a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheel:
+    mass: 25
+    rimOffset: 0.07
+    tireRadius: 0.25
+    width: 0.17
+    rpm: 0
+    prevWorldPosition: {x: 0, y: 0, z: 0}
+    worldPosition: {x: 102.34719, y: 3.73494, z: 49.96222}
+    prevGroundPoint: {x: 0, y: 0, z: 0}
+    worldRotation: {x: 0, y: 0, z: 0, w: 0}
+    camberCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: -3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: -0.5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    camberAngle: 0
+    inertia: 0
+    angularVelocity: 0
+    freeRollingAngularVelocity: 0
+    residualAngularVelocity: 0
+    steerAngle: 0
+    rotationAngle: 0
+    visual: {fileID: 1631378846309116}
+    nonRotating: {fileID: 0}
+    rim: {fileID: 0}
+    rimCollider: {fileID: 0}
+    up: {x: 0.0000001629207, y: 1, z: 0}
+    inside: {x: 0, y: 0, z: 0}
+    forward: {x: 1.0000001, y: -0.0000001629207, z: -0.00000011920929}
+    right: {x: -0.00000011920929, y: 0, z: -1.0000001}
+    velocity: {x: 0, y: 0, z: 0}
+    prevVelocity: {x: 0, y: 0, z: 0}
+    acceleration: {x: 0, y: 0, z: 0}
+    tireLoad: 0
+    motorTorque: 0
+    brakeTorque: 0
+    nonRotatingPostionOffset: {x: 0, y: 0, z: 0}
+  spring:
+    maxLength: 0.25
+    forceCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0.38864458
+        outSlope: 0.38864458
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 1.938452
+        outSlope: 1.938452
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    maxForce: 22000
+    length: 0
+    prevLength: 0
+    compressionPercent: 0
+    force: 0
+    velocity: 0
+    targetPoint: {x: 0, y: 0, z: 0}
+    overflow: 0
+    prevOverflow: 0
+    overflowVelocity: 0
+    bottomOutForce: 0
+    bottomedOut: 0
+    overExtended: 0
+  damper:
+    dampingCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 100
+        value: 400
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    unitBumpForce: 800
+    unitReboundForce: 1000
+    force: 0
+    maxForce: 0
+  fFriction:
+    forceCoefficient: 1.1
+    slipCoefficient: 1
+    maxForce: 0
+    slip: 0
+    speed: 0
+    force: 0
+  sFriction:
+    forceCoefficient: 1.1
+    slipCoefficient: 1
+    maxForce: 0
+    slip: 0
+    speed: 0
+    force: 0
+  wheelHits: []
+  scanIgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 1048580
+  forwardScanResolution: 8
+  sideToSideScanResolution: 3
+  hasHit: 1
+  prevHasHit: 1
+  debug: 0
+  parent: {fileID: 1191057322584292}
+  useRimCollider: 1
+  vehicleSide: -1
+  activeFrictionPresetEnum: 0
+  activeFrictionPreset:
+    name: TarmacDry
+    BCDE: {x: 12.5, y: 2.05, z: 0.92, w: 0.97}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 22.237984
+        outSlope: 22.237984
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.016949153
+        value: 0.37691498
+        inSlope: 19.13816
+        outSlope: 19.13816
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.033898305
+        value: 0.6487512
+        inSlope: 12.548119
+        outSlope: 12.548119
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.050847456
+        value: 0.8022749
+        inSlope: 6.718657
+        outSlope: 6.718657
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.06779661
+        value: 0.8765023
+        inSlope: 3.1222453
+        outSlope: 3.1222453
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.084745765
+        value: 0.9081137
+        inSlope: 1.247359
+        outSlope: 1.247359
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.10169491
+        value: 0.91878563
+        inSlope: 0.33695725
+        outSlope: 0.33695725
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.118644066
+        value: 0.919536
+        inSlope: -0.09050511
+        outSlope: -0.09050511
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.13559322
+        value: 0.91571766
+        inSlope: -0.28383082
+        outSlope: -0.28383082
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.15254237
+        value: 0.9099146
+        inSlope: -0.36400563
+        outSlope: -0.36400563
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.16949153
+        value: 0.9033785
+        inSlope: -0.3894347
+        outSlope: -0.3894347
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.18644068
+        value: 0.89671344
+        inSlope: -0.38863304
+        outSlope: -0.38863304
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.20338982
+        value: 0.8902045
+        inSlope: -0.37572318
+        outSlope: -0.37572318
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.22033899
+        value: 0.88397706
+        inSlope: -0.35778636
+        outSlope: -0.35778636
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.23728813
+        value: 0.87807614
+        inSlope: -0.33837435
+        outSlope: -0.33837435
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.2542373
+        value: 0.87250674
+        inSlope: -0.31922954
+        outSlope: -0.31922954
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.27118644
+        value: 0.8672548
+        inSlope: -0.30116454
+        outSlope: -0.30116454
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.2881356
+        value: 0.8622978
+        inSlope: -0.28451484
+        outSlope: -0.28451484
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.30508474
+        value: 0.8576102
+        inSlope: -0.26936126
+        outSlope: -0.26936126
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.3220339
+        value: 0.8531669
+        inSlope: -0.25566205
+        outSlope: -0.25566205
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.33898306
+        value: 0.8489437
+        inSlope: -0.24332051
+        outSlope: -0.24332051
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.3559322
+        value: 0.8449187
+        inSlope: -0.23221134
+        outSlope: -0.23221134
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.37288135
+        value: 0.84107214
+        inSlope: -0.22221343
+        outSlope: -0.22221343
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.3898305
+        value: 0.8373861
+        inSlope: -0.21320371
+        outSlope: -0.21320371
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.40677965
+        value: 0.8338449
+        inSlope: -0.20506947
+        outSlope: -0.20506947
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.42372882
+        value: 0.83043456
+        inSlope: -0.19771609
+        outSlope: -0.19771609
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.44067797
+        value: 0.82714266
+        inSlope: -0.19104865
+        outSlope: -0.19104865
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.45762712
+        value: 0.82395834
+        inSlope: -0.18499294
+        outSlope: -0.18499294
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.47457626
+        value: 0.8208717
+        inSlope: -0.17947704
+        outSlope: -0.17947704
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.4915254
+        value: 0.8178744
+        inSlope: -0.17443925
+        outSlope: -0.17443925
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5084746
+        value: 0.8149585
+        inSlope: -0.1698343
+        outSlope: -0.1698343
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5254237
+        value: 0.8121173
+        inSlope: -0.16560376
+        outSlope: -0.16560376
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5423729
+        value: 0.8093448
+        inSlope: -0.16171578
+        outSlope: -0.16171578
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.55932206
+        value: 0.8066354
+        inSlope: -0.15813434
+        outSlope: -0.15813434
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5762712
+        value: 0.80398434
+        inSlope: -0.15482163
+        outSlope: -0.15482163
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.59322035
+        value: 0.8013872
+        inSlope: -0.15175508
+        outSlope: -0.15175508
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6101695
+        value: 0.7988401
+        inSlope: -0.14891186
+        outSlope: -0.14891186
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.62711865
+        value: 0.79633933
+        inSlope: -0.14627057
+        outSlope: -0.14627057
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6440678
+        value: 0.7938818
+        inSlope: -0.14380388
+        outSlope: -0.14380388
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.66101694
+        value: 0.7914646
+        inSlope: -0.14150047
+        outSlope: -0.14150047
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6779661
+        value: 0.78908515
+        inSlope: -0.1393465
+        outSlope: -0.1393465
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.69491524
+        value: 0.786741
+        inSlope: -0.13733144
+        outSlope: -0.13733144
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7118644
+        value: 0.78442985
+        inSlope: -0.13543396
+        outSlope: -0.13543396
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7288136
+        value: 0.78215003
+        inSlope: -0.13365124
+        outSlope: -0.13365124
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7457627
+        value: 0.7798993
+        inSlope: -0.13197203
+        outSlope: -0.13197203
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7627119
+        value: 0.7776764
+        inSlope: -0.13038072
+        outSlope: -0.13038072
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.779661
+        value: 0.7754796
+        inSlope: -0.12888615
+        outSlope: -0.12888615
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7966102
+        value: 0.7733074
+        inSlope: -0.12746014
+        outSlope: -0.12746014
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.8135593
+        value: 0.77115893
+        inSlope: -0.12611501
+        outSlope: -0.12611501
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.8305085
+        value: 0.7690323
+        inSlope: -0.124836475
+        outSlope: -0.124836475
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.84745765
+        value: 0.7669272
+        inSlope: -0.123605855
+        outSlope: -0.123605855
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.86440676
+        value: 0.7648423
+        inSlope: -0.12244536
+        outSlope: -0.12244536
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.88135594
+        value: 0.7627765
+        inSlope: -0.121339366
+        outSlope: -0.121339366
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.89830506
+        value: 0.7607291
+        inSlope: -0.12027909
+        outSlope: -0.12027909
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.91525424
+        value: 0.75869924
+        inSlope: -0.11926607
+        outSlope: -0.11926607
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9322034
+        value: 0.75668615
+        inSlope: -0.11829216
+        outSlope: -0.11829216
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9491525
+        value: 0.75468934
+        inSlope: -0.11735849
+        outSlope: -0.11735849
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9661017
+        value: 0.7527079
+        inSlope: -0.11645997
+        outSlope: -0.11645997
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9830508
+        value: 0.75074154
+        inSlope: -0.1155896
+        outSlope: -0.1155896
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 0.7487896
+        inSlope: -0.11516388
+        outSlope: -0.11516388
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  wheelHit:
+    angleForward: 0
+    distanceFromTire: 0
+    offset: {x: 0, y: 0}
+    weight: 0
+    valid: 0
+    curvatureOffset: 0
+    groundPoint: {x: 0, y: 0, z: 0}
+    forwardDir: {x: 0, y: 0, z: 0}
+    forwardSlip: 0
+    sidewaysDir: {x: 0, y: 0, z: 0}
+    sidewaysSlip: 0
+    force: 0
+  singleRay: 0
+  singleWheelHit:
+    angleForward: 0
+    distanceFromTire: 0
+    offset: {x: 0, y: 0}
+    weight: 0
+    valid: 0
+    curvatureOffset: 0
+    groundPoint: {x: 0, y: 0, z: 0}
+    forwardDir: {x: 0, y: 0, z: 0}
+    forwardSlip: 0
+    sidewaysDir: {x: 0, y: 0, z: 0}
+    sidewaysSlip: 0
+    force: 0
+  trackedVehicle: 0
+  trackedOffset: 0
+  applyForceToOthers: 0
+  maxPutDownForce: 0
+--- !u!114 &114858637884777456
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938215312317698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e622cbbcdb6d66c4f9cff271d47e58e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 4125302086907454}
+  distance: 5.6
+  height: 3
+  targetUpOffset: 0.1
+  targetForwardOffset: 0
+  smoothing: 0.194
+  angleFollowStrength: 0.27
+--- !u!114 &114868641246060986
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1952036070101662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fc4c112cdc0434e8fb02f42cb2c11c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vehicleController: {fileID: 114079937972883766}
+  positionSmoothing: 0.267
+  positionIntensity: 0
+  maxPositionOffsetMagnitude: 0.2
+--- !u!114 &114959098648790424
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1937912027255472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebbf52df36e2d984489f1a6c789c9e95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentCamera: 0
+  cameraTag: VehicleCamera
+  vehicleCameras: []
+--- !u!114 &114979811953704406
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1427934257168084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b660c5d2e66c601438dc90ebb20d7357, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!124 &124122736033598044
+Behaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1427934257168084}
+  m_Enabled: 1
+--- !u!124 &124124108025029316
+Behaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1952036070101662}
+  m_Enabled: 1
+--- !u!124 &124357001179118614
+Behaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282516784725390}
+  m_Enabled: 1
+--- !u!124 &124691852493013798
+Behaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938215312317698}
+  m_Enabled: 1
