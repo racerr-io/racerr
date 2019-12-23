@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using Racerr.World.Track;
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -14,14 +15,10 @@ namespace Racerr.Infrastructure.Server
     /// </summary>
     public class ServerRaceState : RaceSessionState
     {
-        [SerializeField] double raceFinishTime = 90;
-        [SerializeField] int playerFinishCountdownTime = 30;
-        [SerializeField] int countdownTime = 10;
-
-        public double RaceFinishTime => raceFinishTime;
-        public int PlayerFinishCountdownTime => playerFinishCountdownTime;
-        public int CountdownTime => countdownTime;
-        public double? PlayerFinishRaceFinishTime = null;
+        [SerializeField] int maxRaceLength = 90;
+        [SerializeField] int remainingRaceLengthOnPlayerFinish = 30;
+        [SyncVar] double raceFinishTime;
+        public double LeftOverTime => raceFinishTime - NetworkTime.time;
 
         /// <summary>
         /// Initialises brand new race session data independent of previous race sessions.
@@ -30,6 +27,7 @@ namespace Racerr.Infrastructure.Server
         public override void Enter(object optionalData = null)
         {
             raceSessionData = new RaceSessionData(NetworkTime.time);
+            raceFinishTime = NetworkTime.time + maxRaceLength;
             EnableAllPlayerCarControllers();
         }
 
@@ -85,13 +83,13 @@ namespace Racerr.Infrastructure.Server
         [Server]
         protected override void FixedUpdate()
         {
-            bool isRaceFinished = (raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count) || (CurrentRaceLength >= RaceFinishTime);
-            bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
-
-            if (raceSessionData.FinishedPlayers.Count > 0 && PlayerFinishRaceFinishTime == null)
+            if (raceSessionData.FinishedPlayers.Any())
             {
-                PlayerFinishRaceFinishTime = CurrentRaceLength + PlayerFinishCountdownTime;
+                raceFinishTime = Math.Min(raceFinishTime, NetworkTime.time + remainingRaceLengthOnPlayerFinish);
             }
+
+            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count || CurrentRaceLength >= raceFinishTime;
+            bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
 
             if (isRaceEmpty)
             {

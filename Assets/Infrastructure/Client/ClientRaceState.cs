@@ -15,6 +15,7 @@ namespace Racerr.Infrastructure.Client
     {
         [SerializeField] ServerRaceState serverRaceState;
         [SerializeField] UIView raceView;
+        [SerializeField] int countdownTime = 10;
 
         // TODO: These items should be extracted to their own script, setting text fields is not the responsibility of this class.
         [SerializeField] TextMeshProUGUI raceTimerTMP;
@@ -63,16 +64,14 @@ namespace Racerr.Infrastructure.Client
                 raceTimerTMP.text = serverRaceState.CurrentRaceLength.ToRaceTimeFormat();
 
                 // Countdown Timer. If any player has finished and reduces the current countdown timer, use that as leftover time.
-                double leftoverTime = (serverRaceState.PlayerFinishRaceFinishTime != null && serverRaceState.PlayerFinishRaceFinishTime < serverRaceState.RaceFinishTime) ? (double)serverRaceState.PlayerFinishRaceFinishTime - serverRaceState.CurrentRaceLength : serverRaceState.RaceFinishTime - serverRaceState.CurrentRaceLength;
-
-                if (leftoverTime > serverRaceState.CountdownTime)
+                if (serverRaceState.LeftOverTime > countdownTime)
                 {
                     countdownTimerTMP.gameObject.SetActive(false);
                 }
                 else
                 {
                     countdownTimerTMP.gameObject.SetActive(true);
-                    countdownTimerTMP.text = Math.Ceiling(leftoverTime).ToString();
+                    countdownTimerTMP.text = Math.Ceiling(serverRaceState.LeftOverTime).ToString();
                 }
 
                 // Speed. TODO: Extract Speed to its own script
