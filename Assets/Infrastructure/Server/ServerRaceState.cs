@@ -88,7 +88,7 @@ namespace Racerr.Infrastructure.Server
                 raceFinishTime = Math.Min(raceFinishTime, NetworkTime.time + remainingRaceLengthOnPlayerFinish);
             }
 
-            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count || CurrentRaceLength >= raceFinishTime;
+            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count || LeftOverTime <= 0;
             bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
 
             if (isRaceEmpty)
