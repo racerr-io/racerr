@@ -6254,7 +6254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0
-  intermissionTimerSecondsEditor: 90
+  intermissionTimerSecondsEditor: 1
   intermissionTimerSeconds: 10
   intermissionTimerSecondsSinglePlayer: 20
 --- !u!114 &1584656527
