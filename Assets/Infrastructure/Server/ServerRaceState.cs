@@ -15,10 +15,10 @@ namespace Racerr.Infrastructure.Server
     /// </summary>
     public class ServerRaceState : RaceSessionState
     {
-        [SerializeField] int maxRaceLength = 90;
-        [SerializeField] int remainingRaceLengthOnPlayerFinish = 30;
+        [SerializeField] int maxRaceDuration = 90;
+        [SerializeField] int remainingRaceDurationOnPlayerFinish = 30;
         [SyncVar] double raceFinishTime;
-        public double LeftOverTime => raceFinishTime - NetworkTime.time;
+        public double remainingRaceTime => raceFinishTime - NetworkTime.time;
 
         /// <summary>
         /// Initialises brand new race session data independent of previous race sessions.
@@ -27,7 +27,7 @@ namespace Racerr.Infrastructure.Server
         public override void Enter(object optionalData = null)
         {
             raceSessionData = new RaceSessionData(NetworkTime.time);
-            raceFinishTime = NetworkTime.time + maxRaceLength;
+            raceFinishTime = NetworkTime.time + maxRaceDuration;
             EnableAllPlayerCarControllers();
         }
 
@@ -83,12 +83,9 @@ namespace Racerr.Infrastructure.Server
         [Server]
         protected override void FixedUpdate()
         {
-            if (raceSessionData.FinishedPlayers.Any())
-            {
-                raceFinishTime = Math.Min(raceFinishTime, NetworkTime.time + remainingRaceLengthOnPlayerFinish);
-            }
+            OnAnyPlayerFinished();
 
-            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count || LeftOverTime <= 0;
+            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count || remainingRaceTime <= 0;
             bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
 
             if (isRaceEmpty)
@@ -123,7 +120,7 @@ namespace Racerr.Infrastructure.Server
             // is shown while players wait for the next race.
             RaceSessionData raceSessionDataForIntermission = new RaceSessionData(
                 raceSessionData.raceStartTime,
-                CurrentRaceLength,
+                CurrentRaceDuration,
                 raceSessionData.PlayersInRace,
                 raceSessionData.FinishedPlayers
             );
@@ -134,6 +131,15 @@ namespace Racerr.Infrastructure.Server
         public void TransitionToIdle()
         {
             ServerStateMachine.Singleton.ChangeState(StateEnum.ServerIdle);
+        }
+
+        [Server]
+        void OnAnyPlayerFinished()
+        {
+            if (raceSessionData.FinishedPlayers.Any())
+            {
+                raceFinishTime = Math.Min(raceFinishTime, NetworkTime.time + remainingRaceDurationOnPlayerFinish);
+            }
         }
     }
 }

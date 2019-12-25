@@ -63,17 +63,17 @@ namespace Racerr.Infrastructure.Client
             else
             {
                 // Race Timer. TODO: Extract Race Timer to its own script
-                raceTimerTMP.text = serverRaceState.CurrentRaceLength.ToRaceTimeFormat();
+                raceTimerTMP.text = serverRaceState.CurrentRaceDuration.ToRaceTimeFormat();
 
                 // Countdown Timer. If any player has finished and reduces the current countdown timer, use that as leftover time.
-                if (serverRaceState.LeftOverTime > countdownTime)
+                if (serverRaceState.remainingRaceTime > countdownTime)
                 {
                     countdownTimerTMP.gameObject.SetActive(false);
                 }
                 else
                 {
                     countdownTimerTMP.gameObject.SetActive(true);
-                    countdownTimerTMP.text = Math.Ceiling(serverRaceState.LeftOverTime).ToString();
+                    countdownTimerTMP.text = Math.Ceiling(serverRaceState.remainingRaceTime).ToString();
                 }
 
                 // Speed. TODO: Extract Speed to its own script

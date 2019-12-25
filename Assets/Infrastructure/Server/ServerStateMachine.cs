@@ -133,7 +133,7 @@ namespace Racerr.Infrastructure.Server
     {
         #region Race Session Data
         [SyncVar] protected RaceSessionData raceSessionData;
-        public double CurrentRaceLength => raceSessionData.CurrentRaceLength;
+        public double CurrentRaceDuration => raceSessionData.CurrentRaceDuration;
 
         /// <summary>
         /// Data passed around between Race and Intermission states (Intermission needs the most recent race data to be displayed).
@@ -147,7 +147,7 @@ namespace Racerr.Infrastructure.Server
             public readonly double raceStartTime;
             public readonly double finishedRaceLength; // Used for Client and Server Intermission State, to display the previously finished race length in the timer. 
 
-            public double CurrentRaceLength => NetworkTime.time - raceStartTime;
+            public double CurrentRaceDuration => NetworkTime.time - raceStartTime;
 
             /* Server Only Properties */
             public List<Player> PlayersInRace { get; }
