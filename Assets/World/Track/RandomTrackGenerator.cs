@@ -107,8 +107,8 @@ namespace Racerr.World.Track
                         yield return new WaitForFixedUpdate();
                     }
                 }
-
-                yield return new WaitForSeconds(0.15f); // Wait for next physics calculation so that Track Piece Collision Detector works properly.
+                // Wait for next physics calculation so that Track Piece Collision Detector works properly.
+                yield return new WaitForSeconds(0.15f);
 
                 if (newTrackPiece.GetComponent<TrackPieceCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {
