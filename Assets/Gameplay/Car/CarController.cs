@@ -1,11 +1,10 @@
 ﻿using Mirror;
+using NWH.VehiclePhysics;
 using Racerr.Infrastructure;
 using Racerr.Infrastructure.Server;
-using Racerr.World.Track;
 using Racerr.UX.Car;
-using System;
+using Racerr.World.Track;
 using UnityEngine;
-using NWH.VehiclePhysics;
 
 namespace Racerr.Gameplay.Car
 {
@@ -30,8 +29,6 @@ namespace Racerr.Gameplay.Car
         public PlayerBar PlayerBar { get; private set; }
         public float PlayerBarStartDisplacement => playerBarStartDisplacement;
         public float PlayerBarUpDisplacement => playerBarUpDisplacement;
-
-        public int Velocity => Convert.ToInt32(vehicleRigidbody.velocity.magnitude * 2);
 
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
