@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Racerr.Gameplay.Car;
 using Racerr.World.Track;
 using System.Linq;
 using UnityEngine;
@@ -96,11 +97,12 @@ namespace Racerr.Infrastructure.Server
         /// and the car won't move. This is done because we don't want people driving while the track is generating before the race
         /// has started. This function will allow car's to be driven, as we have now entered the Race State.
         /// </summary>
-        public void EnableAllPlayerCarControllers()
+        [Server]
+        void EnableAllPlayerCarControllers()
         {
             foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.Car != null))
             {
-                player.Car.IsDisabled = false;
+                player.Car.GetComponent<CarController>().RpcSetCarActiveState(true);
             }
         }
 

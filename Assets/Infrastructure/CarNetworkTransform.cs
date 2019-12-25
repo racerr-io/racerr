@@ -12,14 +12,11 @@ namespace Racerr.Infrastructure
     public class CarNetworkTransform : NetworkBehaviour
     {
         [SerializeField] [Range(0, 1)] float interpolationFactor = 0.4f;
-        new Rigidbody rigidbody;
-        CarController car;
+        Rigidbody vehicleRigidbody;
 
         /* These fields are the ones we want updated on every car. */
         [SyncVar(hook = nameof(UpdatePosition))] Vector3 realPosition = Vector3.zero;
         [SyncVar(hook = nameof(UpdateRotation))] Quaternion realRotation;
-        [SyncVar(hook = nameof(UpdateHorizontalInput))] float realHorizontalInput;
-        [SyncVar(hook = nameof(UpdateVerticalInput))] float realVerticalInput;
         [SyncVar(hook = nameof(UpdateVelocity))] Vector3 realVelocity;
         [SyncVar(hook = nameof(UpdateAngularVelocity))] Vector3 realAngularVelocity;
 
@@ -29,8 +26,7 @@ namespace Racerr.Infrastructure
         /// </summary>
         void Start()
         {
-            rigidbody = GetComponent<Rigidbody>();
-            car = GetComponent<CarController>();
+            vehicleRigidbody = GetComponent<Rigidbody>();
         }
 
         #region SyncVar Hooks
@@ -63,30 +59,6 @@ namespace Racerr.Infrastructure
         }
 
         /// <summary>
-        /// SyncVar Hook for horizontal input updates.
-        /// </summary>
-        /// <param name="realHorizontalInput">The new horizontal input.</param>
-        void UpdateHorizontalInput(float realHorizontalInput)
-        {
-            if (!hasAuthority)
-            {
-                this.realHorizontalInput = car.HorizontalInput = realHorizontalInput;
-            }
-        }
-
-        /// <summary>
-        /// SyncVar Hook for the vertical input updates.
-        /// </summary>
-        /// <param name="realVerticalInput">The new vertical input.</param>
-        void UpdateVerticalInput(float realVerticalInput)
-        {
-            if (!hasAuthority)
-            {
-                this.realVerticalInput = car.VerticalInput = realVerticalInput;
-            }
-        }
-
-        /// <summary>
         /// SyncVar Hook for the velocity update.
         /// </summary>
         /// <param name="realVelocity">The new velocity.</param>
@@ -94,7 +66,7 @@ namespace Racerr.Infrastructure
         {
             if (!hasAuthority)
             {
-                this.realVelocity = rigidbody.velocity = realVelocity;
+                this.realVelocity = vehicleRigidbody.velocity = realVelocity;
             }
         }
 
@@ -106,7 +78,7 @@ namespace Racerr.Infrastructure
         {
             if (!hasAuthority)
             {
-                this.realAngularVelocity = rigidbody.angularVelocity = realAngularVelocity;
+                this.realAngularVelocity = vehicleRigidbody.angularVelocity = realAngularVelocity;
             }
         }
 
@@ -121,9 +93,7 @@ namespace Racerr.Infrastructure
             {
                 realPosition = transform.position;
                 realRotation = transform.rotation;
-                realHorizontalInput = car.HorizontalInput;
-                realVerticalInput = car.VerticalInput;
-                CmdSynchroniseToServer(transform.position, transform.rotation, rigidbody.velocity, car.HorizontalInput, car.VerticalInput, rigidbody.angularVelocity);
+                CmdSynchroniseToServer(transform.position, transform.rotation, vehicleRigidbody.velocity,vehicleRigidbody.angularVelocity);
             }
         }
 
@@ -135,12 +105,10 @@ namespace Racerr.Infrastructure
         /// <param name="rotation">Car actual rotation.</param>
         /// <param name="velocity">Car actual velocity.</param>
         [Command]
-        void CmdSynchroniseToServer(Vector3 position, Quaternion rotation, Vector3 velocity, float horizontalInput, float verticalInput, Vector3 angularVelocity)
+        void CmdSynchroniseToServer(Vector3 position, Quaternion rotation, Vector3 velocity, Vector3 angularVelocity)
         {
             UpdatePosition(position);
             UpdateRotation(rotation);
-            UpdateVerticalInput(verticalInput);
-            UpdateHorizontalInput(horizontalInput);
             UpdateVelocity(velocity);
             UpdateAngularVelocity(angularVelocity);
         }

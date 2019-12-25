@@ -2420,6 +2420,8 @@ GameObject:
   - component: {fileID: 4096446272342653620}
   - component: {fileID: 6790411683201984892}
   - component: {fileID: -694074840978231497}
+  - component: {fileID: 4930241172356467430}
+  - component: {fileID: 1663925742562082167}
   m_Layer: 0
   m_Name: Race Car
   m_TagString: Player
@@ -2533,8 +2535,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 1
-  m_AssetId: aa65098f076c6e141991513d2b3608c8
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 3320047433
 --- !u!114 &4096446272342653620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2561,7 +2563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d5902ab101a14a6e939520e3d9c893b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   input:
     settable: 1
     leftBlinker: 0
@@ -2719,7 +2721,7 @@ MonoBehaviour:
     steeringWheel: {fileID: 0}
     trackedSteerIntensity: 1
   engine:
-    runOnStartup: 0
+    runOnStartup: 1
     runOnEnable: 1
     stopOnDisable: 1
     minRPM: 600
@@ -2944,7 +2946,7 @@ MonoBehaviour:
     timeout: 3
     allowedAngle: 70
     maxDetectionSpeed: 1
-    rotationSpeed: 80
+    rotationSpeed: 160
     flippedOver: 0
   trailer:
     isTrailer: 0
@@ -2975,8 +2977,8 @@ MonoBehaviour:
   forwardSlipThreshold: 0.35
   sideSlipThreshold: 0.1
   speedLimiter: 0
-  freezeWhenStill: 1
-  freezeWhenInactive: 1
+  freezeWhenStill: 0
+  freezeWhenInactive: 0
   switchToSingleRayWhenInactive: 1
   vehicleRigidbody: {fileID: 54833374512108974, guid: d21e8ec52084d7c4e8cdae325daeefa3,
     type: 3}
@@ -2994,30 +2996,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0
-  lowSpeedConstantSteeringAngle: 30
-  velocityAffected50SpeedSteeringAngle: 280
-  constant50SpeedSteeringAngle: 2
-  velocityAffectedSteeringAngle: 300
-  downforceWithLessThanFourWheels: 1875
-  downforceWithFourWheels: 7500
-  motorForce: 4000
-  brakeForce: 10000
   maxHealth: 100
-  forwardStiffnessNormal: 1
-  forwardStiffnessBraking: 3
-  wheelFrontLeft: {fileID: 0}
-  wheelFrontRight: {fileID: 0}
-  wheelRearLeft: {fileID: 0}
-  wheelRearRight: {fileID: 0}
-  transformFrontLeft: {fileID: 0}
-  transformFrontRight: {fileID: 0}
-  transformRearLeft: {fileID: 0}
-  transformRearRight: {fileID: 0}
-  isDisabled: 0
   playerBarPrefab: {fileID: 4182034153008739931, guid: fae0477d4f724c842b5bfdacd350b2f5,
     type: 3}
   playerBarStartDisplacement: 4
   playerBarUpDisplacement: 1
+--- !u!114 &4930241172356467430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018952010411425780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6bf8638cc34cd4890ee102c6727ea4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputType: 0
+  verticalInputType: 0
+  vehicleChanger: {fileID: 0}
+  vehicleController: {fileID: 6790411683201984892}
+--- !u!114 &1663925742562082167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018952010411425780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76b4b1b513f7c1e4886472bee2224c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0
+  interpolationFactor: 0.4
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0

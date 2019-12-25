@@ -30,8 +30,6 @@ namespace Racerr.Infrastructure.Client
             raceView.Show();
             ClientStateMachine.Singleton.SetPlayerCameraTarget(ClientStateMachine.Singleton.LocalPlayer.Car.transform);
             ClientStateMachine.Singleton.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.Car.transform);
-
-            FindObjectOfType<DesktopInputManager>().vehicleController = ClientStateMachine.Singleton.LocalPlayer.Car.GetComponent<VehicleController>();
         }
 
         /// <summary>

@@ -1,8 +1,7 @@
-﻿using NWH.WheelController3D;
+﻿using NWH.VehiclePhysics;
 using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Client;
 using Racerr.World.Track;
-using System.Linq;
 using UnityEngine;
 
 namespace Racerr.UX.Camera
@@ -19,19 +18,14 @@ namespace Racerr.UX.Camera
 
             if (car != null)
             {
-                foreach (Transform wheelTransform in car.GetComponentsInChildren<WheelController>().Select(wheelController => wheelController.transform))
+                foreach (Wheel wheel in car.GetComponent<VehicleController>().Wheels)
                 {
-                    Vector3 direction = wheelTransform.position - transform.position;
-                    RaycastHit raycastHit;
+                    Vector3 direction = wheel.ControllerTransform.position - transform.position;
 
-                    if (Physics.Raycast(transform.position, direction, out raycastHit))
+                    if (Physics.Raycast(transform.position, direction, out RaycastHit raycastHit))
                     {
                         BuildingManager buildingState = raycastHit.collider.gameObject.GetComponent<BuildingManager>();
-
-                        if (buildingState != null)
-                        {
-                            buildingState.HitRay();
-                        }
+                        buildingState?.HitRay();
                     }
                 }
             }
