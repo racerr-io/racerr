@@ -254,8 +254,8 @@ MonoBehaviour:
     speed: 0
     force: 0
   sFriction:
-    forceCoefficient: 1.1
-    slipCoefficient: 0.1
+    forceCoefficient: 1.25
+    slipCoefficient: 1.25
     maxForce: 0
     slip: 0
     speed: 0
@@ -1029,8 +1029,8 @@ MonoBehaviour:
     speed: 0
     force: 0
   sFriction:
-    forceCoefficient: 1.1
-    slipCoefficient: 0.1
+    forceCoefficient: 1.25
+    slipCoefficient: 1.25
     maxForce: 0
     slip: 0
     speed: 0
@@ -1804,8 +1804,8 @@ MonoBehaviour:
     speed: 0
     force: 0
   sFriction:
-    forceCoefficient: 1.1
-    slipCoefficient: 0.1
+    forceCoefficient: 1.25
+    slipCoefficient: 1.25
     maxForce: 0
     slip: 0
     speed: 0
@@ -2536,7 +2536,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 3320047433
+  m_SceneId: 2946058200
 --- !u!114 &4096446272342653620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2549,7 +2549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fde3b0a987d9ab4ba8272b85857ae03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  centerOfMassOffset: {x: 0, y: -0.5, z: 0}
+  centerOfMassOffset: {x: 0, y: -1, z: 0}
   showCOM: 1
 --- !u!114 &6790411683201984892
 MonoBehaviour:
@@ -2713,8 +2713,8 @@ MonoBehaviour:
       sootColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.5}
       particleSystems: []
   steering:
-    lowSpeedAngle: 30
-    highSpeedAngle: 14
+    lowSpeedAngle: 15
+    highSpeedAngle: 10
     crossoverSpeed: 35
     degreesPerSecondLimit: 250
     steeringWheelTurnRatio: 2
@@ -2896,21 +2896,21 @@ MonoBehaviour:
       useBrakesOnOverspeed: 1
       overspeedBrakeIntensity: 0.3
     abs:
-      enabled: 0
+      enabled: 1
       active: 0
       intensity: 0.3
     tcs:
-      enabled: 0
+      enabled: 1
       active: 0
       intensity: 0.3
       powerReduction: 0
       prevPowerReduction: 0
     stability:
-      enabled: 0
+      enabled: 1
       active: 0
       intensity: 0.3
     driftAssist:
-      enabled: 0
+      enabled: 1
       active: 0
       intensity: 0.3
   damage:
@@ -3208,8 +3208,8 @@ MonoBehaviour:
     speed: 0
     force: 0
   sFriction:
-    forceCoefficient: 1.1
-    slipCoefficient: 0.1
+    forceCoefficient: 1.25
+    slipCoefficient: 1.25
     maxForce: 0
     slip: 0
     speed: 0
