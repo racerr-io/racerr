@@ -86,18 +86,18 @@ namespace Racerr.Gameplay.Car
         {
             if (hasAuthority)
             {
-                GetInput();
+              //  GetInput();
             }
 
             if (!Player.IsDead && !IsDisabled)
             {
-                Steer();
-                Drive();
-                UpdateWheelPositions();
+            //    Steer();
+             //   Drive();
+             //   UpdateWheelPositions();
             }
             
-            AddDownForce();
-            UpdateSidewaysFrictionWithSpeed();
+         //   AddDownForce();
+         //   UpdateSidewaysFrictionWithSpeed();
         }
 
         /// <summary>

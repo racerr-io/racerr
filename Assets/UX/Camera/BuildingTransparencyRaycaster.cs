@@ -1,6 +1,8 @@
-﻿using Racerr.Gameplay.Car;
+﻿using NWH.WheelController3D;
+using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Client;
 using Racerr.World.Track;
+using System.Linq;
 using UnityEngine;
 
 namespace Racerr.UX.Camera
@@ -17,7 +19,7 @@ namespace Racerr.UX.Camera
 
             if (car != null)
             {
-                foreach (Transform wheelTransform in car.WheelTransforms)
+                foreach (Transform wheelTransform in car.GetComponentsInChildren<WheelController>().Select(wheelController => wheelController.transform))
                 {
                     Vector3 direction = wheelTransform.position - transform.position;
                     RaycastHit raycastHit;
