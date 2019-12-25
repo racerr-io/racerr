@@ -78,13 +78,13 @@ namespace Racerr.Infrastructure.Server
 
         /// <summary>
         /// Called every game tick.
-        /// Changes the remaining race time if any player has finished.
+        /// Changes the remaining race time if there are players finished.
         /// Checks whether or not to transition to intermission state, based on if the race is finished or empty.
         /// </summary>
         [Server]
         protected override void FixedUpdate()
         {
-            OnAnyPlayerFinished();
+            UpdateRaceFinishTimeIfAnyPlayerFinished();
 
             bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count || remainingRaceTime <= 0;
             bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
@@ -134,8 +134,11 @@ namespace Racerr.Infrastructure.Server
             ServerStateMachine.Singleton.ChangeState(StateEnum.ServerIdle);
         }
 
+        /// <summary>
+        /// Changes remaining race time if there are finished players.
+        /// </summary>
         [Server]
-        void OnAnyPlayerFinished()
+        void UpdateRaceFinishTimeIfAnyPlayerFinished()
         {
             if (raceSessionData.FinishedPlayers.Any())
             {
