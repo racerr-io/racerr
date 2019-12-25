@@ -78,6 +78,7 @@ namespace Racerr.Infrastructure.Server
 
         /// <summary>
         /// Called every game tick.
+        /// Changes the remaining race time if any player has finished.
         /// Checks whether or not to transition to intermission state, based on if the race is finished or empty.
         /// </summary>
         [Server]
