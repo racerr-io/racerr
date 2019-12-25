@@ -93,7 +93,7 @@ namespace Racerr.Infrastructure.Server
         }
 
         /// <summary>
-        /// By default, cars are instantiated in disabled state, meaning any input from the client's controller is ignored
+        /// By default, cars are instantiated in an inactive state, meaning any input from the client's controller is ignored
         /// and the car won't move. This is done because we don't want people driving while the track is generating before the race
         /// has started. This function will allow car's to be driven, as we have now entered the Race State.
         /// </summary>
@@ -102,7 +102,7 @@ namespace Racerr.Infrastructure.Server
         {
             foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.Car != null))
             {
-                player.Car.GetComponent<CarController>().RpcSetCarActiveState(true);
+                player.Car.GetComponent<CarController>().Active = true;
             }
         }
 

@@ -25,7 +25,11 @@ namespace Racerr.UX.Camera
                     if (Physics.Raycast(transform.position, direction, out RaycastHit raycastHit))
                     {
                         BuildingManager buildingState = raycastHit.collider.gameObject.GetComponent<BuildingManager>();
-                        buildingState?.HitRay();
+
+                        if (buildingState != null)
+                        {
+                            buildingState.HitRay();
+                        }
                     }
                 }
             }

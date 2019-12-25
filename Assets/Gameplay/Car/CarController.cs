@@ -11,9 +11,11 @@ namespace Racerr.Gameplay.Car
 {
     /// <summary>
     /// Car controller for all cars in Racerr.
+    /// The class extends off NWH Vehicle Physics, which takes care of the driving mechanics of the vehicle.
+    /// These can be customised in the inspector.
+    /// This class adds Racerr specific customisation to the vehicle, such as health and the player bar.
     /// </summary>
-    [RequireComponent(typeof(VehicleController))]
-    public class CarController : NetworkBehaviour
+    public class CarController : VehicleController
     {
         ServerRaceState serverRaceState;
 
@@ -29,8 +31,6 @@ namespace Racerr.Gameplay.Car
         public float PlayerBarStartDisplacement => playerBarStartDisplacement;
         public float PlayerBarUpDisplacement => playerBarUpDisplacement;
 
-        VehicleController vehicleController;
-        Rigidbody vehicleRigidbody;
         public int Velocity => Convert.ToInt32(vehicleRigidbody.velocity.magnitude * 2);
 
         [SyncVar] GameObject playerGO;
@@ -43,15 +43,13 @@ namespace Racerr.Gameplay.Car
         public Player Player { get; private set; }
 
         /// <summary>
-        /// Called when car instantiated. Setup the user's view of the car.
+        /// Called when the car is instantiated. Caches various fields for later use
+        /// and instantiates the Player's Bar, which should appear above the car in the game.
         /// </summary>
         void Start()
         {
             serverRaceState = FindObjectOfType<ServerRaceState>();
-
             Player = PlayerGO.GetComponent<Player>();
-            vehicleRigidbody = GetComponent<Rigidbody>();
-            vehicleController = GetComponent<VehicleController>();
 
             // Instantiate and setup player's bar
             GameObject PlayerBarGO = Instantiate(playerBarPrefab);
@@ -60,7 +58,9 @@ namespace Racerr.Gameplay.Car
         }
 
         /// <summary>
-        /// Detect if the car is moving through triggers.
+        /// Detect if the car is moving through triggers, which are GameObjects in the world which result in no collision
+        /// and do not affect the motion of the car. We use this to send a message to the Server Race State when a player passes
+        /// through a checkpoint, which is an invisible box collider located at the end of every track piece.
         /// </summary>
         /// <param name="collider">The collider that it went through.</param>
         void OnTriggerEnter(Collider collider)
@@ -72,21 +72,16 @@ namespace Racerr.Gameplay.Car
         }
 
         /// <summary>
-        /// Apply damage to car on collision with other players and world objects.
+        /// Apply damage to car on collision with other players and the environment (e.g. buildings), by decreasing the players
+        /// health by a flat amount.
         /// </summary>
-        /// <param name="collision">Collision information</param>
+        /// <param name="collision">Collision information.</param>
         void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Environment"))
             {
                 Player.Health -= 10;
             }
-        }
-
-        [ClientRpc]
-        public void RpcSetCarActiveState(bool active)
-        {
-            vehicleController.Active = active;
         }
     }
 }

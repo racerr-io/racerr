@@ -21,8 +21,8 @@ namespace Racerr.Infrastructure
         [SyncVar(hook = nameof(UpdateAngularVelocity))] Vector3 realAngularVelocity;
 
         /// <summary>
-        /// Called when car is instantiated. If car is someone else's car remove the wheel colliders
-        /// as they intefere with movement.
+        /// Called on instantiation, and caches the rigidbody (which is used to synchronise the velocity of the rigidbody
+        /// across the network).
         /// </summary>
         void Start()
         {

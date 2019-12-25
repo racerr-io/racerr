@@ -2416,12 +2416,11 @@ GameObject:
   - component: {fileID: 1032093577596951814}
   - component: {fileID: 1042073786603977904}
   - component: {fileID: 1064214411705787420}
-  - component: {fileID: 2388928030589524058}
   - component: {fileID: 4096446272342653620}
-  - component: {fileID: 6790411683201984892}
   - component: {fileID: -694074840978231497}
   - component: {fileID: 4930241172356467430}
   - component: {fileID: 1663925742562082167}
+  - component: {fileID: 2388928030589524058}
   m_Layer: 0
   m_Name: Race Car
   m_TagString: Player
@@ -2521,22 +2520,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 24d57831ff1fa4a6e89546bcb5448e7b, type: 3}
---- !u!114 &2388928030589524058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018952010411425780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serverOnly: 0
-  localPlayerAuthority: 1
-  m_AssetId: 
-  m_SceneId: 2946058200
 --- !u!114 &4096446272342653620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2551,7 +2534,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   centerOfMassOffset: {x: 0, y: -1, z: 0}
   showCOM: 1
---- !u!114 &6790411683201984892
+--- !u!114 &-694074840978231497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2560,9 +2543,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1018952010411425780}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d5902ab101a14a6e939520e3d9c893b, type: 3}
+  m_Script: {fileID: 11500000, guid: 209c1eeb9bcfd86429fcfc3e39d1f8e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0
   active: 0
   input:
     settable: 1
@@ -2578,61 +2563,53 @@ MonoBehaviour:
     spatialBlend: 1
     masterVolume: 1
     engineIdleComponent:
-      volume: 0.3
-      pitch: 0.9
-      clips:
-      - {fileID: 8300000, guid: 26fb7228b0cb3b1428a016e1157efe13, type: 3}
+      volume: 0.1
+      pitch: 1
+      clips: []
       volumeRange: 0.5
       pitchRange: 1.5
       smoothing: 0.1
       maxDistortion: 0.4
     engineStartStopComponent:
-      volume: 0.4
+      volume: 0.1
       pitch: 1
-      clips:
-      - {fileID: 8300000, guid: d40fa21dff1e4064092d3df957cbc63e, type: 3}
-      - {fileID: 8300000, guid: e9cad956627ce624c832032d32aafae1, type: 3}
+      clips: []
     turboWhistleComponent:
-      volume: 0.04
-      pitch: 0.8
-      clips:
-      - {fileID: 8300000, guid: 686ed42021a5f4c47b8908d49b23985d, type: 3}
+      volume: 0.1
+      pitch: 1
+      clips: []
       pitchRange: 1.4
     turboFlutterComponent:
-      volume: 0.04
+      volume: 0.1
       pitch: 1
-      clips:
-      - {fileID: 8300000, guid: fbc3347e118773e409df0b1d95db697e, type: 3}
+      clips: []
     transmissionWhineComponent:
-      volume: 0.05
-      pitch: 0.1
+      volume: 0.1
+      pitch: 1
       clips: []
       pitchRange: 0.2
     gearChangeComponent:
       volume: 0.1
       pitch: 1
-      clips:
-      - {fileID: 8300000, guid: 53a2bc904054cea4cb0a3554275715aa, type: 3}
+      clips: []
     suspensionComponent:
       volume: 0.1
       pitch: 1
-      clips:
-      - {fileID: 8300000, guid: f42fc0c5a45782343b4c11e3ef053f94, type: 3}
+      clips: []
     surfaceComponent:
-      volume: 0.25
+      volume: 0.1
       pitch: 1
       clips: []
     skidComponent:
-      volume: 0.45
+      volume: 0.1
       pitch: 1
       clips: []
       forwardSkidVolume: 0.8
       sideSkidVolume: 0.9
     crashComponent:
-      volume: 0.32
+      volume: 0.1
       pitch: 1
-      clips:
-      - {fileID: 8300000, guid: cd188fb1d3e802347aef458cada843fd, type: 3}
+      clips: []
     airBrakeComponent:
       volume: 0.1
       pitch: 1
@@ -2640,14 +2617,11 @@ MonoBehaviour:
     blinkerComponent:
       volume: 0.1
       pitch: 1
-      clips:
-      - {fileID: 8300000, guid: 3028c86f6c3a29b4981722d5aafd7bb4, type: 3}
-      - {fileID: 8300000, guid: 4a30f69cddd6ef54e84c4b6935a861df, type: 3}
+      clips: []
     hornComponent:
       volume: 0.1
       pitch: 1
-      clips:
-      - {fileID: 8300000, guid: 867a31e1b4b4a22419a24751156d2ada, type: 3}
+      clips: []
     insideVehicle: 0
     interiorAttenuation: -7
     lowPassFrequency: 6000
@@ -2721,7 +2695,7 @@ MonoBehaviour:
     steeringWheel: {fileID: 0}
     trackedSteerIntensity: 1
   engine:
-    runOnStartup: 1
+    runOnStartup: 0
     runOnEnable: 1
     stopOnDisable: 1
     minRPM: 600
@@ -2739,8 +2713,8 @@ MonoBehaviour:
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       - serializedVersion: 3
         time: 0.75
         value: 1
@@ -2748,8 +2722,8 @@ MonoBehaviour:
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 0.92
@@ -2757,8 +2731,8 @@ MonoBehaviour:
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -2811,8 +2785,8 @@ MonoBehaviour:
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 0
@@ -2820,18 +2794,18 @@ MonoBehaviour:
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     targetClutchRPM: 1500
   axles:
   - leftWheel:
-      brakeCoefficient: 1
+      brakeCoefficient: 0
       wheelController: {fileID: 1581372805895009491}
     rightWheel:
-      brakeCoefficient: 1
+      brakeCoefficient: 0
       wheelController: {fileID: 1361990301930259481}
     geometry:
       steerCoefficient: 1
@@ -2842,16 +2816,16 @@ MonoBehaviour:
       camberAtBottom: 0
       isSolid: 0
       antiRollBarForce: 11000
-    powerCoefficient: 1
-    brakeCoefficient: 1
+    powerCoefficient: 0
+    brakeCoefficient: 0
     handbrakeCoefficient: 0
     differentialStrength: 0
-    differentialType: 2
+    differentialType: 0
   - leftWheel:
-      brakeCoefficient: 1
+      brakeCoefficient: 0
       wheelController: {fileID: 2464481929037988600}
     rightWheel:
-      brakeCoefficient: 1
+      brakeCoefficient: 0
       wheelController: {fileID: 7780065703491415459}
     geometry:
       steerCoefficient: 0
@@ -2866,7 +2840,7 @@ MonoBehaviour:
     brakeCoefficient: 1
     handbrakeCoefficient: 1
     differentialStrength: 0
-    differentialType: 2
+    differentialType: 0
   brakes:
     maxTorque: 5000
     frictionTorque: 120
@@ -2977,25 +2951,10 @@ MonoBehaviour:
   forwardSlipThreshold: 0.35
   sideSlipThreshold: 0.1
   speedLimiter: 0
-  freezeWhenStill: 0
-  freezeWhenInactive: 0
+  freezeWhenStill: 1
+  freezeWhenInactive: 1
   switchToSingleRayWhenInactive: 1
-  vehicleRigidbody: {fileID: 54833374512108974, guid: d21e8ec52084d7c4e8cdae325daeefa3,
-    type: 3}
---- !u!114 &-694074840978231497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018952010411425780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 209c1eeb9bcfd86429fcfc3e39d1f8e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0
+  vehicleRigidbody: {fileID: 0}
   maxHealth: 100
   playerBarPrefab: {fileID: 4182034153008739931, guid: fae0477d4f724c842b5bfdacd350b2f5,
     type: 3}
@@ -3016,7 +2975,7 @@ MonoBehaviour:
   inputType: 0
   verticalInputType: 0
   vehicleChanger: {fileID: 0}
-  vehicleController: {fileID: 6790411683201984892}
+  vehicleController: {fileID: 0}
 --- !u!114 &1663925742562082167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3032,6 +2991,22 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   interpolationFactor: 0.4
+--- !u!114 &2388928030589524058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018952010411425780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 1
+  m_AssetId: 
+  m_SceneId: 3193198198
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0
