@@ -44,7 +44,7 @@ namespace Racerr.Infrastructure.Server
         /// </summary>
         /// <param name="player">The player that finished.</param>
         [Server]
-        public void NotifyPlayerFinished(Player player)
+        void NotifyPlayerFinished(Player player)
         {
             raceSessionData.FinishedPlayers.Add(player);
             player.PosInfo = new Player.PositionInfo(player.PosInfo.startTime, NetworkTime.time);
@@ -107,7 +107,7 @@ namespace Racerr.Infrastructure.Server
         }
 
         [Server]
-        public void TransitionToIntermission()
+        void TransitionToIntermission()
         {
             // Copy over the Race Session Data to the Intermission State so the previous race's leaderboard and timer
             // is shown while players wait for the next race.
@@ -121,7 +121,7 @@ namespace Racerr.Infrastructure.Server
         }
 
         [Server]
-        public void TransitionToIdle()
+        void TransitionToIdle()
         {
             ServerStateMachine.Singleton.ChangeState(StateEnum.ServerIdle);
         }

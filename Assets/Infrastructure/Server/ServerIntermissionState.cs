@@ -38,8 +38,8 @@ namespace Racerr.Infrastructure.Server
             {
                 this.raceSessionData = new RaceSessionData(0);
             }
-
-            UpdateLeaderboard(); // To ensure the leaderboard has valid info from the new race session data.
+            // To ensure the leaderboard has valid info from the new race session data.
+            UpdateLeaderboard();
 
 #if UNITY_EDITOR
             intermissionSecondsTotal = intermissionTimerSecondsEditor;
