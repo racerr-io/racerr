@@ -135,7 +135,8 @@ namespace Racerr.Infrastructure.Server
         }
 
         /// <summary>
-        /// Changes remaining race time if there are finished players.
+        /// Changes remaining race time to a given time (from the Unity Editor) if there are finished players and the given time 
+        /// is less than the remaining race time.
         /// </summary>
         [Server]
         void UpdateRaceFinishTimeIfAnyPlayerFinished()
