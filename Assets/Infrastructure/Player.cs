@@ -68,7 +68,7 @@ namespace Racerr.Infrastructure
         [SyncVar] string playerName;
         [SyncVar] bool isReady;
         [SyncVar] [SerializeField] GameObject carPrefab;
-        [SyncVar(hook = nameof(OnPlayerHealthChanged))] int health = 100;
+        [SyncVar(hook = nameof(OnPlayerHealthChanged))] int health = 0;
         [SyncVar] PositionInfo positionInfo;
 
         /// <summary>
