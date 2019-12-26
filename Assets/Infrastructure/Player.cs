@@ -15,17 +15,17 @@ namespace Racerr.Infrastructure
         #region Player's Car
 
         [SyncVar] GameObject carGO;
-        CarController car;
-        public CarController Car
+        CarManager carManager;
+        public CarManager CarManager
         {
             get
             {
-                if (car == null && carGO != null)
+                if (carManager == null && carGO != null)
                 {
-                    car = carGO.GetComponent<CarController>();
+                    carManager = carGO.GetComponent<CarManager>();
                 }
 
-                return car;
+                return carManager;
             }
         }
 
@@ -38,13 +38,13 @@ namespace Racerr.Infrastructure
         {
             // Instantiate and setup car
             GameObject carGO = Instantiate(carPrefab, carPosition, carPrefab.transform.rotation);
-            car = carGO.GetComponent<CarController>();
-            car.PlayerGO = gameObject;
+            carManager = carGO.GetComponent<CarManager>();
+            carManager.PlayerGO = gameObject;
 
             // Setup and sync over network
             NetworkServer.SpawnWithClientAuthority(carGO, gameObject);
             this.carGO = carGO;
-            Health = Car.MaxHealth;
+            Health = CarManager.MaxHealth;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Racerr.Infrastructure
             NetworkServer.Destroy(carGO);
             Destroy(carGO);
             carGO = null;
-            car = null;
+            carManager = null;
         }
 
         #endregion
@@ -79,7 +79,7 @@ namespace Racerr.Infrastructure
         void OnPlayerHealthChanged(int health)
         {
             this.health = health;
-            Car?.PlayerBar?.SetHealthBar(health);
+            CarManager?.PlayerBar?.SetHealthBar(health);
         }
 
         #endregion

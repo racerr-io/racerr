@@ -169,7 +169,7 @@ namespace Racerr.Infrastructure.Server
                         .ThenByDescending(player => player.PosInfo.Checkpoints.Count)
                         .ThenBy(player =>
                         {
-                            Vector3? currCarPosition = player.Car?.transform.position;
+                            Vector3? currCarPosition = player.CarManager?.transform.position;
                             GameObject[] checkpointsInRace = TrackGeneratorCommon.Singleton.CheckpointsInRace;
                             if (currCarPosition == null || checkpointsInRace == null)
                             {
@@ -191,7 +191,7 @@ namespace Racerr.Infrastructure.Server
             {
                 this.raceStartTime = raceStartTime;
                 this.finishedRaceDuration = finishedRaceDuration;
-                this.PlayersInRace = new List<Player>(ServerStateMachine.Singleton.ReadyPlayers.Where(player => player.Car != null));
+                this.PlayersInRace = new List<Player>(ServerStateMachine.Singleton.ReadyPlayers.Where(player => player.CarManager != null));
                 this.FinishedPlayers = new List<Player>();
 
                 foreach (Player player in PlayersInRace)

@@ -12,12 +12,12 @@ namespace Racerr.UX.Car
     {
         [SerializeField] float playerBarMinDownVelocity = -10; // Minimal velocity needed before applying additional displacement to the bar.
 
-        public CarController Car { get; set; }
+        public CarManager CarManager { get; set; }
         Transform panel;
         RectTransform healthBar; // The rectangle of the health bar
         Image healthBarImage; // The thing/image inside the rectangle, in our case just simple colours.
         Rigidbody carRigidBody;
-        Rigidbody CarRigidbody => (carRigidBody != null) ? carRigidBody : (carRigidBody = Car?.GetComponent<Rigidbody>());
+        Rigidbody CarRigidbody => (carRigidBody != null) ? carRigidBody : (carRigidBody = CarManager?.GetComponent<Rigidbody>());
 
         /// <summary>
         /// Setup panel and the player's name.
@@ -26,10 +26,10 @@ namespace Racerr.UX.Car
         void Start()
         {
             panel = transform.Find("Panel");
-            panel.GetComponentInChildren<TextMeshProUGUI>().text = Car.Player.PlayerName;
+            panel.GetComponentInChildren<TextMeshProUGUI>().text = CarManager.OwnPlayer.PlayerName;
             healthBar = panel.transform.Find("Health").GetComponent<RectTransform>();
             healthBarImage = panel.transform.Find("Health").GetComponent<Image>();
-            SetHealthBar(Car.Player.Health);
+            SetHealthBar(CarManager.OwnPlayer.Health);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Racerr.UX.Car
         /// </summary>
         void Update()
         {
-            if (Car != null && UnityEngine.Camera.main != null)
+            if (CarManager != null && UnityEngine.Camera.main != null)
             {
                 panel.forward = UnityEngine.Camera.main.transform.forward;
                 float zVelocity = CarRigidbody.velocity.z; // Velocity in the Z axis (plane of the track)
@@ -47,14 +47,14 @@ namespace Racerr.UX.Car
                 float additionalBarDisplacement;
                 if (zVelocity < playerBarMinDownVelocity) // Minimal velocity condition needed before applying additional displacement to the bar.
                 {
-                    additionalBarDisplacement = -Car.PlayerBarUpDisplacement * normalizedZVelocity; // Apply negative displacement (towards south of screen)
+                    additionalBarDisplacement = -CarManager.PlayerBarUpDisplacement * normalizedZVelocity; // Apply negative displacement (towards south of screen)
                 }
                 else
                 {
                     additionalBarDisplacement = 0;
                 }
 
-                transform.position = Car.transform.position + new Vector3(0, 0, Car.PlayerBarStartDisplacement + additionalBarDisplacement);
+                transform.position = CarManager.transform.position + new Vector3(0, 0, CarManager.PlayerBarStartDisplacement + additionalBarDisplacement);
             }
             else
             {
@@ -68,8 +68,8 @@ namespace Racerr.UX.Car
         /// <param name="health">Value between 0 - 100 for the health</param>
         public void SetHealthBar(int health)
         {
-            healthBar.localScale = new Vector3(health / (float)Car.MaxHealth, healthBar.localScale.y, healthBar.localScale.z);
-            float halfMaxHealth = Car.MaxHealth / 2f;
+            healthBar.localScale = new Vector3(health / (float)CarManager.MaxHealth, healthBar.localScale.y, healthBar.localScale.z);
+            float halfMaxHealth = CarManager.MaxHealth / 2f;
 
             if (health < halfMaxHealth)
             {

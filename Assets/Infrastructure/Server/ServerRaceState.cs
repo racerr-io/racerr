@@ -38,7 +38,7 @@ namespace Racerr.Infrastructure.Server
         [Server]
         public override void Exit()
         {
-            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.Car != null))
+            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.CarManager != null))
             {
                 player.DestroyPlayersCar();
             }
@@ -49,11 +49,12 @@ namespace Racerr.Infrastructure.Server
         /// and the car won't move. This is done because we don't want people driving while the track is generating before the race
         /// has started. This function will allow car's to be driven, as we have now entered the Race State.
         /// </summary>
+        [Server]
         void EnableAllPlayerCarControllers()
         {
-            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.Car != null))
+            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.CarManager != null))
             {
-                player.Car.IsDisabled = false;
+                player.CarManager.RpcSetIsActive(true);
             }
         }
 
