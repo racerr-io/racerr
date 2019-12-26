@@ -1,5 +1,4 @@
 ﻿using Mirror;
-using Racerr.Gameplay.Car;
 using UnityEngine;
 
 namespace Racerr.Infrastructure
@@ -7,7 +6,6 @@ namespace Racerr.Infrastructure
     /// <summary>
     /// Custom designed interpolation for car driving.
     /// </summary>
-    [RequireComponent(typeof(CarManager))]
     [RequireComponent(typeof(Rigidbody))]
     public class CarNetworkTransform : NetworkBehaviour
     {
