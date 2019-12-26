@@ -18,7 +18,7 @@ namespace Racerr.UX.Camera
 
             if (car != null)
             {
-                foreach (Wheel wheel in car.GetComponent<VehicleController>().Wheels)
+                foreach (Wheel wheel in car.Wheels)
                 {
                     Vector3 direction = wheel.ControllerTransform.position - transform.position;
 

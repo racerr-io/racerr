@@ -1,8 +1,10 @@
 ﻿using Mirror;
+using NWH.VehiclePhysics;
 using Racerr.Infrastructure;
 using Racerr.Infrastructure.Server;
 using Racerr.UX.Car;
 using Racerr.World.Track;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Racerr.Gameplay.Car
@@ -39,6 +41,7 @@ namespace Racerr.Gameplay.Car
 
         CarPhysicsManager carPhysicsManager;
         public float SpeedKPH => carPhysicsManager.SpeedKPH;
+        public List<Wheel> Wheels => carPhysicsManager.Wheels;
 
         /// <summary>
         /// Called when the car is instantiated. Caches various fields for later use

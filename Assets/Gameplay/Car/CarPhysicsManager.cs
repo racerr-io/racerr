@@ -1,4 +1,5 @@
 ﻿using NWH.VehiclePhysics;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Racerr.Gameplay.Car
@@ -27,6 +28,7 @@ namespace Racerr.Gameplay.Car
             get => vehicleController.Active;
             set => vehicleController.Active = value;
         }
+        public List<Wheel> Wheels => vehicleController.Wheels;
     }
 
 }
