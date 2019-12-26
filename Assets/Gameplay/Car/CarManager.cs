@@ -35,7 +35,7 @@ namespace Racerr.Gameplay.Car
             set => playerGO = value;
         }
 
-        public Player Player { get; private set; }
+        public Player OwnPlayer { get; private set; }
 
         CarPhysicsManager carPhysicsManager;
         public float SpeedKPH => carPhysicsManager.SpeedKPH;
@@ -47,7 +47,7 @@ namespace Racerr.Gameplay.Car
         void Start()
         {
             serverRaceState = FindObjectOfType<ServerRaceState>();
-            Player = PlayerGO.GetComponent<Player>();
+            OwnPlayer = PlayerGO.GetComponent<Player>();
             carPhysicsManager = GetComponent<CarPhysicsManager>();
 
             // Instantiate and setup player's bar
@@ -66,7 +66,7 @@ namespace Racerr.Gameplay.Car
         {
             if (collider.name == TrackPieceComponent.FinishLineCheckpoint || collider.name == TrackPieceComponent.Checkpoint)
             {
-                serverRaceState.NotifyPlayerPassedThroughCheckpoint(Player, collider.gameObject);
+                serverRaceState.NotifyPlayerPassedThroughCheckpoint(OwnPlayer, collider.gameObject);
             }
         }
 
@@ -79,7 +79,7 @@ namespace Racerr.Gameplay.Car
         {
             if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Environment"))
             {
-                Player.Health -= 10;
+                OwnPlayer.Health -= 10;
             }
         }
 

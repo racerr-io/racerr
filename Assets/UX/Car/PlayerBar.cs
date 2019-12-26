@@ -26,10 +26,10 @@ namespace Racerr.UX.Car
         void Start()
         {
             panel = transform.Find("Panel");
-            panel.GetComponentInChildren<TextMeshProUGUI>().text = Car.Player.PlayerName;
+            panel.GetComponentInChildren<TextMeshProUGUI>().text = Car.OwnPlayer.PlayerName;
             healthBar = panel.transform.Find("Health").GetComponent<RectTransform>();
             healthBarImage = panel.transform.Find("Health").GetComponent<Image>();
-            SetHealthBar(Car.Player.Health);
+            SetHealthBar(Car.OwnPlayer.Health);
         }
 
         /// <summary>
