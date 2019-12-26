@@ -18,7 +18,7 @@ namespace Racerr.Infrastructure.Server
         [SerializeField] int maxRaceDuration = 90;
         [SerializeField] int remainingRaceDurationOnPlayerFinish = 30;
         [SyncVar] double raceFinishTime;
-        public double remainingRaceTime => raceFinishTime - NetworkTime.time;
+        public double RemainingRaceTime => raceFinishTime - NetworkTime.time;
 
         /// <summary>
         /// Initialises brand new race session data independent of previous race sessions.
@@ -41,6 +41,19 @@ namespace Racerr.Infrastructure.Server
             foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.Car != null))
             {
                 player.DestroyPlayersCar();
+            }
+        }
+
+        /// <summary>
+        /// By default, cars are instantiated in disabled state, meaning any input from the client's controller is ignored
+        /// and the car won't move. This is done because we don't want people driving while the track is generating before the race
+        /// has started. This function will allow car's to be driven, as we have now entered the Race State.
+        /// </summary>
+        void EnableAllPlayerCarControllers()
+        {
+            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.Car != null))
+            {
+                player.Car.IsDisabled = false;
             }
         }
 
@@ -86,7 +99,7 @@ namespace Racerr.Infrastructure.Server
         {
             UpdateRaceFinishTimeIfAnyPlayerFinished();
 
-            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count || remainingRaceTime <= 0;
+            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count || RemainingRaceTime <= 0;
             bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
 
             if (isRaceEmpty)
@@ -102,15 +115,16 @@ namespace Racerr.Infrastructure.Server
         }
 
         /// <summary>
-        /// By default, cars are instantiated in disabled state, meaning any input from the client's controller is ignored
-        /// and the car won't move. This is done because we don't want people driving while the track is generating before the race
-        /// has started. This function will allow car's to be driven, as we have now entered the Race State.
+        /// Lowers the time the race must be finished by as soon as one player has finished - we don't want to wait too long for stragglers. 
+        /// This is done by taking the current server time and adding a predefined duration. 
+        /// If it turns out that the race has nearly finished, the finish time remains unchanged, to prevent extending the remaining race time.
         /// </summary>
-        void EnableAllPlayerCarControllers()
+        [Server]
+        void UpdateRaceFinishTimeIfAnyPlayerFinished()
         {
-            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.Car != null))
+            if (raceSessionData.FinishedPlayers.Any())
             {
-                player.Car.IsDisabled = false;
+                raceFinishTime = Math.Min(raceFinishTime, NetworkTime.time + remainingRaceDurationOnPlayerFinish);
             }
         }
 
@@ -132,20 +146,6 @@ namespace Racerr.Infrastructure.Server
         void TransitionToIdle()
         {
             ServerStateMachine.Singleton.ChangeState(StateEnum.ServerIdle);
-        }
-
-        /// <summary>
-        /// Changes remaining race time to a controllable given time if there are finished players and the given time is less 
-        /// than the remaining race time. This is so that we do not end up extending the remaining race time if the players finish 
-        /// when the race is close to ending anyways.
-        /// </summary>
-        [Server]
-        void UpdateRaceFinishTimeIfAnyPlayerFinished()
-        {
-            if (raceSessionData.FinishedPlayers.Any())
-            {
-                raceFinishTime = Math.Min(raceFinishTime, NetworkTime.time + remainingRaceDurationOnPlayerFinish);
-            }
         }
     }
 }

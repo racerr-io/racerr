@@ -66,14 +66,14 @@ namespace Racerr.Infrastructure.Client
                 raceTimerTMP.text = serverRaceState.CurrentRaceDuration.ToRaceTimeFormat();
 
                 // Countdown Timer. TODO: Extract Countdown Timer to its own script
-                if (serverRaceState.remainingRaceTime > countdownTimeThreshold)
+                if (serverRaceState.RemainingRaceTime > countdownTimeThreshold)
                 {
                     countdownTimerTMP.gameObject.SetActive(false);
                 }
                 else
                 {
                     countdownTimerTMP.gameObject.SetActive(true);
-                    countdownTimerTMP.text = Math.Ceiling(serverRaceState.remainingRaceTime).ToString();
+                    countdownTimerTMP.text = Math.Ceiling(serverRaceState.RemainingRaceTime).ToString();
                 }
 
                 // Speed. TODO: Extract Speed to its own script

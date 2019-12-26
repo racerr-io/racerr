@@ -6238,8 +6238,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0
-  maxRaceLength: 90
-  remainingRaceLengthOnPlayerFinish: 30
+  maxRaceDuration: 90
+  remainingRaceDurationOnPlayerFinish: 15
 --- !u!114 &1584656526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6362,7 +6362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverRaceState: {fileID: 1584656525}
   raceView: {fileID: 867409035}
-  countdownTime: 10
+  countdownTimeThreshold: 10
   raceTimerTMP: {fileID: 748826963}
   countdownTimerTMP: {fileID: 1267990761449838841}
   speedTMP: {fileID: 2131060799}

@@ -31,7 +31,7 @@ namespace Racerr.Infrastructure.Client
             TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Callback += SetCameraTargetOnTrackGenerated;
 
             // Race Timer. TODO: Extract Race Timer to its own script
-            raceTimerTMP.text = serverIntermissionState.FinishedRaceLength.ToRaceTimeFormat();
+            raceTimerTMP.text = serverIntermissionState.FinishedRaceDuration.ToRaceTimeFormat();
 
             // Leaderboard. TODO: Extract Leaderboard to its own script
             string leaderboardText = string.Empty;
