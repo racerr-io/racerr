@@ -88,11 +88,11 @@ namespace Racerr.Gameplay.Car
         /// Once the race starts, this function is called by the server to allow all players in the race
         /// to drive their car.
         /// </summary>
-        /// <param name="active">Whether the car should be active or not.</param>
+        /// <param name="isActive">Whether the car should be active or not.</param>
         [ClientRpc]
-        public void RpcSetIsActive(bool active)
+        public void RpcSetIsActive(bool isActive)
         {
-            carPhysicsManager.IsActive = active;
+            carPhysicsManager.IsActive = isActive;
         }
     }
 }

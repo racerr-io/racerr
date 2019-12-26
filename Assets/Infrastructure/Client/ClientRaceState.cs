@@ -31,8 +31,8 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
-            ClientStateMachine.Singleton.SetPlayerCameraTarget(ClientStateMachine.Singleton.LocalPlayer.Car.transform);
-            ClientStateMachine.Singleton.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.Car.transform);
+            ClientStateMachine.Singleton.SetPlayerCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
+            ClientStateMachine.Singleton.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Racerr.Infrastructure.Client
                 }
 
                 // Speed. TODO: Extract Speed to its own script
-                speedTMP.text = Convert.ToInt32(ClientStateMachine.Singleton.LocalPlayer.Car.SpeedKPH).ToString() + " KPH";
+                speedTMP.text = Convert.ToInt32(ClientStateMachine.Singleton.LocalPlayer.CarManager.SpeedKPH).ToString() + " KPH";
 
                 // Leaderboard. TODO: Extract Leaderboard to its own script
                 string leaderboardText = string.Empty;

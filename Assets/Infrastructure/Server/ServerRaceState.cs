@@ -38,7 +38,7 @@ namespace Racerr.Infrastructure.Server
         [Server]
         public override void Exit()
         {
-            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.Car != null))
+            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.CarManager != null))
             {
                 player.DestroyPlayersCar();
             }
@@ -52,9 +52,9 @@ namespace Racerr.Infrastructure.Server
         [Server]
         void EnableAllPlayerCarControllers()
         {
-            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.Car != null))
+            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.CarManager != null))
             {
-                player.Car.RpcSetIsActive(true);
+                player.CarManager.RpcSetIsActive(true);
             }
         }
 
