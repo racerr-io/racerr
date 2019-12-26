@@ -1,4 +1,5 @@
 ﻿using Doozy.Engine.UI;
+using NWH.VehiclePhysics;
 using Racerr.Infrastructure.Server;
 using Racerr.Utility;
 using System;
@@ -64,7 +65,7 @@ namespace Racerr.Infrastructure.Client
                 raceTimerTMP.text = serverRaceState.CurrentRaceLength.ToRaceTimeFormat();
 
                 // Speed. TODO: Extract Speed to its own script
-                speedTMP.text = Convert.ToInt32(ClientStateMachine.Singleton.LocalPlayer.Car.SpeedKPH).ToString() + " KPH";
+                speedTMP.text = Convert.ToInt32(ClientStateMachine.Singleton.LocalPlayer.Car.VehicleController.SpeedKPH).ToString() + " KPH";
 
                 // Leaderboard. TODO: Extract Leaderboard to its own script
                 string leaderboardText = string.Empty;

@@ -1,11 +1,12 @@
-﻿using Mirror;
+﻿using UnityEngine;
+using System.Collections;
 
 namespace NWH.VehiclePhysics
 {
     /// <summary>
     /// Multiplayer-related part of VehicleController
     /// </summary>
-    public partial class VehicleController : NetworkBehaviour
+    public partial class VehicleController : MonoBehaviour
     {
         #region PHOTON
 #if PHOTON_MULTIPLAYER
@@ -45,6 +46,6 @@ namespace NWH.VehiclePhysics
             }
         }
 #endif
-            #endregion
-        }
+        #endregion
+    }
 }

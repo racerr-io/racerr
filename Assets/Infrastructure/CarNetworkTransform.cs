@@ -7,7 +7,7 @@ namespace Racerr.Infrastructure
     /// <summary>
     /// Custom designed interpolation for car driving.
     /// </summary>
-    [RequireComponent(typeof(CarController))]
+    [RequireComponent(typeof(CarManager))]
     [RequireComponent(typeof(Rigidbody))]
     public class CarNetworkTransform : NetworkBehaviour
     {

@@ -2,7 +2,6 @@
 using System.Linq;
 using UnityEngine;
 using NWH.WheelController3D;
-using Mirror;
 
 namespace NWH.VehiclePhysics
 {
@@ -12,7 +11,7 @@ namespace NWH.VehiclePhysics
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(CenterOfMass))]
-    public partial class VehicleController : NetworkBehaviour
+    public partial class VehicleController : MonoBehaviour
     {
         /// <summary>
         /// Anything lower than this value in input calculations will be considered as 0.
@@ -26,7 +25,7 @@ namespace NWH.VehiclePhysics
         [Tooltip(
             "If disabled vehicle will be suspended with only basic functions working. It will still interact with environment but will not be driveable." +
             " It is recommended to set this to false if vehicle is inactive as it helps performance.")]
-        [SyncVar (hook = nameof(OnActiveChanged))] [SerializeField]
+        [SerializeField]
         private bool active = true;
 
         [HideInInspector] public InputStates input = new InputStates();
@@ -115,17 +114,6 @@ namespace NWH.VehiclePhysics
 
                 active = value;
             }
-        }
-
-        /// <summary>
-        /// Setting the Active property above will successfully update the active SyncVar on all the clients, but the Active property setter
-        /// is not actually called on the client, so the active status of the car is not changed. This SyncVar hook will ensure the Active
-        /// property setter is called when the SyncVar is updated.
-        /// </summary>
-        /// <param name="active">Whether the car should be active or not.</param>
-        void OnActiveChanged(bool active)
-        {
-            Active = active;
         }
 
         /// <summary>
@@ -792,7 +780,7 @@ namespace NWH.VehiclePhysics
                     Debug.LogWarning(
                         "More than one GroundDetection component was found in the scene, only one is needed and so onlyt the first one will be used.");
 
-                return (GroundDetection) groundDetectionObjects[0];
+                return (GroundDetection)groundDetectionObjects[0];
             }
             else
             {

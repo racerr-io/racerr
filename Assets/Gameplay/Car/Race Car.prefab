@@ -2417,9 +2417,10 @@ GameObject:
   - component: {fileID: 1042073786603977904}
   - component: {fileID: 1064214411705787420}
   - component: {fileID: 4096446272342653620}
-  - component: {fileID: -694074840978231497}
+  - component: {fileID: -6983455188103148685}
+  - component: {fileID: 6585119489434592762}
+  - component: {fileID: 8159213384489189590}
   - component: {fileID: 4930241172356467430}
-  - component: {fileID: 1663925742562082167}
   - component: {fileID: 2388928030589524058}
   m_Layer: 0
   m_Name: Race Car
@@ -2532,9 +2533,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fde3b0a987d9ab4ba8272b85857ae03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  centerOfMassOffset: {x: 0, y: -1, z: 0}
+  centerOfMassOffset: {x: 0, y: -0.5, z: 0}
   showCOM: 1
---- !u!114 &-694074840978231497
+--- !u!114 &-6983455188103148685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2543,11 +2544,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1018952010411425780}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 209c1eeb9bcfd86429fcfc3e39d1f8e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d5902ab101a14a6e939520e3d9c893b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0
   active: 0
   input:
     settable: 1
@@ -2563,53 +2562,61 @@ MonoBehaviour:
     spatialBlend: 1
     masterVolume: 1
     engineIdleComponent:
-      volume: 0.1
-      pitch: 1
-      clips: []
+      volume: 0.3
+      pitch: 0.9
+      clips:
+      - {fileID: 8300000, guid: 26fb7228b0cb3b1428a016e1157efe13, type: 3}
       volumeRange: 0.5
       pitchRange: 1.5
       smoothing: 0.1
       maxDistortion: 0.4
     engineStartStopComponent:
-      volume: 0.1
+      volume: 0.4
       pitch: 1
-      clips: []
+      clips:
+      - {fileID: 8300000, guid: d40fa21dff1e4064092d3df957cbc63e, type: 3}
+      - {fileID: 8300000, guid: e9cad956627ce624c832032d32aafae1, type: 3}
     turboWhistleComponent:
-      volume: 0.1
-      pitch: 1
-      clips: []
+      volume: 0.04
+      pitch: 0.8
+      clips:
+      - {fileID: 8300000, guid: 686ed42021a5f4c47b8908d49b23985d, type: 3}
       pitchRange: 1.4
     turboFlutterComponent:
-      volume: 0.1
+      volume: 0.04
       pitch: 1
-      clips: []
+      clips:
+      - {fileID: 8300000, guid: fbc3347e118773e409df0b1d95db697e, type: 3}
     transmissionWhineComponent:
-      volume: 0.1
-      pitch: 1
+      volume: 0.05
+      pitch: 0.1
       clips: []
       pitchRange: 0.2
     gearChangeComponent:
       volume: 0.1
       pitch: 1
-      clips: []
+      clips:
+      - {fileID: 8300000, guid: 53a2bc904054cea4cb0a3554275715aa, type: 3}
     suspensionComponent:
       volume: 0.1
       pitch: 1
-      clips: []
+      clips:
+      - {fileID: 8300000, guid: f42fc0c5a45782343b4c11e3ef053f94, type: 3}
     surfaceComponent:
-      volume: 0.1
+      volume: 0.25
       pitch: 1
       clips: []
     skidComponent:
-      volume: 0.1
+      volume: 0.45
       pitch: 1
       clips: []
       forwardSkidVolume: 0.8
       sideSkidVolume: 0.9
     crashComponent:
-      volume: 0.1
+      volume: 0.32
       pitch: 1
-      clips: []
+      clips:
+      - {fileID: 8300000, guid: cd188fb1d3e802347aef458cada843fd, type: 3}
     airBrakeComponent:
       volume: 0.1
       pitch: 1
@@ -2617,11 +2624,14 @@ MonoBehaviour:
     blinkerComponent:
       volume: 0.1
       pitch: 1
-      clips: []
+      clips:
+      - {fileID: 8300000, guid: 3028c86f6c3a29b4981722d5aafd7bb4, type: 3}
+      - {fileID: 8300000, guid: 4a30f69cddd6ef54e84c4b6935a861df, type: 3}
     hornComponent:
       volume: 0.1
       pitch: 1
-      clips: []
+      clips:
+      - {fileID: 8300000, guid: 867a31e1b4b4a22419a24751156d2ada, type: 3}
     insideVehicle: 0
     interiorAttenuation: -7
     lowPassFrequency: 6000
@@ -2687,15 +2697,15 @@ MonoBehaviour:
       sootColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.5}
       particleSystems: []
   steering:
-    lowSpeedAngle: 15
-    highSpeedAngle: 10
+    lowSpeedAngle: 30
+    highSpeedAngle: 14
     crossoverSpeed: 35
     degreesPerSecondLimit: 250
     steeringWheelTurnRatio: 2
     steeringWheel: {fileID: 0}
     trackedSteerIntensity: 1
   engine:
-    runOnStartup: 0
+    runOnStartup: 1
     runOnEnable: 1
     stopOnDisable: 1
     minRPM: 600
@@ -2802,10 +2812,10 @@ MonoBehaviour:
     targetClutchRPM: 1500
   axles:
   - leftWheel:
-      brakeCoefficient: 0
+      brakeCoefficient: 1
       wheelController: {fileID: 1581372805895009491}
     rightWheel:
-      brakeCoefficient: 0
+      brakeCoefficient: 1
       wheelController: {fileID: 1361990301930259481}
     geometry:
       steerCoefficient: 1
@@ -2816,16 +2826,16 @@ MonoBehaviour:
       camberAtBottom: 0
       isSolid: 0
       antiRollBarForce: 11000
-    powerCoefficient: 0
-    brakeCoefficient: 0
+    powerCoefficient: 1
+    brakeCoefficient: 1
     handbrakeCoefficient: 0
     differentialStrength: 0
-    differentialType: 0
+    differentialType: 2
   - leftWheel:
-      brakeCoefficient: 0
+      brakeCoefficient: 1
       wheelController: {fileID: 2464481929037988600}
     rightWheel:
-      brakeCoefficient: 0
+      brakeCoefficient: 1
       wheelController: {fileID: 7780065703491415459}
     geometry:
       steerCoefficient: 0
@@ -2840,7 +2850,7 @@ MonoBehaviour:
     brakeCoefficient: 1
     handbrakeCoefficient: 1
     differentialStrength: 0
-    differentialType: 0
+    differentialType: 2
   brakes:
     maxTorque: 5000
     frictionTorque: 120
@@ -2862,9 +2872,9 @@ MonoBehaviour:
   groundDetection: {fileID: 0}
   drivingAssists:
     cruiseControl:
-      enabled: 0
+      enabled: 1
       active: 0
-      intensity: 0.3
+      intensity: 0.025
       targetSpeed: 0
       deactivateOnVerticalInput: 1
       useBrakesOnOverspeed: 1
@@ -2951,15 +2961,44 @@ MonoBehaviour:
   forwardSlipThreshold: 0.35
   sideSlipThreshold: 0.1
   speedLimiter: 0
-  freezeWhenStill: 1
-  freezeWhenInactive: 1
+  freezeWhenStill: 0
+  freezeWhenInactive: 0
   switchToSingleRayWhenInactive: 1
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 3147923050028212963}
+--- !u!114 &6585119489434592762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018952010411425780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bdbdc8754cb4b2408c51f3870d85389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0
   maxHealth: 100
   playerBarPrefab: {fileID: 4182034153008739931, guid: fae0477d4f724c842b5bfdacd350b2f5,
     type: 3}
   playerBarStartDisplacement: 4
   playerBarUpDisplacement: 1
+--- !u!114 &8159213384489189590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018952010411425780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76b4b1b513f7c1e4886472bee2224c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0
+  interpolationFactor: 0.4
 --- !u!114 &4930241172356467430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2976,21 +3015,6 @@ MonoBehaviour:
   verticalInputType: 0
   vehicleChanger: {fileID: 0}
   vehicleController: {fileID: 0}
---- !u!114 &1663925742562082167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018952010411425780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76b4b1b513f7c1e4886472bee2224c77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0
-  interpolationFactor: 0.4
 --- !u!114 &2388928030589524058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3006,7 +3030,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 3193198198
+  m_SceneId: 0
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0

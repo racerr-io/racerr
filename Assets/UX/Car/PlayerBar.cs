@@ -12,7 +12,7 @@ namespace Racerr.UX.Car
     {
         [SerializeField] float playerBarMinDownVelocity = -10; // Minimal velocity needed before applying additional displacement to the bar.
 
-        public CarController Car { get; set; }
+        public CarManager Car { get; set; }
         Transform panel;
         RectTransform healthBar; // The rectangle of the health bar
         Image healthBarImage; // The thing/image inside the rectangle, in our case just simple colours.

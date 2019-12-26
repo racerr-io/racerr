@@ -15,14 +15,14 @@ namespace Racerr.Infrastructure
         #region Player's Car
 
         [SyncVar] GameObject carGO;
-        CarController car;
-        public CarController Car
+        CarManager car;
+        public CarManager Car
         {
             get
             {
                 if (car == null && carGO != null)
                 {
-                    car = carGO.GetComponent<CarController>();
+                    car = carGO.GetComponent<CarManager>();
                 }
 
                 return car;
@@ -38,7 +38,7 @@ namespace Racerr.Infrastructure
         {
             // Instantiate and setup car
             GameObject carGO = Instantiate(carPrefab, carPosition, carPrefab.transform.rotation);
-            car = carGO.GetComponent<CarController>();
+            car = carGO.GetComponent<CarManager>();
             car.PlayerGO = gameObject;
 
             // Setup and sync over network

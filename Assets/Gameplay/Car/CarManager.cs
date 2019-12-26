@@ -9,12 +9,12 @@ using UnityEngine;
 namespace Racerr.Gameplay.Car
 {
     /// <summary>
-    /// Car controller for all cars in Racerr.
-    /// The class extends off NWH Vehicle Physics, which takes care of the driving mechanics of the vehicle.
-    /// These can be customised in the inspector.
-    /// This class adds Racerr specific customisation to the vehicle, such as health and the player bar.
+    /// Car Manager for all cars in Racerr.
+    /// Adds Racerr specific customisation to the vehicle, such as health and the player bar.
+    /// Physics are taken care by the VehicleController, provided by the NWH Vehicle Physics library.
     /// </summary>
-    public class CarController : VehicleController
+    [RequireComponent(typeof(VehicleController))]
+    public class CarManager : NetworkBehaviour
     {
         ServerRaceState serverRaceState;
 
@@ -37,6 +37,7 @@ namespace Racerr.Gameplay.Car
             set => playerGO = value;
         }
 
+        public VehicleController VehicleController { get; private set; }
         public Player Player { get; private set; }
 
         /// <summary>
@@ -47,6 +48,7 @@ namespace Racerr.Gameplay.Car
         {
             serverRaceState = FindObjectOfType<ServerRaceState>();
             Player = PlayerGO.GetComponent<Player>();
+            VehicleController = GetComponent<VehicleController>();
 
             // Instantiate and setup player's bar
             GameObject PlayerBarGO = Instantiate(playerBarPrefab);
@@ -79,6 +81,17 @@ namespace Racerr.Gameplay.Car
             {
                 Player.Health -= 10;
             }
+        }
+
+        /// <summary>
+        /// Cars initially spawn in an inactive state, so they cannot be driven before the race starts.
+        /// Once the race starts, this function is called by the server to allow all players in the race
+        /// to drive their car.
+        /// </summary>
+        /// <param name="active">Whether the car should be active or not.</param>
+        [ClientRpc]
+        public void RpcSetActive(bool active) {
+            VehicleController.Active = active;
         }
     }
 }
