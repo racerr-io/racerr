@@ -1,11 +1,10 @@
 ﻿using Doozy.Engine.UI;
-using NWH.VehiclePhysics;
+using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Server;
 using Racerr.Utility;
 using System;
 using TMPro;
 using UnityEngine;
-using System;
 
 namespace Racerr.Infrastructure.Client
 {
@@ -79,7 +78,7 @@ namespace Racerr.Infrastructure.Client
                 }
 
                 // Speed. TODO: Extract Speed to its own script
-                speedTMP.text = Convert.ToInt32(ClientStateMachine.Singleton.LocalPlayer.Car.VehicleController.SpeedKPH).ToString() + " KPH";
+                speedTMP.text = Convert.ToInt32(ClientStateMachine.Singleton.LocalPlayer.Car.CarPhysicsManager.SpeedKPH).ToString() + " KPH";
 
                 // Leaderboard. TODO: Extract Leaderboard to its own script
                 string leaderboardText = string.Empty;

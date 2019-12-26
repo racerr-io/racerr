@@ -2416,9 +2416,10 @@ GameObject:
   - component: {fileID: 1032093577596951814}
   - component: {fileID: 1042073786603977904}
   - component: {fileID: 1064214411705787420}
-  - component: {fileID: 4096446272342653620}
-  - component: {fileID: -6983455188103148685}
   - component: {fileID: 6585119489434592762}
+  - component: {fileID: 187366651734599786}
+  - component: {fileID: -6983455188103148685}
+  - component: {fileID: 4096446272342653620}
   - component: {fileID: 8159213384489189590}
   - component: {fileID: 4930241172356467430}
   - component: {fileID: 2388928030589524058}
@@ -2521,7 +2522,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 24d57831ff1fa4a6e89546bcb5448e7b, type: 3}
---- !u!114 &4096446272342653620
+--- !u!114 &6585119489434592762
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2530,11 +2531,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1018952010411425780}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fde3b0a987d9ab4ba8272b85857ae03, type: 3}
+  m_Script: {fileID: 11500000, guid: 2bdbdc8754cb4b2408c51f3870d85389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  centerOfMassOffset: {x: 0, y: -0.5, z: 0}
-  showCOM: 1
+  syncMode: 0
+  syncInterval: 0
+  maxHealth: 100
+  playerBarPrefab: {fileID: 4182034153008739931, guid: fae0477d4f724c842b5bfdacd350b2f5,
+    type: 3}
+  playerBarStartDisplacement: 4
+  playerBarUpDisplacement: 1
+--- !u!114 &187366651734599786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018952010411425780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 128341794212b0842abf8646bf91b394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &-6983455188103148685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2965,7 +2985,7 @@ MonoBehaviour:
   freezeWhenInactive: 0
   switchToSingleRayWhenInactive: 1
   vehicleRigidbody: {fileID: 3147923050028212963}
---- !u!114 &6585119489434592762
+--- !u!114 &4096446272342653620
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2974,16 +2994,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1018952010411425780}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bdbdc8754cb4b2408c51f3870d85389, type: 3}
+  m_Script: {fileID: 11500000, guid: 8fde3b0a987d9ab4ba8272b85857ae03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0
-  maxHealth: 100
-  playerBarPrefab: {fileID: 4182034153008739931, guid: fae0477d4f724c842b5bfdacd350b2f5,
-    type: 3}
-  playerBarStartDisplacement: 4
-  playerBarUpDisplacement: 1
+  centerOfMassOffset: {x: 0, y: -0.5, z: 0}
+  showCOM: 1
 --- !u!114 &8159213384489189590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3030,7 +3045,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 2947141102
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0
