@@ -14,11 +14,11 @@ namespace Racerr.UX.Camera
         /// </summary>
         void Update()
         {
-            CarManager car = ClientStateMachine.Singleton.LocalPlayer?.CarManager;
+            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer?.CarManager;
 
-            if (car != null)
+            if (carManager != null)
             {
-                foreach (Wheel wheel in car.Wheels)
+                foreach (Wheel wheel in carManager.Wheels)
                 {
                     Vector3 direction = wheel.ControllerTransform.position - transform.position;
 

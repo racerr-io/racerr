@@ -56,7 +56,7 @@ namespace Racerr.Gameplay.Car
             // Instantiate and setup player's bar
             GameObject PlayerBarGO = Instantiate(playerBarPrefab);
             PlayerBar = PlayerBarGO.GetComponent<PlayerBar>();
-            PlayerBar.Car = this;
+            PlayerBar.CarManager = this;
         }
 
         /// <summary>
