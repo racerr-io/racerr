@@ -1,5 +1,4 @@
-﻿using Mirror;
-using NWH.VehiclePhysics;
+﻿using NWH.VehiclePhysics;
 using UnityEngine;
 
 namespace Racerr.Gameplay.Car
@@ -10,7 +9,7 @@ namespace Racerr.Gameplay.Car
     /// functionality relating to the driving experience of the car.
     /// </summary>
     [RequireComponent(typeof(VehicleController))]
-    public class CarPhysicsManager : NetworkBehaviour
+    public class CarPhysicsManager : MonoBehaviour
     {
         VehicleController vehicleController;
 
@@ -23,17 +22,10 @@ namespace Racerr.Gameplay.Car
         }
 
         public float SpeedKPH => vehicleController.SpeedKPH;
-
-        /// <summary>
-        /// Cars initially spawn in an inactive state, so they cannot be driven before the race starts.
-        /// Once the race starts, this function is called by the server to allow all players in the race
-        /// to drive their car.
-        /// </summary>
-        /// <param name="active">Whether the car should be active or not.</param>
-        [ClientRpc]
-        public void RpcSetActive(bool active)
+        public bool IsActive
         {
-            vehicleController.Active = active;
+            get => vehicleController.Active;
+            set => vehicleController.Active = value;
         }
     }
 

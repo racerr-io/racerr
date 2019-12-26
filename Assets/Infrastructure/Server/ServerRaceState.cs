@@ -54,7 +54,7 @@ namespace Racerr.Infrastructure.Server
         {
             foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.Car != null))
             {
-                player.Car.CarPhysicsManager.RpcSetActive(true);
+                player.Car.RpcSetIsActive(true);
             }
         }
 

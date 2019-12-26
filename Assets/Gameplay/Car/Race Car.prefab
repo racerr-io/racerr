@@ -2553,8 +2553,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 128341794212b0842abf8646bf91b394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &-6983455188103148685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3045,7 +3043,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 2947141102
+  m_SceneId: 2328111118
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0

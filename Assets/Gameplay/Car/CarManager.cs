@@ -35,8 +35,10 @@ namespace Racerr.Gameplay.Car
             set => playerGO = value;
         }
 
-        public CarPhysicsManager CarPhysicsManager { get; private set; }
         public Player Player { get; private set; }
+
+        CarPhysicsManager carPhysicsManager;
+        public float SpeedKPH => carPhysicsManager.SpeedKPH;
 
         /// <summary>
         /// Called when the car is instantiated. Caches various fields for later use
@@ -46,7 +48,7 @@ namespace Racerr.Gameplay.Car
         {
             serverRaceState = FindObjectOfType<ServerRaceState>();
             Player = PlayerGO.GetComponent<Player>();
-            CarPhysicsManager = GetComponent<CarPhysicsManager>();
+            carPhysicsManager = GetComponent<CarPhysicsManager>();
 
             // Instantiate and setup player's bar
             GameObject PlayerBarGO = Instantiate(playerBarPrefab);
@@ -79,6 +81,18 @@ namespace Racerr.Gameplay.Car
             {
                 Player.Health -= 10;
             }
+        }
+
+        /// <summary>
+        /// Cars initially spawn in an inactive state, so they cannot be driven before the race starts.
+        /// Once the race starts, this function is called by the server to allow all players in the race
+        /// to drive their car.
+        /// </summary>
+        /// <param name="active">Whether the car should be active or not.</param>
+        [ClientRpc]
+        public void RpcSetIsActive(bool active)
+        {
+            carPhysicsManager.IsActive = active;
         }
     }
 }
