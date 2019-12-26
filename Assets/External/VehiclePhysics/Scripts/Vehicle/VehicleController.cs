@@ -780,7 +780,7 @@ namespace NWH.VehiclePhysics
                     Debug.LogWarning(
                         "More than one GroundDetection component was found in the scene, only one is needed and so onlyt the first one will be used.");
 
-                return (GroundDetection)groundDetectionObjects[0];
+                return (GroundDetection) groundDetectionObjects[0];
             }
             else
             {

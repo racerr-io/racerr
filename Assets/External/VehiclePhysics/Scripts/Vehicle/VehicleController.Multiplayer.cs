@@ -46,6 +46,6 @@ namespace NWH.VehiclePhysics
             }
         }
 #endif
-        #endregion
-    }
+            #endregion
+        }
 }

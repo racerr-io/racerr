@@ -133,7 +133,7 @@ namespace Racerr.Infrastructure.Server
     {
         #region Race Session Data
         [SyncVar] protected RaceSessionData raceSessionData;
-        public double CurrentRaceLength => raceSessionData.CurrentRaceLength;
+        public double CurrentRaceDuration => raceSessionData.CurrentRaceDuration;
 
         /// <summary>
         /// Data passed around between Race and Intermission states (Intermission needs the most recent race data to be displayed).
@@ -145,9 +145,9 @@ namespace Racerr.Infrastructure.Server
         {
             /* Server and Client Properties */
             public readonly double raceStartTime;
-            public readonly double finishedRaceLength; // Used for Client and Server Intermission State, to display the previously finished race length in the timer. 
+            public readonly double finishedRaceDuration; // Used for Client and Server Intermission State, to display the previously finished race length in the timer. 
 
-            public double CurrentRaceLength => NetworkTime.time - raceStartTime;
+            public double CurrentRaceDuration => NetworkTime.time - raceStartTime;
 
             /* Server Only Properties */
             public List<Player> PlayersInRace { get; }
@@ -187,10 +187,10 @@ namespace Racerr.Infrastructure.Server
                 }
             }
 
-            public RaceSessionData(double raceStartTime, double finishedRaceLength = 0)
+            public RaceSessionData(double raceStartTime, double finishedRaceDuration = 0)
             {
                 this.raceStartTime = raceStartTime;
-                this.finishedRaceLength = finishedRaceLength;
+                this.finishedRaceDuration = finishedRaceDuration;
                 this.PlayersInRace = new List<Player>(ServerStateMachine.Singleton.ReadyPlayers.Where(player => player.Car != null));
                 this.FinishedPlayers = new List<Player>();
 
@@ -200,10 +200,10 @@ namespace Racerr.Infrastructure.Server
                 }
             }
 
-            public RaceSessionData(double raceStartTime, double finishedRaceLength, List<Player> playersInRace, List<Player> finishedPlayers)
+            public RaceSessionData(double raceStartTime, double finishedRaceDuration, List<Player> playersInRace, List<Player> finishedPlayers)
             {
                 this.raceStartTime = raceStartTime;
-                this.finishedRaceLength = finishedRaceLength;
+                this.finishedRaceDuration = finishedRaceDuration;
                 this.PlayersInRace = playersInRace;
                 this.FinishedPlayers = finishedPlayers;
             }
