@@ -41,7 +41,7 @@ namespace Racerr.Infrastructure.Client
             }
             else if (playerBeingSpectated == null || playerBeingSpectated.IsDead)
             {
-                playersInRace = FindObjectsOfType<Player>().Where(player => !player.IsDead && !player.PosInfo.IsFinished);
+                playersInRace = playersInRace.Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
                 playerBeingSpectated = playersInRace.First();
                 ClientStateMachine.Singleton.SetPlayerCameraTarget(playersInRace.First().CarManager.transform);
                 ClientStateMachine.Singleton.SetMinimapCameraTarget(playersInRace.First().CarManager.transform);
