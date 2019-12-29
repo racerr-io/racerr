@@ -6,6 +6,8 @@ namespace Racerr.World.Track
 {
     /// <summary>
     /// Determine if this track piece is colliding with another track.
+    /// We use this script solely during track generation, and remove it once track gen
+    /// is completed.
     /// </summary>
     /// <remarks>
     /// Requires Track Game Object to have these to work:
@@ -13,7 +15,7 @@ namespace Racerr.World.Track
     /// - Place this script on the top parent, to detect collisions with all children colliders.
     /// - Mesh colliders to be convex.
     /// </remarks>
-    public class TrackPieceCollisionDetector : MonoBehaviour
+    public class TrackGeneratorCollisionDetector : MonoBehaviour
     {
         public bool IsValidTrackPlacementUponConnection => collidedGameObjects.Where(g => g != null).Count() <= 1;
         HashSet<GameObject> collidedGameObjects = new HashSet<GameObject>();

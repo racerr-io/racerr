@@ -110,7 +110,7 @@ namespace Racerr.World.Track
                 // Wait for next physics calculation so that Track Piece Collision Detector works properly.
                 yield return new WaitForSeconds(0.15f);
 
-                if (newTrackPiece.GetComponent<TrackPieceCollisionDetector>().IsValidTrackPlacementUponConnection)
+                if (newTrackPiece.GetComponent<TrackGeneratorCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {
                     newTrackPiece.transform.position = new Vector3(newTrackPiece.transform.position.x, newTrackPiece.transform.position.y, newTrackPiece.transform.position.z);
                     NetworkServer.Spawn(newTrackPiece);
@@ -129,7 +129,7 @@ namespace Racerr.World.Track
             foreach (GameObject trackPiece in GeneratedTrackPieces)
             {
                 TrackPieceManager trackPieceState = trackPiece.GetComponent<TrackPieceManager>();
-                trackPieceState.MakeDriveable();
+                trackPieceState.MakeReadyForRace();
                 trackPieceState.MakePropsNonKinematic();
             }
 

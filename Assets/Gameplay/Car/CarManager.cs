@@ -60,20 +60,6 @@ namespace Racerr.Gameplay.Car
         }
 
         /// <summary>
-        /// Detect if the car is moving through triggers, which are GameObjects in the world which result in no collision
-        /// and do not affect the motion of the car. We use this to send a message to the Server Race State when a player passes
-        /// through a checkpoint, which is an invisible box collider located at the end of every track piece.
-        /// </summary>
-        /// <param name="collider">The collider that it went through.</param>
-        void OnTriggerEnter(Collider collider)
-        {
-            if (collider.name == TrackPieceComponent.FinishLineCheckpoint || collider.name == TrackPieceComponent.Checkpoint)
-            {
-                serverRaceState.NotifyPlayerPassedThroughCheckpoint(OwnPlayer, collider.gameObject);
-            }
-        }
-
-        /// <summary>
         /// Apply damage to car on collision with other players and the environment (e.g. buildings), by decreasing the players
         /// health by a flat amount.
         /// </summary>

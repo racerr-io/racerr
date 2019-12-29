@@ -22,8 +22,9 @@ namespace Racerr.World.Track
         {
             if (isClient)
             {
-                MakeDriveable();
+                MakeReadyForRace();
                 RemovePhysicsFromProps();
+                Destroy(GetComponentInChildren<TrackPieceCheckpointDetector>());
             }
         }
 
@@ -40,16 +41,17 @@ namespace Racerr.World.Track
         }
 
         /// <summary>
-        /// Make tracks driveable by disabling convex mesh colliders and destroying the top level rigidbody.
+        /// Make track ready for race by disabling convex mesh colliders and destroying the top level rigidbody, which are only useful for
+        /// detecting collisions during track generation. Also destroy the track gen collision detector script on the track,
+        /// as we don't need it once the track is generated. Intended to be called after the entire track has been generated.
         /// </summary>
         /// <remarks>
-        /// Making a track driveable means that it will stay still and have detailed mesh colliders,
-        /// but the physics engine will not detect collisions with the track to save performance (since the Mesh Collider is not convex).
-        /// The reason for doing this is that we need to make tracks detect collisions during track generation. Once the track is placed
-        /// we can make it driveable. There is also no need for the rigidbody on the track, this was only useful for detecting collisions
-        /// with other tracks during track generation and can be safely removed.
+        /// Convex colliders are less detailed but are the only way to detect collisions during track generation. Once track generation is done,
+        /// then we need to restore back the detailed nature of the track, so we make the track non-convex. This has the added bonus that the 
+        /// physics engine will not detect collisions with convex colliders to save performance. There is also no need for the rigidbody on the track, 
+        /// this was only useful for detecting collisions with other tracks during track generation and can be safely removed.
         /// </remarks>
-        public void MakeDriveable()
+        public void MakeReadyForRace()
         {
             Rigidbody rigidbody = GetComponent<Rigidbody>();
             rigidbody.isKinematic = true; // This is redundant step, but upon setting the mesh collider to non-convex Unity complains as
@@ -61,6 +63,8 @@ namespace Racerr.World.Track
             {
                 meshCollider.convex = false;
             }
+
+            Destroy(GetComponent<TrackGeneratorCollisionDetector>());
         }
 
         /// <summary>
