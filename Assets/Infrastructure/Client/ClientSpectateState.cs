@@ -37,7 +37,6 @@ namespace Racerr.Infrastructure.Client
             {
                 SetPlayerBeingSpectated();
             }
-
         }
 
         void TransitionToIntermission()
