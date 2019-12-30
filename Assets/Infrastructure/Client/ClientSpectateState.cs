@@ -10,8 +10,8 @@ namespace Racerr.Infrastructure.Client
     /// </summary>
     public class ClientSpectateState : LocalState
     {
-        Player playerBeingSpectated;
         IEnumerable<Player> playersInRace = null;
+        Player playerBeingSpectated;
 
         /// <summary>
         /// Upon entering the spectate state on the client, set the first player in the race to be spectated.
@@ -48,8 +48,7 @@ namespace Racerr.Infrastructure.Client
         {
             playersInRace = playersInRace.Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
             playerBeingSpectated = playersInRace.First();
-            ClientStateMachine.Singleton.SetPlayerCameraTarget(playersInRace.First().CarManager.transform);
-            ClientStateMachine.Singleton.SetMinimapCameraTarget(playersInRace.First().CarManager.transform);
+            ClientStateMachine.Singleton.SetPlayerCameraTarget(playerBeingSpectated.CarManager.transform);
         }
 
         void TransitionToIntermission()
