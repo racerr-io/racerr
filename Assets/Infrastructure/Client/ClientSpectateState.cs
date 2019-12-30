@@ -39,11 +39,6 @@ namespace Racerr.Infrastructure.Client
             }
         }
 
-        void TransitionToIntermission()
-        {
-            ClientStateMachine.Singleton.ChangeState(StateEnum.Intermission);
-        }
-
         /// <summary>
         /// Find the players in the race that we can spectate.
         /// We can assume this to be non-empty as the race would already be finished otherwise and we would transition to intermission state.
@@ -55,6 +50,11 @@ namespace Racerr.Infrastructure.Client
             playerBeingSpectated = playersInRace.First();
             ClientStateMachine.Singleton.SetPlayerCameraTarget(playersInRace.First().CarManager.transform);
             ClientStateMachine.Singleton.SetMinimapCameraTarget(playersInRace.First().CarManager.transform);
+        }
+
+        void TransitionToIntermission()
+        {
+            ClientStateMachine.Singleton.ChangeState(StateEnum.Intermission);
         }
     }
 }
