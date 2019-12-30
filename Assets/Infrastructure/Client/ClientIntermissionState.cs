@@ -1,8 +1,7 @@
 ﻿using Doozy.Engine.UI;
 using Racerr.Infrastructure.Server;
-using Racerr.Utility;
+using Racerr.UX.UI;
 using Racerr.World.Track;
-using TMPro;
 using UnityEngine;
 
 namespace Racerr.Infrastructure.Client
@@ -15,10 +14,9 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] ServerIntermissionState serverIntermissionState;
         [SerializeField] UIView intermissionView;
 
-        // TODO: These items should be extracted to their own script, setting text fields is not the responsibility of this class.
-        [SerializeField] TextMeshProUGUI intermissionTimerTMP;
-        [SerializeField] TextMeshProUGUI raceTimerTMP;
-        [SerializeField] TextMeshProUGUI leaderboardTMP;
+        [SerializeField] RaceTimerUIComponent raceTimerUIComponent;
+        [SerializeField] LeaderboardUIComponent leaderboardUIComponent;
+        [SerializeField] IntermissionTimerUIComponent intermissionTimerUIComponent;
 
         /// <summary>
         /// Upon entering the client intermission state, we will show them the intermission screen which has
@@ -29,24 +27,8 @@ namespace Racerr.Infrastructure.Client
         {
             intermissionView.Show();
             TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Callback += SetCameraTargetOnTrackGenerated;
-
-            // Race Timer. TODO: Extract Race Timer to its own script
-            raceTimerTMP.text = serverIntermissionState.FinishedRaceDuration.ToRaceTimeFormat();
-
-            // Leaderboard. TODO: Extract Leaderboard to its own script
-            string leaderboardText = string.Empty;
-            foreach (RaceSessionState.PlayerLeaderboardItemDTO leaderboardItem in serverIntermissionState.LeaderboardItems)
-            {
-                leaderboardText += $"{leaderboardItem.position}. {leaderboardItem.playerName}";
-
-                if (leaderboardItem.timeString != null)
-                {
-                    leaderboardText += $" ({leaderboardItem.timeString})";
-                }
-
-                leaderboardText += "\n";
-            }
-            leaderboardTMP.text = leaderboardText;
+            raceTimerUIComponent.UpdateRaceTimer(serverIntermissionState.FinishedRaceDuration);
+            leaderboardUIComponent.UpdateLeaderboard(serverIntermissionState.LeaderboardItems);
         }
 
         /// <summary>
@@ -80,8 +62,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         protected override void FixedUpdate()
         {
-            // Race Timer. TODO: Extract Race Timer to its own script
-            intermissionTimerTMP.text = serverIntermissionState.IntermissionSecondsRemaining.ToString();
+            intermissionTimerUIComponent.UpdateIntermissionTimer(serverIntermissionState.IntermissionSecondsRemaining);
 
             if (ServerStateMachine.Singleton.StateType == StateEnum.Race)
             {

@@ -1,6 +1,8 @@
-﻿using Racerr.Infrastructure.Server;
-using System.Linq;
+﻿using Doozy.Engine.UI;
+using Racerr.Infrastructure.Server;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace Racerr.Infrastructure.Client
 {
@@ -10,6 +12,7 @@ namespace Racerr.Infrastructure.Client
     /// </summary>
     public class ClientSpectateState : LocalState
     {
+        [SerializeField] UIView spectateView;
         IEnumerable<Player> playersInRace = null;
         Player playerBeingSpectated;
 
@@ -19,7 +22,13 @@ namespace Racerr.Infrastructure.Client
         /// <param name="optionalData">Should be null</param>
         public override void Enter(object optionalData = null)
         {
+            spectateView.Show();
             playersInRace = FindObjectsOfType<Player>().Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
+        }
+
+        public override void Exit()
+        {
+            spectateView.Hide();
         }
 
         /// <summary>

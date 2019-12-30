@@ -1,9 +1,6 @@
 ﻿using Doozy.Engine.UI;
-using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Server;
-using Racerr.Utility;
-using System;
-using TMPro;
+using Racerr.UX.UI;
 using UnityEngine;
 
 namespace Racerr.Infrastructure.Client
@@ -16,13 +13,12 @@ namespace Racerr.Infrastructure.Client
     {
         [SerializeField] ServerRaceState serverRaceState;
         [SerializeField] UIView raceView;
-        [SerializeField] int countdownTimeThreshold = 10;
 
-        // TODO: These items should be extracted to their own script, setting text fields is not the responsibility of this class.
-        [SerializeField] TextMeshProUGUI raceTimerTMP;
-        [SerializeField] TextMeshProUGUI countdownTimerTMP;
-        [SerializeField] TextMeshProUGUI speedTMP;
-        [SerializeField] TextMeshProUGUI leaderboardTMP;
+        [SerializeField] RaceTimerUIComponent raceTimerUIComponent;
+        [SerializeField] CountdownTimerUIComponent countdownTimerUIComponent;
+        [SerializeField] SpeedUIComponent speedUIComponent;
+        [SerializeField] LeaderboardUIComponent leaderboardUIComponent;
+        [SerializeField] MinimapUIComponent minimapUIComponent;
 
         /// <summary>
         /// Called upon entering the race state on the client, where we show the Race UI.
@@ -32,7 +28,7 @@ namespace Racerr.Infrastructure.Client
         {
             raceView.Show();
             ClientStateMachine.Singleton.SetPlayerCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
-            ClientStateMachine.Singleton.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
+            minimapUIComponent.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
         }
 
         /// <summary>
@@ -40,7 +36,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         public override void Exit()
         {
-            ClientStateMachine.Singleton.SetMinimapCameraTarget(null);
+            minimapUIComponent.SetMinimapCameraTarget(null);
             ClientStateMachine.Singleton.SetPlayerCameraTarget(null);
             raceView.Hide();
         }
@@ -63,37 +59,10 @@ namespace Racerr.Infrastructure.Client
             }
             else
             {
-                // Race Timer. TODO: Extract Race Timer to its own script
-                raceTimerTMP.text = serverRaceState.CurrentRaceDuration.ToRaceTimeFormat();
-
-                // Countdown Timer. TODO: Extract Countdown Timer to its own script
-                if (serverRaceState.RemainingRaceTime > countdownTimeThreshold)
-                {
-                    countdownTimerTMP.gameObject.SetActive(false);
-                }
-                else
-                {
-                    countdownTimerTMP.gameObject.SetActive(true);
-                    countdownTimerTMP.text = Math.Ceiling(serverRaceState.RemainingRaceTime).ToString();
-                }
-
-                // Speed. TODO: Extract Speed to its own script
-                speedTMP.text = Convert.ToInt32(ClientStateMachine.Singleton.LocalPlayer.CarManager.SpeedKPH).ToString() + " KPH";
-
-                // Leaderboard. TODO: Extract Leaderboard to its own script
-                string leaderboardText = string.Empty;
-                foreach (RaceSessionState.PlayerLeaderboardItemDTO leaderboardItem in serverRaceState.LeaderboardItems)
-                {
-                    leaderboardText += $"{leaderboardItem.position}. {leaderboardItem.playerName}";
-
-                    if (leaderboardItem.timeString != null)
-                    {
-                        leaderboardText += $" ({leaderboardItem.timeString})";
-                    }
-
-                    leaderboardText += "\n";
-                }
-                leaderboardTMP.text = leaderboardText;
+                raceTimerUIComponent.UpdateRaceTimer(serverRaceState.CurrentRaceDuration);
+                countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
+                speedUIComponent.UpdateSpeed(ClientStateMachine.Singleton.LocalPlayer.CarManager.SpeedKPH);
+                leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
             }
         }
 
