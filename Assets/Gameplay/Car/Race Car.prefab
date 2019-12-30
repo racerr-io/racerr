@@ -2425,7 +2425,7 @@ GameObject:
   - component: {fileID: 2388928030589524058}
   m_Layer: 0
   m_Name: Race Car
-  m_TagString: Car
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3043,7 +3043,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 440920952
+  m_SceneId: 252355045
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0
