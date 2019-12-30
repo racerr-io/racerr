@@ -19,7 +19,7 @@ namespace Racerr.Infrastructure.Client
         /// <param name="optionalData">Should be null</param>
         public override void Enter(object optionalData = null)
         {
-            SetPlayerBeingSpectated();
+            playersInRace = FindObjectsOfType<Player>().Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
         }
 
         /// <summary>
@@ -51,15 +51,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         void SetPlayerBeingSpectated()
         {
-            if (playersInRace == null)
-            {
-                playersInRace = FindObjectsOfType<Player>().Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
-            }
-            else
-            {
-                playersInRace = playersInRace.Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
-            }
-
+            playersInRace = playersInRace.Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
             playerBeingSpectated = playersInRace.First();
             ClientStateMachine.Singleton.SetPlayerCameraTarget(playersInRace.First().CarManager.transform);
             ClientStateMachine.Singleton.SetMinimapCameraTarget(playersInRace.First().CarManager.transform);
