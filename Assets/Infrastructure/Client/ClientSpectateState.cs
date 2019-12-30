@@ -1,4 +1,6 @@
 ﻿using Racerr.Infrastructure.Server;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Racerr.Infrastructure.Client
 {
@@ -8,9 +10,22 @@ namespace Racerr.Infrastructure.Client
     /// </summary>
     public class ClientSpectateState : LocalState
     {
+        IEnumerable<Player> playersInRace = null;
+        Player playerBeingSpectated;
+
+        /// <summary>
+        /// Upon entering the spectate state on the client, set the first player in the race to be spectated.
+        /// </summary>
+        /// <param name="optionalData">Should be null</param>
+        public override void Enter(object optionalData = null)
+        {
+            playersInRace = FindObjectsOfType<Player>().Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
+        }
+
         /// <summary>
         /// Called every physics tick to monitor the server state. If the server has changed to intermission,
         /// it means we can join the next race! Hence, update our UI to the Intermission State.
+        /// If the player we are spectating leaves the game or dies, we refind the new first player to spectate.
         /// </summary>
         protected override void FixedUpdate()
         {
@@ -18,6 +33,22 @@ namespace Racerr.Infrastructure.Client
             {
                 TransitionToIntermission();
             }
+            else if (playerBeingSpectated == null || playerBeingSpectated.IsDead)
+            {
+                SetPlayerBeingSpectated();
+            }
+        }
+
+        /// <summary>
+        /// Find the players in the race that we can spectate.
+        /// We can assume this to be non-empty as the race would already be finished otherwise and we would transition to intermission state.
+        /// From the players in the race, we choose the first player to spectate.
+        /// </summary>
+        void SetPlayerBeingSpectated()
+        {
+            playersInRace = playersInRace.Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
+            playerBeingSpectated = playersInRace.First();
+            ClientStateMachine.Singleton.SetPlayerCameraTarget(playerBeingSpectated.CarManager.transform);
         }
 
         void TransitionToIntermission()
