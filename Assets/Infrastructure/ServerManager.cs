@@ -12,10 +12,6 @@ namespace Racerr.Infrastructure
         [Header("Other")]
         [SerializeField] GameObject[] destroyOnServerLoad;
 
-#if UNITY_EDITOR
-        [SerializeField] bool clientDebugMode;
-#endif
-
         /// <summary>
         /// Automatically start the server on headless mode (detected through whether it has a graphics device),
         /// or automatically connect client on server on normal mode.
@@ -31,15 +27,7 @@ namespace Racerr.Infrastructure
             else
             {
 #if UNITY_EDITOR
-                if (clientDebugMode)
-                {
-                    networkAddress = "localhost";
-                    StartClient();
-                }
-                else
-                {
-                    StartHost();
-                }
+                StartHost();
 #else
                 StartClient();
 #endif

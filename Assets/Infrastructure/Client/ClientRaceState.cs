@@ -42,12 +42,31 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Called every physics tick.
-        /// If the client discovers the race has ended, we move the client to Intermission State.
-        /// If the client discovers the race is still going, but we are dead or finished the race, we move the client to Spectate State.
-        /// Otherwise, it means the race is still going and we are still racing, so we will update the UI elements accordingly.
+        /// Called every physics tick. Updates UI components, then checks if we should transition to a new client state.
         /// </summary>
         protected override void FixedUpdate()
+        {
+            UpdateUIComponents();
+            CheckToTransition();
+        }
+
+        /// <summary>
+        /// Update all the UI components in the client race view, which shows information about the player's car and how they 
+        /// are performing in the race.
+        /// </summary>
+        void UpdateUIComponents()
+        {
+            raceTimerUIComponent.UpdateRaceTimer(serverRaceState.CurrentRaceDuration);
+            countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
+            speedUIComponent.UpdateSpeed(ClientStateMachine.Singleton.LocalPlayer.CarManager.SpeedKPH);
+            leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
+        }
+
+        /// <summary>
+        /// Transition the next client state. If the race is ended, we move to intermission. However, if the race is still going but we
+        /// have died or finished the race, we move to spectating.
+        /// </summary>
+        void CheckToTransition()
         {
             if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
             {
@@ -56,13 +75,6 @@ namespace Racerr.Infrastructure.Client
             else if (ClientStateMachine.Singleton.LocalPlayer.IsDead || ClientStateMachine.Singleton.LocalPlayer.PosInfo.IsFinished)
             {
                 TransitionToSpectate();
-            }
-            else
-            {
-                raceTimerUIComponent.UpdateRaceTimer(serverRaceState.CurrentRaceDuration);
-                countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
-                speedUIComponent.UpdateSpeed(ClientStateMachine.Singleton.LocalPlayer.CarManager.SpeedKPH);
-                leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
             }
         }
 
