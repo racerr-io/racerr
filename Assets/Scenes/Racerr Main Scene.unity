@@ -5704,7 +5704,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6aef4804dad46c4a9e363b4236bebb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spectateView: {fileID: 0}
 --- !u!114 &1609746735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5959,12 +5958,13 @@ MonoBehaviour:
   - {fileID: 3637028748793434385, guid: 8f34401311c1f8a4689fb12aa59d705b, type: 3}
   - {fileID: 6098622089286647885, guid: f97af7b666611434582977f2250e2b6b, type: 3}
   - {fileID: 4812132155584618507, guid: 106072e8ebf69294c89488b8bfe7961e, type: 3}
-  destroyOnServerLoad:
+  destroyOnHeadlessLoad:
+  - {fileID: 1750170194}
   - {fileID: 1609746729}
   - {fileID: 170076733}
   - {fileID: 683854787}
-  - {fileID: 1750170194}
-  clientDebugMode: 0
+  - {fileID: 1955343280}
+  editorDebugMode: 0
 --- !u!4 &1813844549
 Transform:
   m_ObjectHideFlags: 0
@@ -7477,6 +7477,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4339967825088328005, guid: 77f75e1b946edd04c8da7cc3d8936db3,
+        type: 3}
+      propertyPath: m_margin.z
+      value: -1018.58936
+      objectReference: {fileID: 0}
+    - target: {fileID: 4339967825088328005, guid: 77f75e1b946edd04c8da7cc3d8936db3,
+        type: 3}
+      propertyPath: m_margin.x
+      value: -1116.2932
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77f75e1b946edd04c8da7cc3d8936db3, type: 3}
