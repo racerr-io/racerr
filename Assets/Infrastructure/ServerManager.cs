@@ -13,6 +13,7 @@ namespace Racerr.Infrastructure
         [Header("Other")]
         [SerializeField] GameObject[] destroyOnHeadlessLoad;
 #if UNITY_EDITOR
+        const string localServerAddress = "localhost";
         enum EditorDebugModeEnum
         {
             Host,
@@ -20,12 +21,12 @@ namespace Racerr.Infrastructure
             ClientLocal,
             ClientOnline
         }
-
         [SerializeField] EditorDebugModeEnum editorDebugMode;
 #endif
 
         /// <summary>
-        /// On game start, initialise the networking infrastructure.
+        /// On game start, initialise the networking infrastructure. If you are running in the Unity Editor, we will
+        /// use debug mode, which allows you to test the game in various environments without needing to deploy to AWS.
         /// </summary>
         public override void Start()
         {
@@ -43,12 +44,12 @@ namespace Racerr.Infrastructure
         /// </summary>
         /// <remarks>
         /// Possible debugging modes:
-        /// Host - An option to start both the server and the client.
-        /// Headless - An option to start the Unity editor in headless server mode (<see cref="StartHeadless"/>).
-        /// Client Local - An option for client to connect to localhost instead of the specified networkAddress, 
-        /// so that we can connect several players locally through several Unity Editors on the same PC.
-        /// Client Online - An option for client to connect to the online server and act as a client, 
-        /// so that we can play on racerr.io through the Unity Editor.
+        /// Host - Start as both the server and the client.
+        /// Headless - Headless server mode (<see cref="StartHeadless"/>).
+        /// Client Local - Client connects to localhost instead of the specified networkAddress, so that we can connect to 
+        /// another editor which is running in Host or Headless mode.
+        /// Client Online - Client connects to the online server and acts as a client, so that we can play on racerr.io 
+        /// through the Unity Editor.
         /// </remarks>
         void InitialiseDebugModeNetworking()
         {
@@ -57,7 +58,7 @@ namespace Racerr.Infrastructure
                 case EditorDebugModeEnum.Host: StartHost(); break;
                 case EditorDebugModeEnum.Headless: StartHeadless(); break;
                 case EditorDebugModeEnum.ClientOnline: StartClient(); break;
-                case EditorDebugModeEnum.ClientLocal: networkAddress = "localhost"; StartClient(); break;
+                case EditorDebugModeEnum.ClientLocal: networkAddress = localServerAddress; StartClient(); break;
                 default: throw new InvalidOperationException("Invalid Unity Editor Debug Mode attempt: " + editorDebugMode);
             }
         }
