@@ -10,6 +10,7 @@ namespace Racerr.Infrastructure
     /// </summary>
     public class ServerManager : NetworkManager
     {
+#if UNITY_EDITOR
         enum UnityEditorDebugModeEnum
         {
             Host,
@@ -20,7 +21,7 @@ namespace Racerr.Infrastructure
 
         [Header("Debug Mode")]
         [SerializeField] UnityEditorDebugModeEnum unityEditorDebugMode;
-
+#endif
         [Header("Other")]
         [SerializeField] GameObject[] destroyOnServerLoad;
 
@@ -31,14 +32,7 @@ namespace Racerr.Infrastructure
         public override void Start()
         {
 #if UNITY_EDITOR
-            switch (unityEditorDebugMode)
-            {
-                case UnityEditorDebugModeEnum.Headless: StartHeadless(); break;
-                case UnityEditorDebugModeEnum.ClientOnline: StartClient(); break;
-                case UnityEditorDebugModeEnum.ClientLocal: networkAddress = "localhost"; StartClient(); break;
-                case UnityEditorDebugModeEnum.Host: StartHost(); break;
-                default: throw new InvalidOperationException("Invalid Unity Editor Debug Mode attempt: " + unityEditorDebugMode.ToString());
-            }
+            InitialiseNetworking();
 #else
             if (isHeadless)
             {
@@ -49,6 +43,27 @@ namespace Racerr.Infrastructure
                 StartClient();
             }
 #endif
+        }
+
+        /// <summary>
+        /// Host Mode - An option to start both the server and the client in Unity Editor.
+        /// Client Local Debug Mode - An option for client to connect to localhost instead of the specified networkAddress, 
+        /// so that we can connect several players locally through several Unity Editors.
+        /// Client Online Debug Mode - An option for client to connect to networkAddress and act as a client, 
+        /// so we can play on racerr.io through the Unity Editor.
+        /// Headless Debug Mode - An option to start the Unity editor in headless mode(the mode our server runs in on AWS), 
+        /// so we can debug the headless functionality.
+        /// </summary>
+        void InitialiseNetworking()
+        {
+            switch (unityEditorDebugMode)
+            {
+                case UnityEditorDebugModeEnum.Host: StartHost(); break;
+                case UnityEditorDebugModeEnum.ClientOnline: StartClient(); break;
+                case UnityEditorDebugModeEnum.ClientLocal: networkAddress = "localhost"; StartClient(); break;
+                case UnityEditorDebugModeEnum.Headless: StartHeadless(); break;
+                default: throw new InvalidOperationException("Invalid Unity Editor Debug Mode attempt: " + unityEditorDebugMode.ToString());
+            }
         }
 
         void StartHeadless()
