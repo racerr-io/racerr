@@ -33,7 +33,9 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Called upon race finish, where we will hide the Race UI and disable car controller.
+        /// Called upon race finish or player death, where we will hide the Race UI. On player death, the car will still remain
+        /// on the track as we do not want to destroy and make the car disappear suddenly in a weird fashion. Hence instead, we
+        /// leave the car on the track and manually disable the car controller so the player cannot drive the car after death.
         /// </summary>
         public override void Exit()
         {
