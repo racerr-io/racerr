@@ -14,7 +14,7 @@ namespace Racerr.UX.UI
         [SerializeField] TextMeshProUGUI leaderboardTMP;
 
         /// <summary>
-        /// Given a list of leaderboard items, which is send by the server, update the text on the leaderboard to show
+        /// Given a list of leaderboard items, which is sent by the server, update the text on the leaderboard to show
         /// details of all players in this form: "RANK. NAME (TIME or 'DNF')", and sorted by rank. Note that the 
         /// leaderboard is just a single text component. 
         /// </summary>
