@@ -44,7 +44,8 @@ namespace Racerr.Infrastructure
             {
                 StartHeadless();
             }
-            else {
+            else 
+            {
                 StartClient();
             }
 #endif
