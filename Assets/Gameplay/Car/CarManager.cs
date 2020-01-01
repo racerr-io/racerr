@@ -31,7 +31,7 @@ namespace Racerr.Gameplay.Car
         CarPhysicsManager carPhysicsManager;
         public float SpeedKPH => carPhysicsManager.SpeedKPH;
         public List<Wheel> Wheels => carPhysicsManager.Wheels;
-
+        // TODO: Extract Player Bar to its own script
         [Header("Player Bar Properties")]
         [SerializeField] GameObject playerBarPrefab;
         [SerializeField] float playerBarStartDisplacement = 4; // Displacement from car centre at all times

@@ -40,6 +40,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         public override void Exit()
         {
+            ClientStateMachine.Singleton.LocalPlayer.CarManager.SetIsActive(false);
             ClientStateMachine.Singleton.SetMinimapCameraTarget(null);
             ClientStateMachine.Singleton.SetPlayerCameraTarget(null);
             raceView.Hide();
@@ -59,7 +60,6 @@ namespace Racerr.Infrastructure.Client
             }
             else if (ClientStateMachine.Singleton.LocalPlayer.IsDead || ClientStateMachine.Singleton.LocalPlayer.PosInfo.IsFinished)
             {
-                ClientStateMachine.Singleton.LocalPlayer.CarManager.SetIsActive(false);
                 TransitionToSpectate();
             }
             else
