@@ -1,4 +1,5 @@
 ﻿using Doozy.Engine.UI;
+using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Server;
 using Racerr.UX.UI;
 using UnityEngine;
@@ -58,8 +59,13 @@ namespace Racerr.Infrastructure.Client
         {
             raceTimerUIComponent.UpdateRaceTimer(serverRaceState.CurrentRaceDuration);
             countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
-            speedUIComponent.UpdateSpeed(ClientStateMachine.Singleton.LocalPlayer.CarManager.SpeedKPH);
             leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
+
+            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
+            if (carManager != null)
+            {
+                speedUIComponent.UpdateSpeed(carManager.SpeedKPH);
+            }
         }
 
         /// <summary>
