@@ -9,6 +9,17 @@ namespace Racerr.Infrastructure
     /// </summary>
     public class ServerManager : NetworkManager
     {
+        enum UnityEditorDebugModeEnum
+        {
+            None,
+            Client,
+            Server,
+            Headless
+        }
+
+        [Header("Debug Mode")]
+        [SerializeField] UnityEditorDebugModeEnum unityEditorDebugMode;
+
         [Header("Other")]
         [SerializeField] GameObject[] destroyOnServerLoad;
 
@@ -18,11 +29,19 @@ namespace Racerr.Infrastructure
         /// </summary>
         public override void Start()
         {
-            if (isHeadless)
+            if (isHeadless || unityEditorDebugMode == UnityEditorDebugModeEnum.Headless)
             {
                 Application.targetFrameRate = serverTickRate;
                 DestroySelectedGameObjectsOnServerLoad();
                 StartServer();
+            }
+            else if (unityEditorDebugMode == UnityEditorDebugModeEnum.Client)
+            {
+
+            }
+            else if (unityEditorDebugMode == UnityEditorDebugModeEnum.Server)
+            {
+
             }
             else
             {
