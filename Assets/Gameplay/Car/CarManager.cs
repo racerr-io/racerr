@@ -1,9 +1,7 @@
 ﻿using Mirror;
 using NWH.VehiclePhysics;
 using Racerr.Infrastructure;
-using Racerr.Infrastructure.Server;
 using Racerr.UX.Car;
-using Racerr.World.Track;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +14,6 @@ namespace Racerr.Gameplay.Car
     [RequireComponent(typeof(CarPhysicsManager))]
     public class CarManager : NetworkBehaviour
     {
-        ServerRaceState serverRaceState;
         public Player OwnPlayer { get; private set; }
 
         [Header("Car Properties")]
@@ -46,7 +43,6 @@ namespace Racerr.Gameplay.Car
         /// </summary>
         void Start()
         {
-            serverRaceState = FindObjectOfType<ServerRaceState>();
             OwnPlayer = PlayerGO.GetComponent<Player>();
             carPhysicsManager = GetComponent<CarPhysicsManager>();
 
@@ -54,20 +50,6 @@ namespace Racerr.Gameplay.Car
             GameObject PlayerBarGO = Instantiate(playerBarPrefab);
             PlayerBar = PlayerBarGO.GetComponent<PlayerBar>();
             PlayerBar.CarManager = this;
-        }
-
-        /// <summary>
-        /// Detect if the car is moving through triggers, which are GameObjects in the world which result in no collision
-        /// and do not affect the motion of the car. We use this to send a message to the Server Race State when a player passes
-        /// through a checkpoint, which is an invisible box collider located at the end of every track piece.
-        /// </summary>
-        /// <param name="collider">The collider that it went through.</param>
-        void OnTriggerEnter(Collider collider)
-        {
-            if (collider.name == TrackPieceComponent.FinishLineCheckpoint || collider.name == TrackPieceComponent.Checkpoint)
-            {
-                serverRaceState.NotifyPlayerPassedThroughCheckpoint(OwnPlayer, collider.gameObject);
-            }
         }
 
         /// <summary>

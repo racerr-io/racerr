@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2155747716227168004}
   - component: {fileID: 2521694848582257677}
+  - component: {fileID: 777344770960558974}
   m_Layer: 0
   m_Name: Checkpoint
   m_TagString: Untagged
@@ -44,6 +45,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 20, y: 2, z: 0.1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &777344770960558974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322542756874636252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1afbe5252a79c459eeb6e21b09d43d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3637028748793434385
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,8 +136,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 77196788
+  m_AssetId: 8f34401311c1f8a4689fb12aa59d705b
+  m_SceneId: 0
 --- !u!114 &7212285355230755718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 036ae35156a615a4dbafd5c8f296ed28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
   syncInterval: 0.1
   propDownForce: 8000
 --- !u!1 &6773534366077338612
