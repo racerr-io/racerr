@@ -59,7 +59,7 @@ namespace Racerr.Infrastructure.Client
             }
             else if (ClientStateMachine.Singleton.LocalPlayer.IsDead || ClientStateMachine.Singleton.LocalPlayer.PosInfo.IsFinished)
             {
-                ClientStateMachine.Singleton.LocalPlayer.CarManager.RpcSetIsActive(false);
+                ClientStateMachine.Singleton.LocalPlayer.CarManager.SetIsActive(false);
                 TransitionToSpectate();
             }
             else

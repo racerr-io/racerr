@@ -92,8 +92,7 @@ namespace Racerr.Gameplay.Car
         /// to drive their car.
         /// </summary>
         /// <param name="isActive">Whether the car should be active or not.</param>
-        [ClientRpc]
-        public void RpcSetIsActive(bool isActive)
+        public void SetIsActive(bool isActive)
         {
             carPhysicsManager.IsActive = isActive;
         }
