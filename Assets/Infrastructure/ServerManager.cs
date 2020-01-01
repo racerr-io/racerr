@@ -22,22 +22,7 @@ namespace Racerr.Infrastructure
             ClientOnline
         }
         [SerializeField] EditorDebugModeEnum editorDebugMode;
-#endif
 
-        /// <summary>
-        /// On game start, initialise the networking infrastructure. If you are running in the Unity Editor, we will
-        /// use debug mode, which allows you to test the game in various environments without needing to deploy to AWS.
-        /// </summary>
-        public override void Start()
-        {
-#if UNITY_EDITOR
-            InitialiseDebugModeNetworking();
-#else
-            InitialiseNetworking();
-#endif
-        }
-
-#if UNITY_EDITOR
         /// <summary>
         /// Initialises networking in debug mode, intended for use when working with the game in the Unity Editor. You may
         /// select the desired debugging mode via the dropdown in the inspector.
@@ -63,6 +48,19 @@ namespace Racerr.Infrastructure
             }
         }
 #endif
+
+        /// <summary>
+        /// On game start, initialise the networking infrastructure. If you are running in the Unity Editor, we will
+        /// use debug mode, which allows you to test the game in various environments without needing to deploy to AWS.
+        /// </summary>
+        public override void Start()
+        {
+#if UNITY_EDITOR
+            InitialiseDebugModeNetworking();
+#else
+            InitialiseNetworking();
+#endif
+        }
 
         /// <summary>
         /// Initialises networking for the compiled version of the game. If we have no graphics card (i.e. having no head), 
