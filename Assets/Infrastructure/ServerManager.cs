@@ -12,7 +12,8 @@ namespace Racerr.Infrastructure
     {
         [Header("Other")]
         [SerializeField] GameObject[] destroyOnHeadlessLoad;
-#if UNITY_EDITOR
+        [SerializeField] EditorDebugModeEnum editorDebugMode;
+
         const string localServerAddress = "localhost";
         enum EditorDebugModeEnum
         {
@@ -21,7 +22,22 @@ namespace Racerr.Infrastructure
             ClientLocal,
             ClientOnline
         }
-        [SerializeField] EditorDebugModeEnum editorDebugMode;
+
+        /// <summary>
+        /// On game start, initialise the networking infrastructure. If you are running in the Unity Editor, we will
+        /// use debug mode, which allows you to test the game in various environments without needing to deploy to AWS.
+        /// </summary>
+        public override void Start()
+        {
+            if (Application.isEditor)
+            {
+                InitialiseDebugModeNetworking();
+            }
+            else
+            {
+                InitialiseNetworking();
+            }
+        }
 
         /// <summary>
         /// Initialises networking in debug mode, intended for use when working with the game in the Unity Editor. You may
@@ -46,20 +62,6 @@ namespace Racerr.Infrastructure
                 case EditorDebugModeEnum.ClientLocal: networkAddress = localServerAddress; StartClient(); break;
                 default: throw new InvalidOperationException("Invalid Unity Editor Debug Mode attempt: " + editorDebugMode);
             }
-        }
-#endif
-
-        /// <summary>
-        /// On game start, initialise the networking infrastructure. If you are running in the Unity Editor, we will
-        /// use debug mode, which allows you to test the game in various environments without needing to deploy to AWS.
-        /// </summary>
-        public override void Start()
-        {
-#if UNITY_EDITOR
-            InitialiseDebugModeNetworking();
-#else
-            InitialiseNetworking();
-#endif
         }
 
         /// <summary>

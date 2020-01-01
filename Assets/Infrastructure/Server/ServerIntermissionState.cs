@@ -11,7 +11,7 @@ namespace Racerr.Infrastructure.Server
     /// </summary>
     public class ServerIntermissionState : RaceSessionState
     {
-        [SerializeField] int intermissionTimerSecondsEditor = 10;
+        [SerializeField] int intermissionTimerSecondsEditor = 1;
         [SerializeField] int intermissionTimerSeconds = 10;
         [SerializeField] int intermissionTimerSecondsSinglePlayer = 20;
 
@@ -41,11 +41,15 @@ namespace Racerr.Infrastructure.Server
             // To ensure the leaderboard has valid info from the new race session data.
             UpdateLeaderboard();
 
-#if UNITY_EDITOR
-            intermissionSecondsTotal = intermissionTimerSecondsEditor;
-#else
-            intermissionSecondsTotal = ServerStateMachine.Singleton.ReadyPlayers.Count > 1 ? intermissionTimerSeconds : intermissionTimerSecondsSinglePlayer;
-#endif
+            if (Application.isEditor)
+            {
+                intermissionSecondsTotal = intermissionTimerSecondsEditor;
+            }    
+            else
+            {
+                intermissionSecondsTotal = ServerStateMachine.Singleton.ReadyPlayers.Count > 1 ? intermissionTimerSeconds : intermissionTimerSecondsSinglePlayer;
+            }
+
             StartCoroutine(IntermissionTimerAndTrackGeneration());
         }
 
