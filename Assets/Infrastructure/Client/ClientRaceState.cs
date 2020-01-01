@@ -36,7 +36,7 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Called upon race finish, where we will hide the Race UI.
+        /// Called upon race finish, where we will hide the Race UI and disable car controller.
         /// </summary>
         public override void Exit()
         {
