@@ -30,5 +30,4 @@ namespace Racerr.Gameplay.Car
         }
         public List<Wheel> Wheels => vehicleController.Wheels;
     }
-
 }
