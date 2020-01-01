@@ -33,22 +33,9 @@ namespace Racerr.Infrastructure
 #if UNITY_EDITOR
             switch (unityEditorDebugMode)
             {
-                case UnityEditorDebugModeEnum.Headless:
-                {
-                    StartHeadless();
-                    break;
-                }
-                case UnityEditorDebugModeEnum.ClientOnline:
-                {
-                    StartClient();
-                    break;
-                }
-                case UnityEditorDebugModeEnum.ClientLocal:
-                {
-                    networkAddress = "localhost";
-                    StartClient(); 
-                    break;
-                }
+                case UnityEditorDebugModeEnum.Headless: StartHeadless(); break;
+                case UnityEditorDebugModeEnum.ClientOnline: StartClient(); break;
+                case UnityEditorDebugModeEnum.ClientLocal: networkAddress = "localhost"; StartClient(); break;
                 case UnityEditorDebugModeEnum.Host: StartHost(); break;
                 default: throw new InvalidOperationException("Invalid Unity Editor Debug Mode attempt: " + unityEditorDebugMode.ToString());
             }
