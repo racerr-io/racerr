@@ -43,13 +43,7 @@ namespace Racerr.Infrastructure.Client
         {
             minimapUIComponent.SetMinimapCameraTarget(null);
             ClientStateMachine.Singleton.SetPlayerCameraTarget(null);
-
-            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
-            if (carManager != null)
-            {
-                ClientStateMachine.Singleton.LocalPlayer.CarManager.SetIsActive(false);
-            }
-
+            ClientStateMachine.Singleton.LocalPlayer.CarManager?.SetIsActive(false);
             raceView.Hide();
         }
 
