@@ -26,7 +26,7 @@ namespace Racerr.Infrastructure.Client
         Player spectatedPlayer;
 
         /// <summary>
-        /// Upon entering the spectate state on the client, show the race UI and find all the players we can spectate.
+        /// Upon entering the spectate state on the client, show the race UI, spectated player name UI and find all the players we can spectate.
         /// </summary>
         /// <param name="optionalData">Should be null</param>
         public override void Enter(object optionalData = null)
@@ -64,7 +64,7 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Update all the UI components in the client race view, which shows information about the player's car and how they 
+        /// Update all the UI components in the client race view, which shows information about the spectated player's car and how they 
         /// are performing in the race.
         /// </summary>
         void UpdateUIComponents()
