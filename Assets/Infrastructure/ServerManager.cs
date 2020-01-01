@@ -31,35 +31,26 @@ namespace Racerr.Infrastructure
         public override void Start()
         {
 #if UNITY_EDITOR
-            try
+            switch (unityEditorDebugMode)
             {
-                switch (unityEditorDebugMode)
+                case UnityEditorDebugModeEnum.Headless:
                 {
-                    case UnityEditorDebugModeEnum.Headless:
-                    {
-                        StartHeadless();
-                        StartClient();
-                        break;
-                    }
-                    case UnityEditorDebugModeEnum.ClientOnline:
-                    {
-                        StartServer();
-                        StartClient();
-                        break;
-                    }
-                    case UnityEditorDebugModeEnum.ClientLocal:
-                    {
-                        StartServer();
-                        StartClient(); 
-                        break;
-                    }
-                    case UnityEditorDebugModeEnum.Host: StartHost(); break;
-                    default: throw new InvalidOperationException("Invalid Unity Editor Debug Mode attempt: " + unityEditorDebugMode.ToString());
+                    StartHeadless();
+                    break;
                 }
-            }
-            catch (InvalidOperationException e)
-            {
-                Debug.LogError(e);
+                case UnityEditorDebugModeEnum.ClientOnline:
+                {
+                    StartClient();
+                    break;
+                }
+                case UnityEditorDebugModeEnum.ClientLocal:
+                {
+                    networkAddress = "localhost";
+                    StartClient(); 
+                    break;
+                }
+                case UnityEditorDebugModeEnum.Host: StartHost(); break;
+                default: throw new InvalidOperationException("Invalid Unity Editor Debug Mode attempt: " + unityEditorDebugMode.ToString());
             }
 #else
             if (isHeadless)
