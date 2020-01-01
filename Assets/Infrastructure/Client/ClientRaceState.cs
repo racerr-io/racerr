@@ -33,10 +33,13 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Called upon race finish or player death, where we will hide the Race UI. On player death, the car will still remain
-        /// on the track as we do not want to destroy and make the car disappear suddenly in a weird fashion. Hence instead, we
+        /// Called upon race finish or player death, where we will hide the Race UI.  Hence instead, we
         /// leave the car on the track and manually disable the car controller so the player cannot drive the car after death.
         /// </summary>
+        /// <remarks>
+        /// On player death, the car will still remain on the track as we do not want the car to just disappear.
+        /// Instead, we leave the car on the track and manually disable the car controller from the player.
+        /// </remarks>
         public override void Exit()
         {
             minimapUIComponent.SetMinimapCameraTarget(null);
