@@ -1,5 +1,4 @@
 ﻿using Racerr.UX.Camera;
-using Racerr.Infrastructure;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -18,7 +17,6 @@ namespace Racerr.Infrastructure.Client
         LocalState currentState;
 
         [SerializeField] TargetObserverCamera playerCamera;
-        [SerializeField] MinimapCamera minimapCamera;
 
         Player localPlayer;
         public Player LocalPlayer => localPlayer ?? (localPlayer = FindObjectsOfType<Player>().SingleOrDefault(player => player.isLocalPlayer));
@@ -57,16 +55,6 @@ namespace Racerr.Infrastructure.Client
         public void SetPlayerCameraTarget(Transform targetTransform)
         {
             playerCamera.Target = targetTransform;
-        }
-
-        /// <summary>
-        /// Move the minimap camera's target to point to the target transform.
-        /// Should only be called by client states.
-        /// </summary>
-        /// <param name="targetTransform">New target transform</param>
-        public void SetMinimapCameraTarget(Transform targetTransform)
-        {
-            minimapCamera.Target = targetTransform;
         }
 
         /// <summary>
