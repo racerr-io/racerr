@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using NWH.VehiclePhysics;
 using Racerr.Infrastructure;
+using Racerr.Infrastructure.Client;
 using Racerr.UX.Car;
 using System.Collections.Generic;
 using UnityEngine;
@@ -74,7 +75,11 @@ namespace Racerr.Gameplay.Car
         /// <param name="isActive">Whether the car should be active or not.</param>
         public void SetIsActive(bool isActive)
         {
-            if (isServerOnly)
+            // Need to check if a Host (when you use the game in the editor as both client and server) is trying to change its own
+            // active status. In this case, we do not want to call the RPC and cause an infinite loop.
+            bool isHostTargetingItself = ClientStateMachine.Singleton != null && ClientStateMachine.Singleton.LocalPlayer == OwnPlayer;
+            
+            if (isServer && !isHostTargetingItself)
             {
                 TargetSetIsActive(OwnPlayer.connectionToClient, isActive);
             }
