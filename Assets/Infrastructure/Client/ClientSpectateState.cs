@@ -32,6 +32,7 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
+            spectatedPlayerNameUIComponent.gameObject.SetActive(true);
             playersInRace = FindObjectsOfType<Player>().Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
         }
 

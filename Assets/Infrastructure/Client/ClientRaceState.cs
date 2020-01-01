@@ -20,6 +20,7 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] SpeedUIComponent speedUIComponent;
         [SerializeField] LeaderboardUIComponent leaderboardUIComponent;
         [SerializeField] MinimapUIComponent minimapUIComponent;
+        [SerializeField] SpectatedPlayerNameUIComponent spectatedPlayerNameUIComponent;
 
         /// <summary>
         /// Called upon entering the race state on the client, where we show the Race UI.
@@ -30,6 +31,7 @@ namespace Racerr.Infrastructure.Client
             raceView.Show();
             ClientStateMachine.Singleton.SetPlayerCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
             minimapUIComponent.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
+            spectatedPlayerNameUIComponent.gameObject.SetActive(false);
         }
 
         /// <summary>

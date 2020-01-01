@@ -724,6 +724,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &473600311 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5047158711425375464, guid: 66dc47d0c6d5cbf4e837f197ad289cee,
+    type: 3}
+  m_PrefabInstance: {fileID: 256139142}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &473600312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473600311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28ae80b45658914fa3ce6ed6afacc07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpectatedPlayerNameTMP: {fileID: 1800599111}
 --- !u!1 &485997901
 GameObject:
   m_ObjectHideFlags: 0
@@ -5866,13 +5885,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6aef4804dad46c4a9e363b4236bebb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverRaceState: {fileID: 0}
-  raceView: {fileID: 0}
-  raceTimerUIComponent: {fileID: 0}
-  countdownTimerUIComponent: {fileID: 0}
-  leaderboardUIComponent: {fileID: 0}
-  minimapUIComponent: {fileID: 0}
-  spectatedPlayerNameUIComponent: {fileID: 0}
+  serverRaceState: {fileID: 1584656525}
+  raceView: {fileID: 867409035}
+  raceTimerUIComponent: {fileID: 1849269576}
+  countdownTimerUIComponent: {fileID: 5887324450564879987}
+  leaderboardUIComponent: {fileID: 1597690728}
+  minimapUIComponent: {fileID: 1694227728}
+  spectatedPlayerNameUIComponent: {fileID: 473600312}
 --- !u!114 &1609746735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5892,6 +5911,7 @@ MonoBehaviour:
   speedUIComponent: {fileID: 40228707334318290}
   leaderboardUIComponent: {fileID: 1597690728}
   minimapUIComponent: {fileID: 1694227728}
+  spectatedPlayerNameUIComponent: {fileID: 473600312}
 --- !u!114 &1609746736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6017,6 +6037,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1800599111 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 40228706713207024, guid: 66dc47d0c6d5cbf4e837f197ad289cee,
+    type: 3}
+  m_PrefabInstance: {fileID: 256139142}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1813844546
 GameObject:
   m_ObjectHideFlags: 0
