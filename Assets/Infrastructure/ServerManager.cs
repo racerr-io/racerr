@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using UnityEngine;
 using Racerr.Infrastructure.Server;
+using System;
 
 namespace Racerr.Infrastructure
 {
@@ -11,9 +12,9 @@ namespace Racerr.Infrastructure
     {
         enum UnityEditorDebugModeEnum
         {
-            None,
-            Client,
-            Server,
+            Host,
+            ClientLocal,
+            ClientOnline,
             Headless
         }
 
@@ -29,28 +30,53 @@ namespace Racerr.Infrastructure
         /// </summary>
         public override void Start()
         {
-            if (isHeadless || unityEditorDebugMode == UnityEditorDebugModeEnum.Headless)
-            {
-                Application.targetFrameRate = serverTickRate;
-                DestroySelectedGameObjectsOnServerLoad();
-                StartServer();
-            }
-            else if (unityEditorDebugMode == UnityEditorDebugModeEnum.Client)
-            {
-
-            }
-            else if (unityEditorDebugMode == UnityEditorDebugModeEnum.Server)
-            {
-
-            }
-            else
-            {
 #if UNITY_EDITOR
-                StartHost();
-#else
-                StartClient();
-#endif
+            try
+            {
+                switch (unityEditorDebugMode)
+                {
+                    case UnityEditorDebugModeEnum.Headless:
+                    {
+                        StartHeadless();
+                        StartClient();
+                        break;
+                    }
+                    case UnityEditorDebugModeEnum.ClientOnline:
+                    {
+                        StartServer();
+                        StartClient();
+                        break;
+                    }
+                    case UnityEditorDebugModeEnum.ClientLocal:
+                    {
+                        StartServer();
+                        StartClient(); 
+                        break;
+                    }
+                    case UnityEditorDebugModeEnum.Host: StartHost(); break;
+                    default: throw new InvalidOperationException("Invalid Unity Editor Debug Mode attempt: " + unityEditorDebugMode.ToString());
+                }
             }
+            catch (InvalidOperationException e)
+            {
+                Debug.LogError(e);
+            }
+#else
+            if (isHeadless)
+            {
+                StartHeadless();
+            }
+            else {
+                StartClient();
+            }
+#endif
+        }
+
+        void StartHeadless()
+        {
+            Application.targetFrameRate = serverTickRate;
+            DestroySelectedGameObjectsOnServerLoad();
+            StartServer();
         }
 
         /// <summary>
