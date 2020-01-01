@@ -1,6 +1,6 @@
 ﻿using Racerr.Infrastructure.Server;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Racerr.Infrastructure.Client
 {
@@ -11,10 +11,10 @@ namespace Racerr.Infrastructure.Client
     public class ClientSpectateState : LocalState
     {
         IEnumerable<Player> playersInRace = null;
-        Player playerBeingSpectated;
+        Player spectateTarget;
 
         /// <summary>
-        /// Upon entering the spectate state on the client, set the first player in the race to be spectated.
+        /// Upon entering the spectate state on the client, find all the players we can spectate.
         /// </summary>
         /// <param name="optionalData">Should be null</param>
         public override void Enter(object optionalData = null)
@@ -23,32 +23,40 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Called every physics tick to monitor the server state. If the server has changed to intermission,
-        /// it means we can join the next race! Hence, update our UI to the Intermission State.
-        /// If the player we are spectating leaves the game or dies, we refind the new first player to spectate.
+        /// Called every physics tick. Updates who we are spectating, then checks if we should transition to a new client state.
         /// </summary>
         protected override void FixedUpdate()
+        {
+            SetSpectateTargetIfRequired();
+            CheckToTransition();
+        }
+
+        /// <summary>
+        /// Find a player in the race that we can spectate. From the players in the race, we choose the first player to spectate, ensuring
+        /// they haven't finished, died or left the server.
+        /// </summary>
+        void SetSpectateTargetIfRequired()
+        {
+            if (spectateTarget == null || spectateTarget.IsDead)
+            {
+                // playersInRace could be empty, as there is a small window of time where everyone has died/finished but the Server State Machine
+                // has not transitioned to intermission yet.
+                playersInRace = playersInRace.Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
+                spectateTarget = playersInRace.FirstOrDefault(); 
+                ClientStateMachine.Singleton.SetPlayerCameraTarget(spectateTarget?.CarManager.transform);
+            }
+        }
+
+        /// <summary>
+        /// If the server has changed to intermission, it means we can join the next race! Hence, transition the client to
+        /// intermission state.
+        /// </summary>
+        void CheckToTransition()
         {
             if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
             {
                 TransitionToIntermission();
             }
-            else if (playerBeingSpectated == null || playerBeingSpectated.IsDead)
-            {
-                SetPlayerBeingSpectated();
-            }
-        }
-
-        /// <summary>
-        /// Find the players in the race that we can spectate.
-        /// We can assume this to be non-empty as the race would already be finished otherwise and we would transition to intermission state.
-        /// From the players in the race, we choose the first player to spectate.
-        /// </summary>
-        void SetPlayerBeingSpectated()
-        {
-            playersInRace = playersInRace.Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
-            playerBeingSpectated = playersInRace.First();
-            ClientStateMachine.Singleton.SetPlayerCameraTarget(playerBeingSpectated.CarManager.transform);
         }
 
         void TransitionToIntermission()
