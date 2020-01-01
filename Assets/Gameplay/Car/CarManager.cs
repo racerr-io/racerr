@@ -1,9 +1,7 @@
 ﻿using Mirror;
 using NWH.VehiclePhysics;
 using Racerr.Infrastructure;
-using Racerr.Infrastructure.Server;
 using Racerr.UX.Car;
-using Racerr.World.Track;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,8 +14,6 @@ namespace Racerr.Gameplay.Car
     [RequireComponent(typeof(CarPhysicsManager))]
     public class CarManager : NetworkBehaviour
     {
-        ServerRaceState serverRaceState;
-
         [Header("Car Properties")]
         [SerializeField] int maxHealth = 100;
         public int MaxHealth => maxHealth;
@@ -49,7 +45,6 @@ namespace Racerr.Gameplay.Car
         /// </summary>
         void Start()
         {
-            serverRaceState = FindObjectOfType<ServerRaceState>();
             OwnPlayer = PlayerGO.GetComponent<Player>();
             carPhysicsManager = GetComponent<CarPhysicsManager>();
 
