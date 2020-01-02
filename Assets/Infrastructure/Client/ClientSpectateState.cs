@@ -56,13 +56,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         void SetSpectatedPlayerIfRequired()
         {
-            if (spectatedPlayer == null || spectatedPlayer.IsDead)
-            {
-                playersInRace = playersInRace.Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
-                SetSpectatedPlayer(playersInRace);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space)) 
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 unspectatedPlayersInRace = unspectatedPlayersInRace.Where(player => player != spectatedPlayer && player != null && !player.IsDead && !player.PosInfo.IsFinished);
                 if (unspectatedPlayersInRace == null)
@@ -70,6 +64,12 @@ namespace Racerr.Infrastructure.Client
                     unspectatedPlayersInRace = playersInRace;
                 }
                 SetSpectatedPlayer(unspectatedPlayersInRace);
+            }
+
+            if (spectatedPlayer == null || spectatedPlayer.IsDead)
+            {
+                playersInRace = playersInRace.Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
+                SetSpectatedPlayer(playersInRace);
             }
         }
 
