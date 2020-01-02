@@ -22,8 +22,8 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] MinimapUIComponent minimapUIComponent;
         [SerializeField] SpectatedPlayerNameUIComponent spectatedPlayerNameUIComponent;
 
-        IEnumerable<Player> playersInRace = null;
-        IEnumerable<Player> unspectatedPlayersInRace = null;
+        IEnumerable<Player> playersInRace;
+        IEnumerable<Player> unspectatedPlayersInRace;
         Player spectatedPlayer;
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Racerr.Infrastructure.Client
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 unspectatedPlayersInRace = unspectatedPlayersInRace.Where(player => player != spectatedPlayer && player != null && !player.IsDead && !player.PosInfo.IsFinished);
-                if (unspectatedPlayersInRace == null)
+                if (!unspectatedPlayersInRace.Any())
                 {
                     unspectatedPlayersInRace = playersInRace;
                 }
