@@ -20,7 +20,7 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] CountdownTimerUIComponent countdownTimerUIComponent;
         [SerializeField] LeaderboardUIComponent leaderboardUIComponent;
         [SerializeField] MinimapUIComponent minimapUIComponent;
-        [SerializeField] SpectatedPlayerNameUIComponent spectatedPlayerNameUIComponent;
+        [SerializeField] SpectatingUIComponent spectatedPlayerNameUIComponent;
 
         IEnumerable<Player> playersInRace = null;
         IEnumerable<Player> unspectatedPlayersInRace = null;
