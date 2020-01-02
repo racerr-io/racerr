@@ -6,7 +6,7 @@ namespace Racerr.UX.UI
     /// <summary>
     /// UI Component for the Spectating Player, which shows the spectated player's name.
     /// </summary>
-    public class SpectatingUIComponent : MonoBehaviour
+    public class SpectateInfoUIComponent : MonoBehaviour
     {
         [SerializeField] TextMeshProUGUI spectatedPlayerNameTMP;
 
@@ -16,7 +16,7 @@ namespace Racerr.UX.UI
         /// <param name="name">Spectated player's name as a string</param>
         public void UpdateSpectatedPlayerName(string name)
         {
-            spectatedPlayerNameTMP.text = "Spectating " + name;
+            spectatedPlayerNameTMP.text = name;
         }
     }
 }

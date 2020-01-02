@@ -20,7 +20,7 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] CountdownTimerUIComponent countdownTimerUIComponent;
         [SerializeField] LeaderboardUIComponent leaderboardUIComponent;
         [SerializeField] MinimapUIComponent minimapUIComponent;
-        [SerializeField] SpectatingUIComponent spectatedPlayerNameUIComponent;
+        [SerializeField] SpectateInfoUIComponent spectateInfoUIComponent;
 
         IEnumerable<Player> playersInRace;
         IEnumerable<Player> unspectatedPlayersInRace;
@@ -93,7 +93,7 @@ namespace Racerr.Infrastructure.Client
         {
             spectatedPlayer = spectatablePlayers.FirstOrDefault();
             ClientStateMachine.Singleton.SetPlayerCameraTarget(spectatedPlayer?.CarManager.transform);
-            minimapUIComponent.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
+            minimapUIComponent.SetMinimapCameraTarget(spectatedPlayer?.CarManager.transform);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Racerr.Infrastructure.Client
             raceTimerUIComponent.UpdateRaceTimer(serverRaceState.CurrentRaceDuration);
             countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
             leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
-            spectatedPlayerNameUIComponent.UpdateSpectatedPlayerName(spectatedPlayer?.PlayerName);
+            spectateInfoUIComponent.UpdateSpectatedPlayerName(spectatedPlayer?.PlayerName);
         }
 
         /// <summary>
