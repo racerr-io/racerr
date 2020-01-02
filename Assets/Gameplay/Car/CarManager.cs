@@ -62,7 +62,7 @@ namespace Racerr.Gameplay.Car
         {
             if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Environment"))
             {
-                OwnPlayer.Health -= 10;
+                OwnPlayer.Health -= (int)collision.relativeVelocity.magnitude * 2;
             }
         }
 
