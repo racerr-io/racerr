@@ -47,11 +47,18 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Called every physics tick. Updates UI components and who we are spectating, then checks if we should transition to a new client state.
+        /// Called every frame tick. Updates who we are spectating.
+        /// </summary>
+        private void Update()
+        {
+            SetSpectatedPlayerIfRequired();
+        }
+
+        /// <summary>
+        /// Called every physics tick. Updates UI components, then checks if we should transition to a new client state.
         /// </summary>
         protected override void FixedUpdate()
         {
-            SetSpectatedPlayerIfRequired();
             UpdateUIComponents();
             CheckToTransition();
         }
@@ -105,7 +112,8 @@ namespace Racerr.Infrastructure.Client
             raceTimerUIComponent.UpdateRaceTimer(serverRaceState.CurrentRaceDuration);
             countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
             leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
-            spectateInfoUIComponent.UpdateSpectatedPlayerName(spectatedPlayer?.PlayerName);
+            spectateInfoUIComponent.UpdateSpectateInfo(spectatedPlayer?.PlayerName, playersInRace.Count());
+            spectateInfoUIComponent.UpdateSpaceUI();
         }
 
         /// <summary>
