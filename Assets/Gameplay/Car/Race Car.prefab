@@ -270,7 +270,7 @@ MonoBehaviour:
   prevHasHit: 1
   debug: 0
   parent: {fileID: 1018952010411425780}
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: -1
   activeFrictionPresetEnum: 9
   activeFrictionPreset:
@@ -1045,7 +1045,7 @@ MonoBehaviour:
   prevHasHit: 1
   debug: 0
   parent: {fileID: 1018952010411425780}
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: -1
   activeFrictionPresetEnum: 9
   activeFrictionPreset:
@@ -1820,7 +1820,7 @@ MonoBehaviour:
   prevHasHit: 1
   debug: 0
   parent: {fileID: 1018952010411425780}
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: 1
   activeFrictionPresetEnum: 9
   activeFrictionPreset:
@@ -3042,8 +3042,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 1
-  m_AssetId: 
-  m_SceneId: 3600238990
+  m_AssetId: aa65098f076c6e141991513d2b3608c8
+  m_SceneId: 0
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0
@@ -3236,7 +3236,7 @@ MonoBehaviour:
   prevHasHit: 1
   debug: 0
   parent: {fileID: 1018952010411425780}
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: 1
   activeFrictionPresetEnum: 9
   activeFrictionPreset:

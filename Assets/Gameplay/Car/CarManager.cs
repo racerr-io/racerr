@@ -3,6 +3,7 @@ using NWH.VehiclePhysics;
 using Racerr.Infrastructure;
 using Racerr.Infrastructure.Client;
 using Racerr.UX.Car;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -60,9 +61,9 @@ namespace Racerr.Gameplay.Car
         /// <param name="collision">Collision information.</param>
         void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Environment"))
+            if (collision.gameObject.CompareTag("Car") || collision.gameObject.CompareTag("Environment"))
             {
-                OwnPlayer.Health -= (int)collision.relativeVelocity.magnitude * 2;
+                OwnPlayer.Health -= Convert.ToInt32(collision.relativeVelocity.magnitude);
             }
         }
 
