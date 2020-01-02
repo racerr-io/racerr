@@ -74,7 +74,7 @@ namespace Racerr.Infrastructure.Client
                 SetSpectatedPlayer(unspectatedPlayersInRace);
             }
 
-            if (spectatedPlayer == null || spectatedPlayer.IsDead)
+            if (spectatedPlayer == null || spectatedPlayer.IsDead || spectatedPlayer.PosInfo.IsFinished)
             {
                 playersInRace = playersInRace.Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
                 SetSpectatedPlayer(playersInRace);
