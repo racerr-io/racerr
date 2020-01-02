@@ -5889,6 +5889,7 @@ MonoBehaviour:
   raceView: {fileID: 867409035}
   raceTimerUIComponent: {fileID: 1849269576}
   countdownTimerUIComponent: {fileID: 5887324450564879987}
+  speedUIComponent: {fileID: 40228707334318290}
   leaderboardUIComponent: {fileID: 1597690728}
   minimapUIComponent: {fileID: 1694227728}
   spectatedPlayerNameUIComponent: {fileID: 473600312}

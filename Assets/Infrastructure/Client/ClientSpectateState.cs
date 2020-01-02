@@ -18,6 +18,7 @@ namespace Racerr.Infrastructure.Client
 
         [SerializeField] RaceTimerUIComponent raceTimerUIComponent;
         [SerializeField] CountdownTimerUIComponent countdownTimerUIComponent;
+        [SerializeField] SpeedUIComponent speedUIComponent;
         [SerializeField] LeaderboardUIComponent leaderboardUIComponent;
         [SerializeField] MinimapUIComponent minimapUIComponent;
         [SerializeField] SpectatedPlayerNameUIComponent spectatedPlayerNameUIComponent;
@@ -27,12 +28,14 @@ namespace Racerr.Infrastructure.Client
         Player spectatedPlayer;
 
         /// <summary>
-        /// Upon entering the spectate state on the client, show the race UI, spectated player name UI and find all the players we can spectate.
+        /// Upon entering the spectate state on the client, show the race UI, spectated player name UI, 
+        /// hide the speed UI find all the players we can spectate.
         /// </summary>
         /// <param name="optionalData">Should be null</param>
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
+            speedUIComponent.gameObject.SetActive(false);
             spectatedPlayerNameUIComponent.gameObject.SetActive(true);
             playersInRace = FindObjectsOfType<Player>().Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
             unspectatedPlayersInRace = playersInRace;
@@ -97,7 +100,7 @@ namespace Racerr.Infrastructure.Client
             raceTimerUIComponent.UpdateRaceTimer(serverRaceState.CurrentRaceDuration);
             countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
             leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
-            spectatedPlayerNameUIComponent.UpdateSpectatedPlayerName(spectatedPlayer?.CarManager.name);
+            spectatedPlayerNameUIComponent.UpdateSpectatedPlayerName(spectatedPlayer?.PlayerName);
         }
 
         /// <summary>
