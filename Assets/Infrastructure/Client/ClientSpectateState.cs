@@ -14,11 +14,10 @@ namespace Racerr.Infrastructure.Client
     public class ClientSpectateState : LocalState
     {
         [SerializeField] ServerRaceState serverRaceState;
-        [SerializeField] UIView raceView;
+        [SerializeField] UIView spectateView;
 
         [SerializeField] RaceTimerUIComponent raceTimerUIComponent;
         [SerializeField] CountdownTimerUIComponent countdownTimerUIComponent;
-        [SerializeField] SpeedUIComponent speedUIComponent;
         [SerializeField] LeaderboardUIComponent leaderboardUIComponent;
         [SerializeField] MinimapUIComponent minimapUIComponent;
         [SerializeField] SpectatedPlayerNameUIComponent spectatedPlayerNameUIComponent;
@@ -34,11 +33,17 @@ namespace Racerr.Infrastructure.Client
         /// <param name="optionalData">Should be null</param>
         public override void Enter(object optionalData = null)
         {
-            raceView.Show();
-            speedUIComponent.gameObject.SetActive(false);
-            spectatedPlayerNameUIComponent.gameObject.SetActive(true);
+            spectateView.Show();
             playersInRace = FindObjectsOfType<Player>().Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
             unspectatedPlayersInRace = playersInRace;
+        }
+
+        /// <summary>
+        /// Called upon race finish, where we will hide the spectate UI.
+        /// </summary>
+        public override void Exit()
+        {
+            spectateView.Hide();
         }
 
         /// <summary>
