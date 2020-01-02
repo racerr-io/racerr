@@ -14,9 +14,10 @@ namespace Racerr.UX.UI
         int numSpectatablePlayers;
 
         /// <summary>
-        /// Given the spectated player's name, display it.
+        /// Updates spectated player's name and number of spectatable players.
         /// </summary>
-        /// <param name="name">Spectated player's name as a string</param>
+        /// <param name="name">Spectated player's name</param>
+        /// <param name="numSpectatablePlayers"></param>
         public void UpdateSpectateInfo(string name, int numSpectatablePlayers)
         {
             spectatedPlayerNameTMP.text = name;
