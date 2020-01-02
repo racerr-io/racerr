@@ -74,7 +74,7 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Find the first player that we can spectate.
+        /// Find and spectate the first player that we can spectate.
         /// </summary>
         /// <remarks>
         /// spectatablePlayers could be empty, as there is a small window of time where everyone has died/finished 
