@@ -18,9 +18,10 @@ namespace Racerr.UX.Camera
         }
 
         /// <summary>
-        /// Update camera on physics tick.
+        /// Update camera every frame, after all Update()'s have been called, so that the camera's position is
+        /// as accurate as possible.
         /// </summary>
-        void FixedUpdate()
+        void LateUpdate()
         {
             FollowTarget();
         }

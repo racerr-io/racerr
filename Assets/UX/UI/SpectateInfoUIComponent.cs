@@ -11,8 +11,6 @@ namespace Racerr.UX.UI
         [SerializeField] TextMeshProUGUI spectatedPlayerNameTMP;
         [SerializeField] TextMeshProUGUI spaceTMP;
 
-        int numSpectatablePlayers;
-
         /// <summary>
         /// Updates spectated player's name and number of spectatable players.
         /// </summary>
@@ -21,23 +19,7 @@ namespace Racerr.UX.UI
         public void UpdateSpectateInfo(string name, int numSpectatablePlayers)
         {
             spectatedPlayerNameTMP.text = name;
-            this.numSpectatablePlayers = numSpectatablePlayers;
-        }
-
-        /// <summary>
-        /// If there are more than 1 spectatable player, display the spacebar UI as we can
-        /// change our current spectated player.
-        /// </summary>
-        public void UpdateSpaceUI()
-        {
-            if (numSpectatablePlayers <= 1)
-            {
-                spaceTMP.enabled = false;
-            }
-            else
-            {
-                spaceTMP.enabled = true;
-            }
+            spaceTMP.enabled = numSpectatablePlayers > 1;
         }
     }
 }

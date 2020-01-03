@@ -34,7 +34,7 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             spectateView.Show();
-            playersInRace = FindObjectsOfType<Player>().Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
+            playersInRace = FindObjectsOfType<Player>().Where(IsPlayerConnectedAndRacing);
             unspectatedPlayersInRace = playersInRace;
         }
 
@@ -47,21 +47,31 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Called every frame tick. Updates who we are spectating.
+        /// Called every frame tick. Updates who we are spectating and the UI components. We need to call put these things
+        /// in here instead of FixedUpdate() so updates to the UI are not choppy and inputs are accurate.
         /// </summary>
-        private void Update()
+        void Update()
         {
             SetSpectatedPlayerIfRequired();
+            UpdateUIComponents();
         }
 
         /// <summary>
-        /// Called every physics tick. Updates UI components, then checks if we should transition to a new client state.
+        /// Called every physics tick to check if we should transition to the next state.
         /// </summary>
-        protected override void FixedUpdate()
+        void FixedUpdate()
         {
-            UpdateUIComponents();
             CheckToTransition();
         }
+
+        /// <summary>
+        /// We would like to know which players have not disconnected from the server (the null check)
+        /// and are alive and racing in the game (the IsRacing property) so we can have an updated list
+        /// of unspectated players.
+        /// </summary>
+        /// <param name="player">The player object.</param>
+        /// <returns>Boolean representing whether they are alive and racing.</returns>
+        bool IsPlayerConnectedAndRacing(Player player) => player != null && player.IsRacing;
 
         /// <summary>
         /// If we are not spectating or our current spectated player is dead, we choose a player in the race
@@ -73,7 +83,7 @@ namespace Racerr.Infrastructure.Client
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                unspectatedPlayersInRace = unspectatedPlayersInRace.Where(player => player != spectatedPlayer && player != null && !player.IsDead && !player.PosInfo.IsFinished);
+                unspectatedPlayersInRace = unspectatedPlayersInRace.Where(player => IsPlayerConnectedAndRacing(player) && player != spectatedPlayer);
                 if (!unspectatedPlayersInRace.Any())
                 {
                     unspectatedPlayersInRace = playersInRace;
@@ -81,9 +91,9 @@ namespace Racerr.Infrastructure.Client
                 SetSpectatedPlayer(unspectatedPlayersInRace);
             }
 
-            if (spectatedPlayer == null || spectatedPlayer.IsDead || spectatedPlayer.PosInfo.IsFinished)
+            if (!IsPlayerConnectedAndRacing(spectatedPlayer))
             {
-                playersInRace = playersInRace.Where(player => player != null && !player.IsDead && !player.PosInfo.IsFinished);
+                playersInRace = playersInRace.Where(IsPlayerConnectedAndRacing);
                 SetSpectatedPlayer(playersInRace);
             }
         }
@@ -113,7 +123,6 @@ namespace Racerr.Infrastructure.Client
             countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
             leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
             spectateInfoUIComponent.UpdateSpectateInfo(spectatedPlayer?.PlayerName, playersInRace.Count());
-            spectateInfoUIComponent.UpdateSpaceUI();
         }
 
         /// <summary>

@@ -58,7 +58,6 @@ namespace Racerr.Infrastructure
     {
         public virtual void Enter(object optionalData = null) { }
         public virtual void Exit() { }
-        protected virtual void FixedUpdate() { }
     }
 
     /// <summary>
@@ -68,6 +67,5 @@ namespace Racerr.Infrastructure
     {
         public virtual void Enter(object optionalData = null) { }
         public virtual void Exit() { }
-        protected virtual void FixedUpdate() { }
     }
 }
