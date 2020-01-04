@@ -41,7 +41,12 @@ namespace Racerr.Infrastructure.Client
         /// </remarks>
         public override void Exit()
         {
-            ClientStateMachine.Singleton.LocalPlayer.CarManager?.SetIsActive(false);
+            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
+            if (carManager != null)
+            {
+                carManager.SetIsActive(false);
+            }
+            
             raceView.Hide();
         }
 

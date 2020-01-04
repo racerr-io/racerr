@@ -24,7 +24,7 @@ namespace Racerr.Infrastructure.Client
 
         IEnumerable<Player> opponentPlayers;
         Queue<Player> opponentPlayersNotSpectated;
-        Player currentlySpectatedOpponent = null;
+        Player currentlySpectatedOpponent;
 
         /// <summary>
         /// Upon entering the spectate state on the client, show the race UI, spectated player name UI, 
@@ -33,6 +33,7 @@ namespace Racerr.Infrastructure.Client
         /// <param name="optionalData">Should be null</param>
         public override void Enter(object optionalData = null)
         {
+            currentlySpectatedOpponent = null;
             opponentPlayers = FindObjectsOfType<Player>().Where(player => IsPlayerConnectedAndRacing(player) && player != ClientStateMachine.Singleton.LocalPlayer);
             opponentPlayersNotSpectated = new Queue<Player>(opponentPlayers);
             spectateView.Show();
@@ -96,7 +97,10 @@ namespace Racerr.Infrastructure.Client
                     playerToSpectate = opponentPlayersNotSpectated.Dequeue();
                 }
 
-                SetSpectatedPlayer(playerToSpectate);
+                if (playerToSpectate != null)
+                {
+                    SetCurrentlySpectatedOpponent(playerToSpectate);
+                }
             }
         }
 
@@ -108,11 +112,11 @@ namespace Racerr.Infrastructure.Client
         /// but the Server State Machine has not transitioned to intermission yet.
         /// </remarks>
         /// <param name="spectatablePlayers"></param>
-        void SetSpectatedPlayer(Player playerToSpectate)
+        void SetCurrentlySpectatedOpponent(Player playerToSpectate)
         {
             currentlySpectatedOpponent = playerToSpectate;
-            ClientStateMachine.Singleton.SetPlayerCameraTarget(playerToSpectate?.CarManager.transform);
-            minimapUIComponent.SetMinimapCameraTarget(playerToSpectate?.CarManager.transform);
+            ClientStateMachine.Singleton.SetPlayerCameraTarget(playerToSpectate.CarManager.transform);
+            minimapUIComponent.SetMinimapCameraTarget(playerToSpectate.CarManager.transform);
         }
 
         /// <summary>
