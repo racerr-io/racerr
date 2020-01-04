@@ -23,8 +23,8 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] SpectateInfoUIComponent spectateInfoUIComponent;
 
         IEnumerable<Player> playersInRace;
-        IEnumerable<Player> unspectatedPlayersInRace;
-        Player spectatedPlayer;
+        readonly Queue<Player> playersInRaceNotSpectated = new Queue<Player>();
+        Player currentlySpectatedPlayer = null;
 
         /// <summary>
         /// Upon entering the spectate state on the client, show the race UI, spectated player name UI, 
@@ -33,9 +33,8 @@ namespace Racerr.Infrastructure.Client
         /// <param name="optionalData">Should be null</param>
         public override void Enter(object optionalData = null)
         {
-            spectateView.Show();
             playersInRace = FindObjectsOfType<Player>().Where(IsPlayerConnectedAndRacing);
-            unspectatedPlayersInRace = playersInRace;
+            spectateView.Show();
         }
 
         /// <summary>
@@ -81,20 +80,22 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         void SetSpectatedPlayerIfRequired()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                unspectatedPlayersInRace = unspectatedPlayersInRace.Where(player => IsPlayerConnectedAndRacing(player) && player != spectatedPlayer);
-                if (!unspectatedPlayersInRace.Any())
-                {
-                    unspectatedPlayersInRace = playersInRace;
-                }
-                SetSpectatedPlayer(unspectatedPlayersInRace);
-            }
+            playersInRace = playersInRace.Where(IsPlayerConnectedAndRacing);
 
-            if (!IsPlayerConnectedAndRacing(spectatedPlayer))
+            if (!IsPlayerConnectedAndRacing(currentlySpectatedPlayer) || Input.GetKeyDown(KeyCode.Space))
             {
-                playersInRace = playersInRace.Where(IsPlayerConnectedAndRacing);
-                SetSpectatedPlayer(playersInRace);
+                if (!playersInRaceNotSpectated.Any())
+                {
+                    playersInRaceNotSpectated.Union(playersInRace);
+                }
+
+                Player playerToSpectate = null;
+                while (playerToSpectate == null && playersInRaceNotSpectated.Any())
+                {
+                    playerToSpectate = playersInRaceNotSpectated.Dequeue();
+                }
+
+                SetSpectatedPlayer(playerToSpectate);
             }
         }
 
@@ -106,11 +107,11 @@ namespace Racerr.Infrastructure.Client
         /// but the Server State Machine has not transitioned to intermission yet.
         /// </remarks>
         /// <param name="spectatablePlayers"></param>
-        void SetSpectatedPlayer(IEnumerable<Player> spectatablePlayers)
+        void SetSpectatedPlayer(Player playerToSpectate)
         {
-            spectatedPlayer = spectatablePlayers.FirstOrDefault();
-            ClientStateMachine.Singleton.SetPlayerCameraTarget(spectatedPlayer?.CarManager.transform);
-            minimapUIComponent.SetMinimapCameraTarget(spectatedPlayer?.CarManager.transform);
+            currentlySpectatedPlayer = playerToSpectate;
+            ClientStateMachine.Singleton.SetPlayerCameraTarget(playerToSpectate?.CarManager.transform);
+            minimapUIComponent.SetMinimapCameraTarget(playerToSpectate?.CarManager.transform);
         }
 
         /// <summary>
@@ -122,7 +123,7 @@ namespace Racerr.Infrastructure.Client
             raceTimerUIComponent.UpdateRaceTimer(serverRaceState.CurrentRaceDuration);
             countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
             leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
-            spectateInfoUIComponent.UpdateSpectateInfo(spectatedPlayer?.PlayerName, playersInRace.Count());
+            spectateInfoUIComponent.UpdateSpectateInfo(currentlySpectatedPlayer?.PlayerName, playersInRace.Count());
         }
 
         /// <summary>
