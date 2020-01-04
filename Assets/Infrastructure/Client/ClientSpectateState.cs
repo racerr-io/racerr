@@ -23,7 +23,7 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] SpectateInfoUIComponent spectateInfoUIComponent;
 
         IEnumerable<Player> playersInRace;
-        readonly Queue<Player> playersInRaceNotSpectated = new Queue<Player>();
+        Queue<Player> playersInRaceNotSpectated;
         Player currentlySpectatedPlayer = null;
 
         /// <summary>
@@ -34,6 +34,7 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             playersInRace = FindObjectsOfType<Player>().Where(IsPlayerConnectedAndRacing);
+            playersInRaceNotSpectated = new Queue<Player>(playersInRace);
             spectateView.Show();
         }
 
@@ -86,7 +87,7 @@ namespace Racerr.Infrastructure.Client
             {
                 if (!playersInRaceNotSpectated.Any())
                 {
-                    playersInRaceNotSpectated.Union(playersInRace);
+                    playersInRaceNotSpectated = new Queue<Player>(playersInRace);
                 }
 
                 Player playerToSpectate = null;
