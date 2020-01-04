@@ -27,8 +27,8 @@ namespace Racerr.Infrastructure.Client
         Player currentlySpectatedOpponent;
 
         /// <summary>
-        /// Upon entering the spectate state on the client, show the race UI, spectated player name UI, 
-        /// hide the speed UI find all the players we can spectate.
+        /// Upon entering the spectate state on the client, show the spectate UI and 
+        /// find all opponent players in the race.
         /// </summary>
         /// <param name="optionalData">Should be null</param>
         public override void Enter(object optionalData = null)
@@ -75,11 +75,15 @@ namespace Racerr.Infrastructure.Client
         bool IsPlayerConnectedAndRacing(Player player) => player != null && player.IsRacing;
 
         /// <summary>
-        /// If we are not spectating or our current spectated player is dead, we choose a player in the race
-        /// to spectate, ensuring that they haven't finished, died or left the server. If the spectating player 
-        /// decides to change the spectated player (through pressing spacebar), we further ensure spectated
-        /// players are not repeated until all players still in the race have been spectated.
+        /// If our current spectated opponent is not connected and racing or the spectating player
+        /// decides to change the current spectated opponent (through pressing spacebar), we choose an opponent 
+        /// in the race that we have not spectated yet.
         /// </summary>
+        /// <remarks>
+        /// If we have went through our whole queue of opponent players that are not spectated already but
+        /// the race has not finished (i.e. if the player has changed the spectating opponent themselves through
+        /// spacebar), then we reinitialise our queue to be the opponent players still in the race.
+        /// </remarks>
         void SetSpectatedPlayerIfRequired()
         {
             opponentPlayers = opponentPlayers.Where(IsPlayerConnectedAndRacing);
@@ -91,36 +95,32 @@ namespace Racerr.Infrastructure.Client
                     opponentPlayersNotSpectated = new Queue<Player>(opponentPlayers);
                 }
 
-                Player playerToSpectate = null;
-                while (playerToSpectate == null && opponentPlayersNotSpectated.Any())
+                Player opponentToSpectate = null;
+                while (opponentToSpectate == null && opponentPlayersNotSpectated.Any())
                 {
-                    playerToSpectate = opponentPlayersNotSpectated.Dequeue();
+                    opponentToSpectate = opponentPlayersNotSpectated.Dequeue();
                 }
 
-                if (playerToSpectate != null)
+                if (opponentToSpectate != null)
                 {
-                    SetCurrentlySpectatedOpponent(playerToSpectate);
+                    SetCurrentlySpectatedOpponent(opponentToSpectate);
                 }
             }
         }
 
         /// <summary>
-        /// Find and spectate the first player that we can spectate.
+        /// Spectate the given opponent.
         /// </summary>
-        /// <remarks>
-        /// spectatablePlayers could be empty, as there is a small window of time where everyone has died/finished 
-        /// but the Server State Machine has not transitioned to intermission yet.
-        /// </remarks>
-        /// <param name="spectatablePlayers"></param>
-        void SetCurrentlySpectatedOpponent(Player playerToSpectate)
+        /// <param name="opponentToSpectate"></param>
+        void SetCurrentlySpectatedOpponent(Player opponentToSpectate)
         {
-            currentlySpectatedOpponent = playerToSpectate;
-            ClientStateMachine.Singleton.SetPlayerCameraTarget(playerToSpectate.CarManager.transform);
-            minimapUIComponent.SetMinimapCameraTarget(playerToSpectate.CarManager.transform);
+            currentlySpectatedOpponent = opponentToSpectate;
+            ClientStateMachine.Singleton.SetPlayerCameraTarget(opponentToSpectate.CarManager.transform);
+            minimapUIComponent.SetMinimapCameraTarget(opponentToSpectate.CarManager.transform);
         }
 
         /// <summary>
-        /// Update all the UI components in the client race view, which shows information about the spectated player's car 
+        /// Update all the UI components in the client race view, which shows information about the spectated opponent's car 
         /// and how they are performing in the race.
         /// </summary>
         void UpdateUIComponents()
