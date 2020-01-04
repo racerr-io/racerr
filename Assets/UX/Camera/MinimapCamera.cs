@@ -19,7 +19,7 @@ namespace Racerr.UX.UI
         /// <summary>
         /// Update camera after every physics tick.
         /// </summary>
-        void LateUpdate()
+        void FixedUpdate()
         {
             FollowTarget();
         }
