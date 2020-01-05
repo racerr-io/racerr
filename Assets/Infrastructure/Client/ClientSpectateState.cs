@@ -22,9 +22,9 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] MinimapUIComponent minimapUIComponent;
         [SerializeField] SpectateInfoUIComponent spectateInfoUIComponent;
 
-        IEnumerable<Player> opponentPlayers;
-        Queue<Player> opponentPlayersNotSpectated;
-        Player currentlySpectatedOpponent;
+        IEnumerable<Player> spectatablePlayersInRace;
+        Queue<Player> spectatablePlayersInRaceNotSpectated;
+        Player spectateTarget;
 
         /// <summary>
         /// Upon entering the spectate state on the client, show the spectate UI and 
@@ -33,9 +33,9 @@ namespace Racerr.Infrastructure.Client
         /// <param name="optionalData">Should be null</param>
         public override void Enter(object optionalData = null)
         {
-            currentlySpectatedOpponent = null;
-            opponentPlayers = FindObjectsOfType<Player>().Where(player => IsSpectatable(player) && player != ClientStateMachine.Singleton.LocalPlayer);
-            opponentPlayersNotSpectated = new Queue<Player>(opponentPlayers);
+            spectateTarget = null;
+            spectatablePlayersInRace = FindObjectsOfType<Player>().Where(player => IsSpectatable(player) && player != ClientStateMachine.Singleton.LocalPlayer);
+            spectatablePlayersInRaceNotSpectated = new Queue<Player>(spectatablePlayersInRace);
             spectateView.Show();
         }
 
@@ -53,7 +53,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         void Update()
         {
-            SetSpectatedOpponentIfRequired();
+            SetSpectateTargetIfRequired();
             UpdateUIComponents();
         }
 
@@ -74,48 +74,48 @@ namespace Racerr.Infrastructure.Client
         bool IsSpectatable(Player player) => player != null && player.IsRacing;
 
         /// <summary>
-        /// If our current spectated opponent disconnects or the spectating player swaps the current spectated opponent 
-        /// (through pressing spacebar), we choose an opponent in the race that we have not spectated yet, by popping them
-        /// off an unspectated queue. If this queue is empty, we will reinitialise it with all the opponent players.
-        /// This allows the user to cycle through the opponent players.
+        /// If our current spectated player disconnects or the user swaps the current spectated player
+        /// (through pressing spacebar), we choose a player in the race that we have not spectated yet, by popping them
+        /// off an unspectated queue. If this queue is empty, we will reinitialise it with all the spectatable 
+        /// players in the race. This allows the user to cycle through the players.
         /// </summary>
-        void SetSpectatedOpponentIfRequired()
+        void SetSpectateTargetIfRequired()
         {
-            opponentPlayers = opponentPlayers.Where(IsSpectatable);
+            spectatablePlayersInRace = spectatablePlayersInRace.Where(IsSpectatable);
 
-            if (!IsSpectatable(currentlySpectatedOpponent) || Input.GetKeyDown(KeyCode.Space))
+            if (!IsSpectatable(spectateTarget) || Input.GetKeyDown(KeyCode.Space))
             {
-                if (!opponentPlayersNotSpectated.Any())
+                if (!spectatablePlayersInRaceNotSpectated.Any())
                 {
-                    opponentPlayersNotSpectated = new Queue<Player>(opponentPlayers);
+                    spectatablePlayersInRaceNotSpectated = new Queue<Player>(spectatablePlayersInRace);
                 }
 
-                Player opponentToSpectate = null;
-                while (!IsSpectatable(opponentToSpectate) && opponentPlayersNotSpectated.Any())
+                Player playerToSpectate = null;
+                while (!IsSpectatable(playerToSpectate) && spectatablePlayersInRaceNotSpectated.Any())
                 {
-                    opponentToSpectate = opponentPlayersNotSpectated.Dequeue();
+                    playerToSpectate = spectatablePlayersInRaceNotSpectated.Dequeue();
                 }
 
-                if (IsSpectatable(opponentToSpectate))
+                if (IsSpectatable(playerToSpectate))
                 {
-                    SetCurrentlySpectatedOpponent(opponentToSpectate);
+                    SetSpectateTarget(playerToSpectate);
                 }
             }
         }
 
         /// <summary>
-        /// Spectate the given opponent, by changing the main camera and minimap camera to target them.
+        /// Spectate the given player, by changing the main camera and minimap camera to target them.
         /// </summary>
-        /// <param name="opponentToSpectate">Opponent Player</param>
-        void SetCurrentlySpectatedOpponent(Player opponentToSpectate)
+        /// <param name="player">Player</param>
+        void SetSpectateTarget(Player player)
         {
-            currentlySpectatedOpponent = opponentToSpectate;
-            ClientStateMachine.Singleton.SetPlayerCameraTarget(opponentToSpectate.CarManager.transform);
-            minimapUIComponent.SetMinimapCameraTarget(opponentToSpectate.CarManager.transform);
+            spectateTarget = player;
+            ClientStateMachine.Singleton.SetPlayerCameraTarget(player.CarManager.transform);
+            minimapUIComponent.SetMinimapCameraTarget(player.CarManager.transform);
         }
 
         /// <summary>
-        /// Update all the UI components in the client race view, which shows information about the spectated opponent's car 
+        /// Update all the UI components in the client race view, which shows information about the spectated player's car 
         /// and how they are performing in the race.
         /// </summary>
         void UpdateUIComponents()
@@ -123,7 +123,7 @@ namespace Racerr.Infrastructure.Client
             raceTimerUIComponent.UpdateRaceTimer(serverRaceState.CurrentRaceDuration);
             countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
             leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
-            spectateInfoUIComponent.UpdateSpectateInfo(currentlySpectatedOpponent?.PlayerName, opponentPlayers.Count());
+            spectateInfoUIComponent.UpdateSpectateInfo(spectateTarget?.PlayerName, spectatablePlayersInRace.Count());
         }
 
         /// <summary>

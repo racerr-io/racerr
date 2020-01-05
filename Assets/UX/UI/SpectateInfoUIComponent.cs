@@ -12,10 +12,11 @@ namespace Racerr.UX.UI
         [SerializeField] TextMeshProUGUI spaceTMP;
 
         /// <summary>
-        /// Updates spectated player's name and number of spectatable players.
+        /// Updates spectated player's name and displays the hint to press the
+        /// SPACEBAR to swap players if there is more than one player in the race.
         /// </summary>
         /// <param name="name">Spectated player's name</param>
-        /// <param name="numSpectatablePlayers"></param>
+        /// <param name="numSpectatablePlayers">Number of players in race.</param>
         public void UpdateSpectateInfo(string name, int numSpectatablePlayers)
         {
             spectatedPlayerNameTMP.text = name;
