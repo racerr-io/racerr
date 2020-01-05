@@ -57,7 +57,6 @@ namespace Racerr.Infrastructure
             Destroy(carGO);
             carGO = null;
             carManager = null;
-            Health = 0;
         }
 
         #endregion
