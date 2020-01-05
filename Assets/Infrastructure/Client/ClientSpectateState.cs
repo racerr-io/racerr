@@ -34,7 +34,7 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             currentlySpectatedOpponent = null;
-            opponentPlayers = FindObjectsOfType<Player>().Where(player => IsPlayerConnectedAndRacing(player) && player != ClientStateMachine.Singleton.LocalPlayer);
+            opponentPlayers = FindObjectsOfType<Player>().Where(player => IsSpectatable(player) && player != ClientStateMachine.Singleton.LocalPlayer);
             opponentPlayersNotSpectated = new Queue<Player>(opponentPlayers);
             spectateView.Show();
         }
@@ -53,7 +53,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         void Update()
         {
-            SetSpectatedPlayerIfRequired();
+            SetSpectatedOpponentIfRequired();
             UpdateUIComponents();
         }
 
@@ -66,29 +66,24 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// We would like to know which players have not disconnected from the server (the null check)
-        /// and are alive and racing in the game (the IsRacing property) so we can have an updated list
-        /// of unspectated players.
+        /// Tells us whether a player is spectatable, which is when they
+        /// haven't disconnected from the server and they haven't finished or died.
         /// </summary>
         /// <param name="player">The player object.</param>
         /// <returns>Boolean representing whether they are alive and racing.</returns>
-        bool IsPlayerConnectedAndRacing(Player player) => player != null && player.IsRacing;
+        bool IsSpectatable(Player player) => player != null && player.IsRacing;
 
         /// <summary>
-        /// If our current spectated opponent is not connected and racing or the spectating player
-        /// decides to change the current spectated opponent (through pressing spacebar), we choose an opponent 
-        /// in the race that we have not spectated yet.
+        /// If our current spectated opponent disconnects or the spectating player swaps the current spectated opponent 
+        /// (through pressing spacebar), we choose an opponent in the race that we have not spectated yet, by popping them
+        /// off an unspectated queue. If this queue is empty, we will reinitialise it with all the opponent players.
+        /// This allows the user to cycle through the opponent players.
         /// </summary>
-        /// <remarks>
-        /// If we have went through our whole queue of opponent players that are not spectated already but
-        /// the race has not finished (i.e. if the player has changed the spectating opponent themselves through
-        /// spacebar), then we reinitialise our queue to be the opponent players still in the race.
-        /// </remarks>
-        void SetSpectatedPlayerIfRequired()
+        void SetSpectatedOpponentIfRequired()
         {
-            opponentPlayers = opponentPlayers.Where(IsPlayerConnectedAndRacing);
+            opponentPlayers = opponentPlayers.Where(IsSpectatable);
 
-            if (!IsPlayerConnectedAndRacing(currentlySpectatedOpponent) || Input.GetKeyDown(KeyCode.Space))
+            if (!IsSpectatable(currentlySpectatedOpponent) || Input.GetKeyDown(KeyCode.Space))
             {
                 if (!opponentPlayersNotSpectated.Any())
                 {
@@ -96,12 +91,12 @@ namespace Racerr.Infrastructure.Client
                 }
 
                 Player opponentToSpectate = null;
-                while (opponentToSpectate == null && opponentPlayersNotSpectated.Any())
+                while (!IsSpectatable(opponentToSpectate) && opponentPlayersNotSpectated.Any())
                 {
                     opponentToSpectate = opponentPlayersNotSpectated.Dequeue();
                 }
 
-                if (opponentToSpectate != null)
+                if (IsSpectatable(opponentToSpectate))
                 {
                     SetCurrentlySpectatedOpponent(opponentToSpectate);
                 }
@@ -109,9 +104,9 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Spectate the given opponent.
+        /// Spectate the given opponent, by changing the main camera and minimap camera to target them.
         /// </summary>
-        /// <param name="opponentToSpectate"></param>
+        /// <param name="opponentToSpectate">Opponent Player</param>
         void SetCurrentlySpectatedOpponent(Player opponentToSpectate)
         {
             currentlySpectatedOpponent = opponentToSpectate;
