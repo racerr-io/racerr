@@ -91,6 +91,10 @@ namespace Racerr.Infrastructure.Client
                 }
 
                 Player playerToSpectate = null;
+
+                // Pop a player off the queue which we haven't spectated. It is possible the player
+                // is dead, finished or disconnected since the time we initialised the queue, 
+                // in that case we need to keep popping players till we find a spectatable player.
                 while (!IsSpectatable(playerToSpectate) && spectatablePlayersNotSpectated.Any())
                 {
                     playerToSpectate = spectatablePlayersNotSpectated.Dequeue();
