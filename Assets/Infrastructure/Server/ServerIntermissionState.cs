@@ -38,6 +38,7 @@ namespace Racerr.Infrastructure.Server
             {
                 this.raceSessionData = new RaceSessionData(0);
             }
+
             // To ensure the leaderboard has valid info from the new race session data.
             UpdateLeaderboard();
 

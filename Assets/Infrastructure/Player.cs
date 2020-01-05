@@ -149,6 +149,7 @@ namespace Racerr.Infrastructure
         }
 
         public bool IsDead => Health == 0;
+        public bool IsRacing => !IsDead && !PosInfo.IsFinished && CarManager != null;
 
         public PositionInfo PosInfo
         {

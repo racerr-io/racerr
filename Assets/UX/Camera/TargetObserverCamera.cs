@@ -18,7 +18,7 @@ namespace Racerr.UX.Camera
         }
 
         /// <summary>
-        /// Update camera on physics tick.
+        /// Update camera after every physics tick.
         /// </summary>
         void FixedUpdate()
         {

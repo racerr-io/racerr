@@ -41,24 +41,29 @@ namespace Racerr.Infrastructure.Client
         /// </remarks>
         public override void Exit()
         {
-            minimapUIComponent.SetMinimapCameraTarget(null);
-            ClientStateMachine.Singleton.SetPlayerCameraTarget(null);
-
             CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
             if (carManager != null)
             {
-                ClientStateMachine.Singleton.LocalPlayer.CarManager.SetIsActive(false);
+                carManager.SetIsActive(false);
             }
-
+            
             raceView.Hide();
         }
 
         /// <summary>
-        /// Called every physics tick. Updates UI components, then checks if we should transition to a new client state.
+        /// Called every frame tick. Updates who we are spectating and the UI components. We need to call put these things
+        /// in here instead of FixedUpdate() so updates to the UI are not choppy and inputs are accurate.
         /// </summary>
-        protected override void FixedUpdate()
+        void Update()
         {
             UpdateUIComponents();
+        }
+
+        /// <summary>
+        /// Called every physics tick to check if we should transition to the next state.
+        /// </summary>
+        void FixedUpdate()
+        {
             CheckToTransition();
         }
 

@@ -13,7 +13,7 @@ namespace Racerr.Infrastructure.Server
         /// Checks whether or not to transition to intermission state, based on if the server has any connected players.
         /// </summary>
         [Server]
-        protected override void FixedUpdate()
+        void FixedUpdate()
         {
             if (ServerStateMachine.Singleton.PlayersInServer.Any(p => p.IsReady))
             {
