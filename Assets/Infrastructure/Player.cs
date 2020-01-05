@@ -57,6 +57,7 @@ namespace Racerr.Infrastructure
             Destroy(carGO);
             carGO = null;
             carManager = null;
+            Health = 0;
         }
 
         #endregion
@@ -149,7 +150,7 @@ namespace Racerr.Infrastructure
         }
 
         public bool IsDead => Health == 0;
-        public bool IsRacing => !IsDead && !PosInfo.IsFinished;
+        public bool IsRacing => !IsDead && !PosInfo.IsFinished && CarManager != null;
 
         public PositionInfo PosInfo
         {
