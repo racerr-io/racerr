@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Racerr.UX.UI
+namespace Racerr.UX.Camera
 {
     /// <summary>
     /// A camera to automatically follow a target.
