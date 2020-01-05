@@ -1,5 +1,6 @@
 ﻿using Doozy.Engine.UI;
 using Racerr.Infrastructure.Server;
+using System;
 using System.Collections;
 using System.Linq;
 using TMPro;
@@ -10,6 +11,7 @@ namespace Racerr.Infrastructure.Client
     public class ClientStartMenuState : LocalState
     {
         const string defaultPlayerName = "Player";
+        string RandomisedDefaultPlayerName => $"{defaultPlayerName} {Guid.NewGuid().ToString().Substring(0, 4)}";
         [SerializeField] UIView startMenuView;
 
         /// <summary>
@@ -37,7 +39,7 @@ namespace Racerr.Infrastructure.Client
         {
             ClientStateMachine.Singleton.LocalPlayer.IsReady = true;
             string playerName = startMenuView.gameObject.GetComponentsInChildren<TMP_InputField>().Single(t => t.name == "Player Name Text").text;
-            ClientStateMachine.Singleton.LocalPlayer.PlayerName = string.IsNullOrWhiteSpace(playerName) ? defaultPlayerName : playerName;
+            ClientStateMachine.Singleton.LocalPlayer.PlayerName = string.IsNullOrWhiteSpace(playerName) ? RandomisedDefaultPlayerName : playerName;
             StartCoroutine(WaitUntilServerNotIdleThenTransition());
         }
 

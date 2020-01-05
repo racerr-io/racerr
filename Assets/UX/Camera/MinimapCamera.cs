@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Racerr.UX.UI
+namespace Racerr.UX.Camera
 {
     /// <summary>
     /// A camera to automatically follow a target.
@@ -19,7 +19,7 @@ namespace Racerr.UX.UI
         /// <summary>
         /// Update camera after every physics tick.
         /// </summary>
-        void LateUpdate()
+        void FixedUpdate()
         {
             FollowTarget();
         }

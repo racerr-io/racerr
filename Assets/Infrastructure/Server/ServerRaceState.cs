@@ -96,7 +96,7 @@ namespace Racerr.Infrastructure.Server
         /// Checks whether or not to transition to intermission state, based on if the race is finished or empty.
         /// </summary>
         [Server]
-        protected override void FixedUpdate()
+        void FixedUpdate()
         {
             UpdateRaceFinishTimeIfAnyPlayerFinished();
 
