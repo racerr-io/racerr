@@ -50,7 +50,7 @@ namespace Mirror.Weaver
 
             // We only need to run this once per session
             // after that, all assemblies will be weaved by the event
-            if (!SessionState.GetBool("MIRROR_WEAVED", false) )
+            if (!SessionState.GetBool("MIRROR_WEAVED", false))
             {
                 SessionState.SetBool("MIRROR_WEAVED", true);
                 WeaveExisingAssemblies();
@@ -66,8 +66,12 @@ namespace Mirror.Weaver
                     OnCompilationFinished(assembly.outputPath, new CompilerMessage[0]);
                 }
             }
-
+#if UNITY_2019_3_OR_NEWER
+            EditorUtility.RequestScriptReload();
+#else
             UnityEditorInternal.InternalEditorUtility.RequestScriptReload();
+#endif
+
         }
 
         static string FindMirrorRuntime()

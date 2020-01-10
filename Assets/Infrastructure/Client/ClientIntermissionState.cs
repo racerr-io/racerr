@@ -49,12 +49,13 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         /// <param name="op">Operation Type</param>
         /// <param name="itemIndex">The index of the newly added track (unused)</param>
-        /// <param name="item">The track itself that was added</param>
-        void SetCameraTargetOnTrackGenerated(Mirror.SyncList<GameObject>.Operation op, int itemIndex, GameObject item)
+        /// <param name="oldItem">The track itself that was removed (unused in this case)</param>
+        /// <param name="newItem">The track itself that was added</param>
+        void SetCameraTargetOnTrackGenerated(Mirror.SyncList<GameObject>.Operation op, int itemIndex, GameObject oldItem, GameObject newItem)
         {
             if (op == Mirror.SyncList<GameObject>.Operation.OP_ADD)
             {
-                ClientStateMachine.Singleton.SetPlayerCameraTarget(item.transform);
+                ClientStateMachine.Singleton.SetPlayerCameraTarget(newItem.transform);
             }
         }
 

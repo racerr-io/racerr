@@ -42,7 +42,7 @@ namespace Racerr.Infrastructure
             carManager.PlayerGO = gameObject;
 
             // Setup and sync over network
-            NetworkServer.SpawnWithClientAuthority(carGO, gameObject);
+            NetworkServer.Spawn(carGO, gameObject);
             this.carGO = carGO;
             Health = CarManager.MaxHealth;
         }

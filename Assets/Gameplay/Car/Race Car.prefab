@@ -2929,8 +2929,6 @@ MonoBehaviour:
     OnCollision:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: NWH.VehiclePhysics.DamageHandler+VehicleCollisionEvent, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     previousCollisionHash: 0
   fuel:
     useFuel: 0
@@ -3041,9 +3039,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverOnly: 0
-  localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 3600238990
+  m_SceneId: 0
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0
