@@ -16,12 +16,12 @@ namespace Racerr.Gameplay.Car
     [RequireComponent(typeof(CarPhysicsManager))]
     public class CarManager : NetworkBehaviour
     {
+        Vector3 impulse;
+        float healthDamageAdjustmentFactor = 0.00001f;
         public Player OwnPlayer { get; private set; }
 
         [Header("Car Properties")]
         [SerializeField] int maxHealth = 100;
-        [SerializeField] Collider carFrontCollider;
-        [SerializeField] Collider carBackCollider;
         public int MaxHealth => maxHealth;
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
@@ -63,9 +63,10 @@ namespace Racerr.Gameplay.Car
         /// <param name="collision">Collision information.</param>
         void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Car Front Collider") || collision.gameObject.CompareTag("Environment"))
+            impulse = collision.impulse;
+            if (collision.gameObject.CompareTag("Car") || collision.gameObject.CompareTag("Environment"))
             {
-                OwnPlayer.Health -= Convert.ToInt32(collision.relativeVelocity.magnitude);
+                OwnPlayer.Health -= Convert.ToInt32((impulse / Time.fixedDeltaTime).magnitude * healthDamageAdjustmentFactor);
             }
         }
 

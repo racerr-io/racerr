@@ -2538,8 +2538,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   maxHealth: 100
-  carFrontCollider: {fileID: 1374358144341784272}
-  carBackCollider: {fileID: 1487346020663556027}
   playerBarPrefab: {fileID: 4182034153008739931, guid: fae0477d4f724c842b5bfdacd350b2f5,
     type: 3}
   playerBarStartDisplacement: 4
