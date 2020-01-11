@@ -48,10 +48,10 @@ MonoBehaviour:
   TextMeshProDetected: 1
   IgnoreUnityTimescale: 1
   SpeedBasedAnimations: 0
-  UseBackButton: 0
+  UseBackButton: 1
   UseMasterAudio: 0
   UseOrientationDetector: 0
   UsePlaymaker: 0
-  UseTextMeshPro: 1
-  AssetDatabaseSaveAssetsNeeded: 0
+  UseTextMeshPro: 0
+  AssetDatabaseSaveAssetsNeeded: 1
   AssetDatabaseRefreshNeeded: 0

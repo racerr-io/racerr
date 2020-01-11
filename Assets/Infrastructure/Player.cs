@@ -42,7 +42,7 @@ namespace Racerr.Infrastructure
             carManager.PlayerGO = gameObject;
 
             // Setup and sync over network
-            NetworkServer.SpawnWithClientAuthority(carGO, gameObject);
+            NetworkServer.Spawn(carGO, gameObject);
             this.carGO = carGO;
             Health = CarManager.MaxHealth;
         }
@@ -79,7 +79,11 @@ namespace Racerr.Infrastructure
         void OnPlayerHealthChanged(int health)
         {
             this.health = health;
-            CarManager?.PlayerBar?.SetHealthBar(health);
+            
+            if (CarManager != null && CarManager.PlayerBar != null)
+            {
+                CarManager.PlayerBar.SetHealthBar(health);
+            }
         }
 
         #endregion
@@ -139,11 +143,15 @@ namespace Racerr.Infrastructure
             get => health;
             set
             {
-                health = Math.Max(0, value);
+                value = Math.Max(0, value);
 
-                if (!isServer)
+                if (isServer)
                 {
-                    CmdSynchroniseHealth(health);
+                    health = value;
+                }
+                else
+                {
+                    CmdSynchroniseHealth(value);
                 }
             }
         }

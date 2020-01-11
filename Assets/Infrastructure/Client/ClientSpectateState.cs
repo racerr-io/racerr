@@ -127,7 +127,11 @@ namespace Racerr.Infrastructure.Client
             raceTimerUIComponent.UpdateRaceTimer(serverRaceState.CurrentRaceDuration);
             countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
             leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
-            spectateInfoUIComponent.UpdateSpectateInfo(spectateTarget?.PlayerName, spectatablePlayers.Count());
+
+            if (spectateTarget != null)
+            {
+                spectateInfoUIComponent.UpdateSpectateInfo(spectateTarget.PlayerName, spectatablePlayers.Count());
+            }
         }
 
         /// <summary>

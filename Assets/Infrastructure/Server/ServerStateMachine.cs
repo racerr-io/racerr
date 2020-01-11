@@ -169,9 +169,8 @@ namespace Racerr.Infrastructure.Server
                         .ThenByDescending(player => player.PosInfo.Checkpoints.Count)
                         .ThenBy(player =>
                         {
-                            Vector3? currCarPosition = player.CarManager?.transform.position;
                             GameObject[] checkpointsInRace = TrackGeneratorCommon.Singleton.CheckpointsInRace;
-                            if (currCarPosition == null || checkpointsInRace == null)
+                            if (player.CarManager == null || checkpointsInRace == null)
                             {
                                 // For some reason the player has no car or the race hasn't started,
                                 // so let's just be safe rather than crash.
@@ -182,7 +181,7 @@ namespace Racerr.Infrastructure.Server
                             // so to grab the next checkpoint for this car we use the checkpoint count for this player as an index.
                             int nextCheckpoint = player.PosInfo.Checkpoints.Count;
                             Vector3 nextCheckpointPosition = checkpointsInRace[nextCheckpoint].transform.position;
-                            return Vector3.Distance(currCarPosition.Value, nextCheckpointPosition);
+                            return Vector3.Distance(player.CarManager.transform.position, nextCheckpointPosition);
                         });
                 }
             }

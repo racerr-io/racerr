@@ -1,5 +1,4 @@
 ﻿using NWH.VehiclePhysics;
-using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Client;
 using Racerr.World.Track;
 using UnityEngine;
@@ -14,22 +13,20 @@ namespace Racerr.UX.Camera
         /// </summary>
         void Update()
         {
-            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer?.CarManager;
-
-            if (carManager != null)
+            if (ClientStateMachine.Singleton.LocalPlayer == null || ClientStateMachine.Singleton.LocalPlayer.CarManager == null)
             {
-                foreach (Wheel wheel in carManager.Wheels)
+                return;
+            }
+
+            foreach (Wheel wheel in ClientStateMachine.Singleton.LocalPlayer.CarManager.Wheels)
+            {
+                Vector3 direction = wheel.ControllerTransform.position - transform.position;
+                if (Physics.Raycast(transform.position, direction, out RaycastHit raycastHit))
                 {
-                    Vector3 direction = wheel.ControllerTransform.position - transform.position;
-
-                    if (Physics.Raycast(transform.position, direction, out RaycastHit raycastHit))
+                    BuildingManager buildingState = raycastHit.collider.gameObject.GetComponent<BuildingManager>();
+                    if (buildingState != null)
                     {
-                        BuildingManager buildingState = raycastHit.collider.gameObject.GetComponent<BuildingManager>();
-
-                        if (buildingState != null)
-                        {
-                            buildingState.HitRay();
-                        }
+                        buildingState.HitRay();
                     }
                 }
             }

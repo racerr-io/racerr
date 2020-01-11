@@ -19,7 +19,18 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] TargetObserverCamera playerCamera;
 
         Player localPlayer;
-        public Player LocalPlayer => localPlayer ?? (localPlayer = FindObjectsOfType<Player>().SingleOrDefault(player => player.isLocalPlayer));
+        public Player LocalPlayer
+        {
+            get
+            {
+                if (localPlayer == null)
+                {
+                    localPlayer = FindObjectsOfType<Player>().SingleOrDefault(player => player.isLocalPlayer);
+                }
+
+                return localPlayer;
+            }
+        }
 
         /// <summary>
         /// Run when this script is instantiated.

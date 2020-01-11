@@ -41,7 +41,7 @@ namespace Mirror.Weaver
                                     return false;
                                 }
                             }
-                            Weaver.Error($"No hook implementation found for {syncVar}. Add this method to your class:\npublic void {hookFunctionName}({syncVar.FieldType} value) {{ }}" );
+                            Weaver.Error($"No hook implementation found for {syncVar}. Add this method to your class:\npublic void {hookFunctionName}({syncVar.FieldType} value) {{ }}");
                             return false;
                         }
                     }
@@ -109,7 +109,6 @@ namespace Mirror.Weaver
                     Weaver.voidType);
 
             ILProcessor setWorker = set.Body.GetILProcessor();
-
 
             // if (!SyncVarEqual(value, ref playerData))
             Instruction endOfMethod = setWorker.Create(OpCodes.Nop);
@@ -194,7 +193,6 @@ namespace Mirror.Weaver
             // dirty bit
             setWorker.Append(setWorker.Create(OpCodes.Ldc_I8, dirtyBit)); // 8 byte integer aka long
 
-
             if (fd.FieldType.FullName == Weaver.gameObjectType.FullName)
             {
                 // reference to netId Field to set
@@ -255,7 +253,8 @@ namespace Mirror.Weaver
             //create the property
             PropertyDefinition propertyDefinition = new PropertyDefinition("Network" + originalName, PropertyAttributes.None, fd.FieldType)
             {
-                GetMethod = get, SetMethod = set
+                GetMethod = get,
+                SetMethod = set
             };
 
             //add the methods and property to the type.
