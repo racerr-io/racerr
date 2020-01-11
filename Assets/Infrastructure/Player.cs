@@ -151,7 +151,7 @@ namespace Racerr.Infrastructure
                 }
                 else
                 {
-                    CmdSynchroniseHealth(health);
+                    CmdSynchroniseHealth(value);
                 }
             }
         }
