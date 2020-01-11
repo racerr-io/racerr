@@ -3910,7 +3910,7 @@ GameObject:
   - component: {fileID: 1374358144341784272}
   m_Layer: 0
   m_Name: Front
-  m_TagString: Wheel Collider
+  m_TagString: Car Front Collider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3956,8 +3956,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.634387, y: 1.6761944, z: 2.867603}
-  m_Center: {x: 0, y: 1.033863, z: 1.081946}
+  m_Size: {x: 2.634387, y: 1.6761944, z: 1.867603}
+  m_Center: {x: 0, y: 1.033863, z: 1.581946}
 --- !u!1 &2841834221481810430
 GameObject:
   m_ObjectHideFlags: 0
@@ -4115,7 +4115,7 @@ GameObject:
   - component: {fileID: 1487346020663556027}
   m_Layer: 0
   m_Name: Back
-  m_TagString: Wheel Collider
+  m_TagString: Car Back Collider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

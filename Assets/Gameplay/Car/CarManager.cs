@@ -57,13 +57,13 @@ namespace Racerr.Gameplay.Car
         }
 
         /// <summary>
-        /// Apply damage to car on collision with other players and the environment (e.g. buildings), by decreasing the players
-        /// health by a flat amount.
+        /// Apply damage to car on collision with other player's front of the car and the environment (e.g. buildings), 
+        /// by decreasing the players health by a flat amount.
         /// </summary>
         /// <param name="collision">Collision information.</param>
         void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Car") || collision.gameObject.CompareTag("Environment"))
+            if (collision.gameObject.CompareTag("Car Front Collider") || collision.gameObject.CompareTag("Environment"))
             {
                 OwnPlayer.Health -= Convert.ToInt32(collision.relativeVelocity.magnitude);
             }
