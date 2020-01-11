@@ -79,7 +79,11 @@ namespace Racerr.Infrastructure
         void OnPlayerHealthChanged(int health)
         {
             this.health = health;
-            CarManager?.PlayerBar?.SetHealthBar(health);
+            
+            if (CarManager != null && CarManager.PlayerBar != null)
+            {
+                CarManager.PlayerBar.SetHealthBar(health);
+            }
         }
 
         #endregion

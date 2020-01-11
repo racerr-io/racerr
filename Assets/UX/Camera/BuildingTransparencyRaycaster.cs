@@ -14,7 +14,12 @@ namespace Racerr.UX.Camera
         /// </summary>
         void Update()
         {
-            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer?.CarManager;
+            if (ClientStateMachine.Singleton.LocalPlayer == null)
+            {
+                return;
+            }
+
+            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
 
             if (carManager != null)
             {
