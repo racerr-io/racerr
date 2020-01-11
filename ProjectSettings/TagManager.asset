@@ -14,6 +14,8 @@ TagManager:
   - Road
   - Highway
   - Trailer
+  - Car Front Collider
+  - Car Back Collider
   layers:
   - Default
   - TransparentFX
