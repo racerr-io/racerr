@@ -20,6 +20,8 @@ namespace Racerr.Gameplay.Car
 
         [Header("Car Properties")]
         [SerializeField] int maxHealth = 100;
+        [SerializeField] Collider carFrontCollider;
+        [SerializeField] Collider carBackCollider;
         public int MaxHealth => maxHealth;
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
