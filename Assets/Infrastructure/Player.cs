@@ -143,9 +143,13 @@ namespace Racerr.Infrastructure
             get => health;
             set
             {
-                health = Math.Max(0, value);
+                value = Math.Max(0, value);
 
-                if (!isServer)
+                if (isServer)
+                {
+                    health = value;
+                }
+                else
                 {
                     CmdSynchroniseHealth(health);
                 }
