@@ -270,7 +270,7 @@ MonoBehaviour:
   prevHasHit: 1
   debug: 0
   parent: {fileID: 1018952010411425780}
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: -1
   activeFrictionPresetEnum: 9
   activeFrictionPreset:
@@ -1045,7 +1045,7 @@ MonoBehaviour:
   prevHasHit: 1
   debug: 0
   parent: {fileID: 1018952010411425780}
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: -1
   activeFrictionPresetEnum: 9
   activeFrictionPreset:
@@ -1820,7 +1820,7 @@ MonoBehaviour:
   prevHasHit: 1
   debug: 0
   parent: {fileID: 1018952010411425780}
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: 1
   activeFrictionPresetEnum: 9
   activeFrictionPreset:
@@ -2415,7 +2415,6 @@ GameObject:
   - component: {fileID: 3147923050028212963}
   - component: {fileID: 1032093577596951814}
   - component: {fileID: 1042073786603977904}
-  - component: {fileID: 1064214411705787420}
   - component: {fileID: 6585119489434592762}
   - component: {fileID: 187366651734599786}
   - component: {fileID: -6983455188103148685}
@@ -2509,20 +2508,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &1064214411705787420
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018952010411425780}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300000, guid: 24d57831ff1fa4a6e89546bcb5448e7b, type: 3}
 --- !u!114 &6585119489434592762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3234,7 +3219,7 @@ MonoBehaviour:
   prevHasHit: 1
   debug: 0
   parent: {fileID: 1018952010411425780}
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: 1
   activeFrictionPresetEnum: 9
   activeFrictionPreset:
@@ -3934,7 +3919,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2234941494341670469}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2.634387, y: 1.6761944, z: 1.867603}
@@ -4122,7 +4107,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4648128640802826890}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2.634387, y: 1.6761944, z: 2.867603}

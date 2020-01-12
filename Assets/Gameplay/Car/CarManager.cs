@@ -16,12 +16,11 @@ namespace Racerr.Gameplay.Car
     [RequireComponent(typeof(CarPhysicsManager))]
     public class CarManager : NetworkBehaviour
     {
-        Vector3 impulse;
-        float healthDamageAdjustmentFactor = 0.00001f;
         public Player OwnPlayer { get; private set; }
 
         [Header("Car Properties")]
         [SerializeField] int maxHealth = 100;
+        const double healthDamageAdjustmentFactor = 0.00001f;
         public int MaxHealth => maxHealth;
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
@@ -32,7 +31,7 @@ namespace Racerr.Gameplay.Car
         CarPhysicsManager carPhysicsManager;
         public float SpeedKPH => carPhysicsManager.SpeedKPH;
         public List<Wheel> Wheels => carPhysicsManager.Wheels;
-        // TODO: Extract Player Bar to its own script
+
         [Header("Player Bar Properties")]
         [SerializeField] GameObject playerBarPrefab;
         [SerializeField] float playerBarStartDisplacement = 4; // Displacement from car centre at all times
@@ -63,10 +62,12 @@ namespace Racerr.Gameplay.Car
         /// <param name="collision">Collision information.</param>
         void OnCollisionEnter(Collision collision)
         {
-            impulse = collision.impulse;
             if (collision.gameObject.CompareTag("Car") || collision.gameObject.CompareTag("Environment"))
             {
-                OwnPlayer.Health -= Convert.ToInt32((impulse / Time.fixedDeltaTime).magnitude * healthDamageAdjustmentFactor);
+                ContactPoint contactPoint = collision.GetContact(0);
+                Debug.Log(contactPoint.thisCollider.gameObject.tag);
+
+                OwnPlayer.Health -= Convert.ToInt32((collision.impulse / Time.fixedDeltaTime).magnitude * healthDamageAdjustmentFactor);
             }
         }
 
