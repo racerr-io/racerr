@@ -64,11 +64,15 @@ namespace Racerr.Gameplay.Car
         /// <param name="collision">Collision information.</param>
         void OnCollisionEnter(Collision collision)
         {
-            Vector3 collisionForce = collision.impulse / Time.fixedDeltaTime;
+            
             ContactPoint contactPoint = collision.GetContact(0);
-            if (collision.gameObject.CompareTag(Tags.Environment) || contactPoint.otherCollider.gameObject.CompareTag(Tags.CarFrontCollider)
-                || (contactPoint.thisCollider.gameObject.CompareTag(Tags.CarBackCollider) && contactPoint.otherCollider.gameObject.CompareTag(Tags.CarBackCollider)))
+            bool isHitByEnvironment = collision.gameObject.CompareTag(Tags.Environment);
+            bool isHitByOtherCarFront = contactPoint.otherCollider.gameObject.CompareTag(Tags.CarFrontCollider);
+            bool isHitByOtherCarBackIntoOurBack = contactPoint.thisCollider.gameObject.CompareTag(Tags.CarBackCollider) && contactPoint.otherCollider.gameObject.CompareTag(Tags.CarBackCollider);
+            
+            if (isHitByEnvironment | isHitByOtherCarFront || isHitByOtherCarBackIntoOurBack)
             {
+                Vector3 collisionForce = collision.impulse / Time.fixedDeltaTime;
                 OwnPlayer.Health -= Convert.ToInt32(collisionForce.magnitude * healthDamageAdjustmentFactor);
             }
         }

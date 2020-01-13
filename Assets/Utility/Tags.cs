@@ -11,5 +11,6 @@
         public const string Environment = "Environment";
         public const string CarFrontCollider = "Car Front Collider";
         public const string CarBackCollider = "Car Back Collider";
+        public const string Prop = "Prop";
     }
 }
