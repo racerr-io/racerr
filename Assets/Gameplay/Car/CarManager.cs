@@ -57,9 +57,9 @@ namespace Racerr.Gameplay.Car
         }
 
         /// <summary>
-        /// Apply damage to car on collision with another player's front of the car, the environment (e.g. buildings)
-        /// or if the collision is between the back of the two cars, by decreasing the players health by an amount proportional 
-        /// to the force of the collision.
+        /// Damage our self when hit by another player's front of car, the environment or the back of the other car 
+        /// hits the back of our car, by decreasing the player's health by an amount proportional to the force of the collision. 
+        /// The purpose of this is to minimise the chance of the aggressor car taking damage when ramming into other cars.
         /// </summary>
         /// <param name="collision">Collision information.</param>
         void OnCollisionEnter(Collision collision)
