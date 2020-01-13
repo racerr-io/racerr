@@ -59,16 +59,17 @@ namespace Racerr.Gameplay.Car
         /// <summary>
         /// Apply damage to car on collision with another player's front of the car, the environment (e.g. buildings)
         /// or if the collision is between the back of the two cars, by decreasing the players health by an amount proportional 
-        /// to the impulse of the collision.
+        /// to the force of the collision.
         /// </summary>
         /// <param name="collision">Collision information.</param>
         void OnCollisionEnter(Collision collision)
         {
+            Vector3 collisionForce = collision.impulse / Time.fixedDeltaTime;
             ContactPoint contactPoint = collision.GetContact(0);
             if (collision.gameObject.CompareTag(Tags.Environment) || contactPoint.otherCollider.gameObject.CompareTag(Tags.CarFrontCollider)
                 || (contactPoint.thisCollider.gameObject.CompareTag(Tags.CarBackCollider) && contactPoint.otherCollider.gameObject.CompareTag(Tags.CarBackCollider)))
             {
-                OwnPlayer.Health -= Convert.ToInt32((collision.impulse / Time.fixedDeltaTime).magnitude * healthDamageAdjustmentFactor);
+                OwnPlayer.Health -= Convert.ToInt32(collisionForce.magnitude * healthDamageAdjustmentFactor);
             }
         }
 
