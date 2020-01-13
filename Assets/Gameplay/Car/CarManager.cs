@@ -2,6 +2,7 @@
 using NWH.VehiclePhysics;
 using Racerr.Infrastructure;
 using Racerr.Infrastructure.Client;
+using Racerr.Utility;
 using Racerr.UX.Car;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace Racerr.Gameplay.Car
 
         [Header("Car Properties")]
         [SerializeField] int maxHealth = 100;
-        const double healthDamageAdjustmentFactor = 0.00001f;
+        const double healthDamageAdjustmentFactor = 0.00002f;
         public int MaxHealth => maxHealth;
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
@@ -64,8 +65,8 @@ namespace Racerr.Gameplay.Car
         void OnCollisionEnter(Collision collision)
         {
             ContactPoint contactPoint = collision.GetContact(0);
-            if (collision.gameObject.CompareTag("Environment") || contactPoint.otherCollider.gameObject.CompareTag("Car Front Collider")
-                || (contactPoint.thisCollider.gameObject.CompareTag("Car Back Collider") && contactPoint.otherCollider.gameObject.CompareTag("Car Back Collider")))
+            if (collision.gameObject.CompareTag(Tags.Environment) || contactPoint.otherCollider.gameObject.CompareTag(Tags.CarFrontCollider)
+                || (contactPoint.thisCollider.gameObject.CompareTag(Tags.CarBackCollider) && contactPoint.otherCollider.gameObject.CompareTag(Tags.CarBackCollider)))
             {
                 OwnPlayer.Health -= Convert.ToInt32((collision.impulse / Time.fixedDeltaTime).magnitude * healthDamageAdjustmentFactor);
             }

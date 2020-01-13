@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using Racerr.Infrastructure;
+using Racerr.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -134,7 +135,7 @@ namespace Racerr.World.Track
             }
 
             // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
-            currentTrackPiece.transform.Find(TrackPieceComponent.Checkpoint).name = TrackPieceComponent.FinishLineCheckpoint;
+            currentTrackPiece.transform.Find(Tags.Checkpoint).name = Tags.FinishLineCheckpoint;
 
             Destroy(origin);
             FinishTrackGeneration();

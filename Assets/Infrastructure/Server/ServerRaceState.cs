@@ -1,5 +1,5 @@
 ﻿using Mirror;
-using Racerr.World.Track;
+using Racerr.Utility;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -84,7 +84,7 @@ namespace Racerr.Infrastructure.Server
         {
             player.PosInfo.Checkpoints.Add(checkpoint);
 
-            if (checkpoint.name == TrackPieceComponent.FinishLineCheckpoint)
+            if (checkpoint.name == Tags.FinishLineCheckpoint)
             {
                 NotifyPlayerFinished(player);
             }

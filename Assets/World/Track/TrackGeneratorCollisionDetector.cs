@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Racerr.Utility;
+using System.Linq;
 using UnityEngine;
 
 namespace Racerr.World.Track
@@ -32,7 +33,7 @@ namespace Racerr.World.Track
         {
             GameObject collidedGameObject = collision.gameObject;
             GameObject previousTrackPiece = TrackGeneratorCommon.Singleton.GeneratedTrackPieces.LastOrDefault();
-            bool collidedWithTrackPiece = collidedGameObject.CompareTag(TrackPieceComponent.Road) || collidedGameObject.CompareTag(TrackPieceComponent.Highway);
+            bool collidedWithTrackPiece = collidedGameObject.CompareTag(Tags.Road) || collidedGameObject.CompareTag(Tags.Highway);
             bool collidedWithPreviousTrackPiece = collidedGameObject == previousTrackPiece;
 
             if (collidedWithTrackPiece && !collidedWithPreviousTrackPiece)
