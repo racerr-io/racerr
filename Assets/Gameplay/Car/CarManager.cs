@@ -70,7 +70,7 @@ namespace Racerr.Gameplay.Car
             bool isHitByOtherCarFront = contactPoint.otherCollider.gameObject.CompareTag(Tags.CarFrontCollider);
             bool isHitByOtherCarBackIntoOurBack = contactPoint.thisCollider.gameObject.CompareTag(Tags.CarBackCollider) && contactPoint.otherCollider.gameObject.CompareTag(Tags.CarBackCollider);
             
-            if (isHitByEnvironment | isHitByOtherCarFront || isHitByOtherCarBackIntoOurBack)
+            if (isHitByEnvironment || isHitByOtherCarFront || isHitByOtherCarBackIntoOurBack)
             {
                 Vector3 collisionForce = collision.impulse / Time.fixedDeltaTime;
                 OwnPlayer.Health -= Convert.ToInt32(collisionForce.magnitude * healthDamageAdjustmentFactor);
