@@ -2,7 +2,9 @@
 using NWH.VehiclePhysics;
 using Racerr.Infrastructure;
 using Racerr.Infrastructure.Client;
+using Racerr.Utility;
 using Racerr.UX.Car;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +21,8 @@ namespace Racerr.Gameplay.Car
 
         [Header("Car Properties")]
         [SerializeField] int maxHealth = 100;
+        const double otherCarDamageAdjustmentFactor = 0.00004f;
+        const double environmentDamageAdjustmentFactor = 0.00002f;
         public int MaxHealth => maxHealth;
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
@@ -29,7 +33,7 @@ namespace Racerr.Gameplay.Car
         CarPhysicsManager carPhysicsManager;
         public float SpeedKPH => carPhysicsManager.SpeedKPH;
         public List<Wheel> Wheels => carPhysicsManager.Wheels;
-        // TODO: Extract Player Bar to its own script
+
         [Header("Player Bar Properties")]
         [SerializeField] GameObject playerBarPrefab;
         [SerializeField] float playerBarStartDisplacement = 4; // Displacement from car centre at all times
@@ -54,15 +58,32 @@ namespace Racerr.Gameplay.Car
         }
 
         /// <summary>
-        /// Apply damage to car on collision with other players and the environment (e.g. buildings), by decreasing the players
-        /// health by a flat amount.
+        /// Damage our self when hit by another player's front of car, the environment or the back of the other car 
+        /// hits the back of our car, by decreasing the player's health by an amount proportional to the force of the collision. 
+        /// The purpose of this is to minimise the chance of the aggressor car taking damage when ramming into other cars.
         /// </summary>
         /// <param name="collision">Collision information.</param>
+        [ClientCallback]
         void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Environment"))
+            if (!hasAuthority)
             {
-                OwnPlayer.Health -= 10;
+                return;
+            }
+
+            ContactPoint contactPoint = collision.GetContact(0);
+            bool isHitByEnvironment = collision.gameObject.CompareTag(Tags.Environment);
+            bool isHitByOtherCarFront = contactPoint.otherCollider.gameObject.CompareTag(Tags.CarFrontCollider);
+            bool isHitByOtherCarBackIntoOurBack = contactPoint.thisCollider.gameObject.CompareTag(Tags.CarBackCollider) && contactPoint.otherCollider.gameObject.CompareTag(Tags.CarBackCollider);
+
+            Vector3 collisionForce = collision.impulse / Time.fixedDeltaTime;
+            if (isHitByEnvironment)
+            {
+                OwnPlayer.Health -= Convert.ToInt32(collisionForce.magnitude * environmentDamageAdjustmentFactor);
+            }
+            else if (isHitByOtherCarFront || isHitByOtherCarBackIntoOurBack)
+            {
+                OwnPlayer.Health -= Convert.ToInt32(collisionForce.magnitude * otherCarDamageAdjustmentFactor);
             }
         }
 

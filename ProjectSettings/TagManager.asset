@@ -6,14 +6,12 @@ TagManager:
   tags:
   - Car
   - Track Piece
-  - HUD Part
-  - Wheel Collider
-  - Wheel Mesh
   - Prop
   - Environment
   - Road
   - Highway
-  - Trailer
+  - Car Front Collider
+  - Car Back Collider
   layers:
   - Default
   - TransparentFX

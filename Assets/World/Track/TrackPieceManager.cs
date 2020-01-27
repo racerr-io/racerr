@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Racerr.Utility;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Racerr.World.Track
     {
         [SerializeField] int propDownForce = 8000;
         IEnumerable<Rigidbody> propRigidBodies = null;
-        IEnumerable<Rigidbody> PropRigidBodies => propRigidBodies ?? (propRigidBodies = GetComponentsInChildren<Rigidbody>().Where(p => p != null && p.CompareTag("Prop")));
+        IEnumerable<Rigidbody> PropRigidBodies => propRigidBodies ?? (propRigidBodies = GetComponentsInChildren<Rigidbody>().Where(p => p != null && p.CompareTag(Tags.Prop)));
 
         /// <summary>
         /// Called when object is instantiated.
@@ -74,7 +75,7 @@ namespace Racerr.World.Track
         [Client]
         void RemovePhysicsFromProps()
         {
-            foreach (Collider propCollider in GetComponentsInChildren<Collider>().Where(p => p.CompareTag("Prop")))
+            foreach (Collider propCollider in GetComponentsInChildren<Collider>().Where(p => p.CompareTag(Tags.Prop)))
             {
                 Destroy(propCollider);
             }

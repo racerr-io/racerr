@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using Racerr.Infrastructure;
+using Racerr.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,12 +75,12 @@ namespace Racerr.World.Track
 
             CheckpointsInRace = GeneratedTrackPieces.Select(trackPiece =>
             {
-                GameObject result = trackPiece.transform.Find(TrackPieceComponent.Checkpoint)?.gameObject;
+                GameObject result = trackPiece.transform.Find(Tags.Checkpoint)?.gameObject;
 
                 if (result == null)
                 {
                     // Special case for the finishing line, it has a different label.
-                    result = trackPiece.transform.Find(TrackPieceComponent.FinishLineCheckpoint).gameObject;
+                    result = trackPiece.transform.Find(Tags.FinishLineCheckpoint).gameObject;
                 }
 
                 return result;
@@ -120,12 +121,12 @@ namespace Racerr.World.Track
         /// <returns>Track Piece Link Transform</returns>
         protected Transform LoadTrackPieceLinkTransform(GameObject trackPiece)
         {
-            Transform tracePieceLinkTransform = trackPiece.transform.Find(TrackPieceComponent.Link);
+            Transform tracePieceLinkTransform = trackPiece.transform.Find(Tags.Link);
 
             if (tracePieceLinkTransform == null)
             {
                 Debug.LogError("Track Piece Failure - Unable to load the Track Piece Link from the specified Track Piece. " +
-                    $"Every Track Piece prefab requires a child game object called '{ TrackPieceComponent.Link }' which provides information on where to attach the next Track Piece.");
+                    $"Every Track Piece prefab requires a child game object called '{ Tags.Link }' which provides information on where to attach the next Track Piece.");
             }
 
             return tracePieceLinkTransform;

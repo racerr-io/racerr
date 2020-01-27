@@ -270,7 +270,7 @@ MonoBehaviour:
   prevHasHit: 1
   debug: 0
   parent: {fileID: 1018952010411425780}
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: -1
   activeFrictionPresetEnum: 9
   activeFrictionPreset:
@@ -1045,7 +1045,7 @@ MonoBehaviour:
   prevHasHit: 1
   debug: 0
   parent: {fileID: 1018952010411425780}
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: -1
   activeFrictionPresetEnum: 9
   activeFrictionPreset:
@@ -1820,7 +1820,7 @@ MonoBehaviour:
   prevHasHit: 1
   debug: 0
   parent: {fileID: 1018952010411425780}
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: 1
   activeFrictionPresetEnum: 9
   activeFrictionPreset:
@@ -2415,7 +2415,6 @@ GameObject:
   - component: {fileID: 3147923050028212963}
   - component: {fileID: 1032093577596951814}
   - component: {fileID: 1042073786603977904}
-  - component: {fileID: 1064214411705787420}
   - component: {fileID: 6585119489434592762}
   - component: {fileID: 187366651734599786}
   - component: {fileID: -6983455188103148685}
@@ -2443,6 +2442,7 @@ Transform:
   m_Children:
   - {fileID: 3025042974272764387}
   - {fileID: 3497925795605369963}
+  - {fileID: 2034348695643474962}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
@@ -2508,20 +2508,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &1064214411705787420
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018952010411425780}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300000, guid: 24d57831ff1fa4a6e89546bcb5448e7b, type: 3}
 --- !u!114 &6585119489434592762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3233,7 +3219,7 @@ MonoBehaviour:
   prevHasHit: 1
   debug: 0
   parent: {fileID: 1018952010411425780}
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: 1
   activeFrictionPresetEnum: 9
   activeFrictionPreset:
@@ -3894,6 +3880,82 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &2234941494341670469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8057510981335399736}
+  - component: {fileID: 1374358144341784272}
+  m_Layer: 0
+  m_Name: Front
+  m_TagString: Car Front Collider
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8057510981335399736
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2234941494341670469}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2034348695643474962}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1374358144341784272
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2234941494341670469}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.634387, y: 0.876194, z: 1.067603}
+  m_Center: {x: 0, y: 0.833863, z: 1.981946}
+--- !u!1 &2841834221481810430
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2034348695643474962}
+  m_Layer: 0
+  m_Name: Front and Back Colliders
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2034348695643474962
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2841834221481810430}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8057510981335399736}
+  - {fileID: 9075717801194919663}
+  m_Father: {fileID: 1020543640480856788}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3222419231178819926
 GameObject:
   m_ObjectHideFlags: 0
@@ -4006,6 +4068,50 @@ Transform:
   m_Father: {fileID: 1020543640480856788}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4648128640802826890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9075717801194919663}
+  - component: {fileID: 1487346020663556027}
+  m_Layer: 0
+  m_Name: Back
+  m_TagString: Car Back Collider
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9075717801194919663
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4648128640802826890}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2034348695643474962}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1487346020663556027
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4648128640802826890}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.634387, y: 1.476194, z: 3.667603}
+  m_Center: {x: 0, y: 1.133863, z: -0.5180537}
 --- !u!1 &6548283132129313867
 GameObject:
   m_ObjectHideFlags: 0
