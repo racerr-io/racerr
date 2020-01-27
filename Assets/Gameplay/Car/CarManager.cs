@@ -21,7 +21,8 @@ namespace Racerr.Gameplay.Car
 
         [Header("Car Properties")]
         [SerializeField] int maxHealth = 100;
-        const double healthDamageAdjustmentFactor = 0.00002f;
+        const double otherCarDamageAdjustmentFactor = 0.00004f;
+        const double environmentDamageAdjustmentFactor = 0.00002f;
         public int MaxHealth => maxHealth;
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
@@ -62,18 +63,27 @@ namespace Racerr.Gameplay.Car
         /// The purpose of this is to minimise the chance of the aggressor car taking damage when ramming into other cars.
         /// </summary>
         /// <param name="collision">Collision information.</param>
+        [ClientCallback]
         void OnCollisionEnter(Collision collision)
         {
-            
+            if (!hasAuthority)
+            {
+                return;
+            }
+
             ContactPoint contactPoint = collision.GetContact(0);
             bool isHitByEnvironment = collision.gameObject.CompareTag(Tags.Environment);
             bool isHitByOtherCarFront = contactPoint.otherCollider.gameObject.CompareTag(Tags.CarFrontCollider);
             bool isHitByOtherCarBackIntoOurBack = contactPoint.thisCollider.gameObject.CompareTag(Tags.CarBackCollider) && contactPoint.otherCollider.gameObject.CompareTag(Tags.CarBackCollider);
-            
-            if (isHitByEnvironment || isHitByOtherCarFront || isHitByOtherCarBackIntoOurBack)
+
+            Vector3 collisionForce = collision.impulse / Time.fixedDeltaTime;
+            if (isHitByEnvironment)
             {
-                Vector3 collisionForce = collision.impulse / Time.fixedDeltaTime;
-                OwnPlayer.Health -= Convert.ToInt32(collisionForce.magnitude * healthDamageAdjustmentFactor);
+                OwnPlayer.Health -= Convert.ToInt32(collisionForce.magnitude * environmentDamageAdjustmentFactor);
+            }
+            else if (isHitByOtherCarFront || isHitByOtherCarBackIntoOurBack)
+            {
+                OwnPlayer.Health -= Convert.ToInt32(collisionForce.magnitude * otherCarDamageAdjustmentFactor);
             }
         }
 
