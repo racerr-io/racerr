@@ -159,7 +159,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   trackLength: 25
-  firstTrackPiece: {fileID: 4442780298096383131, guid: cbb9ed024e5cf6d4194ab1b3ece343a9,
+  firstTrackPiecePrefab: {fileID: 2015120010295735337, guid: 0074f714a60390f46be119849f605cd8,
+    type: 3}
+  finalTrackPiecePrefab: {fileID: 2507272380122558485, guid: db093cd94306b1c4da66db30033467db,
     type: 3}
 --- !u!114 &160586557
 MonoBehaviour:
@@ -6752,6 +6754,8 @@ MonoBehaviour:
   - {fileID: 3637028748793434385, guid: 8f34401311c1f8a4689fb12aa59d705b, type: 3}
   - {fileID: 6098622089286647885, guid: f97af7b666611434582977f2250e2b6b, type: 3}
   - {fileID: 4812132155584618507, guid: 106072e8ebf69294c89488b8bfe7961e, type: 3}
+  - {fileID: 2015120010295735337, guid: 0074f714a60390f46be119849f605cd8, type: 3}
+  - {fileID: 2507272380122558485, guid: db093cd94306b1c4da66db30033467db, type: 3}
   destroyOnHeadlessLoad:
   - {fileID: 1750170194}
   - {fileID: 1609746729}

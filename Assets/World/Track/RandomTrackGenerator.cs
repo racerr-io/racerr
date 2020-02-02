@@ -14,7 +14,8 @@ namespace Racerr.World.Track
     /// </summary>
     public class RandomTrackGenerator : TrackGeneratorCommon
     {
-        [SerializeField] GameObject firstTrackPiece;
+        [SerializeField] GameObject firstTrackPiecePrefab;
+        [SerializeField] GameObject finalTrackPiecePrefab;
 
         /// <summary>
         /// Generate tracks by getting the first track piece, then grabbing a random track piece from resources and joining
@@ -26,7 +27,7 @@ namespace Racerr.World.Track
         protected override IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs, IReadOnlyCollection<Player> playersToSpawn)
         {
             GameObject origin = new GameObject("Temporary Origin for Random Track Generator");
-            GameObject currentTrackPiece = firstTrackPiece;
+            GameObject currentTrackPiece = firstTrackPiecePrefab;
             int numTracks = 0;
 
             // Stores a validity map for the current track marked by numTrack index, where all of the possible track piece candidates are either valid or invalid.
@@ -51,7 +52,8 @@ namespace Racerr.World.Track
                     }
                 }
 
-                // Check if there exists any valid track pieces to choose from.
+                // BACKTRACK
+                // Check if there exists any valid track pieces to choose from. If not, delete the recently placed piece.
                 if (validTrackOptions.Count == 0)
                 {
                     // All track options for the current track piece are exhausted with no valid tracks.
@@ -74,8 +76,28 @@ namespace Racerr.World.Track
 
                 if (numTracks == 0)
                 {
-                    newTrackPiecePrefab = firstTrackPiece;
+                    newTrackPiecePrefab = firstTrackPiecePrefab;
                     trackPieceLinkTransform = origin.transform;
+                }
+                else if (numTracks == trackLength - 1)
+                {
+                    // We want to force the algorithm to place the Final Track Piece only, so mark every other track piece as invalid.
+                    // This way, if the Final Track Piece cannot be placed, the algorithm will backtrack.
+                    for (int candidateTrackPiece = 0; candidateTrackPiece < availableTrackPiecePrefabs.Count; candidateTrackPiece++)
+                    {
+                        validAvailableTracks[numTracks, candidateTrackPiece] = false;
+                    }
+
+                    // If the Final Track Piece doesn't have the same track piece style as the previously placed track,
+                    // then it cannot be placed, and we must backtrack.
+                    if (!IsSameTrackPieceStyle(finalTrackPiecePrefab))
+                    {
+                        // We marked every track as invalid above, so backtracking will occur on the next iteration.
+                        continue;
+                    }
+
+                    newTrackPiecePrefab = finalTrackPiecePrefab;
+                    trackPieceLinkTransform = LoadTrackPieceLinkTransform(currentTrackPiece);
                 }
                 else
                 {
@@ -99,21 +121,29 @@ namespace Racerr.World.Track
                 // Spawn the players cars onto the starting piece of the track
                 if (numTracks == 0)
                 {
-                    Vector3 gridStartPosition = new Vector3(0, 1, 10);
+                    Transform startLine = newTrackPiece.transform.Find(GameObjectIdentifiers.StartLine);
+                    if (startLine == null)
+                    {
+                        Debug.LogError($"First Track Piece must have a GameObject named { GameObjectIdentifiers.StartLine } which marks the starting line.");
+                        break;
+                    }
 
+                    Vector3 firstCarStartLineDisplacement = new Vector3(0, 0.1f, -15);
+                    Vector3 gridStartPosition = startLine.position + firstCarStartLineDisplacement;
+                    Vector3 distanceBetweenCars = new Vector3(0, 0, 10);
                     foreach (Player player in playersToSpawn.Where(player => player != null))
                     {
                         player.CreateCarForPlayer(gridStartPosition);
-                        gridStartPosition += new Vector3(0, 0, 10);
+                        gridStartPosition -= distanceBetweenCars;
                         yield return new WaitForFixedUpdate();
                     }
                 }
+
                 // Wait for next physics calculation so that Track Piece Collision Detector works properly.
                 yield return new WaitForSeconds(0.15f);
 
                 if (newTrackPiece.GetComponent<TrackGeneratorCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {
-                    newTrackPiece.transform.position = new Vector3(newTrackPiece.transform.position.x, newTrackPiece.transform.position.y, newTrackPiece.transform.position.z);
                     NetworkServer.Spawn(newTrackPiece);
                     GeneratedTrackPieces.Add(newTrackPiece);
                     currentTrackPiece = newTrackPiece;
@@ -134,8 +164,10 @@ namespace Racerr.World.Track
                 trackPieceState.MakePropsNonKinematic();
             }
 
-            // Set last generated track piece's checkpoint to be the ending checkpoint for the race.
-            currentTrackPiece.transform.Find(Tags.Checkpoint).name = Tags.FinishLineCheckpoint;
+            if (finalTrackPiecePrefab.transform.Find(GameObjectIdentifiers.FinishLineCheckpoint) == null)
+            {
+                Debug.LogError($"Final Track Piece Prefab must have a GameObject named { GameObjectIdentifiers.FinishLineCheckpoint } in order for the finish line to function.");
+            }
 
             Destroy(origin);
             FinishTrackGeneration();
@@ -155,8 +187,8 @@ namespace Racerr.World.Track
                 // So this is a Road -> Highway transition
                 // The Highway comes first as the transition piece will naturally be of a highway style
                 string previousTrackStyle = GeneratedTrackPieces[GeneratedTrackPieces.Count - 1].tag;
-                return previousTrackStyle == candidateTrackPiece.tag && !candidateTrackPiece.name.Contains("Transition")
-                    || previousTrackStyle != candidateTrackPiece.tag && candidateTrackPiece.name.Contains(previousTrackStyle + "Transition");
+                return candidateTrackPiece.CompareTag(previousTrackStyle) && !candidateTrackPiece.name.Contains("Transition")
+                    || !candidateTrackPiece.CompareTag(previousTrackStyle) && candidateTrackPiece.name.Contains(previousTrackStyle + "Transition");
             }
         }
     }

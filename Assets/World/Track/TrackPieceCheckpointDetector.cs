@@ -1,5 +1,6 @@
 ﻿using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Server;
+using Racerr.Utility;
 using UnityEngine;
 
 namespace Racerr.World.Track
@@ -28,9 +29,9 @@ namespace Racerr.World.Track
         /// <param name="collider">The collider (car) the checkpoint touched.</param>
         void OnTriggerEnter(Collider collider)
         {
-            if (collider.CompareTag("Car"))
+            if (collider.CompareTag(GameObjectIdentifiers.CarBackCollider) || collider.CompareTag(GameObjectIdentifiers.CarFrontCollider))
             {
-                serverRaceState.NotifyPlayerPassedThroughCheckpoint(collider.GetComponent<CarManager>().OwnPlayer, gameObject);
+                serverRaceState.NotifyPlayerPassedThroughCheckpoint(collider.GetComponentInParent<CarManager>().OwnPlayer, gameObject);
             }
         }
     }

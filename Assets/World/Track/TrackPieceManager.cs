@@ -13,7 +13,7 @@ namespace Racerr.World.Track
     {
         [SerializeField] int propDownForce = 8000;
         IEnumerable<Rigidbody> propRigidBodies = null;
-        IEnumerable<Rigidbody> PropRigidBodies => propRigidBodies ?? (propRigidBodies = GetComponentsInChildren<Rigidbody>().Where(p => p != null && p.CompareTag(Tags.Prop)));
+        IEnumerable<Rigidbody> PropRigidBodies => propRigidBodies ?? (propRigidBodies = GetComponentsInChildren<Rigidbody>().Where(p => p != null && p.CompareTag(GameObjectIdentifiers.Prop)));
 
         /// <summary>
         /// Called when object is instantiated.
@@ -75,7 +75,7 @@ namespace Racerr.World.Track
         [Client]
         void RemovePhysicsFromProps()
         {
-            foreach (Collider propCollider in GetComponentsInChildren<Collider>().Where(p => p.CompareTag(Tags.Prop)))
+            foreach (Collider propCollider in GetComponentsInChildren<Collider>().Where(p => p.CompareTag(GameObjectIdentifiers.Prop)))
             {
                 Destroy(propCollider);
             }

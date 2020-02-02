@@ -1,5 +1,6 @@
 ﻿using NWH.VehiclePhysics;
 using Racerr.Infrastructure.Client;
+using Racerr.Utility;
 using Racerr.World.Track;
 using UnityEngine;
 
@@ -21,7 +22,8 @@ namespace Racerr.UX.Camera
             foreach (Wheel wheel in ClientStateMachine.Singleton.LocalPlayer.CarManager.Wheels)
             {
                 Vector3 direction = wheel.ControllerTransform.position - transform.position;
-                if (Physics.Raycast(transform.position, direction, out RaycastHit raycastHit))
+                if (Physics.Raycast(transform.position, direction, out RaycastHit raycastHit) 
+                    && raycastHit.collider.gameObject.CompareTag(GameObjectIdentifiers.Environment))
                 {
                     BuildingManager buildingState = raycastHit.collider.gameObject.GetComponent<BuildingManager>();
                     if (buildingState != null)

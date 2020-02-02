@@ -352,8 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverOnly: 0
-  localPlayerAuthority: 0
-  m_AssetId: 5849f63ff4d06f34f97c21eefd3ea46c
+  m_AssetId: 
   m_SceneId: 0
 --- !u!54 &3690797564922579685
 Rigidbody:
@@ -413,6 +412,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   compressRotation: 0
+  clientAuthority: 0
   target: {fileID: 47579684174947376}
 --- !u!114 &8370960263495682693
 MonoBehaviour:
@@ -429,6 +429,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   compressRotation: 0
+  clientAuthority: 0
   target: {fileID: 8251807284485919947}
 --- !u!114 &6485136524775599463
 MonoBehaviour:
@@ -445,6 +446,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   compressRotation: 0
+  clientAuthority: 0
   target: {fileID: 3166276613403362613}
 --- !u!65 &7245930832098256763
 BoxCollider:
@@ -1549,6 +1551,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5175897579024300898}
     m_Modifications:
+    - target: {fileID: 1000010808106222, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000010910491836, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011941764316, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013346555226, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013395877944, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 1000013800958956, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
       propertyPath: m_Name
       value: Billboard_2B
@@ -1609,14 +1631,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1000013395877944, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
-      propertyPath: m_TagString
-      value: Environment
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000011941764316, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
-      propertyPath: m_TagString
-      value: Environment
-      objectReference: {fileID: 0}
     - target: {fileID: 65000012059517860, guid: 1bb35547cc5dc4fff91ae98da05b10ca,
         type: 3}
       propertyPath: m_Size.x
@@ -1636,18 +1650,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Center.z
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013346555226, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
-      propertyPath: m_TagString
-      value: Environment
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000010910491836, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
-      propertyPath: m_TagString
-      value: Environment
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000010808106222, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
-      propertyPath: m_TagString
-      value: Environment
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 64000013115387020, guid: 1bb35547cc5dc4fff91ae98da05b10ca, type: 3}
