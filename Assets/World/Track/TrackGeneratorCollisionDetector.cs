@@ -33,7 +33,7 @@ namespace Racerr.World.Track
         {
             GameObject collidedGameObject = collision.gameObject;
             GameObject previousTrackPiece = TrackGeneratorCommon.Singleton.GeneratedTrackPieces.LastOrDefault();
-            bool collidedWithTrackPiece = collidedGameObject.CompareTag(Tags.Road) || collidedGameObject.CompareTag(Tags.Highway);
+            bool collidedWithTrackPiece = collidedGameObject.CompareTag(GameObjectIdentifiers.Road) || collidedGameObject.CompareTag(GameObjectIdentifiers.Highway);
             bool collidedWithPreviousTrackPiece = collidedGameObject == previousTrackPiece;
 
             if (collidedWithTrackPiece && !collidedWithPreviousTrackPiece)

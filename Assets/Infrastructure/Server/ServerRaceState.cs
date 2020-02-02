@@ -84,7 +84,7 @@ namespace Racerr.Infrastructure.Server
         {
             player.PosInfo.Checkpoints.Add(checkpoint);
 
-            if (checkpoint.name == Tags.FinishLineCheckpoint)
+            if (checkpoint.name == GameObjectIdentifiers.FinishLineCheckpoint)
             {
                 NotifyPlayerFinished(player);
             }

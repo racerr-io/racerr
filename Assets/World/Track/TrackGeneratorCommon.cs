@@ -16,7 +16,7 @@ namespace Racerr.World.Track
         /* Client and Server Properties */
         public static TrackGeneratorCommon Singleton;
 
-        [SerializeField] int trackLength = 50;
+        [Min(2)] [SerializeField] int trackLength = 50;
 
         // Synchronise all Generated Track Pieces to all clients
         // Purpose of the synchronisation is to allow clients to update their camera.
@@ -75,12 +75,12 @@ namespace Racerr.World.Track
 
             CheckpointsInRace = GeneratedTrackPieces.Select(trackPiece =>
             {
-                GameObject result = trackPiece.transform.Find(Tags.Checkpoint)?.gameObject;
+                GameObject result = trackPiece.transform.Find(GameObjectIdentifiers.Checkpoint)?.gameObject;
 
                 if (result == null)
                 {
                     // Special case for the finishing line, it has a different label.
-                    result = trackPiece.transform.Find(Tags.FinishLineCheckpoint).gameObject;
+                    result = trackPiece.transform.Find(GameObjectIdentifiers.FinishLineCheckpoint).gameObject;
                 }
 
                 return result;
@@ -121,12 +121,12 @@ namespace Racerr.World.Track
         /// <returns>Track Piece Link Transform</returns>
         protected Transform LoadTrackPieceLinkTransform(GameObject trackPiece)
         {
-            Transform tracePieceLinkTransform = trackPiece.transform.Find(Tags.Link);
+            Transform tracePieceLinkTransform = trackPiece.transform.Find(GameObjectIdentifiers.Link);
 
             if (tracePieceLinkTransform == null)
             {
                 Debug.LogError("Track Piece Failure - Unable to load the Track Piece Link from the specified Track Piece. " +
-                    $"Every Track Piece prefab requires a child game object called '{ Tags.Link }' which provides information on where to attach the next Track Piece.");
+                    $"Every Track Piece prefab requires a child game object called '{ GameObjectIdentifiers.Link }' which provides information on where to attach the next Track Piece.");
             }
 
             return tracePieceLinkTransform;

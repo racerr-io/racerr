@@ -4,7 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Car
   - Track Piece
   - Prop
   - Environment
@@ -12,6 +11,9 @@ TagManager:
   - Highway
   - Car Front Collider
   - Car Back Collider
+  - Wheel Mesh
+  - Wheel Collider
+  - Trailer
   layers:
   - Default
   - TransparentFX

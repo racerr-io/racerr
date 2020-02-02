@@ -72,9 +72,9 @@ namespace Racerr.Gameplay.Car
             }
 
             ContactPoint contactPoint = collision.GetContact(0);
-            bool isHitByEnvironment = collision.gameObject.CompareTag(Tags.Environment);
-            bool isHitByOtherCarFront = contactPoint.otherCollider.gameObject.CompareTag(Tags.CarFrontCollider);
-            bool isHitByOtherCarBackIntoOurBack = contactPoint.thisCollider.gameObject.CompareTag(Tags.CarBackCollider) && contactPoint.otherCollider.gameObject.CompareTag(Tags.CarBackCollider);
+            bool isHitByEnvironment = collision.gameObject.CompareTag(GameObjectIdentifiers.Environment);
+            bool isHitByOtherCarFront = contactPoint.otherCollider.gameObject.CompareTag(GameObjectIdentifiers.CarFrontCollider);
+            bool isHitByOtherCarBackIntoOurBack = contactPoint.thisCollider.gameObject.CompareTag(GameObjectIdentifiers.CarBackCollider) && contactPoint.otherCollider.gameObject.CompareTag(GameObjectIdentifiers.CarBackCollider);
 
             Vector3 collisionForce = collision.impulse / Time.fixedDeltaTime;
             if (isHitByEnvironment)

@@ -2424,7 +2424,7 @@ GameObject:
   - component: {fileID: 2388928030589524058}
   m_Layer: 0
   m_Name: Race Car
-  m_TagString: Car
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2979,7 +2979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fde3b0a987d9ab4ba8272b85857ae03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  centerOfMassOffset: {x: 0, y: -0.5, z: 0}
+  centerOfMassOffset: {x: 0, y: -1, z: 0}
   showCOM: 1
 --- !u!114 &8159213384489189590
 MonoBehaviour:
