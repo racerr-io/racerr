@@ -158,7 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  trackLength: 4
+  trackLength: 25
   firstTrackPiecePrefab: {fileID: 2015120010295735337, guid: 0074f714a60390f46be119849f605cd8,
     type: 3}
   finalTrackPiecePrefab: {fileID: 2507272380122558485, guid: db093cd94306b1c4da66db30033467db,

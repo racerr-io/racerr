@@ -27,11 +27,6 @@ namespace Racerr.World.Track
         /// <returns>IEnumerator for Unity coroutine, so that we can WaitForFixedUpdate() to check if a track is colliding with another one every time we instantiate a new track.</returns>
         protected override IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs, IReadOnlyCollection<Player> playersToSpawn)
         {
-            if (finalTrackPiecePrefab.transform.Find(GameObjectIdentifiers.FinishLineCheckpoint) == null)
-            {
-                Debug.LogError($"Final Track Piece Prefab must have an object attached to it with name { GameObjectIdentifiers.FinishLineCheckpoint } in order for the finish line to function.");
-            }
-
             GameObject origin = new GameObject("Temporary Origin for Random Track Generator");
             GameObject currentTrackPiece = firstTrackPiecePrefab;
             int numTracks = 0;
@@ -168,6 +163,11 @@ namespace Racerr.World.Track
                 TrackPieceManager trackPieceState = trackPiece.GetComponent<TrackPieceManager>();
                 trackPieceState.MakeReadyForRace();
                 trackPieceState.MakePropsNonKinematic();
+            }
+
+            if (finalTrackPiecePrefab.transform.Find(GameObjectIdentifiers.FinishLineCheckpoint) == null)
+            {
+                Debug.LogError($"Final Track Piece Prefab must have a GameObject named { GameObjectIdentifiers.FinishLineCheckpoint } in order for the finish line to function.");
             }
 
             Destroy(origin);
