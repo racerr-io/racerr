@@ -1,7 +1,6 @@
 ﻿using Mirror;
 using Racerr.Infrastructure;
 using Racerr.Utility;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -132,7 +131,7 @@ namespace Racerr.World.Track
                     Vector3 firstCarStartLineDisplacement = new Vector3(0, 0.1f, -15);
                     Vector3 gridStartPosition = startLine.position + firstCarStartLineDisplacement;
                     Vector3 distanceBetweenCars = new Vector3(0, 0, 10);
-                    foreach (Player player in playersToSpawn.Where(player => player != null).OrderBy(_ => Guid.NewGuid()))
+                    foreach (Player player in playersToSpawn.Where(player => player != null))
                     {
                         player.CreateCarForPlayer(gridStartPosition);
                         gridStartPosition -= distanceBetweenCars;
