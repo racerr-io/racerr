@@ -19,8 +19,9 @@ namespace Racerr.Gameplay.Car
     {
         public Player OwnPlayer { get; private set; }
 
-        [Header("Car Properties")]
         [SerializeField] int maxHealth = 100;
+        [SerializeField] GameObject playerBarPrefab;
+
         const double otherCarDamageAdjustmentFactor = 0.00004f;
         const double environmentDamageAdjustmentFactor = 0.00002f;
         public int MaxHealth => maxHealth;
@@ -33,15 +34,8 @@ namespace Racerr.Gameplay.Car
         CarPhysicsManager carPhysicsManager;
         public float SpeedKPH => carPhysicsManager.SpeedKPH;
         public List<Wheel> Wheels => carPhysicsManager.Wheels;
-
-        [Header("Player Bar Properties")]
-        [SerializeField] GameObject playerBarPrefab;
-        [SerializeField] float playerBarStartDisplacement = 4; // Displacement from car centre at all times
-        [SerializeField] float playerBarUpDisplacement = 1; // Additional displacement when car is moving south of the screen (need this due to camera angle changes)
         public PlayerBar PlayerBar { get; private set; }
-        public float PlayerBarStartDisplacement => playerBarStartDisplacement;
-        public float PlayerBarUpDisplacement => playerBarUpDisplacement;
-
+        
         /// <summary>
         /// Called when the car is instantiated. Caches various fields for later use
         /// and instantiates the Player's Bar, which should appear above the car in the game.

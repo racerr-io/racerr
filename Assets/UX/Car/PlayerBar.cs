@@ -12,6 +12,10 @@ namespace Racerr.UX.Car
     {
         [SerializeField] float playerBarMinDownVelocity = -10; // Minimal velocity needed before applying additional displacement to the bar.
 
+        public float XDisplacement { get; set; }
+        public float XDisplacementDrivingDown { get; set; }
+        public float YDisplacement { get; set; }
+        public float Scale { get; set; }
         public CarManager CarManager { get; set; }
         Transform panel;
         RectTransform healthBar; // The rectangle of the health bar
@@ -40,6 +44,7 @@ namespace Racerr.UX.Car
         {
             if (CarManager != null && UnityEngine.Camera.main != null)
             {
+                transform.localScale = new Vector3(Scale, Scale, Scale);
                 panel.forward = UnityEngine.Camera.main.transform.forward;
                 float zVelocity = CarRigidbody.velocity.z; // Velocity in the Z axis (plane of the track)
                 float normalizedZVelocity = CarRigidbody.velocity.normalized.z; // Normalised between 0 and 1.
@@ -47,14 +52,14 @@ namespace Racerr.UX.Car
                 float additionalBarDisplacement;
                 if (zVelocity < playerBarMinDownVelocity) // Minimal velocity condition needed before applying additional displacement to the bar.
                 {
-                    additionalBarDisplacement = -CarManager.PlayerBarUpDisplacement * normalizedZVelocity; // Apply negative displacement (towards south of screen)
+                    additionalBarDisplacement = -XDisplacementDrivingDown * normalizedZVelocity; // Apply negative displacement (towards south of screen)
                 }
                 else
                 {
                     additionalBarDisplacement = 0;
                 }
 
-                transform.position = CarManager.transform.position + new Vector3(0, 0, CarManager.PlayerBarStartDisplacement + additionalBarDisplacement);
+                transform.position = CarManager.transform.position + new Vector3(0, YDisplacement, XDisplacement + additionalBarDisplacement);
             }
             else
             {

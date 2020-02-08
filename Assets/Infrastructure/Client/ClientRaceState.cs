@@ -20,6 +20,8 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] SpeedUIComponent speedUIComponent;
         [SerializeField] LeaderboardUIComponent leaderboardUIComponent;
         [SerializeField] MinimapUIComponent minimapUIComponent;
+        [SerializeField] CameraInfoUIComponent cameraInfoUIComponent;
+        [SerializeField] RearViewMirrorUIComponent rearViewMirrorUIComponent;
 
         /// <summary>
         /// Called upon entering the race state on the client, where we show the Race UI.
@@ -28,7 +30,7 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
-            ClientStateMachine.Singleton.SetPlayerCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
+            ClientStateMachine.Singleton.SetPrimaryCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
             minimapUIComponent.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
         }
 
@@ -76,6 +78,8 @@ namespace Racerr.Infrastructure.Client
             raceTimerUIComponent.UpdateRaceTimer(serverRaceState.CurrentRaceDuration);
             countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
             leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
+            cameraInfoUIComponent.UpdateCameraInfo(ClientStateMachine.Singleton.PrimaryCamera.CamType);
+            rearViewMirrorUIComponent.UpdateRearViewMirror(ClientStateMachine.Singleton.PrimaryCamera.CamType);
 
             CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
             if (carManager != null)

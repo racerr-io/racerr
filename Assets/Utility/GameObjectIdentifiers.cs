@@ -18,5 +18,6 @@
         public const string Prop = "Prop";
         public const string StartLine = "Start Line";
         public const string FinishLine = "Finish Line";
+        public const string Car = "Car";
     }
 }

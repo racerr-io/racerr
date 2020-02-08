@@ -21,6 +21,8 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] LeaderboardUIComponent leaderboardUIComponent;
         [SerializeField] MinimapUIComponent minimapUIComponent;
         [SerializeField] SpectateInfoUIComponent spectateInfoUIComponent;
+        [SerializeField] CameraInfoUIComponent cameraInfoUIComponent;
+        [SerializeField] RearViewMirrorUIComponent rearViewMirrorUIComponent;
 
         IEnumerable<Player> spectatablePlayers;
         Queue<Player> spectatablePlayersNotSpectated;
@@ -114,7 +116,7 @@ namespace Racerr.Infrastructure.Client
         void SetSpectateTarget(Player player)
         {
             spectateTarget = player;
-            ClientStateMachine.Singleton.SetPlayerCameraTarget(player.CarManager.transform);
+            ClientStateMachine.Singleton.SetPrimaryCameraTarget(player.CarManager.transform);
             minimapUIComponent.SetMinimapCameraTarget(player.CarManager.transform);
         }
 
@@ -127,6 +129,8 @@ namespace Racerr.Infrastructure.Client
             raceTimerUIComponent.UpdateRaceTimer(serverRaceState.CurrentRaceDuration);
             countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
             leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
+            cameraInfoUIComponent.UpdateCameraInfo(ClientStateMachine.Singleton.PrimaryCamera.CamType);
+            rearViewMirrorUIComponent.UpdateRearViewMirror(ClientStateMachine.Singleton.PrimaryCamera.CamType);
 
             if (spectateTarget != null)
             {

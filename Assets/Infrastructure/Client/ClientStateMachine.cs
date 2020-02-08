@@ -16,7 +16,8 @@ namespace Racerr.Infrastructure.Client
         public StateEnum StateType { get; private set; }
         LocalState currentState;
 
-        [SerializeField] TargetObserverCamera playerCamera;
+        [SerializeField] PrimaryCamera primaryCamera;
+        public PrimaryCamera PrimaryCamera => primaryCamera;
 
         Player localPlayer;
         public Player LocalPlayer
@@ -59,13 +60,13 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Move the player camera's target to point to the target transform.
+        /// Move the primary camera's target to point to the target transform.
         /// Should only be called by client states.
         /// </summary>
         /// <param name="targetTransform">New target transform</param>
-        public void SetPlayerCameraTarget(Transform targetTransform)
+        public void SetPrimaryCameraTarget(Transform targetTransform)
         {
-            playerCamera.Target = targetTransform;
+            primaryCamera.Target = targetTransform;
         }
 
         /// <summary>
