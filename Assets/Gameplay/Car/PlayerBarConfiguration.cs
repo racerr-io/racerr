@@ -4,6 +4,15 @@ using UnityEngine;
 
 namespace Racerr.Gameplay.Car
 {
+    /// <summary>
+    /// Each car has different configurations for the PlayerBar
+    /// because the size of cars might be different, and also
+    /// due to different camera types.
+    /// Attach this script to each car with a configuration
+    /// for each possible CameraType. Upon the CamType changing
+    /// in the PrimaryCamera, the appropriate configuration will be
+    /// applied.
+    /// </summary>
     [RequireComponent(typeof(CarManager))]
     public sealed class PlayerBarConfiguration : MonoBehaviour
     {
@@ -21,6 +30,10 @@ namespace Racerr.Gameplay.Car
             carManager = GetComponent<CarManager>();
         }
 
+        /// <summary>
+        /// Copies the values of the configuration to the
+        /// actual PlayerBar on the car.
+        /// </summary>
         public void ApplyConfiguration()
         {
             PlayerBar playerBar = carManager.PlayerBar;

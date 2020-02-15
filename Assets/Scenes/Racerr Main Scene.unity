@@ -1502,9 +1502,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overheadCamPosition: {x: 0, y: 102, z: -50}
   overheadCamRotation: {x: 65, y: 0, z: 0, w: 90}
-  thirdPersonCamPosition: {x: 0, y: 4, z: -6}
+  thirdPersonCamPosition: {x: 0, y: 4, z: -7}
   thirdPersonCamRotation: {x: 10, y: 0, z: 0, w: 180}
   cam: {fileID: 674678298}
+  buildingTransparencyRaycaster: {fileID: 674678299}
   moveSpeed: 3
   target: {fileID: 0}
 --- !u!81 &674678302

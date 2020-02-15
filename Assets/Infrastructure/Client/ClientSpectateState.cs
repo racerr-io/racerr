@@ -130,7 +130,7 @@ namespace Racerr.Infrastructure.Client
             countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
             leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
             cameraInfoUIComponent.UpdateCameraInfo(ClientStateMachine.Singleton.PrimaryCamera.CamType);
-            rearViewMirrorUIComponent.UpdateRearViewMirror(ClientStateMachine.Singleton.PrimaryCamera.CamType);
+            rearViewMirrorUIComponent.UpdateRearViewMirror(ClientStateMachine.Singleton.PrimaryCamera);
 
             if (spectateTarget != null)
             {

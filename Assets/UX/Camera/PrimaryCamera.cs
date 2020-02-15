@@ -8,7 +8,8 @@ using UnityEngine;
 namespace Racerr.UX.Camera
 {
     /// <summary>
-    /// A camera to automatically follow a target.
+    /// The main camera of the game, which is always displayed.
+    /// Follows a target.
     /// </summary>
     [ExecuteInEditMode]
     public class PrimaryCamera : MonoBehaviour
@@ -18,8 +19,9 @@ namespace Racerr.UX.Camera
         [SerializeField] Vector3 thirdPersonCamPosition;
         [SerializeField] Quaternion thirdPersonCamRotation;
         [SerializeField] GameObject cam;
-        [SerializeField] float moveSpeed = 3; // How fast the rig will move to keep up with target's position
-        [SerializeField] Transform target;    // The target object to follow
+        [SerializeField] BuildingTransparencyRaycaster buildingTransparencyRaycaster; 
+        [SerializeField] float moveSpeed = 3;
+        [SerializeField] Transform target;
 
         public enum CameraType
         {
@@ -34,11 +36,16 @@ namespace Racerr.UX.Camera
             {
                 camType = value;
 
+                // Each car has various configurations for their PlayerBar, because we want to vary the position of the PlayerBar depending on the
+                // size of the car and position of the camera. Upon changing the CameraType, activate the correct configuration on all cars.
                 IEnumerable<PlayerBarConfiguration> configsToApply = FindObjectsOfType<PlayerBarConfiguration>().Where(config => config.CameraType == CamType);
                 foreach (PlayerBarConfiguration config in configsToApply)
                 {
                     config.ApplyConfiguration();
                 }
+
+                // Only need the raycaster in overhead mode because buildings can block cars.
+                buildingTransparencyRaycaster.enabled = camType == CameraType.Overhead;
             }
         }
 
@@ -51,6 +58,8 @@ namespace Racerr.UX.Camera
 
                 if (target.CompareTag(GameObjectIdentifiers.Car))
                 {
+                    // If we are not looking at a car no point of having
+                    // third person view.
                     CamType = CameraType.ThirdPerson;
                 } 
                 else
@@ -60,6 +69,11 @@ namespace Racerr.UX.Camera
             }
         }
 
+        /// <summary>
+        /// Called every frame. Upon presing the button, we can
+        /// cycle through all the values in the CameraType enum
+        /// so the user can switch between cameras.
+        /// </summary>
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.C))
@@ -69,9 +83,20 @@ namespace Racerr.UX.Camera
         }
 
         /// <summary>
-        /// Update camera after every physics tick.
+        /// Update camera after every physics tick, to move the camera and follow the target.
         /// </summary>
         void FixedUpdate()
+        {
+            UpdateCameraPosition();
+            FollowTarget();
+        }
+
+        /// <summary>
+        /// Smoothly lerp the camera to the correct position depending on the camera type.
+        /// This provides a smooth transition for the user when the CameraType is changed by
+        /// the game or the user.
+        /// </summary>
+        void UpdateCameraPosition()
         {
             Vector3 newPosition;
             Quaternion newRotation;
@@ -79,21 +104,23 @@ namespace Racerr.UX.Camera
             {
                 newPosition = overheadCamPosition;
                 newRotation = overheadCamRotation;
-            } 
+            }
             else
             {
                 newPosition = thirdPersonCamPosition;
                 newRotation = thirdPersonCamRotation;
             }
 
+            // Note we are placing the entire camera GameObject inside the player's car in FollowTarget(), 
+            // then we offset the position of the actual camera here.
             cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, newPosition, Time.fixedDeltaTime * moveSpeed);
             cam.transform.localRotation = Quaternion.Lerp(cam.transform.localRotation, newRotation, Time.fixedDeltaTime * moveSpeed);
-
-            FollowTarget();
         }
 
         /// <summary>
         /// Follow the camera's current transform target, by applying a smooth lerp transition.
+        /// Note we are placing the entire camera GameObject inside the player's car,
+        /// then we offset the position of the actual camera in UpdateCameraPosition().
         /// </summary>
         void FollowTarget()
         {
@@ -105,11 +132,13 @@ namespace Racerr.UX.Camera
 
                 if (CamType == CameraType.ThirdPerson)
                 {
+                    // In third person mode, position the camera behind the Player's car always.
                     transform.position = target.transform.position - target.transform.forward;
                     transform.LookAt(target.transform.position);
                 } 
                 else
                 {
+                    // In overhead mode, the rotation stays constant.
                     transform.rotation = Quaternion.identity;
                 }
             }

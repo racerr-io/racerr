@@ -10,7 +10,7 @@ namespace Racerr.UX.Car
     /// </summary>
     public class PlayerBar : MonoBehaviour
     {
-        [SerializeField] float playerBarMinDownVelocity = -10; // Minimal velocity needed before applying additional displacement to the bar.
+        [SerializeField] float playerBarMinDrivingDownVelocity = -10; // Minimal velocity needed before applying additional displacement to the bar.
 
         public float XDisplacement { get; set; }
         public float XDisplacementDrivingDown { get; set; }
@@ -50,7 +50,7 @@ namespace Racerr.UX.Car
                 float normalizedZVelocity = CarRigidbody.velocity.normalized.z; // Normalised between 0 and 1.
 
                 float additionalBarDisplacement;
-                if (zVelocity < playerBarMinDownVelocity) // Minimal velocity condition needed before applying additional displacement to the bar.
+                if (zVelocity < playerBarMinDrivingDownVelocity) // Minimal velocity condition needed before applying additional displacement to the bar.
                 {
                     additionalBarDisplacement = -XDisplacementDrivingDown * normalizedZVelocity; // Apply negative displacement (towards south of screen)
                 }
