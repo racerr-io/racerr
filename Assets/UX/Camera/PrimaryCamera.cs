@@ -58,8 +58,6 @@ namespace Racerr.UX.Camera
 
                 if (target.CompareTag(GameObjectIdentifiers.Car))
                 {
-                    // If we are not looking at a car no point of having
-                    // third person view.
                     CamType = CameraType.ThirdPerson;
                 } 
                 else
