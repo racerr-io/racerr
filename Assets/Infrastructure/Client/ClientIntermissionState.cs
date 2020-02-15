@@ -17,6 +17,7 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] RaceTimerUIComponent raceTimerUIComponent;
         [SerializeField] LeaderboardUIComponent leaderboardUIComponent;
         [SerializeField] IntermissionTimerUIComponent intermissionTimerUIComponent;
+        [SerializeField] CameraInfoUIComponent cameraInfoUIComponent;
 
         /// <summary>
         /// Upon entering the client intermission state, we will show them the intermission screen which has
@@ -55,7 +56,7 @@ namespace Racerr.Infrastructure.Client
         {
             if (op == Mirror.SyncList<GameObject>.Operation.OP_ADD)
             {
-                ClientStateMachine.Singleton.SetPlayerCameraTarget(newItem.transform);
+                ClientStateMachine.Singleton.SetPrimaryCameraTarget(newItem.transform);
             }
         }
 
@@ -91,6 +92,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         void UpdateUIComponents()
         {
+            cameraInfoUIComponent.UpdateCameraInfo(ClientStateMachine.Singleton.PrimaryCamera.CamType);
             intermissionTimerUIComponent.UpdateIntermissionTimer(serverIntermissionState.IntermissionSecondsRemaining);
         }
 
