@@ -1,6 +1,7 @@
 using Racerr.Gameplay.Car;
 using Racerr.Utility;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,6 +19,8 @@ namespace Racerr.UX.Camera
         [SerializeField] Quaternion overheadCamRotation;
         [SerializeField] Vector3 thirdPersonCamPosition;
         [SerializeField] Quaternion thirdPersonCamRotation;
+        [SerializeField] Vector3 killCamPosition;
+        [SerializeField] Quaternion killCamRotation;
         [SerializeField] GameObject cam;
         [SerializeField] BuildingTransparencyRaycaster buildingTransparencyRaycaster; 
         [SerializeField] float moveSpeed = 3;
@@ -26,7 +29,8 @@ namespace Racerr.UX.Camera
         public enum CameraType
         {
             Overhead,
-            ThirdPerson
+            ThirdPerson,
+            KillCam
         }
         CameraType camType = CameraType.Overhead;
         public CameraType CamType
@@ -36,35 +40,26 @@ namespace Racerr.UX.Camera
             {
                 camType = value;
 
-                // Each car has various configurations for their PlayerBar, because we want to vary the position of the PlayerBar depending on the
-                // size of the car and position of the camera. Upon changing the CameraType, activate the correct configuration on all cars.
-                IEnumerable<PlayerBarConfiguration> configsToApply = FindObjectsOfType<PlayerBarConfiguration>().Where(config => config.CameraType == CamType);
-                foreach (PlayerBarConfiguration config in configsToApply)
+                UnityEngineHelper.YieldThenStartCoroutine(this, new WaitForFixedUpdate(), () =>
                 {
-                    config.ApplyConfiguration();
-                }
+                    // Each car has various configurations for their PlayerBar, because we want to vary the position of the PlayerBar depending on the
+                    // size of the car and position of the camera. Upon changing the CameraType, activate the correct configuration on all cars.
+                    IEnumerable<PlayerBarConfiguration> configsToApply = FindObjectsOfType<PlayerBarConfiguration>().Where(config => config.CameraType == CamType);
+                    foreach (PlayerBarConfiguration config in configsToApply)
+                    {
+                        config.ApplyConfiguration();
+                    }
+                });
 
                 // Only need the raycaster in overhead mode because buildings can block cars.
                 buildingTransparencyRaycaster.enabled = camType == CameraType.Overhead;
             }
         }
 
-        public Transform Target
+        public void SetTarget(Transform target, CameraType camType)
         {
-            get => target;
-            set
-            {
-                target = value;
-
-                if (target.CompareTag(GameObjectIdentifiers.Car))
-                {
-                    CamType = CameraType.ThirdPerson;
-                } 
-                else
-                {
-                    CamType = CameraType.Overhead;
-                }
-            }
+            this.target = target;
+            CamType = camType;
         }
 
         /// <summary>
@@ -76,7 +71,10 @@ namespace Racerr.UX.Camera
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
-                CamType = (CameraType)(((int)CamType + 1) % Enum.GetNames(typeof(CameraType)).Length);
+                do
+                {
+                    CamType = (CameraType)(((int)CamType + 1) % Enum.GetNames(typeof(CameraType)).Length);
+                } while (CamType == CameraType.KillCam); // Don't want the user to be able to cycle to the Kill Cam.
             }
         }
 
@@ -103,6 +101,11 @@ namespace Racerr.UX.Camera
                 newPosition = overheadCamPosition;
                 newRotation = overheadCamRotation;
             }
+            else if (CamType == CameraType.KillCam)
+            {
+                newPosition = killCamPosition;
+                newRotation = killCamRotation;
+            }
             else
             {
                 newPosition = thirdPersonCamPosition;
@@ -128,9 +131,9 @@ namespace Racerr.UX.Camera
                 // Camera position moves towards target position
                 transform.position = Vector3.Lerp(transform.position, target.position, Time.fixedDeltaTime * moveSpeed);
 
-                if (CamType == CameraType.ThirdPerson)
+                if (CamType == CameraType.ThirdPerson || CamType == CameraType.KillCam)
                 {
-                    // In third person mode, position the camera behind the Player's car always.
+                    // In third person / kill cam mode, position the camera behind the Player's car always.
                     transform.position = target.transform.position - target.transform.forward;
                     transform.LookAt(target.transform.position);
                 } 

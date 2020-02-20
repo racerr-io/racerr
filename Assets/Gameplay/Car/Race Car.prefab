@@ -2424,6 +2424,7 @@ GameObject:
   - component: {fileID: 2388928030589524058}
   - component: {fileID: 2884214067324581932}
   - component: {fileID: -6479384051644198459}
+  - component: {fileID: 1339260357018547160}
   m_Layer: 0
   m_Name: Race Car
   m_TagString: Car
@@ -2524,7 +2525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0
-  maxHealth: 100
+  maxHealth: 1
   playerBarPrefab: {fileID: 4182034153008739931, guid: fae0477d4f724c842b5bfdacd350b2f5,
     type: 3}
 --- !u!114 &187366651734599786
@@ -3061,6 +3062,23 @@ MonoBehaviour:
   playerBarXDisplacementDrivingDown: 0
   playerBarYDisplacement: 1.6
   playerBarScale: 0.25
+--- !u!114 &1339260357018547160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018952010411425780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a028a33aaa9d544dbb73d372d38258d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraType: 2
+  playerBarXDisplacement: 0
+  playerBarXDisplacementDrivingDown: 0
+  playerBarYDisplacement: 1.9
+  playerBarScale: 0.5
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0

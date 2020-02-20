@@ -1,5 +1,6 @@
 ﻿using Doozy.Engine.UI;
 using Racerr.Infrastructure.Server;
+using Racerr.UX.Camera;
 using Racerr.UX.UI;
 using Racerr.World.Track;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             intermissionView.Show();
-            TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Callback += SetCameraTargetOnTrackGenerated;
+            TrackGenerator.Singleton.GeneratedTrackPieces.Callback += SetCameraTargetOnTrackGenerated;
             UpdateUIComponentsWithPreviousRaceInformation();
         }
 
@@ -39,7 +40,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         public override void Exit()
         {
-            TrackGeneratorCommon.Singleton.GeneratedTrackPieces.Callback -= SetCameraTargetOnTrackGenerated;
+            TrackGenerator.Singleton.GeneratedTrackPieces.Callback -= SetCameraTargetOnTrackGenerated;
             intermissionView.Hide();
         }
 
@@ -56,7 +57,7 @@ namespace Racerr.Infrastructure.Client
         {
             if (op == Mirror.SyncList<GameObject>.Operation.OP_ADD)
             {
-                ClientStateMachine.Singleton.SetPrimaryCameraTarget(newItem.transform);
+                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(newItem.transform, PrimaryCamera.CameraType.Overhead);
             }
         }
 

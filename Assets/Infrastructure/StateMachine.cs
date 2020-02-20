@@ -20,7 +20,8 @@ namespace Racerr.Infrastructure
 
         #region Client Only States
         ClientStartMenu,
-        ClientSpectate
+        ClientSpectate,
+        ClientKillCam
         #endregion
     }
 

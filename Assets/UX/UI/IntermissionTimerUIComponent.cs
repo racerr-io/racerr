@@ -19,7 +19,14 @@ namespace Racerr.UX.UI
         /// <param name="intermissionSecondsRemaining">Time remaining in intermission, in seconds</param>
         public void UpdateIntermissionTimer(int intermissionSecondsRemaining)
         {
-            intermissionTimerTMP.text = intermissionSecondsRemaining.ToString();
+            if (intermissionSecondsRemaining == 0)
+            {
+                intermissionTimerTMP.text = "The race will begin shortly.";
+            }
+            else
+            {
+                intermissionTimerTMP.text = intermissionSecondsRemaining.ToString();
+            }
         }
     }
 }

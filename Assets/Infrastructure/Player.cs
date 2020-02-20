@@ -1,7 +1,9 @@
 ﻿using Mirror;
 using Racerr.Gameplay.Car;
 using Racerr.Utility;
+using Racerr.World.Track;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,17 +36,34 @@ namespace Racerr.Infrastructure
         /// </summary>
         /// <param name="carPosition">Position to spawn</param>
         [Server]
-        public void CreateCarForPlayer(Vector3 carPosition)
+        public void CreateCarForPlayer(Vector3 carPosition, CarManager.CarTypeEnum carType = CarManager.CarTypeEnum.Racer)
         {
+            // Destroy any existing car
+            DestroyPlayersCar();
+
             // Instantiate and setup car
             GameObject carGO = Instantiate(carPrefab, carPosition, carPrefab.transform.rotation);
             carManager = carGO.GetComponent<CarManager>();
             carManager.PlayerGO = gameObject;
+            carManager.CarType = carType;
 
             // Setup and sync over network
             NetworkServer.Spawn(carGO, gameObject);
             this.carGO = carGO;
             Health = CarManager.MaxHealth;
+        }
+
+        [Command]
+        public void CmdCreatePoliceCarForPlayer()
+        {
+            if (CarManager.CarType == CarManager.CarTypeEnum.Racer && IsDeadAsRacer)
+            {
+                // Need smarter way of spawn police cars, could spawn multiple cars onto the same spot...
+                GameObject[] checkpointsInRace = TrackGenerator.Singleton.CheckpointsInRace;
+                Vector3 finishLine = checkpointsInRace[checkpointsInRace.Length - 1].transform.position;
+                CreateCarForPlayer(finishLine, CarManager.CarTypeEnum.Police);
+                UnityEngineHelper.YieldThenStartCoroutine(this, new WaitForFixedUpdate(), () => CarManager.SetIsActive(true));
+            }
         }
 
         /// <summary>
@@ -53,10 +72,13 @@ namespace Racerr.Infrastructure
         [Server]
         public void DestroyPlayersCar()
         {
-            NetworkServer.Destroy(carGO);
-            Destroy(carGO);
-            carGO = null;
-            carManager = null;
+            if (carGO != null)
+            {
+                NetworkServer.Destroy(carGO);
+                Destroy(carGO);
+                carGO = null;
+                carManager = null;
+            }
         }
 
         #endregion
@@ -141,7 +163,7 @@ namespace Racerr.Infrastructure
         public int Health
         {
             get => health;
-            set
+            set 
             {
                 value = Math.Max(0, value);
 
@@ -156,8 +178,9 @@ namespace Racerr.Infrastructure
             }
         }
 
-        public bool IsDead => Health == 0;
-        public bool IsRacing => !IsDead && !PosInfo.IsFinished && CarManager != null;
+        public bool IsInRace => Health > 0 && !PosInfo.IsFinished && CarManager != null; // They are an alive racer or police.
+        public bool IsDeadAsRacer => !PosInfo.IsFinished && (Health == 0 || CarManager == null || CarManager.CarType == CarManager.CarTypeEnum.Police); // Either the racer just died, they are a police or a dead police.
+        public bool IsDeadCompletely => !PosInfo.IsFinished && Health == 0 && (CarManager == null || CarManager.CarType == CarManager.CarTypeEnum.Police); // They are dead police.
 
         public PositionInfo PosInfo
         {

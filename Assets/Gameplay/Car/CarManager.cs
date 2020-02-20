@@ -6,6 +6,7 @@ using Racerr.Utility;
 using Racerr.UX.Car;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using UnityEngine;
 
 namespace Racerr.Gameplay.Car
@@ -29,12 +30,46 @@ namespace Racerr.Gameplay.Car
         public GameObject PlayerGO
         {
             get => playerGO;
-            set => playerGO = value;
+            set
+            {
+                Contract.Assert(playerGO == null, "PlayerGO must only be set once on instantiation.");
+                playerGO = value;
+            }
+        }
+        public enum CarTypeEnum
+        {
+            Unset,
+            Racer,
+            Police
+        }
+        [SyncVar] CarTypeEnum carType = CarTypeEnum.Unset;
+        public CarTypeEnum CarType
+        {
+            get => carType;
+            set
+            {
+                Contract.Assert(carType == CarTypeEnum.Unset, "CarType must only be set once on instantiation.");
+                Contract.Assert(value != CarTypeEnum.Unset, "CarType cannot be set to Unset.");
+                carType = value;
+            }
         }
         CarPhysicsManager carPhysicsManager;
         public float SpeedKPH => carPhysicsManager.SpeedKPH;
         public List<Wheel> Wheels => carPhysicsManager.Wheels;
         public PlayerBar PlayerBar { get; private set; }
+        [SyncVar] GameObject lastHitByPlayerGO;
+        public Player LastHitByPlayer
+        {
+            get
+            {
+                if (lastHitByPlayerGO != null)
+                {
+                    return lastHitByPlayerGO.GetComponentInParent<Player>();
+                }
+
+                return null;
+            }
+        }
         
         /// <summary>
         /// Called when the car is instantiated. Caches various fields for later use
@@ -42,6 +77,9 @@ namespace Racerr.Gameplay.Car
         /// </summary>
         void Start()
         {
+            Contract.Requires(PlayerGO != null);
+            Contract.Requires(carType != CarTypeEnum.Unset);
+
             OwnPlayer = PlayerGO.GetComponent<Player>();
             carPhysicsManager = GetComponent<CarPhysicsManager>();
 
@@ -60,7 +98,7 @@ namespace Racerr.Gameplay.Car
         [ClientCallback]
         void OnCollisionEnter(Collision collision)
         {
-            if (!hasAuthority)
+            if (!hasAuthority || OwnPlayer.Health == 0)
             {
                 return;
             }
@@ -77,8 +115,15 @@ namespace Racerr.Gameplay.Car
             }
             else if (isHitByOtherCarFront || isHitByOtherCarBackIntoOurBack)
             {
+                CmdSetLastHitPlayerGO(contactPoint.otherCollider.gameObject.GetComponentInParent<CarManager>().OwnPlayer.gameObject);
                 OwnPlayer.Health -= Convert.ToInt32(collisionForce.magnitude * otherCarDamageAdjustmentFactor);
             }
+        }
+
+        [Command]
+        void CmdSetLastHitPlayerGO(GameObject lastHitByPlayerGO)
+        {
+            this.lastHitByPlayerGO = lastHitByPlayerGO;
         }
 
         /// <summary>

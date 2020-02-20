@@ -32,7 +32,7 @@ namespace Racerr.World.Track
         void OnCollisionEnter(Collision collision)
         {
             GameObject collidedGameObject = collision.gameObject;
-            GameObject previousTrackPiece = TrackGeneratorCommon.Singleton.GeneratedTrackPieces.LastOrDefault();
+            GameObject previousTrackPiece = TrackGenerator.Singleton.GeneratedTrackPieces.LastOrDefault();
             bool collidedWithTrackPiece = collidedGameObject.CompareTag(GameObjectIdentifiers.Road) || collidedGameObject.CompareTag(GameObjectIdentifiers.Highway);
             bool collidedWithPreviousTrackPiece = collidedGameObject == previousTrackPiece;
 

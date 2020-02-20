@@ -1,6 +1,7 @@
 ﻿using Doozy.Engine.UI;
 using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Server;
+using Racerr.Utility;
 using Racerr.UX.Camera;
 using Racerr.UX.UI;
 using UnityEngine;
@@ -11,18 +12,13 @@ namespace Racerr.Infrastructure.Client
     /// A state for the client when they are currently enjoying the race. Intended to show them race information,
     /// and information about themselves.
     /// </summary>
-    public class ClientRaceState : LocalState
+    public class ClientKillCamState : LocalState
     {
-        [SerializeField] ServerRaceState serverRaceState;
-        [SerializeField] UIView raceView;
+        [SerializeField] UIView killCamView;
 
-        [SerializeField] RaceTimerUIComponent raceTimerUIComponent;
-        [SerializeField] CountdownTimerUIComponent countdownTimerUIComponent;
-        [SerializeField] SpeedUIComponent speedUIComponent;
-        [SerializeField] LeaderboardUIComponent leaderboardUIComponent;
-        [SerializeField] MinimapUIComponent minimapUIComponent;
+        [SerializeField] int duration = 5;
         [SerializeField] CameraInfoUIComponent cameraInfoUIComponent;
-        [SerializeField] RearViewMirrorUIComponent rearViewMirrorUIComponent;
+        [SerializeField] KillInfoUIComponent killInfoUIComponent;
 
         /// <summary>
         /// Called upon entering the race state on the client, where we show the Race UI.
@@ -30,9 +26,23 @@ namespace Racerr.Infrastructure.Client
         /// <param name="optionalData">Should be null</param>
         public override void Enter(object optionalData = null)
         {
-            raceView.Show();
-            ClientStateMachine.Singleton.PrimaryCamera.SetTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform, PrimaryCamera.CameraType.ThirdPerson);
-            minimapUIComponent.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
+            killCamView.Show();
+
+            CarManager playerCarManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
+            Player killer = playerCarManager.LastHitByPlayer;
+            if (killer != null)
+            {
+                bool showRevengeInstruction = playerCarManager.CarType == CarManager.CarTypeEnum.Racer;
+                killInfoUIComponent.UpdateKillInfo(killer.PlayerName, showRevengeInstruction);
+                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(killer.CarManager.transform, PrimaryCamera.CameraType.KillCam);
+            }
+            else
+            {
+                killInfoUIComponent.UpdateKillInfo(null, false);
+                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(playerCarManager.transform, PrimaryCamera.CameraType.KillCam);
+            }
+            
+            TransitionAfterWaitingPeriod();
         }
 
         /// <summary>
@@ -44,13 +54,7 @@ namespace Racerr.Infrastructure.Client
         /// </remarks>
         public override void Exit()
         {
-            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
-            if (carManager != null)
-            {
-                carManager.SetIsActive(false);
-            }
-            
-            raceView.Hide();
+            killCamView.Hide();
         }
 
         /// <summary>
@@ -63,50 +67,38 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Called every physics tick to check if we should transition to the next state.
-        /// </summary>
-        void FixedUpdate()
-        {
-            CheckToTransition();
-        }
-
-        /// <summary>
         /// Update all the UI components in the client race view, which shows information about the player's car and how they 
         /// are performing in the race.
         /// </summary>
         void UpdateUIComponents()
         {
-            raceTimerUIComponent.UpdateRaceTimer(serverRaceState.CurrentRaceDuration);
-            countdownTimerUIComponent.UpdateCountdownTimer(serverRaceState.RemainingRaceTime);
-            leaderboardUIComponent.UpdateLeaderboard(serverRaceState.LeaderboardItems);
             cameraInfoUIComponent.UpdateCameraInfo(ClientStateMachine.Singleton.PrimaryCamera.CamType);
-            rearViewMirrorUIComponent.UpdateRearViewMirror(ClientStateMachine.Singleton.PrimaryCamera);
-
-            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
-            if (carManager != null)
-            {
-                speedUIComponent.UpdateSpeed(carManager.SpeedKPH);
-            }
         }
 
         /// <summary>
         /// Transition the next client state. If the race is ended, we move to intermission. However, if the race is still going but we
         /// have died or finished the race, we move to spectating.
         /// </summary>
-        void CheckToTransition()
+        void TransitionAfterWaitingPeriod()
         {
-            if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
+            UnityEngineHelper.YieldThenStartCoroutine(this, new WaitForSeconds(duration), () =>
             {
-                TransitionToIntermission();
-            }
-            else if (ClientStateMachine.Singleton.LocalPlayer.Health == 0)
-            {
-                TransitionToKillCam();
-            }
-            else if (ClientStateMachine.Singleton.LocalPlayer.PosInfo.IsFinished)
-            {
-                TransitionToSpectate();
-            }
+                Player player = ClientStateMachine.Singleton.LocalPlayer;
+
+                if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
+                {
+                    TransitionToIntermission();
+                }
+                else if (player.IsDeadCompletely)
+                {
+                    TransitionToSpectate();
+                }
+                else if (player.IsDeadAsRacer)
+                {
+                    player.CmdCreatePoliceCarForPlayer();
+                    TransitionToRace();
+                }
+            });
         }
 
         void TransitionToIntermission()
@@ -119,9 +111,9 @@ namespace Racerr.Infrastructure.Client
             ClientStateMachine.Singleton.ChangeState(StateEnum.ClientSpectate);
         }
 
-        void TransitionToKillCam()
+        void TransitionToRace()
         {
-            ClientStateMachine.Singleton.ChangeState(StateEnum.ClientKillCam);
+            ClientStateMachine.Singleton.ChangeState(StateEnum.Race);
         }
     }
 }

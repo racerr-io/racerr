@@ -60,16 +60,6 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Move the primary camera's target to point to the target transform.
-        /// Should only be called by client states.
-        /// </summary>
-        /// <param name="targetTransform">New target transform</param>
-        public void SetPrimaryCameraTarget(Transform targetTransform)
-        {
-            primaryCamera.Target = targetTransform;
-        }
-
-        /// <summary>
         /// Changes the state of the Client State Machine.
         /// Intended to be PROTECTED - only the Client States should be able to call this from their encapsulated transition methods.
         /// Changes the internal state of the Client State Machine based on the given state type Enum.
@@ -93,6 +83,7 @@ namespace Racerr.Infrastructure.Client
                     case StateEnum.Race: currentState = GetComponent<ClientRaceState>(); break;
                     case StateEnum.ClientSpectate: currentState = GetComponent<ClientSpectateState>(); break;
                     case StateEnum.ClientStartMenu: currentState = GetComponent<ClientStartMenuState>(); break;
+                    case StateEnum.ClientKillCam: currentState = GetComponent<ClientKillCamState>(); break;
                     default: throw new InvalidOperationException("Invalid Client ChangeState attempt: " + stateType.ToString());
                 }
                 StateType = stateType;

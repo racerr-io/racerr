@@ -72,8 +72,8 @@ namespace Racerr.Infrastructure.Server
                 // Destroy previous track and generate new track for next race when halfway in intermission
                 if (intermissionSecondsRemaining == intermissionSecondsTotal / 2)
                 {
-                    TrackGeneratorCommon.Singleton.DestroyIfRequired();
-                    TrackGeneratorCommon.Singleton.GenerateIfRequired(ServerStateMachine.Singleton.ReadyPlayers);
+                    TrackGenerator.Singleton.DestroyIfRequired();
+                    TrackGenerator.Singleton.GenerateIfRequired(ServerStateMachine.Singleton.ReadyPlayers);
                 }
             }
 
@@ -81,7 +81,7 @@ namespace Racerr.Infrastructure.Server
             if (ServerStateMachine.Singleton.PlayersInServer.Any())
             {
                 // Only transition to race if track is generated
-                while (!TrackGeneratorCommon.Singleton.IsTrackGenerated) yield return null;
+                while (!TrackGenerator.Singleton.IsTrackGenerated) yield return null;
                 TransitionToRace();
             }
             else

@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Racerr.Gameplay.Car;
 using Racerr.Utility;
 using System;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace Racerr.Infrastructure.Server
     {
         [SerializeField] int maxRaceDuration = 90;
         [SerializeField] int remainingRaceDurationOnPlayerFinish = 30;
+        [SerializeField] int raceFinishedWaitingDuration = 5;
+
         [SyncVar] double raceFinishTime;
         public double RemainingRaceTime => raceFinishTime - NetworkTime.time;
 
@@ -82,14 +85,18 @@ namespace Racerr.Infrastructure.Server
         [Server]
         public void NotifyPlayerPassedThroughCheckpoint(Player player, GameObject checkpoint)
         {
-            player.PosInfo.Checkpoints.Add(checkpoint);
-
-            if (checkpoint.name == GameObjectIdentifiers.FinishLineCheckpoint)
+            if (player.CarManager.CarType == CarManager.CarTypeEnum.Racer)
             {
-                NotifyPlayerFinished(player);
+                player.PosInfo.Checkpoints.Add(checkpoint);
+
+                if (checkpoint.name == GameObjectIdentifiers.FinishLineCheckpoint)
+                {
+                    NotifyPlayerFinished(player);
+                }
             }
         }
 
+        bool transitioning = false;
         /// <summary>
         /// Called every game tick.
         /// Changes the remaining race time if there are players finished.
@@ -100,16 +107,21 @@ namespace Racerr.Infrastructure.Server
         {
             UpdateRaceFinishTimeIfAnyPlayerFinished();
 
-            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count || RemainingRaceTime <= 0;
+            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadAsRacerPlayers.Count == raceSessionData.PlayersInRace.Count || RemainingRaceTime <= 0;
             bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
 
             if (isRaceEmpty)
             {
                 TransitionToIdle();
             }
-            else if (isRaceFinished)
+            else if (isRaceFinished && !transitioning)
             {
-                TransitionToIntermission();
+                transitioning = true;
+                UnityEngineHelper.YieldThenStartCoroutine(this, new WaitForSeconds(raceFinishedWaitingDuration), () =>
+                {
+                    TransitionToIntermission();
+                    transitioning = false;
+                });
             }
 
             UpdateLeaderboard(); // Ensure clients have a live updated view of the leaderboard always.
@@ -129,6 +141,7 @@ namespace Racerr.Infrastructure.Server
             }
         }
 
+        
         [Server]
         void TransitionToIntermission()
         {
