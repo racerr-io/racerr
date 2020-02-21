@@ -95,17 +95,19 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         void CheckToTransition()
         {
+            Player player = ClientStateMachine.Singleton.LocalPlayer;
+
             if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
             {
                 TransitionToIntermission();
             }
-            else if (ClientStateMachine.Singleton.LocalPlayer.Health == 0)
-            {
-                TransitionToKillCam();
-            }
-            else if (ClientStateMachine.Singleton.LocalPlayer.PosInfo.IsFinished)
+            else if (player.CarManager == null || player.PosInfo.IsFinished)
             {
                 TransitionToSpectate();
+            }
+            else if (player.Health == 0)
+            {
+                TransitionToKillCam();
             }
         }
 
