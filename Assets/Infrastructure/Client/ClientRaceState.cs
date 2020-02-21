@@ -123,7 +123,7 @@ namespace Racerr.Infrastructure.Client
 
         void TransitionToKillCam()
         {
-            ClientStateMachine.Singleton.ChangeState(StateEnum.ClientKillCam);
+            ClientStateMachine.Singleton.ChangeState(StateEnum.ClientDeath);
         }
     }
 }

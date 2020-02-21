@@ -25,7 +25,7 @@ namespace Racerr.UX.UI
             {
                 case PrimaryCamera.CameraType.Overhead: cameraInfoTMP.text = "Overhead"; break;
                 case PrimaryCamera.CameraType.ThirdPerson: cameraInfoTMP.text = "Third person"; break;
-                case PrimaryCamera.CameraType.KillCam: cameraInfoTMP.text = "Kill cam"; break;
+                case PrimaryCamera.CameraType.Death: cameraInfoTMP.text = "Death"; break;
             }
         }
     }

@@ -1505,8 +1505,8 @@ MonoBehaviour:
   overheadCamRotation: {x: 65, y: 0, z: 0, w: 90}
   thirdPersonCamPosition: {x: 0, y: 4, z: -7}
   thirdPersonCamRotation: {x: 10, y: 0, z: 0, w: 180}
-  killCamPosition: {x: 0, y: 14, z: -20}
-  killCamRotation: {x: 60, y: 0, z: 0, w: 180}
+  deathCamPosition: {x: 0, y: 14, z: -20}
+  deathCamRotation: {x: 60, y: 0, z: 0, w: 180}
   cam: {fileID: 674678298}
   buildingTransparencyRaycaster: {fileID: 674678299}
   moveSpeed: 3
@@ -7325,7 +7325,7 @@ MonoBehaviour:
   killCamView: {fileID: 1860261638}
   duration: 5
   cameraInfoUIComponent: {fileID: 1530070551}
-  killInfoUIComponent: {fileID: 5958282616675654078}
+  deathInfoUIComponent: {fileID: 5958282616675654078}
 --- !u!114 &1609746732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7746,7 +7746,7 @@ GameObject:
   - component: {fileID: 1860261637}
   - component: {fileID: 1860261636}
   m_Layer: 0
-  m_Name: View - Kill Cam
+  m_Name: View - Death
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10009,7 +10009,7 @@ PrefabInstance:
     - target: {fileID: 4746315824549679024, guid: 17bb51c267cedfd47aee83b029017287,
         type: 3}
       propertyPath: m_Name
-      value: Kill Info
+      value: Death Info
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17bb51c267cedfd47aee83b029017287, type: 3}

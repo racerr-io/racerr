@@ -6,7 +6,7 @@ namespace Racerr.UX.UI
     /// <summary>
     /// UI Component for the Spectating Player, which shows the spectated player's name.
     /// </summary>
-    public class KillInfoUIComponent : MonoBehaviour
+    public class DeathInfoUIComponent : MonoBehaviour
     {
         [SerializeField] TextMeshProUGUI destroyedByPlayerNameTMP;
         [SerializeField] TextMeshProUGUI revengeInstructionTMP;
@@ -16,7 +16,7 @@ namespace Racerr.UX.UI
         /// SPACEBAR to swap players if there is more than one player in the race.
         /// </summary>
         /// <param name="destroyedByPlayerName">Spectated player's name</param>
-        public void UpdateKillInfo(string destroyedByPlayerName, bool showRevengeInstruction)
+        public void UpdateDeathInfo(string destroyedByPlayerName, bool showRevengeInstruction)
         {
             if (string.IsNullOrEmpty(destroyedByPlayerName))
             {

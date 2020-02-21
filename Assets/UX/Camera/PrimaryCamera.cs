@@ -1,7 +1,6 @@
 using Racerr.Gameplay.Car;
 using Racerr.Utility;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,8 +18,8 @@ namespace Racerr.UX.Camera
         [SerializeField] Quaternion overheadCamRotation;
         [SerializeField] Vector3 thirdPersonCamPosition;
         [SerializeField] Quaternion thirdPersonCamRotation;
-        [SerializeField] Vector3 killCamPosition;
-        [SerializeField] Quaternion killCamRotation;
+        [SerializeField] Vector3 deathCamPosition;
+        [SerializeField] Quaternion deathCamRotation;
         [SerializeField] GameObject cam;
         [SerializeField] BuildingTransparencyRaycaster buildingTransparencyRaycaster; 
         [SerializeField] float moveSpeed = 3;
@@ -30,7 +29,7 @@ namespace Racerr.UX.Camera
         {
             Overhead,
             ThirdPerson,
-            KillCam
+            Death
         }
         CameraType camType = CameraType.Overhead;
         public CameraType CamType
@@ -74,7 +73,7 @@ namespace Racerr.UX.Camera
                 do
                 {
                     CamType = (CameraType)(((int)CamType + 1) % Enum.GetNames(typeof(CameraType)).Length);
-                } while (CamType == CameraType.KillCam); // Don't want the user to be able to cycle to the Kill Cam.
+                } while (CamType == CameraType.Death); // Don't want the user to be able to cycle to the death cam.
             }
         }
 
@@ -101,10 +100,10 @@ namespace Racerr.UX.Camera
                 newPosition = overheadCamPosition;
                 newRotation = overheadCamRotation;
             }
-            else if (CamType == CameraType.KillCam)
+            else if (CamType == CameraType.Death)
             {
-                newPosition = killCamPosition;
-                newRotation = killCamRotation;
+                newPosition = deathCamPosition;
+                newRotation = deathCamRotation;
             }
             else
             {
@@ -131,9 +130,9 @@ namespace Racerr.UX.Camera
                 // Camera position moves towards target position
                 transform.position = Vector3.Lerp(transform.position, target.position, Time.fixedDeltaTime * moveSpeed);
 
-                if (CamType == CameraType.ThirdPerson || CamType == CameraType.KillCam)
+                if (CamType == CameraType.ThirdPerson || CamType == CameraType.Death)
                 {
-                    // In third person / kill cam mode, position the camera behind the Player's car always.
+                    // In third person / death cam mode, position the camera behind the Player's car always.
                     transform.position = target.transform.position - target.transform.forward;
                     transform.LookAt(target.transform.position);
                 } 

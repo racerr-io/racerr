@@ -12,13 +12,13 @@ namespace Racerr.Infrastructure.Client
     /// A state for the client when they are currently enjoying the race. Intended to show them race information,
     /// and information about themselves.
     /// </summary>
-    public class ClientKillCamState : LocalState
+    public class ClientDeathState : LocalState
     {
         [SerializeField] UIView killCamView;
 
         [SerializeField] int duration = 5;
         [SerializeField] CameraInfoUIComponent cameraInfoUIComponent;
-        [SerializeField] KillInfoUIComponent killInfoUIComponent;
+        [SerializeField] DeathInfoUIComponent deathInfoUIComponent;
 
         bool cancelWaitingPeriodTransition = false;
 
@@ -35,13 +35,13 @@ namespace Racerr.Infrastructure.Client
             if (killer != null)
             {
                 bool showRevengeInstruction = playerCarManager.CarType == CarManager.CarTypeEnum.Racer;
-                killInfoUIComponent.UpdateKillInfo(killer.PlayerName, showRevengeInstruction);
-                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(killer.CarManager.transform, PrimaryCamera.CameraType.KillCam);
+                deathInfoUIComponent.UpdateDeathInfo(killer.PlayerName, showRevengeInstruction);
+                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(killer.CarManager.transform, PrimaryCamera.CameraType.Death);
             }
             else
             {
-                killInfoUIComponent.UpdateKillInfo(null, false);
-                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(playerCarManager.transform, PrimaryCamera.CameraType.KillCam);
+                deathInfoUIComponent.UpdateDeathInfo(null, false);
+                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(playerCarManager.transform, PrimaryCamera.CameraType.Death);
             }
             
             TransitionAfterWaitingPeriod();

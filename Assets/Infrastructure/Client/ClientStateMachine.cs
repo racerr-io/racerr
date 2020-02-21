@@ -83,7 +83,7 @@ namespace Racerr.Infrastructure.Client
                     case StateEnum.Race: currentState = GetComponent<ClientRaceState>(); break;
                     case StateEnum.ClientSpectate: currentState = GetComponent<ClientSpectateState>(); break;
                     case StateEnum.ClientStartMenu: currentState = GetComponent<ClientStartMenuState>(); break;
-                    case StateEnum.ClientKillCam: currentState = GetComponent<ClientKillCamState>(); break;
+                    case StateEnum.ClientDeath: currentState = GetComponent<ClientDeathState>(); break;
                     default: throw new InvalidOperationException("Invalid Client ChangeState attempt: " + stateType.ToString());
                 }
                 StateType = stateType;
