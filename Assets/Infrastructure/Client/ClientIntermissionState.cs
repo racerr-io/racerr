@@ -119,13 +119,25 @@ namespace Racerr.Infrastructure.Client
         {
             if (ServerStateMachine.Singleton.StateType == StateEnum.Race)
             {
-                TransitionToRace();
+                if (ClientStateMachine.Singleton.LocalPlayer.CarManager != null)
+                {
+                    TransitionToRace();
+                }
+                else
+                {
+                    TransitionToSpectate();
+                }
             }
         }
 
         void TransitionToRace()
         {
             ClientStateMachine.Singleton.ChangeState(StateEnum.Race);
+        }
+
+        void TransitionToSpectate()
+        {
+            ClientStateMachine.Singleton.ChangeState(StateEnum.ClientSpectate);
         }
     }
 }

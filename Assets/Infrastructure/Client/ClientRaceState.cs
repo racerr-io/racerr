@@ -101,7 +101,7 @@ namespace Racerr.Infrastructure.Client
             {
                 TransitionToIntermission();
             }
-            else if (player.CarManager == null || player.PosInfo.IsFinished)
+            else if (player.PosInfo.IsFinished)
             {
                 TransitionToSpectate();
             }
