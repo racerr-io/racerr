@@ -20,6 +20,8 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] CameraInfoUIComponent cameraInfoUIComponent;
         [SerializeField] KillInfoUIComponent killInfoUIComponent;
 
+        bool cancelWaitingPeriodTransition = false;
+
         /// <summary>
         /// Called upon entering the race state on the client, where we show the Race UI.
         /// </summary>
@@ -55,6 +57,7 @@ namespace Racerr.Infrastructure.Client
         public override void Exit()
         {
             killCamView.Hide();
+            cancelWaitingPeriodTransition = false;
         }
 
         /// <summary>
@@ -64,6 +67,11 @@ namespace Racerr.Infrastructure.Client
         void Update()
         {
             UpdateUIComponents();
+        }
+
+        void FixedUpdate()
+        {
+            CheckToTransition();
         }
 
         /// <summary>
@@ -83,22 +91,29 @@ namespace Racerr.Infrastructure.Client
         {
             UnityEngineHelper.AsyncYieldThenExecute(this, new WaitForSeconds(duration), () =>
             {
-                Player player = ClientStateMachine.Singleton.LocalPlayer;
-
-                if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
+                if (!cancelWaitingPeriodTransition)
                 {
-                    TransitionToIntermission();
-                }
-                else if (player.IsDeadCompletely)
-                {
-                    TransitionToSpectate();
-                }
-                else if (player.IsDeadAsRacer)
-                {
-                    player.CmdCreatePoliceCarForPlayer();
-                    TransitionToRace();
+                    Player player = ClientStateMachine.Singleton.LocalPlayer;
+                    if (player.IsDeadCompletely)
+                    {
+                        TransitionToSpectate();
+                    }
+                    else if (player.IsDeadAsRacer)
+                    {
+                        player.CmdCreatePoliceCarForPlayer();
+                        TransitionToRace();
+                    }
                 }
             });
+        }
+
+        void CheckToTransition()
+        {
+            if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
+            {
+                cancelWaitingPeriodTransition = true;
+                TransitionToIntermission();
+            }
         }
 
         void TransitionToIntermission()
