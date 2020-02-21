@@ -101,7 +101,9 @@ namespace Racerr.Infrastructure.Client
                     else if (player.IsDeadAsRacer)
                     {
                         player.CmdCreatePoliceCarForPlayer();
-                        TransitionToRace();
+
+                        // Wait for the server to spawn the car before we transition to race.
+                        UnityEngineHelper.AsyncWaitForConditionThenExecute(this, () => player.Health > 0, TransitionToRace);
                     }
                 }
             });

@@ -107,7 +107,7 @@ namespace Racerr.Infrastructure.Client
             }
             else if (player.Health == 0)
             {
-                TransitionToKillCam();
+                TransitionToDeath();
             }
         }
 
@@ -121,7 +121,7 @@ namespace Racerr.Infrastructure.Client
             ClientStateMachine.Singleton.ChangeState(StateEnum.ClientSpectate);
         }
 
-        void TransitionToKillCam()
+        void TransitionToDeath()
         {
             ClientStateMachine.Singleton.ChangeState(StateEnum.ClientDeath);
         }

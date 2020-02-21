@@ -67,8 +67,9 @@ namespace Racerr.Infrastructure.Client
 
         void SetCameraTargetOnEntireTrackGenerated(object sender, EventArgs e)
         {
+            TrackGenerator.Singleton.GeneratedTrackPieces.Callback -= SetCameraTargetOnTrackPieceGenerated;
             CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
-
+            
             if (carManager != null)
             {
                 ClientStateMachine.Singleton.PrimaryCamera.SetTarget(carManager.transform, PrimaryCamera.CameraType.ThirdPerson);
