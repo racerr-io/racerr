@@ -1,8 +1,10 @@
 ﻿using Doozy.Engine.UI;
+using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Server;
 using Racerr.UX.Camera;
 using Racerr.UX.UI;
 using Racerr.World.Track;
+using System;
 using UnityEngine;
 
 namespace Racerr.Infrastructure.Client
@@ -30,7 +32,8 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             intermissionView.Show();
-            TrackGenerator.Singleton.GeneratedTrackPieces.Callback += SetCameraTargetOnTrackGenerated;
+            TrackGenerator.Singleton.GeneratedTrackPieces.Callback += SetCameraTargetOnTrackPieceGenerated;
+            TrackGenerator.Singleton.TrackGenerated += SetCameraTargetOnEntireTrackGenerated;
             UpdateUIComponentsWithPreviousRaceInformation();
         }
 
@@ -40,7 +43,8 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         public override void Exit()
         {
-            TrackGenerator.Singleton.GeneratedTrackPieces.Callback -= SetCameraTargetOnTrackGenerated;
+            TrackGenerator.Singleton.GeneratedTrackPieces.Callback -= SetCameraTargetOnTrackPieceGenerated;
+            TrackGenerator.Singleton.TrackGenerated -= SetCameraTargetOnEntireTrackGenerated;
             intermissionView.Hide();
         }
 
@@ -53,11 +57,21 @@ namespace Racerr.Infrastructure.Client
         /// <param name="itemIndex">The index of the newly added track (unused)</param>
         /// <param name="oldItem">The track itself that was removed (unused in this case)</param>
         /// <param name="newItem">The track itself that was added</param>
-        void SetCameraTargetOnTrackGenerated(Mirror.SyncList<GameObject>.Operation op, int itemIndex, GameObject oldItem, GameObject newItem)
+        void SetCameraTargetOnTrackPieceGenerated(Mirror.SyncList<GameObject>.Operation op, int itemIndex, GameObject oldItem, GameObject newItem)
         {
             if (op == Mirror.SyncList<GameObject>.Operation.OP_ADD)
             {
                 ClientStateMachine.Singleton.PrimaryCamera.SetTarget(newItem.transform, PrimaryCamera.CameraType.Overhead);
+            }
+        }
+
+        void SetCameraTargetOnEntireTrackGenerated(object sender, EventArgs e)
+        {
+            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
+
+            if (carManager != null)
+            {
+                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(carManager.transform, PrimaryCamera.CameraType.ThirdPerson);
             }
         }
 

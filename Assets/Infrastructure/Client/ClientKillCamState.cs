@@ -81,7 +81,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         void TransitionAfterWaitingPeriod()
         {
-            UnityEngineHelper.YieldThenStartCoroutine(this, new WaitForSeconds(duration), () =>
+            UnityEngineHelper.AsyncYieldThenExecute(this, new WaitForSeconds(duration), () =>
             {
                 Player player = ClientStateMachine.Singleton.LocalPlayer;
 

@@ -14,14 +14,28 @@ namespace Racerr.Utility
         /// </summary>
         /// <param name="monoBehaviour">The MonoBehavior to run the coroutine on.</param>
         /// <param name="action">Lambda function.</param>
-        public static void YieldThenStartCoroutine(MonoBehaviour monoBehaviour, YieldInstruction yieldInstruction, Action action)
+        public static void AsyncYieldThenExecute(MonoBehaviour monoBehaviour, YieldInstruction yieldInstruction, Action action)
         {
-            monoBehaviour.StartCoroutine(YieldThenStartCoroutine(yieldInstruction, action));
+            monoBehaviour.StartCoroutine(YieldThenExecute(yieldInstruction, action));
         }
 
-        static IEnumerator YieldThenStartCoroutine(YieldInstruction yieldInstruction, Action action)
+        static IEnumerator YieldThenExecute(YieldInstruction yieldInstruction, Action action)
         {
             yield return yieldInstruction;
+            action();
+        }
+
+        public static void AsyncWaitForConditionThenExecute(MonoBehaviour monoBehaviour, Func<bool> condition, Action action)
+        {
+            monoBehaviour.StartCoroutine(WaitForConditionThenExecute(condition, action));
+        }
+
+        static IEnumerator WaitForConditionThenExecute(Func<bool> condition, Action action)
+        {
+            while (!condition())
+            {
+                yield return null;
+            }
             action();
         }
     }

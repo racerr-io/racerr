@@ -3,7 +3,6 @@ using Racerr.Gameplay.Car;
 using Racerr.Utility;
 using Racerr.World.Track;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,7 +61,7 @@ namespace Racerr.Infrastructure
                 GameObject[] checkpointsInRace = TrackGenerator.Singleton.CheckpointsInRace;
                 Vector3 finishLine = checkpointsInRace[checkpointsInRace.Length - 1].transform.position;
                 CreateCarForPlayer(finishLine, CarManager.CarTypeEnum.Police);
-                UnityEngineHelper.YieldThenStartCoroutine(this, new WaitForFixedUpdate(), () => CarManager.SetIsActive(true));
+                UnityEngineHelper.AsyncYieldThenExecute(this, new WaitForFixedUpdate(), () => CarManager.SetIsActive(true));
             }
         }
 

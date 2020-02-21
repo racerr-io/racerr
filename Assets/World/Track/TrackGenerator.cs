@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using Racerr.Infrastructure;
 using Racerr.Utility;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +22,14 @@ namespace Racerr.World.Track
         [SerializeField] GameObject finalTrackPiecePrefab;
         [Min(2)] [SerializeField] int trackLength = 50;
 
+        public event EventHandler TrackGenerated;
+
         // Synchronise all Generated Track Pieces to all clients
         // Purpose of the synchronisation is to allow clients to update their camera.
         // Must declare empty class and readonly field as dictated by Mirror.
         public class SyncListGameObject : SyncList<GameObject> { }
         readonly SyncListGameObject generatedTrackPieces = new SyncListGameObject();
         public SyncListGameObject GeneratedTrackPieces => generatedTrackPieces;
-
 
         /* Server Only Properties */
         public bool IsTrackGenerated { get; private set; }
@@ -58,9 +60,10 @@ namespace Racerr.World.Track
         /// <summary>
         /// Generate the track for all players on the server.
         /// </summary>
+        [Server]
         public void GenerateIfRequired(IReadOnlyCollection<Player> playersToSpawn)
         {
-            if (isServer && !IsTrackGenerated)
+            if (!IsTrackGenerated)
             {
                 IsTrackGenerating = true;
                 IReadOnlyList<GameObject> availableTrackPiecePrefabs = Resources.LoadAll<GameObject>("Track Pieces");
@@ -71,9 +74,10 @@ namespace Racerr.World.Track
         /// <summary>
         /// Destroy the track for all players on the server.
         /// </summary>
+        [Server]
         public void DestroyIfRequired()
         {
-            if (isServer && IsTrackGenerated)
+            if (IsTrackGenerated)
             {
                 foreach (GameObject trackPiece in GeneratedTrackPieces)
                 {
@@ -93,6 +97,7 @@ namespace Racerr.World.Track
         /// <param name="trackLength">Number of Track Pieces this track should be composed of.</param>
         /// <param name="availableTrackPiecePrefabs">Collection of Track Pieces we can Instantiate.</param>
         /// <returns>IEnumerator for Unity coroutine, so that we can WaitForFixedUpdate() to check if a track is colliding with another one every time we instantiate a new track.</returns>
+        [Server]
         IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs, IReadOnlyCollection<Player> playersToSpawn)
         {
             GameObject origin = new GameObject("Temporary Origin for Random Track Generator");
@@ -170,7 +175,7 @@ namespace Racerr.World.Track
                 }
                 else
                 {
-                    int randomTrack = validTrackOptions[Random.Range(0, validTrackOptions.Count)];
+                    int randomTrack = validTrackOptions[UnityEngine.Random.Range(0, validTrackOptions.Count)];
                     newTrackPiecePrefab = availableTrackPiecePrefabs[randomTrack];
                     validAvailableTracks[numTracks, randomTrack] = false;
                     trackPieceLinkTransform = LoadTrackPieceLinkTransform(currentTrackPiece);
@@ -242,7 +247,6 @@ namespace Racerr.World.Track
             Destroy(origin);
             IsTrackGenerating = false;
             IsTrackGenerated = true;
-
             CheckpointsInRace = GeneratedTrackPieces.Select(trackPiece =>
             {
                 GameObject result = trackPiece.transform.Find(GameObjectIdentifiers.Checkpoint)?.gameObject;
@@ -255,8 +259,16 @@ namespace Racerr.World.Track
 
                 return result;
             }).ToArray();
+            RpcInvokeTrackGeneratedEvent();
         }
 
+        [ClientRpc]
+        void RpcInvokeTrackGeneratedEvent()
+        {
+            TrackGenerated?.Invoke(this, EventArgs.Empty);
+        }
+
+        [Server]
         bool IsSameTrackPieceStyle(GameObject candidateTrackPiece)
         {
             if (GeneratedTrackPieces.Count == 0)
@@ -281,6 +293,7 @@ namespace Racerr.World.Track
         /// </summary>
         /// <param name="trackPiece">Track Piece Game Object</param>
         /// <returns>Track Piece Link Transform</returns>
+        [Server]
         Transform LoadTrackPieceLinkTransform(GameObject trackPiece)
         {
             Transform tracePieceLinkTransform = trackPiece.transform.Find(GameObjectIdentifiers.Link);

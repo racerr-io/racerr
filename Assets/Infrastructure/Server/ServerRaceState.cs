@@ -22,6 +22,7 @@ namespace Racerr.Infrastructure.Server
 
         [SyncVar] double raceFinishTime;
         public double RemainingRaceTime => raceFinishTime - NetworkTime.time;
+        bool transitioning = false;
 
         /// <summary>
         /// Initialises brand new race session data independent of previous race sessions.
@@ -96,7 +97,6 @@ namespace Racerr.Infrastructure.Server
             }
         }
 
-        bool transitioning = false;
         /// <summary>
         /// Called every game tick.
         /// Changes the remaining race time if there are players finished.
@@ -105,6 +105,11 @@ namespace Racerr.Infrastructure.Server
         [Server]
         void FixedUpdate()
         {
+            if (transitioning)
+            {
+                return;
+            }
+
             UpdateRaceFinishTimeIfAnyPlayerFinished();
 
             bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadAsRacerPlayers.Count == raceSessionData.PlayersInRace.Count || RemainingRaceTime <= 0;
@@ -114,10 +119,12 @@ namespace Racerr.Infrastructure.Server
             {
                 TransitionToIdle();
             }
-            else if (isRaceFinished && !transitioning)
+            else if (isRaceFinished)
             {
                 transitioning = true;
-                UnityEngineHelper.YieldThenStartCoroutine(this, new WaitForSeconds(raceFinishedWaitingDuration), () =>
+
+                // Add a delay after the race finishes so that the transition is not abrupt.
+                UnityEngineHelper.AsyncYieldThenExecute(this, new WaitForSeconds(raceFinishedWaitingDuration), () =>
                 {
                     TransitionToIntermission();
                     transitioning = false;
