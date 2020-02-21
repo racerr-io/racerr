@@ -39,7 +39,7 @@ namespace Racerr.UX.Camera
             {
                 camType = value;
 
-                UnityEngineHelper.AsyncYieldThenExecute(this, new WaitForFixedUpdate(), () =>
+                this.AsyncYieldThenExecute(new WaitForFixedUpdate(), () =>
                 {
                     // Each car has various configurations for their PlayerBar, because we want to vary the position of the PlayerBar depending on the
                     // size of the car and position of the camera. Upon changing the CameraType, activate the correct configuration on all cars.
@@ -55,6 +55,11 @@ namespace Racerr.UX.Camera
             }
         }
 
+        /// <summary>
+        /// Set the target and the CameraType.
+        /// </summary>
+        /// <param name="target">Target transform to follow.</param>
+        /// <param name="camType">CameraType, selected from the enum.</param>
         public void SetTarget(Transform target, CameraType camType)
         {
             this.target = target;

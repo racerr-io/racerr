@@ -15,7 +15,6 @@ namespace Racerr.Infrastructure.Client
     {
         [SerializeField] ServerRaceState serverRaceState;
         [SerializeField] UIView raceView;
-
         [SerializeField] RaceTimerUIComponent raceTimerUIComponent;
         [SerializeField] CountdownTimerUIComponent countdownTimerUIComponent;
         [SerializeField] SpeedUIComponent speedUIComponent;
@@ -90,8 +89,8 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Transition the next client state. If the race is ended, we move to intermission. However, if the race is still going but we
-        /// have died or finished the race, we move to spectating.
+        /// Transition the next client state. If the race is ended, we move to intermission. However, if we crossed the finish line,
+        /// move to spectate, but if we died, show the death view.
         /// </summary>
         void CheckToTransition()
         {

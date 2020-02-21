@@ -11,7 +11,7 @@ namespace Racerr.Infrastructure
     /// <summary>
     /// Player information, such as their stats and their associated car in the game.
     /// </summary>
-    public class Player : NetworkBehaviour
+    public sealed class Player : NetworkBehaviour
     {
         #region Player's Car
 
@@ -31,37 +31,58 @@ namespace Racerr.Infrastructure
         }
 
         /// <summary>
-        /// Spawn the player's car in a given position.
+        /// Spawn the player's car in a given position, given the prefab to spawn and what type of car it is (Racer, Police).
         /// </summary>
-        /// <param name="carPosition">Position to spawn</param>
+        /// <param name="carPosition">Position to spawn.</param>
+        /// <param name="carPrefab">Car prefab to spawn.</param>
+        /// <param name="carType">The type of car being spawned.</param>
         [Server]
-        public void CreateCarForPlayer(Vector3 carPosition, CarManager.CarTypeEnum carType = CarManager.CarTypeEnum.Racer)
+        public void CreateCarForPlayer(Vector3 carPosition, GameObject carPrefab = null, CarManager.CarTypeEnum carType = CarManager.CarTypeEnum.Racer)
         {
-            // Destroy any existing car
+            // If no car prefab is passed in, just select the default one.
+            if (carPrefab == null)
+            {
+                carPrefab = this.carPrefab;
+            }
+
+            // Destroy any existing car.
             DestroyPlayersCar();
 
-            // Instantiate and setup car
+            // Instantiate and setup car.
             GameObject carGO = Instantiate(carPrefab, carPosition, carPrefab.transform.rotation);
             carManager = carGO.GetComponent<CarManager>();
             carManager.PlayerGO = gameObject;
             carManager.CarType = carType;
 
-            // Setup and sync over network
+            // Setup and sync over network.
             NetworkServer.Spawn(carGO, gameObject);
             this.carGO = carGO;
             Health = CarManager.MaxHealth;
         }
 
+        /// <summary>
+        /// A command sent by the client when they are ready to spawn a police car.
+        /// This is specifically sent by the client only when they have died as a racer and are ready
+        /// to spawn the police car. This cannot be called at any other time.
+        /// We will spawn the police car at the finish line, so they can get revenge on the racers.
+        /// </summary>
         [Command]
         public void CmdCreatePoliceCarForPlayer()
         {
             if (CarManager.CarType == CarManager.CarTypeEnum.Racer && IsDeadAsRacer)
             {
+                // Grab finish line and add slight offset to finish line so car is not spawned inside the ground.
                 // Need smarter way of spawn police cars, could spawn multiple cars onto the same spot...
                 GameObject[] checkpointsInRace = TrackGenerator.Singleton.CheckpointsInRace;
                 Vector3 finishLine = checkpointsInRace[checkpointsInRace.Length - 1].transform.position;
-                CreateCarForPlayer(finishLine, CarManager.CarTypeEnum.Police);
-                UnityEngineHelper.AsyncYieldThenExecute(this, new WaitForFixedUpdate(), () => CarManager.SetIsActive(true));
+                Vector3 spawnPosition = finishLine + new Vector3(0, 0.2f, 0);
+
+                // Spawn.
+                CreateCarForPlayer(spawnPosition, policeCarPrefab, CarManager.CarTypeEnum.Police);
+
+                // Need to wait for one physics tick so that the CarManager is initialised, then we enable
+                // its car controller.
+                this.AsyncYieldThenExecute(new WaitForFixedUpdate(), () => CarManager.SetIsActive(true));
             }
         }
 
@@ -89,6 +110,7 @@ namespace Racerr.Infrastructure
         [SyncVar] string playerName;
         [SyncVar] bool isReady;
         [SyncVar] [SerializeField] GameObject carPrefab;
+        [SyncVar] [SerializeField] GameObject policeCarPrefab;
         [SyncVar(hook = nameof(OnPlayerHealthChanged))] int health = 0;
         [SyncVar] PositionInfo positionInfo;
 
@@ -177,9 +199,14 @@ namespace Racerr.Infrastructure
             }
         }
 
-        public bool IsInRace => Health > 0 && !PosInfo.IsFinished && CarManager != null; // They are an alive racer or police.
-        public bool IsDeadAsRacer => !PosInfo.IsFinished && (Health == 0 || CarManager == null || CarManager.CarType == CarManager.CarTypeEnum.Police); // Either the racer just died, they are a police or a dead police.
-        public bool IsDeadCompletely => !PosInfo.IsFinished && Health == 0 && (CarManager == null || CarManager.CarType == CarManager.CarTypeEnum.Police); // They are dead police.
+        // They are an alive racer or police.
+        public bool IsInRace => Health > 0 && !PosInfo.IsFinished && CarManager != null;
+
+        // Either the racer just died, they are a police or a dead police.
+        public bool IsDeadAsRacer => !PosInfo.IsFinished && (Health == 0 || CarManager == null || CarManager.CarType == CarManager.CarTypeEnum.Police);
+
+        // They are dead police.
+        public bool IsDeadCompletely => !PosInfo.IsFinished && Health == 0 && (CarManager == null || CarManager.CarType == CarManager.CarTypeEnum.Police);
 
         public PositionInfo PosInfo
         {

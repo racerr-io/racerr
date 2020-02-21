@@ -4,7 +4,8 @@ using UnityEngine;
 namespace Racerr.UX.UI
 {
     /// <summary>
-    /// UI Component for the Spectating Player, which shows the spectated player's name.
+    /// UI Component to show some information to the user that they died
+    /// and who killed them.
     /// </summary>
     public class DeathInfoUIComponent : MonoBehaviour
     {
@@ -12,10 +13,12 @@ namespace Racerr.UX.UI
         [SerializeField] TextMeshProUGUI revengeInstructionTMP;
 
         /// <summary>
-        /// Updates spectated player's name and displays the hint to press the
-        /// SPACEBAR to swap players if there is more than one player in the race.
+        /// Updates the UI component with the person who killed the player (if not null)
+        /// and whether it makes sense to show the instruction to the user that they can
+        /// get revenge as a police.
         /// </summary>
-        /// <param name="destroyedByPlayerName">Spectated player's name</param>
+        /// <param name="destroyedByPlayerName">Player name which killed us (nullable).</param>
+        /// <param name="showRevengeInstruction">Whether we should show the revenge instruction.</param>
         public void UpdateDeathInfo(string destroyedByPlayerName, bool showRevengeInstruction)
         {
             if (string.IsNullOrEmpty(destroyedByPlayerName))

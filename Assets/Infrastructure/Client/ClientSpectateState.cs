@@ -16,7 +16,6 @@ namespace Racerr.Infrastructure.Client
     {
         [SerializeField] ServerRaceState serverRaceState;
         [SerializeField] UIView spectateView;
-
         [SerializeField] RaceTimerUIComponent raceTimerUIComponent;
         [SerializeField] CountdownTimerUIComponent countdownTimerUIComponent;
         [SerializeField] LeaderboardUIComponent leaderboardUIComponent;

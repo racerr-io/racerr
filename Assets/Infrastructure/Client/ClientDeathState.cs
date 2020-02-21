@@ -9,26 +9,28 @@ using UnityEngine;
 namespace Racerr.Infrastructure.Client
 {
     /// <summary>
-    /// A state for the client when they are currently enjoying the race. Intended to show them race information,
-    /// and information about themselves.
+    /// A state for the client when the player dies (in racer or police mode)
+    /// and shows who killed them for a short period of time before transitioning
+    /// to the next state.
     /// </summary>
     public class ClientDeathState : LocalState
     {
-        [SerializeField] UIView killCamView;
-
+        [SerializeField] UIView deathView;
         [SerializeField] int duration = 5;
         [SerializeField] CameraInfoUIComponent cameraInfoUIComponent;
         [SerializeField] DeathInfoUIComponent deathInfoUIComponent;
 
-        bool cancelWaitingPeriodTransition = false;
+        bool allowTransition = true;
 
         /// <summary>
-        /// Called upon entering the race state on the client, where we show the Race UI.
+        /// Called upon entering the death state on the client, where we show the death UI.
+        /// We will focus the camera and death UI on the player who last hit us. If no player
+        /// last hit us (e.g. we crashed into many buildings), it will focus on the current player.
         /// </summary>
         /// <param name="optionalData">Should be null</param>
         public override void Enter(object optionalData = null)
         {
-            killCamView.Show();
+            deathView.Show();
 
             CarManager playerCarManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
             Player killer = playerCarManager.LastHitByPlayer;
@@ -45,23 +47,20 @@ namespace Racerr.Infrastructure.Client
             }
             
             TransitionAfterWaitingPeriod();
+            allowTransition = true;
         }
 
         /// <summary>
-        /// Called upon race finish or player death, where we will hide the Race UI and disable the car controller.
+        /// Upon exiting the death state, hide the death UI.
         /// </summary>
-        /// <remarks>
-        /// On player death, the car will still remain on the track as we do not want the car to just disappear.
-        /// Instead, we will manually disable the player's car controller so they can't drive.
-        /// </remarks>
         public override void Exit()
         {
-            killCamView.Hide();
-            cancelWaitingPeriodTransition = false;
+            deathView.Hide();
+            allowTransition = false;
         }
 
         /// <summary>
-        /// Called every frame tick. Updates who we are spectating and the UI components. We need to call put these things
+        /// Called every frame tick. Updates the UI components. We need to call put these things
         /// in here instead of FixedUpdate() so updates to the UI are not choppy and inputs are accurate.
         /// </summary>
         void Update()
@@ -69,14 +68,17 @@ namespace Racerr.Infrastructure.Client
             UpdateUIComponents();
         }
 
+        /// <summary>
+        /// Called every physics tick to check if we should transition to the next state.
+        /// </summary>
         void FixedUpdate()
         {
             CheckToTransition();
         }
 
         /// <summary>
-        /// Update all the UI components in the client race view, which shows information about the player's car and how they 
-        /// are performing in the race.
+        /// Update all the UI components in the death view, which is just the camera info. Other UI elements
+        /// are not in the death view so the user is not distracted.
         /// </summary>
         void UpdateUIComponents()
         {
@@ -84,14 +86,16 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Transition the next client state. If the race is ended, we move to intermission. However, if the race is still going but we
-        /// have died or finished the race, we move to spectating.
+        /// This should be called in Enter(). After a specified period of time, transition the racer to either
+        /// spectate mode (if they died completely) or race mode (if they are respawning as a police car).
+        /// Note that it is possible for the server to transition to intermission at any time, so if this occurs
+        /// we need to ensure to cancel the async operation. This is done through a boolean.
         /// </summary>
         void TransitionAfterWaitingPeriod()
         {
-            UnityEngineHelper.AsyncYieldThenExecute(this, new WaitForSeconds(duration), () =>
+            this.AsyncYieldThenExecute(new WaitForSeconds(duration), () =>
             {
-                if (!cancelWaitingPeriodTransition)
+                if (allowTransition)
                 {
                     Player player = ClientStateMachine.Singleton.LocalPlayer;
                     if (player.IsDeadCompletely)
@@ -103,17 +107,20 @@ namespace Racerr.Infrastructure.Client
                         player.CmdCreatePoliceCarForPlayer();
 
                         // Wait for the server to spawn the car before we transition to race.
-                        UnityEngineHelper.AsyncWaitForConditionThenExecute(this, () => player.Health > 0, TransitionToRace);
+                        this.AsyncWaitForConditionThenExecute(() => player.Health > 0, TransitionToRace);
                     }
                 }
             });
         }
 
+        /// <summary>
+        /// Transition to intermission at any time, if the server changes to intermission state
+        /// mid way. Cancels the waiting period above.
+        /// </summary>
         void CheckToTransition()
         {
             if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
             {
-                cancelWaitingPeriodTransition = true;
                 TransitionToIntermission();
             }
         }

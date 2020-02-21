@@ -202,7 +202,7 @@ namespace Racerr.World.Track
                         break;
                     }
 
-                    Vector3 firstCarStartLineDisplacement = new Vector3(0, 0.1f, -15);
+                    Vector3 firstCarStartLineDisplacement = new Vector3(0, 0.2f, -15);
                     Vector3 gridStartPosition = startLine.position + firstCarStartLineDisplacement;
                     Vector3 distanceBetweenCars = new Vector3(0, 0, 10);
                     foreach (Player player in playersToSpawn.Where(player => player != null))
@@ -262,12 +262,22 @@ namespace Racerr.World.Track
             RpcInvokeTrackGeneratedEvent();
         }
 
+        /// <summary>
+        /// When the track is generated, invoke the TrackGenerated event on allow client, so that all subscribers
+        /// can be informed when the track is generated.
+        /// </summary>
         [ClientRpc]
         void RpcInvokeTrackGeneratedEvent()
         {
             TrackGenerated?.Invoke(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Determine if the candidateTrackPiece is the same style as the last placed track piece.
+        /// This includes the logic for transition pieces (see comments inside).
+        /// </summary>
+        /// <param name="candidateTrackPiece">Candidate Track Piece GameObject.</param>
+        /// <returns>Whether the candidateTrackPiece is compatible with the last placed track piece.</returns>
         [Server]
         bool IsSameTrackPieceStyle(GameObject candidateTrackPiece)
         {

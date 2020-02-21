@@ -7230,7 +7230,6 @@ MonoBehaviour:
   syncInterval: 0
   maxRaceDuration: 90
   remainingRaceDurationOnPlayerFinish: 15
-  raceFinishedWaitingDuration: 5
 --- !u!114 &1584656526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7322,7 +7321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f340336d3479b3b4e95a6f65036d2f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  killCamView: {fileID: 1860261638}
+  deathView: {fileID: 1860261638}
   duration: 5
   cameraInfoUIComponent: {fileID: 1530070551}
   deathInfoUIComponent: {fileID: 5958282616675654078}
@@ -7622,6 +7621,7 @@ MonoBehaviour:
   - {fileID: 4812132155584618507, guid: 106072e8ebf69294c89488b8bfe7961e, type: 3}
   - {fileID: 2015120010295735337, guid: 0074f714a60390f46be119849f605cd8, type: 3}
   - {fileID: 2507272380122558485, guid: db093cd94306b1c4da66db30033467db, type: 3}
+  - {fileID: 6285641333015487221, guid: 7bbc374695ed3ee41a00015a24338234, type: 3}
   destroyOnHeadlessLoad:
   - {fileID: 1750170194}
   - {fileID: 1609746729}

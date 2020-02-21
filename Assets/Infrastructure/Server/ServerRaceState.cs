@@ -18,7 +18,6 @@ namespace Racerr.Infrastructure.Server
     {
         [SerializeField] int maxRaceDuration = 90;
         [SerializeField] int remainingRaceDurationOnPlayerFinish = 30;
-        [SerializeField] int raceFinishedWaitingDuration = 5;
 
         [SyncVar] double raceFinishTime;
         public double RemainingRaceTime => raceFinishTime - NetworkTime.time;
@@ -77,7 +76,8 @@ namespace Racerr.Infrastructure.Server
         /// <summary>
         /// Server side only - call this function when the car moves through a checkpoint.
         /// Adds checkpoint to a set of checkpoints the player has passed through so that
-        /// we can calculate their position.
+        /// we can calculate their position. We ignore players passing through checkpoints
+        /// when they are not a racer (e.g. they are police).
         /// Additionally, check if the player has actually finished the race.
         /// </summary>
         /// <param name="player">The player that passed through.</param>
