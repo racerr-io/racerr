@@ -65,6 +65,11 @@ namespace Racerr.Infrastructure
         /// This is specifically sent by the client only when they have died as a racer and are ready
         /// to spawn the police car. This cannot be called at any other time.
         /// We will spawn the police car at the finish line, so they can get revenge on the racers.
+        /// <remarks>
+        /// We assume that by default the police car prefab's vehicle controller is set to active, so
+        /// the car is immediately driveable after it is spawned (unlike the other cars, which are by default
+        /// set to inactive and are activated when transitioning into Server Race State).
+        /// </remarks>
         /// </summary>
         [Command]
         public void CmdCreatePoliceCarForPlayer()
@@ -79,10 +84,6 @@ namespace Racerr.Infrastructure
 
                 // Spawn.
                 CreateCarForPlayer(spawnPosition, policeCarPrefab, CarManager.CarTypeEnum.Police);
-
-                // Need to wait for one physics tick so that the CarManager is initialised, then we enable
-                // its car controller.
-                this.AsyncYieldThenExecute(new WaitForFixedUpdate(), () => CarManager.SetIsActive(true));
             }
         }
 
