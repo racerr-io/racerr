@@ -64,11 +64,21 @@ namespace Racerr.Infrastructure.Client
             }
         }
 
+        /// <summary>
+        /// Delegate function that should be attached to the callback of Track Generator's Track Generated event.
+        /// It is called when a new track is fully generated.
+        /// The purpose of this is to move the camera to the player's car in third person view to prepare for the
+        /// race to start.
+        /// </summary>
+        /// <param name="sender">The track generator (unused).</param>
+        /// <param name="e">Event args (empty and unused).</param>
         void SetCameraTargetOnEntireTrackGenerated(object sender, EventArgs e)
         {
+            // Race condition sometimes occurs where the last track piece event is sent after the whole track
+            // is generated, so detach the track piece generated function.
             TrackGenerator.Singleton.GeneratedTrackPieces.Callback -= SetCameraTargetOnTrackPieceGenerated;
+
             CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
-            
             if (carManager != null)
             {
                 ClientStateMachine.Singleton.PrimaryCamera.SetTarget(carManager.transform, PrimaryCamera.CameraType.ThirdPerson);

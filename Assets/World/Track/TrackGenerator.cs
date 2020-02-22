@@ -274,8 +274,13 @@ namespace Racerr.World.Track
 
         /// <summary>
         /// Determine if the candidateTrackPiece is the same style as the last placed track piece.
-        /// This includes the logic for transition pieces (see comments inside).
+        /// Checks whether the track piece is exactly the same style, or is a compatible transition piece.
         /// </summary>
+        /// <remarks>
+        /// Two tracks are the same style if they have the same tag. If they have different tags, then
+        /// they are only compatible if the previous piece is a compatible transition piece. For example,
+        /// Road -> Highway_RoadTransition -> Highway is compatible.
+        /// </remarks>
         /// <param name="candidateTrackPiece">Candidate Track Piece GameObject.</param>
         /// <returns>Whether the candidateTrackPiece is compatible with the last placed track piece.</returns>
         [Server]
