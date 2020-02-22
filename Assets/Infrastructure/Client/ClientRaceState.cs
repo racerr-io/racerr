@@ -35,20 +35,10 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Called upon race finish or player death, where we will hide the Race UI and disable the car controller.
+        /// Called upon race finish or player death, where we will hide the Race UI.
         /// </summary>
-        /// <remarks>
-        /// On player death, the car will still remain on the track as we do not want the car to just disappear.
-        /// Instead, we will manually disable the player's car controller so they can't drive.
-        /// </remarks>
         public override void Exit()
         {
-            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
-            if (carManager != null)
-            {
-                carManager.SetIsActive(false);
-            }
-            
             raceView.Hide();
         }
 

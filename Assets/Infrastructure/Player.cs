@@ -14,11 +14,10 @@ namespace Racerr.Infrastructure
     public sealed class Player : NetworkBehaviour
     {
         #region Player's Car
+
+        /* Client and Server Properties */
         [SerializeField] GameObject raceCarPrefab;
         [SerializeField] GameObject policeCarPrefab;
-
-        public class SyncListGameObject : SyncList<GameObject> { }
-        readonly SyncListGameObject zombieCarGOs = new SyncListGameObject();
 
         [SyncVar] GameObject carGO;
         CarManager carManager;
@@ -34,6 +33,9 @@ namespace Racerr.Infrastructure
                 return carManager;
             }
         }
+
+        /* Server Only Properties */
+        List<GameObject> ZombieCarGOs { get; } = new List<GameObject>();
 
         /// <summary>
         /// Spawn race car for the player. Intended to be called by the Track Generator.
@@ -81,7 +83,7 @@ namespace Racerr.Infrastructure
         [Server]
         void CreateCarForPlayer(Vector3 spawnPosition, GameObject carPrefab, CarManager.CarTypeEnum carType)
         {
-            // Mark any existing car as zombie (their car just stays on the track chilling).
+            // Mark any existing car as zombie (their car just stays on the track, chilling).
             MarkPlayerCarAsZombie();
 
             // Instantiate and setup car.
@@ -98,14 +100,15 @@ namespace Racerr.Infrastructure
 
         /// <summary>
         /// Mark a car as a zombie, meaning it stays on the track
-        /// but cannot be driven and has no player bar.
+        /// but cannot be driven.
         /// </summary>
         [Server]
         public void MarkPlayerCarAsZombie()
         {
             if (carGO != null)
             {
-                zombieCarGOs.Add(carGO);
+                carManager.SetIsActive(false);
+                ZombieCarGOs.Add(carGO);
                 carGO = null;
                 carManager = null;
             }
@@ -119,13 +122,8 @@ namespace Racerr.Infrastructure
         public void DestroyAllCarsForPlayer()
         {
             MarkPlayerCarAsZombie();
-
-            foreach (GameObject zombieCarGO in zombieCarGOs)
-            {
-                NetworkServer.Destroy(zombieCarGO);
-            }
-
-            zombieCarGOs.Clear();
+            ZombieCarGOs.ForEach(NetworkServer.Destroy);
+            ZombieCarGOs.Clear();
         }
 
         #endregion
@@ -141,7 +139,7 @@ namespace Racerr.Infrastructure
 
         /// <summary>
         /// When playerHealth SyncVar updates, this function is called to update
-        /// the PlayerBar UI.
+        /// the PlayerBar UI and deactive the car if it has ran out of health.
         /// </summary>
         /// <param name="health">The new health value.</param>
         void OnPlayerHealthChanged(int health)
@@ -151,6 +149,11 @@ namespace Racerr.Infrastructure
             if (CarManager != null && CarManager.PlayerBar != null)
             {
                 CarManager.PlayerBar.SetHealthBar(health);
+            }
+
+            if (health == 0)
+            {
+                CarManager.SetIsActive(false);
             }
         }
 
