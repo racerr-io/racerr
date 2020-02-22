@@ -151,7 +151,7 @@ namespace Racerr.Infrastructure
                 CarManager.PlayerBar.SetHealthBar(health);
             }
 
-            if (health == 0)
+            if (CarManager != null && health == 0)
             {
                 CarManager.SetIsActive(false);
             }
