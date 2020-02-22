@@ -73,7 +73,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         /// <param name="player">The player object.</param>
         /// <returns>Boolean representing whether they are alive and racing.</returns>
-        bool IsSpectatable(Player player) => player != null && player.IsInRace && !player.CarManager.IsZombie;
+        bool IsSpectatable(Player player) => player != null && player.IsInRace;
 
         /// <summary>
         /// If our current spectated player disconnects or the user swaps the current spectated player
