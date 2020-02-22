@@ -23,7 +23,6 @@ namespace Racerr.Gameplay.Car
         [SerializeField] GameObject playerBarPrefab;
 
         /* Player */
-        public Player OwnPlayer { get; private set; }
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
         {
@@ -34,6 +33,8 @@ namespace Racerr.Gameplay.Car
                 playerGO = value;
             }
         }
+        public Player OwnPlayer { get; private set; }
+        public bool IsZombie => OwnPlayer.CarManager != this;
 
         /* Player Bar */
         public PlayerBar PlayerBar { get; private set; }
@@ -108,7 +109,7 @@ namespace Racerr.Gameplay.Car
         [ClientCallback]
         void OnCollisionEnter(Collision collision)
         {
-            if (!hasAuthority || OwnPlayer.Health == 0 || OwnPlayer.CarManager != this)
+            if (!hasAuthority || OwnPlayer.Health == 0 || IsZombie)
             {
                 return;
             }

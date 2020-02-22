@@ -4,7 +4,6 @@ using Racerr.Utility;
 using Racerr.World.Track;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Racerr.Infrastructure
@@ -27,7 +26,7 @@ namespace Racerr.Infrastructure
         {
             get
             {
-                if (carManager == null && carGO != null)
+                if (carGO != null && (carManager == null || (carManager != null && carManager.gameObject != carGO)))
                 {
                     carManager = carGO.GetComponent<CarManager>();
                 }
@@ -106,11 +105,6 @@ namespace Racerr.Infrastructure
         {
             if (carGO != null)
             {
-                if (CarManager.PlayerBar != null)
-                {
-                    Destroy(CarManager.PlayerBar.gameObject);
-                }
-                
                 zombieCarGOs.Add(carGO);
                 carGO = null;
                 carManager = null;
@@ -129,7 +123,6 @@ namespace Racerr.Infrastructure
             foreach (GameObject zombieCarGO in zombieCarGOs)
             {
                 NetworkServer.Destroy(zombieCarGO);
-                Destroy(zombieCarGO);
             }
 
             zombieCarGOs.Clear();
