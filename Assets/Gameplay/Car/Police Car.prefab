@@ -120,7 +120,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.634387, y: 1.476194, z: 4}
+  m_Size: {x: 2.4, y: 1.476194, z: 4}
   m_Center: {x: 0, y: 1.133863, z: -0.5180537}
 --- !u!1 &3201120400830195488
 GameObject:
@@ -198,7 +198,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.634387, y: 0.876194, z: 1.6}
+  m_Size: {x: 2.4, y: 0.876194, z: 1.6}
   m_Center: {x: 0, y: 0.833863, z: 1.981946}
 --- !u!1 &5619662515928263746
 GameObject:
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 6551271657150875904}
   - component: {fileID: 4230595685810533016}
   m_Layer: 0
-  m_Name: 7E_R.R Mesh
+  m_Name: R.R Mesh
   m_TagString: Wheel Mesh
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
