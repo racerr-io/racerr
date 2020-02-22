@@ -12,7 +12,7 @@ namespace Racerr.Utility
         /// <param name="monoBehaviour">The MonoBehavior to run the coroutine on.</param>
         /// <param name="yieldInstruction">The yield instruction.</param>
         /// <param name="action">Lambda function.</param>
-        public static void AsyncYieldThenExecute(this MonoBehaviour monoBehaviour, YieldInstruction yieldInstruction, Action action)
+        public static void YieldThenExecuteAsync(this MonoBehaviour monoBehaviour, YieldInstruction yieldInstruction, Action action)
         {
             monoBehaviour.StartCoroutine(YieldThenExecute(yieldInstruction, action));
         }
@@ -36,7 +36,7 @@ namespace Racerr.Utility
         /// <param name="monoBehaviour">The MonoBehavior to run the coroutine on.</param>
         /// <param name="condition">The boolean function which we wait to return true.</param>
         /// <param name="action">Lambda function.</param>
-        public static void AsyncWaitForConditionThenExecute(this MonoBehaviour monoBehaviour, Func<bool> condition, Action action)
+        public static void WaitForConditionThenExecuteAsync(this MonoBehaviour monoBehaviour, Func<bool> condition, Action action)
         {
             monoBehaviour.StartCoroutine(WaitForConditionThenExecute(condition, action));
         }

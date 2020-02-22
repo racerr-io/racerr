@@ -93,7 +93,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         void TransitionAfterWaitingPeriod()
         {
-            this.AsyncYieldThenExecute(new WaitForSeconds(duration), () =>
+            this.YieldThenExecuteAsync(new WaitForSeconds(duration), () =>
             {
                 if (allowTransition)
                 {
@@ -107,7 +107,7 @@ namespace Racerr.Infrastructure.Client
                         player.CmdCreatePoliceCarForPlayer();
 
                         // Wait for the server to spawn the car before we transition to race.
-                        this.AsyncWaitForConditionThenExecute(() => player.Health > 0, TransitionToRace);
+                        this.WaitForConditionThenExecuteAsync(() => player.Health > 0, TransitionToRace);
                     }
                 }
             });

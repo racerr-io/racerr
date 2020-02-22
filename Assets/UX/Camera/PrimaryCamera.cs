@@ -39,7 +39,7 @@ namespace Racerr.UX.Camera
             {
                 camType = value;
 
-                this.AsyncYieldThenExecute(new WaitForFixedUpdate(), () =>
+                this.YieldThenExecuteAsync(new WaitForFixedUpdate(), () =>
                 {
                     // Each car has various configurations for their PlayerBar, because we want to vary the position of the PlayerBar depending on the
                     // size of the car and position of the camera. Upon changing the CameraType, activate the correct configuration on all cars.
