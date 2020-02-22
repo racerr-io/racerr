@@ -7,6 +7,7 @@ using Racerr.UX.Car;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using UnityEngine;
 
 namespace Racerr.Gameplay.Car
@@ -98,6 +99,9 @@ namespace Racerr.Gameplay.Car
             GameObject PlayerBarGO = Instantiate(playerBarPrefab);
             PlayerBar = PlayerBarGO.GetComponent<PlayerBar>();
             PlayerBar.CarManager = this;
+            GetComponents<PlayerBarConfiguration>()
+                .Single(playerBarConfiguration => playerBarConfiguration.CameraType == ClientStateMachine.Singleton.PrimaryCamera.CamType)
+                .ApplyConfiguration();
         }
 
         /// <summary>

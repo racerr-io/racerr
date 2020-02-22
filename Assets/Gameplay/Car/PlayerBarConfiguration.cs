@@ -22,13 +22,7 @@ namespace Racerr.Gameplay.Car
         [SerializeField] float playerBarYDisplacement;
         [SerializeField] float playerBarScale;
 
-        CarManager carManager;
         public PrimaryCamera.CameraType CameraType => cameraType;
-
-        void Start()
-        {
-            carManager = GetComponent<CarManager>();
-        }
 
         /// <summary>
         /// Copies the values of the configuration to the
@@ -36,7 +30,7 @@ namespace Racerr.Gameplay.Car
         /// </summary>
         public void ApplyConfiguration()
         {
-            PlayerBar playerBar = carManager.PlayerBar;
+            PlayerBar playerBar = GetComponent<CarManager>().PlayerBar;
             if (playerBar != null)
             {
                 playerBar.XDisplacement = playerBarXDisplacement;
