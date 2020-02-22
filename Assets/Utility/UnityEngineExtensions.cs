@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Racerr.Utility
 {
+    /// <summary>
+    /// Extension functions for features in the Unity Engine.
+    /// </summary>
     public static class UnityEngineExtensions
     {
         /// <summary>
