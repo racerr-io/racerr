@@ -1,6 +1,9 @@
 ﻿namespace Racerr.Utility
 {
-    public static class TimeExtensions
+    /// <summary>
+    /// Extension functions for features in the C# language.
+    /// </summary>
+    public static class LanguageExtensions
     {
         /// <summary>
         /// Convert seconds to M:SS.FFF format.

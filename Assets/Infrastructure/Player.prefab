@@ -44,10 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d53522a5bbb35524fae836cb351d941c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
   syncInterval: 0
-  playerName: 
-  maxPlayerNameLength: 12
-  carPrefab: {fileID: 1018952010411425780, guid: aa65098f076c6e141991513d2b3608c8,
+  raceCarPrefab: {fileID: 1018952010411425780, guid: aa65098f076c6e141991513d2b3608c8,
+    type: 3}
+  policeCarPrefab: {fileID: 6285641333015487221, guid: 7bbc374695ed3ee41a00015a24338234,
     type: 3}
 --- !u!114 &5651618179451664781
 MonoBehaviour:
@@ -61,7 +62,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serverOnly: 0
+  m_AssetId: 
   m_SceneId: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
-  m_AssetId: 9f9445acfc573b24ea79c43374fc0738

@@ -10,9 +10,10 @@ namespace Racerr.Infrastructure.Client
 {
     public class ClientStartMenuState : LocalState
     {
+        [SerializeField] UIView startMenuView;
+
         const string defaultPlayerName = "Player";
         string RandomisedDefaultPlayerName => $"{defaultPlayerName} {Guid.NewGuid().ToString().Substring(0, 4)}";
-        [SerializeField] UIView startMenuView;
 
         /// <summary>
         /// Show the start menu view to the user.

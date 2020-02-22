@@ -1,6 +1,7 @@
 ﻿using Doozy.Engine.UI;
 using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Server;
+using Racerr.UX.Camera;
 using Racerr.UX.UI;
 using UnityEngine;
 
@@ -14,7 +15,6 @@ namespace Racerr.Infrastructure.Client
     {
         [SerializeField] ServerRaceState serverRaceState;
         [SerializeField] UIView raceView;
-
         [SerializeField] RaceTimerUIComponent raceTimerUIComponent;
         [SerializeField] CountdownTimerUIComponent countdownTimerUIComponent;
         [SerializeField] SpeedUIComponent speedUIComponent;
@@ -30,25 +30,15 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
-            ClientStateMachine.Singleton.SetPrimaryCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
+            ClientStateMachine.Singleton.PrimaryCamera.SetTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform, PrimaryCamera.CameraType.ThirdPerson);
             minimapUIComponent.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
         }
 
         /// <summary>
-        /// Called upon race finish or player death, where we will hide the Race UI and disable the car controller.
+        /// Called upon race finish or player death, where we will hide the Race UI.
         /// </summary>
-        /// <remarks>
-        /// On player death, the car will still remain on the track as we do not want the car to just disappear.
-        /// Instead, we will manually disable the player's car controller so they can't drive.
-        /// </remarks>
         public override void Exit()
         {
-            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
-            if (carManager != null)
-            {
-                carManager.SetIsActive(false);
-            }
-            
             raceView.Hide();
         }
 
@@ -89,18 +79,24 @@ namespace Racerr.Infrastructure.Client
         }
 
         /// <summary>
-        /// Transition the next client state. If the race is ended, we move to intermission. However, if the race is still going but we
-        /// have died or finished the race, we move to spectating.
+        /// Transition the next client state. If the race is ended, we move to intermission. However, if we crossed the finish line,
+        /// move to spectate, but if we died, show the death view.
         /// </summary>
         void CheckToTransition()
         {
+            Player player = ClientStateMachine.Singleton.LocalPlayer;
+
             if (ServerStateMachine.Singleton.StateType == StateEnum.Intermission)
             {
                 TransitionToIntermission();
             }
-            else if (ClientStateMachine.Singleton.LocalPlayer.IsDead || ClientStateMachine.Singleton.LocalPlayer.PosInfo.IsFinished)
+            else if (player.PosInfo.IsFinished)
             {
                 TransitionToSpectate();
+            }
+            else if (player.Health == 0)
+            {
+                TransitionToDeath();
             }
         }
 
@@ -112,6 +108,11 @@ namespace Racerr.Infrastructure.Client
         void TransitionToSpectate()
         {
             ClientStateMachine.Singleton.ChangeState(StateEnum.ClientSpectate);
+        }
+
+        void TransitionToDeath()
+        {
+            ClientStateMachine.Singleton.ChangeState(StateEnum.ClientDeath);
         }
     }
 }

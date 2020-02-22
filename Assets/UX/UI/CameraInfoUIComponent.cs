@@ -1,5 +1,4 @@
 ﻿using Racerr.UX.Camera;
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -22,13 +21,11 @@ namespace Racerr.UX.UI
         /// <param name="cameraType">The current type the primary camera is set to.</param>
         public void UpdateCameraInfo(PrimaryCamera.CameraType cameraType)
         {
-            if (cameraType == PrimaryCamera.CameraType.Overhead)
+            switch (cameraType)
             {
-                cameraInfoTMP.text = "Overhead";
-            }
-            else if (cameraType == PrimaryCamera.CameraType.ThirdPerson)
-            {
-                cameraInfoTMP.text = "Third person";
+                case PrimaryCamera.CameraType.Overhead: cameraInfoTMP.text = "Overhead"; break;
+                case PrimaryCamera.CameraType.ThirdPerson: cameraInfoTMP.text = "Third person"; break;
+                case PrimaryCamera.CameraType.Death: cameraInfoTMP.text = "Death"; break;
             }
         }
     }

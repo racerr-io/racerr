@@ -1,5 +1,6 @@
 ﻿using Doozy.Engine.UI;
 using Racerr.Infrastructure.Server;
+using Racerr.UX.Camera;
 using Racerr.UX.UI;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,6 @@ namespace Racerr.Infrastructure.Client
     {
         [SerializeField] ServerRaceState serverRaceState;
         [SerializeField] UIView spectateView;
-
         [SerializeField] RaceTimerUIComponent raceTimerUIComponent;
         [SerializeField] CountdownTimerUIComponent countdownTimerUIComponent;
         [SerializeField] LeaderboardUIComponent leaderboardUIComponent;
@@ -73,7 +73,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         /// <param name="player">The player object.</param>
         /// <returns>Boolean representing whether they are alive and racing.</returns>
-        bool IsSpectatable(Player player) => player != null && player.IsRacing;
+        bool IsSpectatable(Player player) => player != null && player.IsInRace;
 
         /// <summary>
         /// If our current spectated player disconnects or the user swaps the current spectated player
@@ -116,7 +116,7 @@ namespace Racerr.Infrastructure.Client
         void SetSpectateTarget(Player player)
         {
             spectateTarget = player;
-            ClientStateMachine.Singleton.SetPrimaryCameraTarget(player.CarManager.transform);
+            ClientStateMachine.Singleton.PrimaryCamera.SetTarget(player.CarManager.transform, PrimaryCamera.CameraType.ThirdPerson);
             minimapUIComponent.SetMinimapCameraTarget(player.CarManager.transform);
         }
 

@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Racerr.Gameplay.Car;
 using Racerr.Utility;
 using System;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace Racerr.Infrastructure.Server
     {
         [SerializeField] int maxRaceDuration = 90;
         [SerializeField] int remainingRaceDurationOnPlayerFinish = 30;
+
         [SyncVar] double raceFinishTime;
         public double RemainingRaceTime => raceFinishTime - NetworkTime.time;
 
@@ -38,9 +40,9 @@ namespace Racerr.Infrastructure.Server
         [Server]
         public override void Exit()
         {
-            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.CarManager != null))
+            foreach (Player player in raceSessionData.PlayersInRace)
             {
-                player.DestroyPlayersCar();
+                player.DestroyAllCarsForPlayer();
             }
         }
 
@@ -68,13 +70,14 @@ namespace Racerr.Infrastructure.Server
         {
             raceSessionData.FinishedPlayers.Add(player);
             player.PosInfo = new Player.PositionInfo(player.PosInfo.startTime, NetworkTime.time);
-            player.DestroyPlayersCar();
+            player.MarkPlayerCarAsZombie();
         }
 
         /// <summary>
         /// Server side only - call this function when the car moves through a checkpoint.
         /// Adds checkpoint to a set of checkpoints the player has passed through so that
-        /// we can calculate their position.
+        /// we can calculate their position. We ignore players passing through checkpoints
+        /// when they are not a racer (e.g. they are police).
         /// Additionally, check if the player has actually finished the race.
         /// </summary>
         /// <param name="player">The player that passed through.</param>
@@ -82,11 +85,14 @@ namespace Racerr.Infrastructure.Server
         [Server]
         public void NotifyPlayerPassedThroughCheckpoint(Player player, GameObject checkpoint)
         {
-            player.PosInfo.Checkpoints.Add(checkpoint);
-
-            if (checkpoint.name == GameObjectIdentifiers.FinishLineCheckpoint)
+            if (player.CarManager.CarType == CarManager.CarTypeEnum.Racer)
             {
-                NotifyPlayerFinished(player);
+                player.PosInfo.Checkpoints.Add(checkpoint);
+
+                if (checkpoint.name == GameObjectIdentifiers.FinishLineCheckpoint)
+                {
+                    NotifyPlayerFinished(player);
+                }
             }
         }
 
@@ -100,7 +106,7 @@ namespace Racerr.Infrastructure.Server
         {
             UpdateRaceFinishTimeIfAnyPlayerFinished();
 
-            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadPlayers.Count == raceSessionData.PlayersInRace.Count || RemainingRaceTime <= 0;
+            bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadAsRacerPlayers.Count == raceSessionData.PlayersInRace.Count || RemainingRaceTime <= 0;
             bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
 
             if (isRaceEmpty)
@@ -129,6 +135,7 @@ namespace Racerr.Infrastructure.Server
             }
         }
 
+        
         [Server]
         void TransitionToIntermission()
         {

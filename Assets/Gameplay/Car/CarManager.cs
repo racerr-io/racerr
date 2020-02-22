@@ -6,6 +6,8 @@ using Racerr.Utility;
 using Racerr.UX.Car;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
 using UnityEngine;
 
 namespace Racerr.Gameplay.Car
@@ -13,35 +15,83 @@ namespace Racerr.Gameplay.Car
     /// <summary>
     /// Car Manager for all cars in Racerr.
     /// Adds Racerr specific customisation to the vehicle, such as health and the player bar.
+    /// WARNING: Car must be automatically generated using Instantiate() and certain fields set (see contracts in Start()).
     /// </summary>
     [RequireComponent(typeof(CarPhysicsManager))]
     public class CarManager : NetworkBehaviour
     {
-        public Player OwnPlayer { get; private set; }
-
         [SerializeField] int maxHealth = 100;
         [SerializeField] GameObject playerBarPrefab;
 
-        const double otherCarDamageAdjustmentFactor = 0.00004f;
-        const double environmentDamageAdjustmentFactor = 0.00002f;
-        public int MaxHealth => maxHealth;
+        /* Player */
         [SyncVar] GameObject playerGO;
         public GameObject PlayerGO
         {
             get => playerGO;
-            set => playerGO = value;
+            set
+            {
+                Contract.Assert(playerGO == null, "PlayerGO must only be set once on instantiation.");
+                playerGO = value;
+            }
         }
+        public Player OwnPlayer { get; private set; }
+        public bool IsZombie => OwnPlayer.CarManager != this;
+
+        /* Player Bar */
+        public PlayerBar PlayerBar { get; private set; }
+
+        /* Health */
+        public int MaxHealth => maxHealth;
+        const double otherCarDamageAdjustmentFactor = 0.00004f;
+        const double environmentDamageAdjustmentFactor = 0.00002f;
+        [SyncVar] GameObject lastHitByPlayerGO;
+        public Player LastHitByPlayer
+        {
+            get
+            {
+                if (lastHitByPlayerGO != null)
+                {
+                    return lastHitByPlayerGO.GetComponentInParent<Player>();
+                }
+
+                return null;
+            }
+        }
+
+        /* Car Type */
+        public enum CarTypeEnum
+        {
+            Unset,
+            Racer,
+            Police
+        }
+        [SyncVar] CarTypeEnum carType = CarTypeEnum.Unset;
+        public CarTypeEnum CarType
+        {
+            get => carType;
+            set
+            {
+                Contract.Assert(carType == CarTypeEnum.Unset, "CarType must only be set once on instantiation.");
+                Contract.Assert(value != CarTypeEnum.Unset, "CarType cannot be set to Unset.");
+                carType = value;
+            }
+        }
+
+        /* Physics */
         CarPhysicsManager carPhysicsManager;
         public float SpeedKPH => carPhysicsManager.SpeedKPH;
         public List<Wheel> Wheels => carPhysicsManager.Wheels;
-        public PlayerBar PlayerBar { get; private set; }
         
         /// <summary>
         /// Called when the car is instantiated. Caches various fields for later use
         /// and instantiates the Player's Bar, which should appear above the car in the game.
+        /// Assumes PlayerGO and CarType has been set immediately after the car was Instantiate()'d.
         /// </summary>
         void Start()
         {
+            Contract.Assert(PlayerGO != null, "PlayerGO must be set after instantiating the object.");
+            Contract.Assert(carType != CarTypeEnum.Unset, "CarType must be set after instantiating the object.");
+
             OwnPlayer = PlayerGO.GetComponent<Player>();
             carPhysicsManager = GetComponent<CarPhysicsManager>();
 
@@ -49,6 +99,9 @@ namespace Racerr.Gameplay.Car
             GameObject PlayerBarGO = Instantiate(playerBarPrefab);
             PlayerBar = PlayerBarGO.GetComponent<PlayerBar>();
             PlayerBar.CarManager = this;
+            GetComponents<PlayerBarConfiguration>()
+                .Single(playerBarConfiguration => playerBarConfiguration.CameraType == ClientStateMachine.Singleton.PrimaryCamera.CamType)
+                .ApplyConfiguration();
         }
 
         /// <summary>
@@ -60,7 +113,7 @@ namespace Racerr.Gameplay.Car
         [ClientCallback]
         void OnCollisionEnter(Collision collision)
         {
-            if (!hasAuthority)
+            if (!hasAuthority || OwnPlayer.Health == 0 || IsZombie)
             {
                 return;
             }
@@ -77,8 +130,19 @@ namespace Racerr.Gameplay.Car
             }
             else if (isHitByOtherCarFront || isHitByOtherCarBackIntoOurBack)
             {
+                CmdSetLastHitPlayerGO(contactPoint.otherCollider.gameObject.GetComponentInParent<CarManager>().OwnPlayer.gameObject);
                 OwnPlayer.Health -= Convert.ToInt32(collisionForce.magnitude * otherCarDamageAdjustmentFactor);
             }
+        }
+
+        /// <summary>
+        /// Command send by the client to update the LastHitByPlayer on the server.
+        /// </summary>
+        /// <param name="lastHitByPlayerGO">The player GameObject of the player who hit this car.</param>
+        [Command]
+        void CmdSetLastHitPlayerGO(GameObject lastHitByPlayerGO)
+        {
+            this.lastHitByPlayerGO = lastHitByPlayerGO;
         }
 
         /// <summary>

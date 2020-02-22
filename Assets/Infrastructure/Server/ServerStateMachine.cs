@@ -152,7 +152,7 @@ namespace Racerr.Infrastructure.Server
             /* Server Only Properties */
             public List<Player> PlayersInRace { get; }
             public List<Player> FinishedPlayers { get; }
-            public IReadOnlyCollection<Player> DeadPlayers => PlayersInRace.Where(p => p.IsDead).ToArray();
+            public IReadOnlyCollection<Player> DeadAsRacerPlayers => PlayersInRace.Where(p => p.IsDeadAsRacer).ToArray();
 
             /// <summary>
             /// Return a list of Players ordered by:
@@ -169,7 +169,7 @@ namespace Racerr.Infrastructure.Server
                         .ThenByDescending(player => player.PosInfo.Checkpoints.Count)
                         .ThenBy(player =>
                         {
-                            GameObject[] checkpointsInRace = TrackGeneratorCommon.Singleton.CheckpointsInRace;
+                            GameObject[] checkpointsInRace = TrackGenerator.Singleton.CheckpointsInRace;
                             if (player.CarManager == null || checkpointsInRace == null)
                             {
                                 // For some reason the player has no car or the race hasn't started,
@@ -262,7 +262,7 @@ namespace Racerr.Infrastructure.Server
             int position = 1;
             foreach (Player player in raceSessionData.PlayersInRaceOrdered)
             {
-                if (player.IsDead || player.PosInfo.IsFinished)
+                if (player.IsDeadAsRacer || player.PosInfo.IsFinished)
                 {
                     leaderboardItems.Add(new PlayerLeaderboardItemDTO(position, player.PlayerName, player.PosInfo.TimeString));
                 }
