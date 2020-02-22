@@ -206,6 +206,7 @@ namespace Racerr.Infrastructure
                 }
                 else
                 {
+                    OnPlayerHealthChanged(value);
                     CmdSynchroniseHealth(value);
                 }
             }
