@@ -100,7 +100,7 @@ namespace Racerr.World.Track
         [Server]
         IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs, IReadOnlyCollection<Player> playersToSpawn)
         {
-            GameObject origin = new GameObject("Temporary Origin for Random Track Generator");
+            GameObject origin = new GameObject("Temporary Origin for Track Generator");
             GameObject currentTrackPiece = firstTrackPiecePrefab;
             int numTracks = 0;
 
