@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0
-  carPrefab: {fileID: 1018952010411425780, guid: aa65098f076c6e141991513d2b3608c8,
+  raceCarPrefab: {fileID: 1018952010411425780, guid: aa65098f076c6e141991513d2b3608c8,
     type: 3}
   policeCarPrefab: {fileID: 6285641333015487221, guid: 7bbc374695ed3ee41a00015a24338234,
     type: 3}

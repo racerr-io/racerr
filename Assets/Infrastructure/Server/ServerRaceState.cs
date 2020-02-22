@@ -40,9 +40,9 @@ namespace Racerr.Infrastructure.Server
         [Server]
         public override void Exit()
         {
-            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.CarManager != null))
+            foreach (Player player in raceSessionData.PlayersInRace)
             {
-                player.DestroyPlayersCar();
+                player.DestroyAllCarsForPlayer();
             }
         }
 
@@ -70,7 +70,7 @@ namespace Racerr.Infrastructure.Server
         {
             raceSessionData.FinishedPlayers.Add(player);
             player.PosInfo = new Player.PositionInfo(player.PosInfo.startTime, NetworkTime.time);
-            player.DestroyPlayersCar();
+            player.MarkPlayerCarAsZombie();
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using Racerr.Utility;
 using Racerr.World.Track;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Racerr.Infrastructure
@@ -14,6 +15,11 @@ namespace Racerr.Infrastructure
     public sealed class Player : NetworkBehaviour
     {
         #region Player's Car
+        [SerializeField] GameObject raceCarPrefab;
+        [SerializeField] GameObject policeCarPrefab;
+
+        public class SyncListGameObject : SyncList<GameObject> { }
+        readonly SyncListGameObject zombieCarGOs = new SyncListGameObject();
 
         [SyncVar] GameObject carGO;
         CarManager carManager;
@@ -31,33 +37,13 @@ namespace Racerr.Infrastructure
         }
 
         /// <summary>
-        /// Spawn the player's car in a given position, given the prefab to spawn and what type of car it is (Racer, Police).
+        /// Spawn race car for the player. Intended to be called by the Track Generator.
         /// </summary>
-        /// <param name="carPosition">Position to spawn.</param>
-        /// <param name="carPrefab">Car prefab to spawn.</param>
-        /// <param name="carType">The type of car being spawned.</param>
+        /// <param name="spawnPosition">Position to spawn.</param>
         [Server]
-        public void CreateCarForPlayer(Vector3 carPosition, GameObject carPrefab = null, CarManager.CarTypeEnum carType = CarManager.CarTypeEnum.Racer)
+        public void CreateRaceCarForPlayer(Vector3 spawnPosition)
         {
-            // If no car prefab is passed in, just select the default one.
-            if (carPrefab == null)
-            {
-                carPrefab = this.carPrefab;
-            }
-
-            // Destroy any existing car.
-            DestroyPlayersCar();
-
-            // Instantiate and setup car.
-            GameObject carGO = Instantiate(carPrefab, carPosition, carPrefab.transform.rotation);
-            carManager = carGO.GetComponent<CarManager>();
-            carManager.PlayerGO = gameObject;
-            carManager.CarType = carType;
-
-            // Setup and sync over network.
-            NetworkServer.Spawn(carGO, gameObject);
-            this.carGO = carGO;
-            Health = CarManager.MaxHealth;
+            CreateCarForPlayer(spawnPosition, raceCarPrefab, CarManager.CarTypeEnum.Racer);
         }
 
         /// <summary>
@@ -88,18 +74,65 @@ namespace Racerr.Infrastructure
         }
 
         /// <summary>
-        /// Destroy the Player's car from the server.
+        /// Spawn the player's car in a given position, given the prefab to spawn and what type of car it is (Racer, Police).
+        /// </summary>
+        /// <param name="spawnPosition">Position to spawn.</param>
+        /// <param name="carPrefab">Car prefab to spawn.</param>
+        /// <param name="carType">The type of car being spawned.</param>
+        [Server]
+        void CreateCarForPlayer(Vector3 spawnPosition, GameObject carPrefab, CarManager.CarTypeEnum carType)
+        {
+            // Mark any existing car as zombie (their car just stays on the track chilling).
+            MarkPlayerCarAsZombie();
+
+            // Instantiate and setup car.
+            GameObject carGO = Instantiate(carPrefab, spawnPosition, carPrefab.transform.rotation);
+            carManager = carGO.GetComponent<CarManager>();
+            carManager.PlayerGO = gameObject;
+            carManager.CarType = carType;
+
+            // Setup and sync over network.
+            NetworkServer.Spawn(carGO, gameObject);
+            this.carGO = carGO;
+            Health = CarManager.MaxHealth;
+        }
+
+        /// <summary>
+        /// Mark a car as a zombie, meaning it stays on the track
+        /// but cannot be driven and has no player bar.
         /// </summary>
         [Server]
-        public void DestroyPlayersCar()
+        public void MarkPlayerCarAsZombie()
         {
             if (carGO != null)
             {
-                NetworkServer.Destroy(carGO);
-                Destroy(carGO);
+                if (CarManager.PlayerBar != null)
+                {
+                    Destroy(CarManager.PlayerBar.gameObject);
+                }
+                
+                zombieCarGOs.Add(carGO);
                 carGO = null;
                 carManager = null;
             }
+        }
+
+        /// <summary>
+        /// Destroy all cars for the player, including all
+        /// zombie cars and the currently racing player car.
+        /// </summary>
+        [Server]
+        public void DestroyAllCarsForPlayer()
+        {
+            MarkPlayerCarAsZombie();
+
+            foreach (GameObject zombieCarGO in zombieCarGOs)
+            {
+                NetworkServer.Destroy(zombieCarGO);
+                Destroy(zombieCarGO);
+            }
+
+            zombieCarGOs.Clear();
         }
 
         #endregion
@@ -110,8 +143,6 @@ namespace Racerr.Infrastructure
 
         [SyncVar] string playerName;
         [SyncVar] bool isReady;
-        [SyncVar] [SerializeField] GameObject carPrefab;
-        [SyncVar] [SerializeField] GameObject policeCarPrefab;
         [SyncVar(hook = nameof(OnPlayerHealthChanged))] int health = 0;
         [SyncVar] PositionInfo positionInfo;
 
@@ -162,22 +193,6 @@ namespace Racerr.Infrastructure
                 else
                 {
                     CmdSynchroniseIsReady(value);
-                }
-            }
-        }
-
-        public GameObject CarPrefab
-        {
-            get => carPrefab;
-            set
-            {
-                if (isServer)
-                {
-                    carPrefab = value;
-                }
-                else
-                {
-                    CmdSynchroniseCarPrefab(value);
                 }
             }
         }
@@ -249,12 +264,6 @@ namespace Racerr.Infrastructure
         void CmdSynchronisePlayerName(string playerName)
         {
             this.playerName = playerName;
-        }
-
-        [Command]
-        void CmdSynchroniseCarPrefab(GameObject carPrefab)
-        {
-            this.carPrefab = carPrefab;
         }
 
         [Command]

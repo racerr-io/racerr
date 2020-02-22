@@ -207,7 +207,7 @@ namespace Racerr.World.Track
                     Vector3 distanceBetweenCars = new Vector3(0, 0, 10);
                     foreach (Player player in playersToSpawn.Where(player => player != null))
                     {
-                        player.CreateCarForPlayer(gridStartPosition);
+                        player.CreateRaceCarForPlayer(gridStartPosition);
                         gridStartPosition -= distanceBetweenCars;
                         yield return new WaitForFixedUpdate();
                     }

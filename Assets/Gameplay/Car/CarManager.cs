@@ -108,7 +108,7 @@ namespace Racerr.Gameplay.Car
         [ClientCallback]
         void OnCollisionEnter(Collision collision)
         {
-            if (!hasAuthority || OwnPlayer.Health == 0)
+            if (!hasAuthority || OwnPlayer.Health == 0 || OwnPlayer.CarManager != this)
             {
                 return;
             }
