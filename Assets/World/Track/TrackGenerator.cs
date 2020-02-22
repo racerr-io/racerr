@@ -202,13 +202,16 @@ namespace Racerr.World.Track
                         break;
                     }
 
-                    Vector3 firstCarStartLineDisplacement = new Vector3(0, 0.2f, -15);
+                    Vector3 firstCarStartLineDisplacement = new Vector3(4.5f, 0.2f, -15);
                     Vector3 gridStartPosition = startLine.position + firstCarStartLineDisplacement;
-                    Vector3 distanceBetweenCars = new Vector3(0, 0, 10);
+                    Vector3 verticalDistanceBetweenCars = new Vector3(0, 0, 10);
+                    Vector3 horizontalDistanceBetweenCars = new Vector3(9, 0, 0);
+                    int spawnedPlayers = 0;
                     foreach (Player player in playersToSpawn.Where(player => player != null))
                     {
                         player.CreateRaceCarForPlayer(gridStartPosition);
-                        gridStartPosition -= distanceBetweenCars;
+                        spawnedPlayers++;
+                        gridStartPosition -= verticalDistanceBetweenCars + horizontalDistanceBetweenCars * LanguageExtensions.Pow(-1, spawnedPlayers);
                         yield return new WaitForFixedUpdate();
                     }
                 }

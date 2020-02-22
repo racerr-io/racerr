@@ -36,5 +36,21 @@
             timeText += "." + fraction.ToString("000");
             return timeText;
         }
+
+        /// <summary>
+        /// Calculate powers in log n time.
+        /// </summary>
+        /// <param name="num"></param>
+        /// <param name="power"></param>
+        /// <returns></returns>
+        public static int Pow(int num, int power)
+        {
+            if (power == 0) return 1;
+
+            int a = Pow(num, power / 2);
+            a = a * a;
+            if (power % 2 == 1) a = a * num;
+            return a;
+        }
     }
 }
