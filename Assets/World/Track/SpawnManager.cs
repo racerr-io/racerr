@@ -23,6 +23,7 @@ namespace Racerr.World.Track
         /// <returns>IEnumerator for coroutine.</returns>
         public static IEnumerator SpawnRacerStartingGrid(GameObject startingTrackPiece, IEnumerable<Player> playersToSpawn)
         {
+            SentrySdk.AddBreadcrumb("Spawning players onto track.");
             Transform startLine = startingTrackPiece.transform.Find(GameObjectIdentifiers.StartLine);
             if (startLine == null)
             {
