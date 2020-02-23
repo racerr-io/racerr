@@ -195,25 +195,7 @@ namespace Racerr.World.Track
                 // Spawn the players cars onto the starting piece of the track
                 if (numTracks == 0)
                 {
-                    Transform startLine = newTrackPiece.transform.Find(GameObjectIdentifiers.StartLine);
-                    if (startLine == null)
-                    {
-                        Debug.LogError($"First Track Piece must have a GameObject named { GameObjectIdentifiers.StartLine } which marks the starting line.");
-                        break;
-                    }
-
-                    Vector3 firstCarStartLineDisplacement = new Vector3(4.5f, 0.5f, -15);
-                    Vector3 gridStartPosition = startLine.position + firstCarStartLineDisplacement;
-                    Vector3 verticalDistanceBetweenCars = new Vector3(0, 0, 10);
-                    Vector3 horizontalDistanceBetweenCars = new Vector3(9, 0, 0);
-                    int spawnedPlayers = 0;
-                    foreach (Player player in playersToSpawn.Where(player => player != null))
-                    {
-                        player.CreateRaceCarForPlayer(gridStartPosition);
-                        spawnedPlayers++;
-                        gridStartPosition -= verticalDistanceBetweenCars + horizontalDistanceBetweenCars * LanguageExtensions.Pow(-1, spawnedPlayers);
-                        yield return new WaitForFixedUpdate();
-                    }
+                    yield return SpawnManager.SpawnRacerStartingGrid(newTrackPiece, playersToSpawn);
                 }
 
                 // Wait for next physics calculation so that Track Piece Collision Detector works properly.
