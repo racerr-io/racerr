@@ -86,6 +86,7 @@ namespace Racerr.Infrastructure.Client
                     case StateEnum.ClientDeath: currentState = GetComponent<ClientDeathState>(); break;
                     default: throw new InvalidOperationException("Invalid Client ChangeState attempt: " + stateType.ToString());
                 }
+                SentrySdk.AddBreadcrumb($"Client State Machine for { LocalPlayer?.PlayerName } changed state from { StateType } to { stateType }.");
                 StateType = stateType;
             }
             catch (InvalidOperationException e)

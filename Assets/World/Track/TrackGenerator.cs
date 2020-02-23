@@ -1,4 +1,4 @@
-﻿using Mirror;
+using Mirror;
 using Racerr.Infrastructure;
 using Racerr.Utility;
 using System;
@@ -100,6 +100,7 @@ namespace Racerr.World.Track
         [Server]
         IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs, IReadOnlyCollection<Player> playersToSpawn)
         {
+            SentrySdk.AddBreadcrumb("Starting track generation.");
             GameObject origin = new GameObject("Temporary Origin for Track Generator");
             GameObject currentTrackPiece = firstTrackPiecePrefab;
             int numTracks = 0;
@@ -245,6 +246,7 @@ namespace Racerr.World.Track
                 return result;
             }).ToArray();
             RpcInvokeTrackGeneratedEvent();
+            SentrySdk.AddBreadcrumb("Track generator finished.");
         }
 
         /// <summary>

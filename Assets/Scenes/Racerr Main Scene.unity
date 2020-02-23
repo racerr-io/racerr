@@ -7629,6 +7629,7 @@ MonoBehaviour:
   - {fileID: 683854787}
   - {fileID: 1955343280}
   editorDebugMode: 0
+  sentryDSN: https://adbe3394a58a4cc9bfda55e734c72ae6@sentry.io/2778692
 --- !u!4 &1813844549
 Transform:
   m_ObjectHideFlags: 0

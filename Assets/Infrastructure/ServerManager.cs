@@ -13,6 +13,7 @@ namespace Racerr.Infrastructure
         [Header("Other")]
         [SerializeField] GameObject[] destroyOnHeadlessLoad;
         [SerializeField] EditorDebugModeEnum editorDebugMode;
+        [SerializeField] string sentryDSN;
 
         const string localServerAddress = "localhost";
         enum EditorDebugModeEnum
@@ -37,6 +38,8 @@ namespace Racerr.Infrastructure
             {
                 InitialiseNetworking();
             }
+
+            InitialiseSentry();
         }
 
         /// <summary>
@@ -103,6 +106,7 @@ namespace Racerr.Infrastructure
         /// <param name="conn">Player's connection info.</param>
         public override void OnServerAddPlayer(NetworkConnection conn)
         {
+            SentrySdk.AddBreadcrumb("Player connected.");
             GameObject player = Instantiate(playerPrefab);
             NetworkServer.AddPlayerForConnection(conn, player);
             ServerStateMachine.Singleton.AddNewPlayer(player);
@@ -114,8 +118,20 @@ namespace Racerr.Infrastructure
         /// <param name="conn">Player's connection info.</param>
         public override void OnServerDisconnect(NetworkConnection conn)
         {
+            SentrySdk.AddBreadcrumb("Player disconnected.");
             ServerStateMachine.Singleton.RemovePlayer(conn.identity.gameObject);
             NetworkServer.DestroyPlayerForConnection(conn);
+        }
+
+        /// <summary>
+        /// Sentry is an error detection solution. Any errors thrown during the execution of this application
+        /// will send an event to our account on Sentry.
+        /// </summary>
+        void InitialiseSentry()
+        {
+            SentrySdk sentrySdk = new GameObject("Sentry").AddComponent<SentrySdk>();
+            sentrySdk.Dsn = sentryDSN;
+            sentrySdk.Debug = Application.isEditor;
         }
     }
 }
