@@ -40,17 +40,17 @@
         /// <summary>
         /// Calculate powers in log n time.
         /// </summary>
-        /// <param name="num"></param>
-        /// <param name="power"></param>
-        /// <returns></returns>
-        public static int Pow(int num, int power)
+        /// <param name="num">Base number to be exponentiated.</param>
+        /// <param name="power">Power to raise base number by.</param>
+        /// <returns>Exponentiated number.</returns>
+        public static long FastPow(long num, long power)
         {
             if (power == 0) return 1;
 
-            int a = Pow(num, power / 2);
-            a = a * a;
-            if (power % 2 == 1) a = a * num;
-            return a;
+            long result = FastPow(num, power / 2);
+            result = result * result;
+            if (power % 2 == 1) result = result * num;
+            return result;
         }
     }
 }
