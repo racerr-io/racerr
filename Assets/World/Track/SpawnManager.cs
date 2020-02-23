@@ -37,8 +37,8 @@ namespace Racerr.World.Track
             foreach (Player player in playersToSpawn.Where(player => player != null))
             {
                 player.CreateRaceCarForPlayer(gridStartPosition);
-                spawnedPlayers++;
                 gridStartPosition -= verticalDistanceBetweenCars + horizontalDistanceBetweenCars * LanguageExtensions.FastPow(-1, spawnedPlayers);
+                spawnedPlayers++;
                 yield return new WaitForFixedUpdate();
             }
         }
