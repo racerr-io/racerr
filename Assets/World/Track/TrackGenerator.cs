@@ -100,6 +100,7 @@ namespace Racerr.World.Track
         [Server]
         IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs, IReadOnlyCollection<Player> playersToSpawn)
         {
+            SentrySdk.AddBreadcrumb("Starting track generation.");
             GameObject origin = new GameObject("Temporary Origin for Track Generator");
             GameObject currentTrackPiece = firstTrackPiecePrefab;
             int numTracks = 0;
@@ -195,6 +196,7 @@ namespace Racerr.World.Track
                 // Spawn the players cars onto the starting piece of the track
                 if (numTracks == 0)
                 {
+                    SentrySdk.AddBreadcrumb("Spawning players onto track.");
                     Transform startLine = newTrackPiece.transform.Find(GameObjectIdentifiers.StartLine);
                     if (startLine == null)
                     {
@@ -260,6 +262,7 @@ namespace Racerr.World.Track
                 return result;
             }).ToArray();
             RpcInvokeTrackGeneratedEvent();
+            SentrySdk.AddBreadcrumb("Track generator finished.");
         }
 
         /// <summary>

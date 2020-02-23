@@ -96,6 +96,9 @@ namespace Racerr.Infrastructure
             NetworkServer.Spawn(carGO, gameObject);
             this.carGO = carGO;
             Health = CarManager.MaxHealth;
+
+            // Log for Sentry Breadcrumb
+            SentrySdk.AddBreadcrumb($"Created new car for player { PlayerName } with carType { carType }.");
         }
 
         /// <summary>
@@ -111,6 +114,7 @@ namespace Racerr.Infrastructure
                 ZombieCarGOs.Add(carGO);
                 carGO = null;
                 carManager = null;
+                SentrySdk.AddBreadcrumb($"Marked { PlayerName }'s car as zombie.");
             }
         }
 
@@ -124,6 +128,7 @@ namespace Racerr.Infrastructure
             MarkPlayerCarAsZombie();
             ZombieCarGOs.ForEach(NetworkServer.Destroy);
             ZombieCarGOs.Clear();
+            SentrySdk.AddBreadcrumb($"Destroyed all cars for player { PlayerName }.");
         }
 
         #endregion

@@ -91,6 +91,7 @@ namespace Racerr.Infrastructure.Server
                     case StateEnum.ServerIdle: currentState = GetComponent<ServerIdleState>(); break;
                     default: throw new InvalidOperationException("Invalid Server ChangeState attempt: " + stateType.ToString());
                 }
+                SentrySdk.AddBreadcrumb($"Server State Machine change state from { StateType } to { stateType }.");
                 StateType = stateType;
             }
             catch (InvalidOperationException e)
@@ -111,6 +112,7 @@ namespace Racerr.Infrastructure.Server
         {
             Player player = playerGameObject.GetComponent<Player>();
             playersInServer.Add(player);
+            SentrySdk.AddBreadcrumb("Server State Machine added new player.");
         }
 
         /// <summary>
@@ -123,6 +125,7 @@ namespace Racerr.Infrastructure.Server
             Player player = playerGameObject.GetComponent<Player>();
             playersInServer.Remove(player);
             (currentState as RaceSessionState)?.RemovePlayer(player);
+            SentrySdk.AddBreadcrumb($"Server State Machine removed player { player.PlayerName }.");
         }
     }
 

@@ -71,6 +71,7 @@ namespace Racerr.Infrastructure.Server
             raceSessionData.FinishedPlayers.Add(player);
             player.PosInfo = new Player.PositionInfo(player.PosInfo.startTime, NetworkTime.time);
             player.MarkPlayerCarAsZombie();
+            SentrySdk.AddBreadcrumb($"{ player.PlayerName } finished the race.");
         }
 
         /// <summary>
