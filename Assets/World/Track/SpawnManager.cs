@@ -31,7 +31,7 @@ namespace Racerr.World.Track
             }
 
             Vector3 firstCarStartLineDisplacement = new Vector3(4.5f, 0.2f, -15);
-            Vector3 verticalDistanceBetweenCars = new Vector3(0, 0, 10);
+            Vector3 verticalDistanceBetweenCars = new Vector3(0, 0, 5);
             Vector3 horizontalDistanceBetweenCars = new Vector3(9, 0, 0);
             Vector3 gridStartPosition = startLine.position + firstCarStartLineDisplacement;
             int spawnedPlayers = 0;
