@@ -1,4 +1,4 @@
-﻿using Mirror;
+using Mirror;
 using Racerr.Infrastructure;
 using Racerr.Utility;
 using System;
@@ -196,23 +196,7 @@ namespace Racerr.World.Track
                 // Spawn the players cars onto the starting piece of the track
                 if (numTracks == 0)
                 {
-                    SentrySdk.AddBreadcrumb("Spawning players onto track.");
-                    Transform startLine = newTrackPiece.transform.Find(GameObjectIdentifiers.StartLine);
-                    if (startLine == null)
-                    {
-                        Debug.LogError($"First Track Piece must have a GameObject named { GameObjectIdentifiers.StartLine } which marks the starting line.");
-                        break;
-                    }
-
-                    Vector3 firstCarStartLineDisplacement = new Vector3(0, 0.2f, -15);
-                    Vector3 gridStartPosition = startLine.position + firstCarStartLineDisplacement;
-                    Vector3 distanceBetweenCars = new Vector3(0, 0, 10);
-                    foreach (Player player in playersToSpawn.Where(player => player != null))
-                    {
-                        player.CreateRaceCarForPlayer(gridStartPosition);
-                        gridStartPosition -= distanceBetweenCars;
-                        yield return new WaitForFixedUpdate();
-                    }
+                    yield return SpawnManager.SpawnRacerStartingGrid(newTrackPiece, playersToSpawn);
                 }
 
                 // Wait for next physics calculation so that Track Piece Collision Detector works properly.
