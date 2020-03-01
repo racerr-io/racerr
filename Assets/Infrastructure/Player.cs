@@ -59,13 +59,14 @@ namespace Racerr.Infrastructure
         /// </remarks>
         /// </summary>
         /// <param name="spawnPosition">Position to spawn.</param>
-        /// <param name="spawnRotation">Rotation to spawn.</param>
         [Command]
-        public void CmdCreatePoliceCarForPlayer(Vector3 spawnPosition, Quaternion spawnRotation)
+        public void CmdCreatePoliceCarForPlayer()
         {
             if (CarManager.CarType == CarManager.CarTypeEnum.Racer && IsDeadAsRacer)
             {
-                CreateCarForPlayer(spawnPosition, spawnRotation, policeCarPrefab, CarManager.CarTypeEnum.Police);
+                GameObject finishPosition = SpawnManager.GetPoliceCarOnFinishingGridPosition(this);
+                CreateCarForPlayer(finishPosition.transform.position, finishPosition.transform.rotation, policeCarPrefab, CarManager.CarTypeEnum.Police);
+                SpawnManager.policeCarsOnFinishingGrid.Add(this);
             }
         }
 
