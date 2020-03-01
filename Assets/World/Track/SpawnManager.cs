@@ -11,7 +11,11 @@ namespace Racerr.World.Track
     /// Manages spawning of all types of cars.
     /// </summary>
     public static class SpawnManager
-    {
+    {   
+        // Keep track of the police cars spawned that have not left the finishing track piece
+        // to ensure that we do not spawn two police cars in the same position.
+        private static List<Player> policeCarsOnFinishingGrid = new List<Player>();
+
         /// <summary>
         /// Spawns race cars on a given track piece in starting grid formation
         /// (https://www.motorsport.com/f1/photos/the-starting-grid-drivers-get-ready-for-the-pace-lap-4897739/4897739/).
@@ -60,13 +64,28 @@ namespace Racerr.World.Track
             {
                 throw new MissingComponentException($"Finishing Track Piece must have a GameObject named { GameObjectIdentifiers.FinishLine } which marks the finishing line.");
             }
+            // Apply the same rotation from the finishing track piece to the vectors that were originally used to calculate 
+            // the position of the car in the starting track piece so we can spawn the police cars in the same position 
+            // as if we were spawning the race cars on the starting track piece.
+            Vector3 firstCarStartLineDisplacement = finishingTrackPiece.transform.rotation * new Vector3(4.5f, 0.2f, -15);
+            Vector3 verticalDistanceBetweenCars = finishingTrackPiece.transform.rotation * new Vector3(0, 0, 5);
+            Vector3 horizontalDistanceBetweenCars = finishingTrackPiece.transform.rotation * new Vector3(9, 0, 0);
+            Vector3 gridFinishPosition = finishLine.position + firstCarStartLineDisplacement;
+            int spawnedPoliceCarsOnFinishingGrid = 0;
+            foreach (Player player in policeCarsOnFinishingGrid)
+            {
+                gridFinishPosition -= verticalDistanceBetweenCars + horizontalDistanceBetweenCars * LanguageExtensions.FastPow(-1, spawnedPoliceCarsOnFinishingGrid);
+                spawnedPoliceCarsOnFinishingGrid++;
+            }
 
-            Vector3 firstCarStartLineDisplacement = new Vector3(4.5f, 0.28f, -15);
-            Vector3 verticalDistanceBetweenCars = new Vector3(0, 0, 5);
-            Vector3 horizontalDistanceBetweenCars = new Vector3(9, 0, 0);
-            Vector3 gridFinishPosition = finishLine.position + new Vector3(0, 0.2f, 0);
             // Flip the police car around because we want it to be facing away from the finish line
             playerToSpawn.CmdCreatePoliceCarForPlayer(gridFinishPosition, finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180f, 0));
+            policeCarsOnFinishingGrid.Add(playerToSpawn);
+        }
+
+        public static void removePoliceCarOnFinishingGridList(Player player)
+        {
+            policeCarsOnFinishingGrid.Remove(player);
         }
     }
 }
