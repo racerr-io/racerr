@@ -65,8 +65,8 @@ namespace Racerr.World.Track
             Vector3 verticalDistanceBetweenCars = new Vector3(0, 0, 5);
             Vector3 horizontalDistanceBetweenCars = new Vector3(9, 0, 0);
             Vector3 gridFinishPosition = finishLine.position + new Vector3(0, 0.2f, 0);
-
-            playerToSpawn.CreateRaceCarForPlayer(gridFinishPosition, finishingTrackPiece.transform.rotation);
+            // Flip the police car around because we want it to be facing away from the finish line
+            playerToSpawn.CmdCreatePoliceCarForPlayer(gridFinishPosition, finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180f, 0));
         }
     }
 }

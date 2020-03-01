@@ -58,6 +58,8 @@ namespace Racerr.Infrastructure
         /// set to inactive and are activated when transitioning into Server Race State).
         /// </remarks>
         /// </summary>
+        /// <param name="spawnPosition">Position to spawn.</param>
+        /// <param name="spawnRotation">Rotation to spawn.</param>
         [Command]
         public void CmdCreatePoliceCarForPlayer(Vector3 spawnPosition, Quaternion spawnRotation)
         {
@@ -71,6 +73,7 @@ namespace Racerr.Infrastructure
         /// Spawn the player's car in a given position, given the prefab to spawn and what type of car it is (Racer, Police).
         /// </summary>
         /// <param name="spawnPosition">Position to spawn.</param>
+        /// <param name="spawnRotation">Rotation to spawn.</param>
         /// <param name="carPrefab">Car prefab to spawn.</param>
         /// <param name="carType">The type of car being spawned.</param>
         [Server]
