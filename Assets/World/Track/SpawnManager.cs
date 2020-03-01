@@ -58,9 +58,9 @@ namespace Racerr.World.Track
             GameObject finishPosition = new GameObject();
             // Grab finish line and add slight offset to finish line so car is not spawned inside the ground.
             // Need smarter way of spawn police cars, could spawn multiple cars onto the same spot...
-            GameObject[] checkpointsInRace = TrackGenerator.Singleton.CheckpointsInRace;
-            GameObject finishingTrackPiece = checkpointsInRace[checkpointsInRace.Length - 1];
-            Transform finishLine = finishingTrackPiece.transform;
+            TrackGenerator.SyncListGameObject generatedTrackPiecesInRace = TrackGenerator.Singleton.GeneratedTrackPieces;
+            GameObject finishingTrackPiece = generatedTrackPiecesInRace[generatedTrackPiecesInRace.Count - 1];
+            Transform finishLine = finishingTrackPiece.transform.Find(GameObjectIdentifiers.FinishLine);
             if (finishLine == null)
             {
                 throw new MissingComponentException($"Finishing Track Piece must have a GameObject named { GameObjectIdentifiers.FinishLine } which marks the finishing line.");
