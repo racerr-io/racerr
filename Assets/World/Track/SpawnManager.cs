@@ -69,7 +69,7 @@ namespace Racerr.World.Track
             // originally used to calculate the position of the car in the starting track piece so we can spawn the 
             // police cars in the same position as if we were spawning the race cars on the starting track piece but
             // facing away from the finish line.
-            Vector3 firstCarStartLineDisplacement = finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180f, 0) * new Vector3(4.5f, 0.1f, 45);
+            Vector3 firstCarStartLineDisplacement = finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180f, 0) * new Vector3(4.5f, 0.1f, -15);
             Vector3 verticalDistanceBetweenCars = finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180f, 0) * new Vector3(0, 0, 5);
             Vector3 horizontalDistanceBetweenCars = finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180f, 0) * new Vector3(9, 0, 0);
             Vector3 gridFinishPosition = finishLine.position + firstCarStartLineDisplacement;
