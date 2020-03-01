@@ -105,7 +105,9 @@ namespace Racerr.Infrastructure.Client
                     }
                     else if (player.IsDeadAsRacer)
                     {
-                        SpawnManager.SpawnPoliceCarOnFinishingGrid(player);
+                        GameObject finishPosition = SpawnManager.GetPoliceCarOnFinishingGridPosition(player);
+                        player.CmdCreatePoliceCarForPlayer(finishPosition.transform.position, finishPosition.transform.rotation);
+                        SpawnManager.policeCarsOnFinishingGrid.Add(player);
 
                         // Wait for the server to spawn the car before we transition to race.
                         this.WaitForConditionThenExecuteAsync(() => player.Health > 0, TransitionToRace);
