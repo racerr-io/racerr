@@ -196,7 +196,7 @@ namespace Racerr.World.Track
                 // Spawn the players cars onto the starting piece of the track
                 if (numTracks == 0)
                 {
-                    yield return SpawnManager.SpawnRacerStartingGrid(newTrackPiece, playersToSpawn);
+                    yield return SpawnManager.SpawnRaceCarOnStartingGrid(newTrackPiece, playersToSpawn);
                 }
 
                 // Wait for next physics calculation so that Track Piece Collision Detector works properly.

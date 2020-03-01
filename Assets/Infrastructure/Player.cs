@@ -42,9 +42,9 @@ namespace Racerr.Infrastructure
         /// </summary>
         /// <param name="spawnPosition">Position to spawn.</param>
         [Server]
-        public void CreateRaceCarForPlayer(Vector3 spawnPosition)
+        public void CreateRaceCarForPlayer(Vector3 spawnPosition, Quaternion spawnRotation)
         {
-            CreateCarForPlayer(spawnPosition, raceCarPrefab, CarManager.CarTypeEnum.Racer);
+            CreateCarForPlayer(spawnPosition, spawnRotation, raceCarPrefab, CarManager.CarTypeEnum.Racer);
         }
 
         /// <summary>
@@ -59,18 +59,11 @@ namespace Racerr.Infrastructure
         /// </remarks>
         /// </summary>
         [Command]
-        public void CmdCreatePoliceCarForPlayer()
+        public void CmdCreatePoliceCarForPlayer(Vector3 spawnPosition, Quaternion spawnRotation)
         {
             if (CarManager.CarType == CarManager.CarTypeEnum.Racer && IsDeadAsRacer)
             {
-                // Grab finish line and add slight offset to finish line so car is not spawned inside the ground.
-                // Need smarter way of spawn police cars, could spawn multiple cars onto the same spot...
-                GameObject[] checkpointsInRace = TrackGenerator.Singleton.CheckpointsInRace;
-                Vector3 finishLine = checkpointsInRace[checkpointsInRace.Length - 1].transform.position;
-                Vector3 spawnPosition = finishLine + new Vector3(0, 0.2f, 0);
-
-                // Spawn.
-                CreateCarForPlayer(spawnPosition, policeCarPrefab, CarManager.CarTypeEnum.Police);
+                CreateCarForPlayer(spawnPosition, spawnRotation, policeCarPrefab, CarManager.CarTypeEnum.Police);
             }
         }
 
@@ -81,13 +74,13 @@ namespace Racerr.Infrastructure
         /// <param name="carPrefab">Car prefab to spawn.</param>
         /// <param name="carType">The type of car being spawned.</param>
         [Server]
-        void CreateCarForPlayer(Vector3 spawnPosition, GameObject carPrefab, CarManager.CarTypeEnum carType)
+        void CreateCarForPlayer(Vector3 spawnPosition, Quaternion spawnRotation, GameObject carPrefab, CarManager.CarTypeEnum carType)
         {
             // Mark any existing car as zombie (their car just stays on the track, chilling).
             MarkPlayerCarAsZombie();
 
             // Instantiate and setup car.
-            GameObject carGO = Instantiate(carPrefab, spawnPosition, carPrefab.transform.rotation);
+            GameObject carGO = Instantiate(carPrefab, spawnPosition, spawnRotation);
             carManager = carGO.GetComponent<CarManager>();
             carManager.PlayerGO = gameObject;
             carManager.CarType = carType;
