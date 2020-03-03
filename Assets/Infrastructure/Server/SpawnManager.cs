@@ -72,7 +72,8 @@ namespace Racerr.Infrastructure.Server
                 player.CreateCarForPlayer(
                     CalculateGridPosition(startLine.position, spawnedPlayers),
                     startingTrackPiece.transform.rotation, 
-                    raceCarPrefab, CarTypeEnum.Racer);
+                    raceCarPrefab, 
+                    CarTypeEnum.Racer);
                 spawnedPlayers++;
                 yield return new WaitForFixedUpdate();
             }
