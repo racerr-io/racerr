@@ -1,5 +1,6 @@
 using Mirror;
 using Racerr.Infrastructure;
+using Racerr.Infrastructure.Server;
 using Racerr.Utility;
 using System;
 using System.Collections;
@@ -52,7 +53,7 @@ namespace Racerr.World.Track
             }
             else
             {
-                throw new Exception("You can only have one track generator in the scene. The extra track generator has been destroyed.");
+                throw new InvalidOperationException("You can only have one track generator in the scene.");
             }
         }
 
@@ -194,7 +195,7 @@ namespace Racerr.World.Track
                 // Spawn the players cars onto the starting piece of the track
                 if (numTracks == 0)
                 {
-                    yield return SpawnManager.SpawnRaceCarOnStartingGrid(newTrackPiece, playersToSpawn);
+                    yield return SpawnManager.Singleton.SpawnAllRaceCarsOnStartingGrid(newTrackPiece, playersToSpawn);
                 }
 
                 // Wait for next physics calculation so that Track Piece Collision Detector works properly.

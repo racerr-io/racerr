@@ -7163,6 +7163,7 @@ GameObject:
   - component: {fileID: 1584656527}
   - component: {fileID: 1584656526}
   - component: {fileID: 1584656525}
+  - component: {fileID: 1584656528}
   - component: {fileID: 1584656524}
   m_Layer: 0
   m_Name: Server
@@ -7261,6 +7262,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &1584656528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584656521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96436272961598948888d029773301b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  raceCarPrefab: {fileID: 1018952010411425780, guid: aa65098f076c6e141991513d2b3608c8,
+    type: 3}
+  policeCarPrefab: {fileID: 6285641333015487221, guid: 7bbc374695ed3ee41a00015a24338234,
+    type: 3}
 --- !u!114 &1597690728 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7681225044205310438, guid: d87e356e474fd3843a2f4b3e232fb3d8,

@@ -99,11 +99,7 @@ namespace Racerr.Infrastructure.Server
             }
             else if (player.CarManager.CarType == CarManager.CarTypeEnum.Police)
             {
-                GameObject[] checkpointsInRace = TrackGenerator.Singleton.CheckpointsInRace;
-                if (checkpoint == checkpointsInRace[checkpointsInRace.Length - 2])
-                {
-                    SpawnManager.policeCarsOnFinishingGrid.Remove(player);
-                }
+                SpawnManager.Singleton.NotifyPlayerPoliceCarNotOnFinishingGrid(player);
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿using Mirror;
 using Racerr.Gameplay.Car;
+using Racerr.Infrastructure.Server;
 using Racerr.Utility;
-using Racerr.World.Track;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,9 +16,6 @@ namespace Racerr.Infrastructure
         #region Player's Car
 
         /* Client and Server Properties */
-        [SerializeField] GameObject raceCarPrefab;
-        [SerializeField] GameObject policeCarPrefab;
-
         [SyncVar] GameObject carGO;
         CarManager carManager;
         public CarManager CarManager
@@ -38,39 +35,6 @@ namespace Racerr.Infrastructure
         List<GameObject> ZombieCarGOs { get; } = new List<GameObject>();
 
         /// <summary>
-        /// Spawn race car for the player. Intended to be called by the Track Generator.
-        /// </summary>
-        /// <param name="spawnPosition">Position to spawn.</param>
-        [Server]
-        public void CreateRaceCarForPlayer(Vector3 spawnPosition, Quaternion spawnRotation)
-        {
-            CreateCarForPlayer(spawnPosition, spawnRotation, raceCarPrefab, CarManager.CarTypeEnum.Racer);
-        }
-
-        /// <summary>
-        /// A command sent by the client when they are ready to spawn a police car.
-        /// This is specifically sent by the client only when they have died as a racer and are ready
-        /// to spawn the police car. This cannot be called at any other time.
-        /// We will spawn the police car at the finish line, so they can get revenge on the racers.
-        /// <remarks>
-        /// We assume that by default the police car prefab's vehicle controller is set to active, so
-        /// the car is immediately driveable after it is spawned (unlike the other cars, which are by default
-        /// set to inactive and are activated when transitioning into Server Race State).
-        /// </remarks>
-        /// </summary>
-        /// <param name="spawnPosition">Position to spawn.</param>
-        [Command]
-        public void CmdCreatePoliceCarForPlayer()
-        {
-            if (CarManager.CarType == CarManager.CarTypeEnum.Racer && IsDeadAsRacer)
-            {
-                GameObject finishPosition = SpawnManager.GetPoliceCarOnFinishingGridPosition(this);
-                CreateCarForPlayer(finishPosition.transform.position, finishPosition.transform.rotation, policeCarPrefab, CarManager.CarTypeEnum.Police);
-                SpawnManager.policeCarsOnFinishingGrid.Add(this);
-            }
-        }
-
-        /// <summary>
         /// Spawn the player's car in a given position, given the prefab to spawn and what type of car it is (Racer, Police).
         /// </summary>
         /// <param name="spawnPosition">Position to spawn.</param>
@@ -78,7 +42,7 @@ namespace Racerr.Infrastructure
         /// <param name="carPrefab">Car prefab to spawn.</param>
         /// <param name="carType">The type of car being spawned.</param>
         [Server]
-        void CreateCarForPlayer(Vector3 spawnPosition, Quaternion spawnRotation, GameObject carPrefab, CarManager.CarTypeEnum carType)
+        public void CreateCarForPlayer(Vector3 spawnPosition, Quaternion spawnRotation, GameObject carPrefab, CarManager.CarTypeEnum carType)
         {
             // Mark any existing car as zombie (their car just stays on the track, chilling).
             MarkPlayerCarAsZombie();
@@ -96,6 +60,17 @@ namespace Racerr.Infrastructure
 
             // Log for Sentry Breadcrumb
             SentrySdk.AddBreadcrumb($"Created new car for player { PlayerName } with carType { carType }.");
+        }
+
+        /// <summary>
+        /// A command sent by the client when they are ready to spawn a police car.
+        /// Client cannot call SpawnManager directly as Mirror can only send Commands through Player,
+        /// so this acts as a proxy.
+        /// </summary>
+        [Command]
+        public void CmdSpawnPoliceCarOnFinishingGrid()
+        {
+            SpawnManager.Singleton.SpawnPoliceCarOnFinishingGrid(this);
         }
 
         /// <summary>
