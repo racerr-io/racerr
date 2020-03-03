@@ -69,7 +69,10 @@ namespace Racerr.Infrastructure.Server
             int spawnedPlayers = 0;
             foreach (Player player in playersToSpawn.Where(player => player != null))
             {
-                player.CreateCarForPlayer(CalculateGridPosition(startLine.position, spawnedPlayers), startingTrackPiece.transform.rotation, raceCarPrefab, CarTypeEnum.Racer);
+                player.CreateCarForPlayer(
+                    CalculateGridPosition(startLine.position, spawnedPlayers),
+                    startingTrackPiece.transform.rotation, 
+                    raceCarPrefab, CarTypeEnum.Racer);
                 spawnedPlayers++;
                 yield return new WaitForFixedUpdate();
             }
