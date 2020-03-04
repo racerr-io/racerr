@@ -19,7 +19,7 @@ namespace Racerr.Infrastructure.Server
 
         [SerializeField] GameObject raceCarPrefab;
         [SerializeField] GameObject policeCarPrefab;
-        [SerializeField] Vector3 firstCarBaseLineDisplacement = new Vector3(4.5f, 0.1f, -15);
+        [SerializeField] Vector3 firstCarBaseLineDisplacement = new Vector3(4.5f, 0.28f, -15);
         [SerializeField] Vector3 verticalDistanceBetweenCars = new Vector3(0, 0, 5);
         [SerializeField] Vector3 horizontalDistanceBetweenCars = new Vector3(9, 0, 0);
 
@@ -67,7 +67,7 @@ namespace Racerr.Infrastructure.Server
             foreach (Player player in playersToSpawn.Where(player => player != null))
             {
                 player.CreateCarForPlayer(
-                    CalculateGridPosition(startLine.position, spawnedPlayers),
+                    startLine.position + CalculateGridPosition(spawnedPlayers),
                     startingTrackPiece.transform.rotation, 
                     raceCarPrefab,
                     CarManager.CarTypeEnum.Racer);
@@ -107,8 +107,8 @@ namespace Racerr.Infrastructure.Server
             // police cars in the same position as if we were spawning the race cars on the starting track piece but
             // facing away from the finish line.
             player.CreateCarForPlayer(
-                CalculateGridPosition(finishLine.position, policeCarsOnFinishingGrid.Count), 
-                finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180f, 0), 
+                finishLine.position + finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180f, 0) * CalculateGridPosition(policeCarsOnFinishingGrid.Count), 
+                finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180, 0), 
                 policeCarPrefab,
                 CarManager.CarTypeEnum.Police);
             policeCarsOnFinishingGrid.Add(player);
@@ -116,15 +116,13 @@ namespace Racerr.Infrastructure.Server
 
         /// <summary>
         /// Helper function allowing you to calculate the position of the car
-        /// on a starting/finishing grid given the starting/finishing line
-        /// and the car position.
+        /// on a starting/finishing grid given the car position.
+        /// Add the returned value with the starting/finishing line.
         /// </summary>
-        /// <param name="baseLine">Starting/finishing line position.</param>
         /// <param name="carPosNo">Car position number.</param>
         /// <returns>Grid position</returns>
-        Vector3 CalculateGridPosition(Vector3 baseLine, int carPosNo)
-        {
-            Vector3 result = baseLine + firstCarBaseLineDisplacement;
+        Vector3 CalculateGridPosition(int carPosNo) {
+            Vector3 result = firstCarBaseLineDisplacement;
             for (int curCarPosNo = 0; curCarPosNo < carPosNo; curCarPosNo++)
             {
                 result -= verticalDistanceBetweenCars + horizontalDistanceBetweenCars * LanguageExtensions.FastPow(-1, curCarPosNo);
