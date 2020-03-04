@@ -4,6 +4,7 @@ using Racerr.Infrastructure.Server;
 using Racerr.Utility;
 using Racerr.UX.Camera;
 using Racerr.UX.UI;
+using Racerr.World.Track;
 using UnityEngine;
 
 namespace Racerr.Infrastructure.Client
@@ -104,7 +105,7 @@ namespace Racerr.Infrastructure.Client
                     }
                     else if (player.IsDeadAsRacer)
                     {
-                        player.CmdCreatePoliceCarForPlayer();
+                        player.CmdSpawnPoliceCarOnFinishingGrid();
 
                         // Wait for the server to spawn the car before we transition to race.
                         this.WaitForConditionThenExecuteAsync(() => player.Health > 0, TransitionToRace);

@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using Racerr.Gameplay.Car;
 using Racerr.Utility;
+using Racerr.World.Track;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -78,7 +79,8 @@ namespace Racerr.Infrastructure.Server
         /// Server side only - call this function when the car moves through a checkpoint.
         /// Adds checkpoint to a set of checkpoints the player has passed through so that
         /// we can calculate their position. We ignore players passing through checkpoints
-        /// when they are not a racer (e.g. they are police).
+        /// when they are not a racer (e.g. they are police). Instead, we check if police
+        /// cars have left the finish line to avoid spawning them in the same position.
         /// Additionally, check if the player has actually finished the race.
         /// </summary>
         /// <param name="player">The player that passed through.</param>
@@ -94,6 +96,10 @@ namespace Racerr.Infrastructure.Server
                 {
                     NotifyPlayerFinished(player);
                 }
+            }
+            else if (player.CarManager.CarType == CarManager.CarTypeEnum.Police)
+            {
+                SpawnManager.Singleton.NotifyPlayerPoliceCarNotOnFinishingGrid(player);
             }
         }
 

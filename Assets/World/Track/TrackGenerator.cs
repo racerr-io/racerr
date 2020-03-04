@@ -1,5 +1,6 @@
 using Mirror;
 using Racerr.Infrastructure;
+using Racerr.Infrastructure.Server;
 using Racerr.Utility;
 using System;
 using System.Collections;
@@ -52,8 +53,7 @@ namespace Racerr.World.Track
             }
             else
             {
-                Debug.LogError("You can only have one track generator in the scene. The extra track generator has been destroyed.");
-                Destroy(this);
+                throw new InvalidOperationException("You can only have one track generator in the scene.");
             }
         }
 
@@ -184,8 +184,7 @@ namespace Racerr.World.Track
 
                 if (trackPieceLinkTransform == null)
                 {
-                    Debug.LogError("An error has occurred loading the track piece link during track generation for this track piece.");
-                    break;
+                    throw new MissingComponentException("An error has occurred loading the track piece link during track generation for this track piece.");
                 }
 
                 GameObject newTrackPiece = Instantiate(newTrackPiecePrefab);
@@ -196,7 +195,7 @@ namespace Racerr.World.Track
                 // Spawn the players cars onto the starting piece of the track
                 if (numTracks == 0)
                 {
-                    yield return SpawnManager.SpawnRacerStartingGrid(newTrackPiece, playersToSpawn);
+                    yield return SpawnManager.Singleton.SpawnAllRaceCarsOnStartingGrid(newTrackPiece, playersToSpawn);
                 }
 
                 // Wait for next physics calculation so that Track Piece Collision Detector works properly.
@@ -226,7 +225,7 @@ namespace Racerr.World.Track
 
             if (finalTrackPiecePrefab.transform.Find(GameObjectIdentifiers.FinishLineCheckpoint) == null)
             {
-                Debug.LogError($"Final Track Piece Prefab must have a GameObject named { GameObjectIdentifiers.FinishLineCheckpoint } in order for the finish line to function.");
+                throw new MissingComponentException($"Final Track Piece Prefab must have a GameObject named { GameObjectIdentifiers.FinishLineCheckpoint } in order for the finish line to function.");
             }
 
             // Cleanup and finish track generation
@@ -302,7 +301,7 @@ namespace Racerr.World.Track
 
             if (tracePieceLinkTransform == null)
             {
-                Debug.LogError("Track Piece Failure - Unable to load the Track Piece Link from the specified Track Piece. " +
+                throw new MissingComponentException("Track Piece Failure - Unable to load the Track Piece Link from the specified Track Piece. " +
                     $"Every Track Piece prefab requires a child game object called '{ GameObjectIdentifiers.Link }' which provides information on where to attach the next Track Piece.");
             }
 
