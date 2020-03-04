@@ -92,8 +92,7 @@ namespace Racerr.Infrastructure.Server
         {
             SentrySdk.AddBreadcrumb("Spawning police car onto track.");
 
-            // Grab finish line and add slight offset to finish line so car is not spawned inside the ground.
-            // Need smarter way of spawn police cars, could spawn multiple cars onto the same spot...
+            // Grab the finish line from the last track piece.
             TrackGenerator.SyncListGameObject generatedTrackPiecesInRace = TrackGenerator.Singleton.GeneratedTrackPieces;
             GameObject finishingTrackPiece = generatedTrackPiecesInRace[generatedTrackPiecesInRace.Count - 1];
             Transform finishLine = finishingTrackPiece.transform.Find(GameObjectIdentifiers.FinishLine);
@@ -106,11 +105,13 @@ namespace Racerr.Infrastructure.Server
             // originally used to calculate the position of the car in the starting track piece so we can spawn the 
             // police cars in the same position as if we were spawning the race cars on the starting track piece but
             // facing away from the finish line.
+            Quaternion spawnRotation = finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180, 0);
             player.CreateCarForPlayer(
-                finishLine.position + finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180f, 0) * CalculateGridPosition(policeCarsOnFinishingGrid.Count), 
-                finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180, 0), 
+                finishLine.position + spawnRotation * CalculateGridPosition(policeCarsOnFinishingGrid.Count),
+                spawnRotation, 
                 policeCarPrefab,
                 CarManager.CarTypeEnum.Police);
+
             policeCarsOnFinishingGrid.Add(player);
         }
 
