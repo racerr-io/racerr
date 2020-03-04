@@ -1,7 +1,7 @@
 ﻿using Mirror;
 using UnityEngine;
 
-namespace Racerr.Infrastructure
+namespace Racerr.Gameplay.Car
 {
     /// <summary>
     /// Custom designed interpolation for car driving.
