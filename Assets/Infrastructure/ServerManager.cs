@@ -107,6 +107,8 @@ namespace Racerr.Infrastructure
         /// </summary>
         public override void OnStartClient()
         {
+            base.OnStartClient();
+
             if (mode == NetworkManagerMode.ClientOnly)
             {
                 foreach (UnityEngine.Object unityEngineObject in destroyOnClientLoad)
