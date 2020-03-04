@@ -1,4 +1,4 @@
-﻿using Mirror;
+﻿using Racerr.Gameplay.Car;
 using Racerr.Utility;
 using Racerr.World.Track;
 using System;
@@ -6,16 +6,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static Racerr.Gameplay.Car.CarManager;
 
 namespace Racerr.Infrastructure.Server
 {
     /// <summary>
     /// Manages spawning of all types of cars.
+    /// WARNING: This class is only accessible on the server.
     /// </summary>
-    public class SpawnManager : NetworkBehaviour
+    public class SpawnManager : MonoBehaviour
     {
-        /* Client and Server Properties */
         public static SpawnManager Singleton;
 
         [SerializeField] GameObject raceCarPrefab;
@@ -24,7 +23,6 @@ namespace Racerr.Infrastructure.Server
         [SerializeField] Vector3 verticalDistanceBetweenCars = new Vector3(0, 0, 5);
         [SerializeField] Vector3 horizontalDistanceBetweenCars = new Vector3(9, 0, 0);
 
-        /* Server Only Properties */
         // Keep track of the police cars spawned that have not left the finishing track piece
         // to ensure that we do not spawn two police cars in the same position.
         readonly HashSet<Player> policeCarsOnFinishingGrid = new HashSet<Player>();
@@ -55,7 +53,6 @@ namespace Racerr.Infrastructure.Server
         /// <param name="startingTrackPiece">The track piece representing the first track.</param>
         /// <param name="playersToSpawn">The players you wish to spawn cars for.</param>
         /// <returns>IEnumerator for coroutine.</returns>
-        [Server]
         public IEnumerator SpawnAllRaceCarsOnStartingGrid(GameObject startingTrackPiece, IEnumerable<Player> playersToSpawn)
         {
             SentrySdk.AddBreadcrumb("Spawning players onto track.");
@@ -72,8 +69,8 @@ namespace Racerr.Infrastructure.Server
                 player.CreateCarForPlayer(
                     CalculateGridPosition(startLine.position, spawnedPlayers),
                     startingTrackPiece.transform.rotation, 
-                    raceCarPrefab, 
-                    CarTypeEnum.Racer);
+                    raceCarPrefab,
+                    CarManager.CarTypeEnum.Racer);
                 spawnedPlayers++;
                 yield return new WaitForFixedUpdate();
             }
@@ -82,8 +79,7 @@ namespace Racerr.Infrastructure.Server
         }
 
         /// <summary>
-        /// Spawn the police car for a given player, checking preconditions to ensure the police car
-        /// can only be spawned when they have died as a racer.
+        /// Spawn the police car for a given player.
         /// We will spawn the police car at the finish line, so they can get revenge on the racers.
         /// </summary>
         /// <remarks>
@@ -92,15 +88,8 @@ namespace Racerr.Infrastructure.Server
         /// set to inactive and are activated when transitioning into Server Race State).
         /// </remarks>
         /// <param name="player">The player you wish to spawn the police car for.</param>
-        [Server]
         public void SpawnPoliceCarOnFinishingGrid(Player player)
         {
-            if (player.CarManager.CarType != CarTypeEnum.Racer || !player.IsDeadAsRacer)
-            {
-                SentrySdk.AddBreadcrumb("Attempt to spawn police car onto track with failed precondition.");
-                return;
-            }
-
             SentrySdk.AddBreadcrumb("Spawning police car onto track.");
 
             // Grab finish line and add slight offset to finish line so car is not spawned inside the ground.
@@ -120,8 +109,8 @@ namespace Racerr.Infrastructure.Server
             player.CreateCarForPlayer(
                 CalculateGridPosition(finishLine.position, policeCarsOnFinishingGrid.Count), 
                 finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180, 0), 
-                policeCarPrefab, 
-                CarTypeEnum.Police);
+                policeCarPrefab,
+                CarManager.CarTypeEnum.Police);
             policeCarsOnFinishingGrid.Add(player);
         }
 
@@ -133,7 +122,6 @@ namespace Racerr.Infrastructure.Server
         /// <param name="baseLine">Starting/finishing line position.</param>
         /// <param name="carPosNo">Car position number.</param>
         /// <returns>Grid position</returns>
-        [Server]
         Vector3 CalculateGridPosition(Vector3 baseLine, int carPosNo)
         {
             Vector3 result = baseLine + firstCarBaseLineDisplacement;
@@ -151,7 +139,6 @@ namespace Racerr.Infrastructure.Server
         /// even when police car has left the finishing grid.
         /// </summary>
         /// <param name="player">The player that left the finishing grid area.</param>
-        [Server]
         public void NotifyPlayerPoliceCarNotOnFinishingGrid(Player player)
         {
             policeCarsOnFinishingGrid.Remove(player);

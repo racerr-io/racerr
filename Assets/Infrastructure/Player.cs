@@ -65,11 +65,18 @@ namespace Racerr.Infrastructure
         /// <summary>
         /// A command sent by the client when they are ready to spawn a police car.
         /// Client cannot call SpawnManager directly as Mirror can only send Commands through Player,
-        /// so this acts as a proxy.
+        /// so this acts as a proxy. We check preconditions to ensure the police car
+        /// can only be spawned when they have died as a racer.
         /// </summary>
         [Command]
         public void CmdSpawnPoliceCarOnFinishingGrid()
         {
+            if (CarManager.CarType != CarManager.CarTypeEnum.Racer || !IsDeadAsRacer)
+            {
+                SentrySdk.AddBreadcrumb("Attempt to spawn police car onto track with failed precondition.");
+                return;
+            }
+
             SpawnManager.Singleton.SpawnPoliceCarOnFinishingGrid(this);
         }
 

@@ -11,7 +11,8 @@ namespace Racerr.Infrastructure
     public class ServerManager : NetworkManager
     {
         [Header("Other")]
-        [SerializeField] GameObject[] destroyOnHeadlessLoad;
+        [SerializeField] UnityEngine.Object[] destroyOnHeadlessLoad;
+        [SerializeField] UnityEngine.Object[] destroyOnClientLoad;
         [SerializeField] EditorDebugModeEnum editorDebugMode;
         [SerializeField] string sentryDSN;
 
@@ -84,20 +85,37 @@ namespace Racerr.Infrastructure
         }
 
         /// <summary>
-        /// Special mode designed especially for deployment to a server. This will destroy all GameObjects
+        /// Special mode designed especially for deployment to a server. This will destroy all Unity Engine objects
         /// which are only useful for the client (such as the UI) to optimise server performance.
         /// We also limit the frame rate, as there is no point having the frame rate of the server be higher
         /// than the server update frequency.
         /// </summary>
         void StartHeadless()
         {
-            foreach (GameObject gameObject in destroyOnHeadlessLoad)
+            foreach (UnityEngine.Object unityEngineObject in destroyOnHeadlessLoad)
             {
-                Destroy(gameObject);
+                Destroy(unityEngineObject);
             }
 
             Application.targetFrameRate = serverTickRate;
             StartServer();
+        }
+
+        /// <summary>
+        /// When starting the game as a client only, destroy Unity Engine objects which are
+        /// only useful for the server to optimise performance.
+        /// </summary>
+        public override void OnStartClient()
+        {
+            base.OnStartClient();
+
+            if (mode == NetworkManagerMode.ClientOnly)
+            {
+                foreach (UnityEngine.Object unityEngineObject in destroyOnClientLoad)
+                {
+                    Destroy(unityEngineObject);
+                }
+            }
         }
 
         /// <summary>
