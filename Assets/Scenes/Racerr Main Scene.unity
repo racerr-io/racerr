@@ -7278,7 +7278,7 @@ MonoBehaviour:
     type: 3}
   policeCarPrefab: {fileID: 6285641333015487221, guid: 7bbc374695ed3ee41a00015a24338234,
     type: 3}
-  firstCarBaseLineDisplacement: {x: 4.5, y: 0.1, z: -15}
+  firstCarBaseLineDisplacement: {x: 4.5, y: 0.2, z: -15}
   verticalDistanceBetweenCars: {x: 0, y: 0, z: 5}
   horizontalDistanceBetweenCars: {x: 9, y: 0, z: 0}
 --- !u!114 &1597690728 stripped

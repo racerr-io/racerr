@@ -108,7 +108,7 @@ namespace Racerr.Infrastructure.Server
             // facing away from the finish line.
             player.CreateCarForPlayer(
                 CalculateGridPosition(finishLine.position, policeCarsOnFinishingGrid.Count), 
-                finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180, 0), 
+                finishingTrackPiece.transform.rotation * Quaternion.Euler(0, 180f, 0), 
                 policeCarPrefab,
                 CarManager.CarTypeEnum.Police);
             policeCarsOnFinishingGrid.Add(player);
