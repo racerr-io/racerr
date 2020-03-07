@@ -29,5 +29,10 @@ namespace Racerr.Gameplay.Car
             set => vehicleController.Active = value;
         }
         public List<Wheel> Wheels => vehicleController.Wheels;
+        public float Acceleration
+        {
+            get => vehicleController.engine.maxPower;
+            set => vehicleController.engine.maxPower = value;
+        }
     }
 }

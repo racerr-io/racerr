@@ -2930,6 +2930,7 @@ GameObject:
   - component: {fileID: 8149781810223015213}
   - component: {fileID: 9154556361411005636}
   - component: {fileID: 5442912667763404505}
+  - component: {fileID: -5325299565353342672}
   - component: {fileID: 8662730414564803931}
   m_Layer: 0
   m_Name: Police Car
@@ -3592,6 +3593,21 @@ MonoBehaviour:
   playerBarXDisplacementDrivingDown: 0
   playerBarYDisplacement: 2.1
   playerBarScale: 0.5
+--- !u!114 &-5325299565353342672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6285641333015487221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b3f236cf0e26e1469576879c6a928c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usageRegenRate: 3
+  usageConsumption: 2
+  accelerationMultiplier: 4
 --- !u!114 &8662730414564803931
 MonoBehaviour:
   m_ObjectHideFlags: 0

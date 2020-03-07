@@ -1,7 +1,6 @@
 ﻿using Doozy.Engine.UI;
 using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Server;
-using Racerr.UX.Camera;
 using Racerr.UX.UI;
 using UnityEngine;
 
@@ -22,6 +21,7 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] MinimapUIComponent minimapUIComponent;
         [SerializeField] CameraInfoUIComponent cameraInfoUIComponent;
         [SerializeField] RearViewMirrorUIComponent rearViewMirrorUIComponent;
+        [SerializeField] AbilityInfoUIComponent abilityInfoUIComponent;
 
         /// <summary>
         /// Called upon entering the race state on the client, where we show the Race UI.
@@ -30,7 +30,6 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
-            ClientStateMachine.Singleton.PrimaryCamera.SetTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform, PrimaryCamera.CameraType.ThirdPerson);
             minimapUIComponent.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
         }
 
@@ -75,6 +74,7 @@ namespace Racerr.Infrastructure.Client
             if (carManager != null)
             {
                 speedUIComponent.UpdateSpeed(carManager.SpeedKPH);
+                abilityInfoUIComponent.UpdateAbilityInfo(carManager.Ability);
             }
         }
 
