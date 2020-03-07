@@ -8369,8 +8369,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b3f236cf0e26e1469576879c6a928c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usageRegenRate: 3
   usageConsumption: 2
+  usageRegenRate: 3
   accelerationMultiplier: 4
 --- !u!114 &2388928030589524058
 MonoBehaviour:

@@ -118,6 +118,9 @@ namespace Racerr.Gameplay.Car
             }
         }
 
+        /// <summary>
+        /// Called every frame to determine if we have to activate the ability attached to the car.
+        /// </summary>
         void Update()
         {
             if (Ability != null && Input.GetKey(KeyCode.Space))

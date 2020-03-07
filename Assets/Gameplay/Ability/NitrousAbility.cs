@@ -12,8 +12,8 @@ namespace Racerr.Gameplay.Ability
     [RequireComponent(typeof(CarPhysicsManager))]
     public class NitrousAbility : MonoBehaviour, IAbility
     {
-        [SerializeField] float usageRegenRate = 3;
         [SerializeField] float usageConsumption = 2;
+        [SerializeField] float usageRegenRate = 3;
         [SerializeField] float accelerationMultiplier = 4;
 
         CarPhysicsManager carPhysicsManager;
@@ -23,7 +23,7 @@ namespace Racerr.Gameplay.Ability
 
         public string DisplayName => "Nitrous";
         public float CooldownRemaining { get; private set; }
-        public float MaximumCooldown { get; private set; }
+        public float MaximumCooldown => minimumUsageAllowed / usageRegenRate;
         public float MaximumUsage => 100;
         float usageRemaining;
         public float UsageRemaining
@@ -40,7 +40,6 @@ namespace Racerr.Gameplay.Ability
         void Start()
         {
             carPhysicsManager = GetComponent<CarPhysicsManager>();
-            MaximumCooldown = minimumUsageAllowed / usageRegenRate;
             UsageRemaining = MaximumUsage;
             originalAcceleration = targetAcceleration = carPhysicsManager.Acceleration;
         }
