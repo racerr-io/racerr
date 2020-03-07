@@ -38,7 +38,7 @@ namespace Racerr.UX.UI
                 }
                 else
                 {
-                    infoTMP.text = $"{ Math.Round(ability.UsageRemaining) }/{ ability.MaximumUsage }";
+                    infoTMP.text = $"{ Math.Round(ability.UsageRemaining) }/{ Math.Round(ability.MaximumUsage) }";
                 }
             }
             else
@@ -53,7 +53,7 @@ namespace Racerr.UX.UI
                 }
                 else
                 {
-                    infoTMP.text = $"{ Math.Round(ability.UsageRemaining) }/{ ability.MaximumUsage }";
+                    infoTMP.text = $"{ Math.Round(ability.UsageRemaining) }/{ Math.Round(ability.MaximumUsage) }";
                 }
             }
         }
