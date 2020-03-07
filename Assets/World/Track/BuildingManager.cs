@@ -32,7 +32,7 @@ namespace Racerr.World.Track
             buildingMeshFilter = GetComponent<MeshFilter>();
             buildingMeshRenderer = GetComponent<MeshRenderer>();
 
-            originalMesh = buildingMeshFilter.mesh;
+            originalMesh = buildingMeshFilter.sharedMesh;
             originalShader = buildingMeshRenderer.material.shader;
 
             for (int i = 0; i < transform.childCount; i++)
@@ -71,7 +71,7 @@ namespace Racerr.World.Track
         /// <returns>IEnumerator for coroutine.</returns>
         IEnumerator MakeTransparent()
         {
-            buildingMeshFilter.mesh = transparentMesh;
+            buildingMeshFilter.sharedMesh = transparentMesh;
             buildingMeshRenderer.material.shader = transparentShader;
             buildingMeshRenderer.material.SetFloat("_Glossiness", 0);
             activeChildren.ForEach(go => go.SetActive(false));
@@ -84,7 +84,7 @@ namespace Racerr.World.Track
         /// <returns>IEnumerator for coroutine.</returns>
         IEnumerator RevertToOriginal()
         {
-            buildingMeshFilter.mesh = originalMesh;
+            buildingMeshFilter.sharedMesh = originalMesh;
             yield return FadeTransparency(buildingMeshRenderer.material, 1f, 0.1f);
             buildingMeshRenderer.material.shader = originalShader;
             activeChildren.ForEach(go => go.SetActive(true));
