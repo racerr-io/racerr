@@ -3,45 +3,58 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class AbilityInfoUIComponent : MonoBehaviour
+namespace Racerr.UX.UI
 {
-    [SerializeField] TextMeshProUGUI displayNameTMP;
-    [SerializeField] TextMeshProUGUI infoTMP;
-
-    public void UpdateAbilityInfo(IAbility ability)
+    /// <summary>
+    /// Shows the current status of the ability attached to the
+    /// player's car.
+    /// </summary>
+    public class AbilityInfoUIComponent : MonoBehaviour
     {
-        if (ability == null)
-        {
-            displayNameTMP.text = infoTMP.text = null;
-            return;
-        }
+        [SerializeField] TextMeshProUGUI displayNameTMP;
+        [SerializeField] TextMeshProUGUI infoTMP;
 
-        displayNameTMP.text = ability.DisplayName;
-
-        if (!ability.IsActive)
+        /// <summary>
+        /// Given an ability, extract information from it and display
+        /// usage or cooldown information to the user, depending on the
+        /// state of the ability.
+        /// </summary>
+        /// <param name="ability">Ability.</param>
+        public void UpdateAbilityInfo(IAbility ability)
         {
-            if (ability.CooldownRemaining > 0)
+            if (ability == null)
             {
-                infoTMP.text = $"Cooldown: { ability.CooldownRemaining.ToString("N1") } seconds";
+                displayNameTMP.text = infoTMP.text = null;
+                return;
             }
-            else if (ability.UsageRemaining == ability.MaximumUsage)
+
+            displayNameTMP.text = ability.DisplayName;
+
+            if (ability.IsActive)
             {
-                infoTMP.text = "<  SPACE  >";
+                if (ability.UsageRemaining == ability.MaximumUsage)
+                {
+                    infoTMP.text = "Activated";
+                }
+                else
+                {
+                    infoTMP.text = $"{ Math.Round(ability.UsageRemaining) }/{ ability.MaximumUsage }";
+                }
             }
             else
             {
-                infoTMP.text = $"{ Math.Round(ability.UsageRemaining) }/{ ability.MaximumUsage }";
-            }
-        }
-        else
-        {
-            if (ability.UsageRemaining == ability.MaximumUsage)
-            {
-                infoTMP.text = "Activated";
-            }
-            else
-            {
-                infoTMP.text = $"{ Math.Round(ability.UsageRemaining) }/{ ability.MaximumUsage }";
+                if (ability.CooldownRemaining > 0)
+                {
+                    infoTMP.text = $"Cooldown: { ability.CooldownRemaining.ToString("N1") } seconds";
+                }
+                else if (ability.UsageRemaining == ability.MaximumUsage)
+                {
+                    infoTMP.text = "<  SPACE  >";
+                }
+                else
+                {
+                    infoTMP.text = $"{ Math.Round(ability.UsageRemaining) }/{ ability.MaximumUsage }";
+                }
             }
         }
     }
