@@ -67,6 +67,15 @@ namespace Racerr.UX.Camera
         }
 
         /// <summary>
+        /// Set the target only.
+        /// </summary>
+        /// <param name="target">Target transform to follow.</param>
+        public void SetTarget(Transform target)
+        {
+            this.target = target;
+        }
+
+        /// <summary>
         /// Called every frame. Upon presing the button, we can
         /// cycle through all the values in the CameraType enum
         /// so the user can switch between cameras.

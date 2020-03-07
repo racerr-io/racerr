@@ -22,16 +22,26 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] MinimapUIComponent minimapUIComponent;
         [SerializeField] CameraInfoUIComponent cameraInfoUIComponent;
         [SerializeField] RearViewMirrorUIComponent rearViewMirrorUIComponent;
+        [SerializeField] AbilityInfoUIComponent abilityInfoUIComponent;
 
         /// <summary>
-        /// Called upon entering the race state on the client, where we show the Race UI.
+        /// Called upon entering the race state on the client, where we show the Race UI. Will focus the minimap and primary
+        /// camera on the player's car.
         /// </summary>
-        /// <param name="optionalData">Should be null</param>
+        /// <param name="optionalData">Contains either null or the camera type that we should set the primary camera to.</param>
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
-            ClientStateMachine.Singleton.PrimaryCamera.SetTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform, PrimaryCamera.CameraType.ThirdPerson);
             minimapUIComponent.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
+
+            if (optionalData is PrimaryCamera.CameraType)
+            {
+                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform, (PrimaryCamera.CameraType)optionalData);
+            }
+            else
+            {
+                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
+            }
         }
 
         /// <summary>
@@ -75,6 +85,7 @@ namespace Racerr.Infrastructure.Client
             if (carManager != null)
             {
                 speedUIComponent.UpdateSpeed(carManager.SpeedKPH);
+                abilityInfoUIComponent.UpdateAbilityInfo(carManager.Ability);
             }
         }
 

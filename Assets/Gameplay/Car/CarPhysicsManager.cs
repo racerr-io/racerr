@@ -17,7 +17,7 @@ namespace Racerr.Gameplay.Car
         /// <summary>
         /// Called on instantiation and caches the NWH Vehicle Controller.
         /// </summary>
-        void Start()
+        void Awake()
         {
             vehicleController = GetComponent<VehicleController>();
         }
@@ -29,5 +29,10 @@ namespace Racerr.Gameplay.Car
             set => vehicleController.Active = value;
         }
         public List<Wheel> Wheels => vehicleController.Wheels;
+        public float Acceleration
+        {
+            get => vehicleController.engine.maxPower;
+            set => vehicleController.engine.maxPower = value;
+        }
     }
 }

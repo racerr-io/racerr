@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using NWH.VehiclePhysics;
+using Racerr.Gameplay.Ability;
 using Racerr.Infrastructure;
 using Racerr.Infrastructure.Client;
 using Racerr.Utility;
@@ -81,6 +82,9 @@ namespace Racerr.Gameplay.Car
         CarPhysicsManager carPhysicsManager;
         public float SpeedKPH => carPhysicsManager.SpeedKPH;
         public List<Wheel> Wheels => carPhysicsManager.Wheels;
+
+        /* Ability */
+        public IAbility Ability { get; private set; }
         
         /// <summary>
         /// Called when the car is instantiated. Caches various fields for later use
@@ -94,6 +98,7 @@ namespace Racerr.Gameplay.Car
 
             OwnPlayer = PlayerGO.GetComponent<Player>();
             carPhysicsManager = GetComponent<CarPhysicsManager>();
+            Ability = GetComponent<IAbility>(); // Assume cars have only one ability.
 
             // Instantiate and setup player's bar
             GameObject PlayerBarGO = Instantiate(playerBarPrefab);
@@ -102,6 +107,26 @@ namespace Racerr.Gameplay.Car
             GetComponents<PlayerBarConfiguration>()
                 .Single(playerBarConfiguration => playerBarConfiguration.CameraType == ClientStateMachine.Singleton.PrimaryCamera.CamType)
                 .ApplyConfiguration();
+
+            if (!hasAuthority)
+            {
+                // Destroy all components which are only required by the person
+                // driving the car.
+                Destroy(Ability as MonoBehaviour);
+                Ability = null;
+                Destroy(GetComponent<DesktopInputManager>());
+            }
+        }
+
+        /// <summary>
+        /// Called every frame to determine if we have to activate the ability attached to the car.
+        /// </summary>
+        void Update()
+        {
+            if (Ability != null && Input.GetKey(KeyCode.Space))
+            {
+                StartCoroutine(Ability.Activate());
+            }    
         }
 
         /// <summary>
