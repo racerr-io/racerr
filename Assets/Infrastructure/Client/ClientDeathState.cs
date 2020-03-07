@@ -138,7 +138,7 @@ namespace Racerr.Infrastructure.Client
 
         void TransitionToRace()
         {
-            ClientStateMachine.Singleton.ChangeState(StateEnum.Race);
+            ClientStateMachine.Singleton.ChangeState(StateEnum.Race, PrimaryCamera.CameraType.ThirdPerson);
         }
     }
 }
