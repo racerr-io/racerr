@@ -17,7 +17,7 @@ namespace Racerr.Gameplay.Car
         /// <summary>
         /// Called on instantiation and caches the NWH Vehicle Controller.
         /// </summary>
-        void Start()
+        void Awake()
         {
             vehicleController = GetComponent<VehicleController>();
         }
