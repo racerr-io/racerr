@@ -1,22 +1,22 @@
 name: Build and release
 
 on:
-  pull_request: {}
-  push: { branches: [master] }
+  pull_request:
+  push:
+    branches:
+      - master
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
-  buildForSomePlatforms:
-    name: ${{ matrix.targetPlatform }} (Unity ${{ matrix.unityVersion }})
+  buildAndRelease:
+    name: ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
-        unityVersion:
-          - 2019.2.17f1
         targetPlatform:
           - StandaloneWindows64
     steps:
@@ -25,7 +25,7 @@ jobs:
         with:
           lfs: true
 
-      - name: Prepare Unity library cache from previous build if available
+      - name: Prepare Unity library cache
         uses: actions/cache@master
         with:
           path: Library
@@ -34,7 +34,7 @@ jobs:
       - name: Build game
         uses: webbertakken/unity-builder@master
         with:
-          unityVersion: ${{ matrix.unityVersion }}
+          unityVersion: 2019.2.17f1
           targetPlatform: ${{ matrix.targetPlatform }}
 
       - name: Zip build asset
