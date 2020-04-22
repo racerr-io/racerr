@@ -26,7 +26,7 @@ jobs:
 
       - name: Determine versioning strategy
         uses: allenevans/set-env@master
-        if: github.ref != 'refs/heads/master'
+        if: github.ref == 'refs/heads/master'
         with:
           DEFAULT_BUMP: minor
 
@@ -41,7 +41,7 @@ jobs:
           tag_name: ${{ steps.create_tag.outputs.new_tag }}
           release_name: ${{ steps.create_tag.outputs.new_tag }}
           body: This is a build of the game executed by the pipeline.
-          prerelease: ${{ github.ref != 'refs/heads/master' }}
+          prerelease: ${{ github.ref == 'refs/heads/master' }}
     outputs:
       release_upload_url: ${{ steps.create_release.outputs.upload_url }}
 
