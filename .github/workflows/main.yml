@@ -1,4 +1,4 @@
-name: Build and release
+name: Pipeline
 
 on:
   pull_request:
@@ -11,104 +11,61 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
-  buildServer:
-    name: Build server
+  create_release:
+    name: Create release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@master
+      - name: Delete latest release
+        uses: ame-yu/action-delete-latest-release@master
         with:
-          lfs: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Prepare Unity library cache
-        uses: actions/cache@master
-        with:
-          path: Library
-          key: Library
-
-      - name: Build game
-        uses: webbertakken/unity-builder@master
-        with:
-          unityVersion: 2019.2.17f1
-          targetPlatform: StandaloneWindows64
-
-      - name: Compress build artifact
-        uses: montudor/action-zip@master
-        with:
-          args: zip -qq -r build.zip build
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: ServerBuild
-          path: build.zip
-
-  buildWebGLClient:
-    name: Build WebGL client
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@master
-        with:
-          lfs: true
-
-      - name: Prepare Unity library cache
-        uses: actions/cache@master
-        with:
-          path: Library
-          key: Library
-
-      - name: Build game
-        uses: webbertakken/unity-builder@master
-        with:
-          unityVersion: 2019.2.17f1
-          targetPlatform: WebGL
-
-      - name: Compress build artifact
-        uses: montudor/action-zip@master
-        with:
-          args: zip -qq -r build.zip build
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: WebGLClientBuild
-          path: build.zip
-
-  release:
-    name: Release
-    needs: [buildServer, buildWebGLClient]
-    runs-on: ubuntu-latest
-    steps:
       - name: Create release
         id: create_release
         uses: actions/create-release@master
         with:
           tag_name: ${{ github.sha }}
           release_name: ${{ github.sha }}
+    outputs:
+      release_upload_url: ${{ steps.create_release.outputs.upload_url }}
 
-      - name: Download server build artifact
-        uses: actions/download-artifact@master
+  build:
+    name: Build ${{ matrix.targetPlatform }}
+    needs: create_release
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        targetPlatform:
+          - StandaloneLinux64
+          - WebGL
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@master
         with:
-          name: ServerBuild
+          lfs: true
 
-      - name: Upload server build artifact to release
-        uses: actions/upload-release-asset@master
+      - name: Prepare Unity library cache
+        uses: actions/cache@master
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ServerBuild/build.zip
-          asset_name: ServerBuild
-          asset_content_type: application/zip
+          path: Library
+          key: Library
 
-      - name: Download WebGL client build artifact
-        uses: actions/download-artifact@master
+      - name: Build game
+        uses: webbertakken/unity-builder@master
         with:
-          name: WebGLClientBuild
+          unityVersion: 2019.2.17f1
+          targetPlatform: ${{ matrix.targetPlatform }}
 
-      - name: Upload WebGL client build artifact to release
-        uses: actions/upload-release-asset@master
+      - name: Compress build artifact
+        uses: montudor/action-zip@master
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: WebGLClientBuild/build.zip
-          asset_name: WebGLClientBuild
+          args: zip -qq -r build.zip build
+
+      - name: Upload build artifact to release
+        uses: actions/upload-artifact@master
+        with:
+          upload_url: ${{ needs.create_release.release_upload_url }}
+          asset_path: build.zip
+          asset_name: ${{ matrix.targetPlatform }}-Build
           asset_content_type: application/zip
