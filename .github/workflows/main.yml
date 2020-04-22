@@ -21,28 +21,28 @@ jobs:
         targetPlatform:
           - StandaloneWindows64
     steps:
-      - uses: actions/checkout@latest
+      - uses: actions/checkout@v2
         with:
           lfs: true
 
-      - uses: actions/cache@latest
+      - uses: actions/cache@v1
         with:
           path: /Library
           key: Library-${{ matrix.targetPlatform }}
 
-      - uses: webbertakken/unity-builder@latest
+      - uses: webbertakken/unity-builder@v0
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
 
-      - uses: montudor/action-zip@vlatest
+      - uses: montudor/action-zip@v0
         with:
           args: zip -qq -r ./build.zip ./build
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@latest
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
@@ -57,7 +57,7 @@ jobs:
 
       - name: Upload Release Asset
         id: upload-release-asset 
-        uses: actions/upload-release-asset@latest
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
