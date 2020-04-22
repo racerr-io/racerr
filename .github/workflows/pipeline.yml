@@ -44,7 +44,7 @@ jobs:
         with:
           tag_name: ${{ steps.create_tag.outputs.new_tag }}
           release_name: ${{ steps.create_tag.outputs.new_tag }}
-          body: This is a build of the game executed by the pipeline.
+          body: This is a build of the game executed by the [pipeline](https://github.com/racerr-io/unity-core/actions/runs/${{ env.GITHUB_RUN_ID }}).
           prerelease: ${{ github.ref != 'refs/heads/master' }}
     outputs:
       release_upload_url: ${{ steps.create_release.outputs.upload_url }}
