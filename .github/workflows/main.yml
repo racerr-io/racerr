@@ -36,7 +36,7 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
 
-      - uses: montudor/action-zip@v0
+      - uses: montudor/action-zip@v0.1.0
         with:
           args: zip -qq -r ./build.zip ./build
 
