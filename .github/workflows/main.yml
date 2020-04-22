@@ -11,14 +11,9 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
-  buildAndRelease:
-    name: ${{ matrix.targetPlatform }}
+  buildServer:
+    name: Build server
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        targetPlatform:
-          - StandaloneWindows64
     steps:
       - name: Checkout repository
         uses: actions/checkout@master
@@ -35,24 +30,40 @@ jobs:
         uses: webbertakken/unity-builder@master
         with:
           unityVersion: 2019.2.17f1
-          targetPlatform: ${{ matrix.targetPlatform }}
+          targetPlatform: StandaloneWindows64
 
-      - name: Zip build asset
+      - name: Compress build artifact
         uses: montudor/action-zip@master
         with:
           args: zip -qq -r build.zip build
 
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@master
+      - name: Upload build artifact
+        uses: actions/upload-artifact@master
         with:
-          tag_name: ${{ matrix.targetPlatform }}
-          release_name: ${{ matrix.targetPlatform }}
+          name: ServerBuild
+          path: build.zip
 
-      - name: Upload build asset to release
-        uses: actions/upload-release-asset@master
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build.zip
-          asset_name: Build
-          asset_content_type: application/zip
+  release:
+      name: Release
+      needs: buildServer
+      runs-on: ubuntu-latest
+      steps:
+        - name: Create release
+          id: create_release
+          uses: actions/create-release@master
+          with:
+            tag_name: ${{ github.ref }}
+            release_name: ${{ github.ref }}
+
+        - name: Download server build artifact
+          uses: actions/download-artifact@master
+          with:
+            name: ServerBuild
+
+        - name: Upload server build artifact to release
+          uses: actions/upload-release-asset@master
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: ServerBuild/build.zip
+            asset_name: ServerBuild
+            asset_content_type: application/zip
