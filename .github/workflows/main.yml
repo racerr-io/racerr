@@ -64,7 +64,7 @@ jobs:
           args: zip -qq -r build.zip build
 
       - name: Upload build artifact to release
-        uses: actions/upload-artifact@master
+        uses: actions/upload-release-asset@master
         with:
           upload_url: ${{ needs.create_release.release_upload_url }}
           asset_path: build.zip
