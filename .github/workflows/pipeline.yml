@@ -32,7 +32,7 @@ jobs:
         with:
           tag_name: ${{ steps.create_tag.outputs.new_tag }}
           release_name: ${{ steps.create_tag.outputs.new_tag }}
-          body: This is a build of the game executed by the pipeline. It is not necessarily master.
+          prerelease: true
     outputs:
       release_upload_url: ${{ steps.create_release.outputs.upload_url }}
 
@@ -56,7 +56,7 @@ jobs:
         uses: actions/cache@master
         with:
           path: Library
-          key: Library
+          key: Library-${{ matrix.targetPlatform }}
 
       - name: Build game
         uses: webbertakken/unity-builder@master
@@ -74,5 +74,5 @@ jobs:
         with:
           upload_url: ${{ needs.create_release.outputs.release_upload_url }}
           asset_path: build.zip
-          asset_name: ${{ matrix.targetPlatform }}-Build
+          asset_name: ${{ matrix.targetPlatform }}-Build.zip
           asset_content_type: application/zip
