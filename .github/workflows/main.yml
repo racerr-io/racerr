@@ -10,7 +10,7 @@ env:
 
 jobs:
   buildForSomePlatforms:
-    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+    name: ${{ matrix.targetPlatform }} (Unity ${{ matrix.unityVersion }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
@@ -21,26 +21,26 @@ jobs:
           - StandaloneWindows64
     steps:
       - name: Checkout repository
-      - uses: actions/checkout@latest
+        uses: actions/checkout@latest
         with:
           lfs: true
 
       - name: Prepare Unity library cache from previous build if available
-      - uses: actions/cache@latest
+        uses: actions/cache@latest
         with:
           path: Library
           key: Library
 
       - name: Build game
-      - uses: webbertakken/unity-builder@v0.12
+        uses: webbertakken/unity-builder@v0.12
         with:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
 
       - name: Zip build asset
-      - uses: montudor/action-zip@v0.1.0
+        uses: montudor/action-zip@v0.1.0
         with:
-          args: zip -qq -r ./build.zip ./build
+          args: zip -qq -r build.zip build
 
       - name: Create release
         id: create_release
@@ -53,6 +53,6 @@ jobs:
         uses: actions/upload-release-asset@latest
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build.zip
+          asset_path: build.zip
           asset_name: Build
           asset_content_type: application/zip
