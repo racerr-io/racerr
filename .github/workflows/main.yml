@@ -24,8 +24,9 @@ jobs:
         id: create_release
         uses: actions/create-release@master
         with:
-          tag_name: ${{ github.sha }}
-          release_name: ${{ github.sha }}
+          tag_name: latest
+          release_name: Latest Build
+          body: This is the latest build of the game executed by the pipeline. It is not necessarily master.
     outputs:
       release_upload_url: ${{ steps.create_release.outputs.upload_url }}
 
