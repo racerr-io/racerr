@@ -10,10 +10,6 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
-  # For tag creation
-  RELEASE_BRANCHES: .*
-  DEFAULT_BUMP: major
-
 jobs:
   create_release:
     name: Create release
@@ -24,15 +20,23 @@ jobs:
         with:
           fetch-depth: '0'
 
-      - name: Determine versioning strategy
-        uses: allenevans/set-env@master
+      - name: Set versioning strategy to major
         if: github.ref == 'refs/heads/master'
+        uses: allenevans/set-env@master
+        with:
+          DEFAULT_BUMP: major
+
+      - name: Set versioning strategy to minor
+        if: github.ref != 'refs/heads/master'
+        uses: allenevans/set-env@master
         with:
           DEFAULT_BUMP: minor
 
       - name: Create tag
         id: create_tag
         uses: anothrNick/github-tag-action@master
+        env:
+          RELEASE_BRANCHES: .*
 
       - name: Create release
         id: create_release
@@ -41,7 +45,7 @@ jobs:
           tag_name: ${{ steps.create_tag.outputs.new_tag }}
           release_name: ${{ steps.create_tag.outputs.new_tag }}
           body: This is a build of the game executed by the pipeline.
-          prerelease: ${{ github.ref == 'refs/heads/master' }}
+          prerelease: ${{ github.ref != 'refs/heads/master' }}
     outputs:
       release_upload_url: ${{ steps.create_release.outputs.upload_url }}
 
