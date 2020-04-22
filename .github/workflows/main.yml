@@ -43,27 +43,72 @@ jobs:
           name: ServerBuild
           path: build.zip
 
+  buildWebGLClient:
+    name: Build WebGL client
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@master
+        with:
+          lfs: true
+
+      - name: Prepare Unity library cache
+        uses: actions/cache@master
+        with:
+          path: Library
+          key: Library
+
+      - name: Build game
+        uses: webbertakken/unity-builder@master
+        with:
+          unityVersion: 2019.2.17f1
+          targetPlatform: WebGL
+
+      - name: Compress build artifact
+        uses: montudor/action-zip@master
+        with:
+          args: zip -qq -r build.zip build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: WebGLClientBuild
+          path: build.zip
+
   release:
-      name: Release
-      needs: buildServer
-      runs-on: ubuntu-latest
-      steps:
-        - name: Create release
-          id: create_release
-          uses: actions/create-release@master
-          with:
-            tag_name: ${{ github.ref }}
-            release_name: ${{ github.ref }}
+    name: Release
+    needs: [buildServer, buildWebGLClient]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@master
+        with:
+          tag_name: ${{ github.sha }}
+          release_name: ${{ github.sha }}
 
-        - name: Download server build artifact
-          uses: actions/download-artifact@master
-          with:
-            name: ServerBuild
+      - name: Download server build artifact
+        uses: actions/download-artifact@master
+        with:
+          name: ServerBuild
 
-        - name: Upload server build artifact to release
-          uses: actions/upload-release-asset@master
-          with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: ServerBuild/build.zip
-            asset_name: ServerBuild
-            asset_content_type: application/zip
+      - name: Upload server build artifact to release
+        uses: actions/upload-release-asset@master
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ServerBuild/build.zip
+          asset_name: ServerBuild
+          asset_content_type: application/zip
+
+      - name: Download WebGL client build artifact
+        uses: actions/download-artifact@master
+        with:
+          name: WebGLClientBuild
+
+      - name: Upload WebGL client build artifact to release
+        uses: actions/upload-release-asset@master
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: WebGLClientBuild/build.zip
+          asset_name: WebGLClientBuild
+          asset_content_type: application/zip
