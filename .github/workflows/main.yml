@@ -15,18 +15,24 @@ jobs:
     name: Create release
     runs-on: ubuntu-latest
     steps:
-      - name: Delete latest release
-        uses: ame-yu/action-delete-latest-release@master
+      - name: Checkout repository
+        uses: actions/checkout@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: '0'
+
+      - name: Create tag
+        id: create_tag
+        uses: anothrNick/github-tag-action@master
+        env:
+          RELEASE_BRANCHES: .*
 
       - name: Create release
         id: create_release
         uses: actions/create-release@master
         with:
-          tag_name: latest
-          release_name: Latest Build
-          body: This is the latest build of the game executed by the pipeline. It is not necessarily master.
+          tag_name: ${{ steps.create_tag.outputs.new_tag }}
+          release_name: ${{ steps.create_tag.outputs.new_tag }}
+          body: This is a build of the game executed by the pipeline. It is not necessarily master.
     outputs:
       release_upload_url: ${{ steps.create_release.outputs.upload_url }}
 
@@ -66,7 +72,7 @@ jobs:
       - name: Upload build artifact to release
         uses: actions/upload-release-asset@master
         with:
-          upload_url: ${{ needs.create_release.release_upload_url }}
+          upload_url: ${{ needs.create_release.outputs.release_upload_url }}
           asset_path: build.zip
           asset_name: ${{ matrix.targetPlatform }}-Build
           asset_content_type: application/zip
