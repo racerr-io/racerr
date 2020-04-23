@@ -96,21 +96,30 @@ jobs:
         with:
           args: zip -qq -r build.zip build
 
-      - name: Build and publish Docker image
-        if: matrix.targetPlatform == 'Server'
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: docker.pkg.github.com/racerr-io/unity-core/racerr
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          tags: "${{ needs.create_release.outputs.tag }}"
-
       - name: Upload build artifact to release
-        if: matrix.targetPlatform != 'Server'
         uses: actions/upload-release-asset@master
         with:
           upload_url: ${{ needs.create_release.outputs.release_upload_url }}
           asset_path: build.zip
           asset_name: ${{ matrix.targetPlatform }}Build.zip
           asset_content_type: application/zip
+
+      - name: Build and publish Docker image (staging)
+        if: matrix.targetPlatform == 'Server' && github.ref != 'refs/heads/master'
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: docker.pkg.github.com/racerr-io/unity-core/racerr
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          tags: "${{ needs.create_release.outputs.tag }},staging"
+
+      - name: Build and publish Docker image (production)
+        if: matrix.targetPlatform == 'Server' && github.ref == 'refs/heads/master'
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: docker.pkg.github.com/racerr-io/unity-core/racerr
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          tags: "${{ needs.create_release.outputs.tag }},prod"
