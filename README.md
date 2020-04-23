@@ -1,6 +1,6 @@
-# racerr.io unity-core
+# racerr.io
 
-Core Unity game files.
+The Unity game itself.
 
 ## Team Members
 
