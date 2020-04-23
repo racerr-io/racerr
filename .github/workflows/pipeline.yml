@@ -12,7 +12,7 @@ env:
 
 jobs:
   create_release:
-    name: Create release
+    name: Create Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -57,7 +57,9 @@ jobs:
       fail-fast: true
       matrix:
         targetPlatform:
-          - StandaloneLinux64
+          # Servers (special case, there can only be one)
+          - Server
+          # Clients
           - WebGL
     steps:
       - name: Checkout repository
@@ -71,25 +73,22 @@ jobs:
           path: Library
           key: Library-${{ matrix.targetPlatform }}
 
-      - name: Set buildOptions to None
-        if: matrix.targetPlatform != 'StandaloneLinux64'
-        uses: allenevans/set-env@master
+      - name: Build server
+        if: matrix.targetPlatform == 'Server'
+        uses: webbertakken/unity-builder@master
         with:
-          BUILD_OPTIONS: None
+          unityVersion: 2019.2.17f1
+          targetPlatform: StandaloneLinux64
+          buildMethod: Racerr.Editor.CICDPipeline.BuildProject
+          customParameters: -buildOptions EnableHeadlessMode
 
-      - name: Set buildOptions to Headless
-        if: matrix.targetPlatform == 'StandaloneLinux64'
-        uses: allenevans/set-env@master
-        with:
-          BUILD_OPTIONS: EnableHeadlessMode
-
-      - name: Build game
+      - name: Build client
+        if: matrix.targetPlatform != 'Server'
         uses: webbertakken/unity-builder@master
         with:
           unityVersion: 2019.2.17f1
           targetPlatform: ${{ matrix.targetPlatform }}
-          buildMethod: UnityBuilderAction.Builder.BuildProject
-          customParameters: -buildOptions ${{ env.BUILD_OPTIONS }}
+          buildMethod: Racerr.Editor.CICDPipeline.BuildProject
 
       - name: Compress build artifact
         uses: montudor/action-zip@master
@@ -101,5 +100,5 @@ jobs:
         with:
           upload_url: ${{ needs.create_release.outputs.release_upload_url }}
           asset_path: build.zip
-          asset_name: ${{ matrix.targetPlatform }}-Build.zip
+          asset_name: ${{ matrix.targetPlatform }}Build.zip
           asset_content_type: application/zip
