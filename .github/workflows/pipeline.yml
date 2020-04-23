@@ -48,6 +48,7 @@ jobs:
           prerelease: ${{ github.ref != 'refs/heads/master' }}
     outputs:
       release_upload_url: ${{ steps.create_release.outputs.upload_url }}
+      tag: ${{ steps.create_tag.outputs.new_tag }}
 
   build:
     name: Build ${{ matrix.targetPlatform }}
@@ -95,7 +96,18 @@ jobs:
         with:
           args: zip -qq -r build.zip build
 
+      - name: Build and publish Docker image
+        if: matrix.targetPlatform == 'Server'
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: docker.pkg.github.com/racerr-io/unity-core/racerr
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          tags: "${{ needs.create_release.outputs.tag }}"
+
       - name: Upload build artifact to release
+        if: matrix.targetPlatform != 'Server'
         uses: actions/upload-release-asset@master
         with:
           upload_url: ${{ needs.create_release.outputs.release_upload_url }}
