@@ -71,11 +71,25 @@ jobs:
           path: Library
           key: Library-${{ matrix.targetPlatform }}
 
+      - name: Set buildOptions to None
+        if: matrix.targetPlatform != 'StandaloneLinux64'
+        uses: allenevans/set-env@master
+        with:
+          BUILD_OPTIONS: None
+
+      - name: Set buildOptions to Headless
+        if: matrix.targetPlatform == 'StandaloneLinux64'
+        uses: allenevans/set-env@master
+        with:
+          BUILD_OPTIONS: EnableHeadlessMode
+
       - name: Build game
         uses: webbertakken/unity-builder@master
         with:
           unityVersion: 2019.2.17f1
           targetPlatform: ${{ matrix.targetPlatform }}
+          buildMethod: UnityBuilderAction.Builder.BuildProject
+          customParameters: -buildOptions ${{ env.BUILD_OPTIONS }}
 
       - name: Compress build artifact
         uses: montudor/action-zip@master
