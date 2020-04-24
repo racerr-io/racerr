@@ -46,7 +46,7 @@ jobs:
         with:
           tag_name: ${{ steps.create_tag.outputs.new_tag }}
           release_name: ${{ steps.create_tag.outputs.new_tag }}
-          body: This is a build of the game executed by the [pipeline](https://github.com/racerr-io/unity-core/actions/runs/${{ github.run_id }}).
+          body: This is a build of the game executed by the [pipeline](https://github.com/racerr-io/racerr/actions/runs/${{ github.run_id }}).
           prerelease: ${{ github.ref != 'refs/heads/master' }}
     outputs:
       release_upload_url: ${{ steps.create_release.outputs.upload_url }}
@@ -93,7 +93,7 @@ jobs:
       - name: Build and publish Docker image
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: docker.pkg.github.com/racerr-io/unity-core/racerr
+          name: docker.pkg.github.com/racerr-io/racerr/racerr
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
