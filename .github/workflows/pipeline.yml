@@ -20,21 +20,25 @@ jobs:
         with:
           fetch-depth: '0'
 
-      - name: Create tag (major)
+      - name: Set environment as production
         if: github.ref == 'refs/heads/master'
-        id: create_tag
-        uses: anothrNick/github-tag-action@master
-        env:
-          RELEASE_BRANCHES: .*
+        uses: allenevans/set-env@master
+        with:
           DEFAULT_BUMP: major
+          BUILD_ENV: prod
 
-      - name: Create tag (minor)
+      - name: Set environment as staging
         if: github.ref != 'refs/heads/master'
+        uses: allenevans/set-env@master
+        with:
+          DEFAULT_BUMP: minor
+          BUILD_ENV: staging
+
+      - name: Create tag
         id: create_tag
         uses: anothrNick/github-tag-action@master
         env:
           RELEASE_BRANCHES: .*
-          DEFAULT_BUMP: minor
 
       - name: Create release
         id: create_release
@@ -83,25 +87,14 @@ jobs:
           asset_name: ServerBuild.zip
           asset_content_type: application/zip
 
-      - name: Build and publish Docker image (staging)
-        if: github.ref != 'refs/heads/master'
+      - name: Build and publish Docker image
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: docker.pkg.github.com/racerr-io/unity-core/racerr
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          tags: "${{ needs.create_release.outputs.tag }},staging"
-
-      - name: Build and publish Docker image (production)
-        if: github.ref == 'refs/heads/master'
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: docker.pkg.github.com/racerr-io/unity-core/racerr
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          tags: "${{ needs.create_release.outputs.tag }},prod"
+          tags: "${{ needs.create_release.outputs.tag }},${{ env.BUILD_ENV }}"
 
   buildWebGLClient:
     name: Build WebGL client
