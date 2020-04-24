@@ -51,6 +51,7 @@ jobs:
     outputs:
       release_upload_url: ${{ steps.create_release.outputs.upload_url }}
       tag: ${{ steps.create_tag.outputs.new_tag }}
+      build_env: ${{ env.BUILD_ENV }}
 
   buildServer:
     name: Build server
@@ -59,6 +60,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@master
+        with:
+          lfs: true
 
       - name: Prepare Unity library cache
         uses: actions/cache@master
@@ -94,7 +97,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          tags: "${{ needs.create_release.outputs.tag }},${{ env.BUILD_ENV }}"
+          tags: "${{ needs.create_release.outputs.tag }},${{ needs.create_release.outputs.build_env }}"
 
   buildWebGLClient:
     name: Build WebGL client
@@ -103,6 +106,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@master
+        with:
+          lfs: true
 
       - name: Prepare Unity library cache
         uses: actions/cache@master
