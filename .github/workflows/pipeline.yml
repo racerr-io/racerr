@@ -134,3 +134,10 @@ jobs:
           asset_path: build.zip
           asset_name: WebGLBuild.zip
           asset_content_type: application/zip
+
+      - name: Trigger master job on WebGL Client Service
+        uses: peter-evans/repository-dispatch@master
+        with:
+          token: ${{ secrets.RYAN_PERSONAL_TOKEN }}
+          repository: racerr-io/webgl-client-service
+          event-type: updated-webgl-client-build
