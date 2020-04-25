@@ -142,12 +142,14 @@ jobs:
           path: webgl-client-service
           token: ${{ secrets.RYAN_PERSONAL_TOKEN }}
 
-      - name: Create new commit in WebGL Client Service repository
+      - name: Update Racerr version in WebGL Client Service repository
         working-directory: webgl-client-service
         run: | 
+          echo "${{ needs.create_release.outputs.tag }}" > RACERR_VERSION.txt
           git config user.email "racerr.io.dev@gmail.com"
           git config user.name "Racerr CI/CD Service"
-          git commit --allow-empty -m "Updated WebGL Client Build Binaries - ${{ needs.create_release.outputs.tag }} (${{ needs.create_release.outputs.build_env }})."
+          git add RACERR_VERSION.txt
+          git commit -m "Updated Racerr version to ${{ needs.create_release.outputs.tag }}."
 
       - name: Push commit to WebGL Client Service repository
         uses: ad-m/github-push-action@master
