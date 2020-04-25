@@ -147,7 +147,7 @@ jobs:
         run: | 
           git config user.email "racerr.io.dev@gmail.com"
           git config user.name "Racerr CI/CD Service"
-          git commit --allow-empty -m "Updated WebGL Client Build - ${{ needs.create_release.outputs.tag }} (${{ needs.create_release.outputs.build_env }})."
+          git commit --allow-empty -m "Updated WebGL Client Build Binaries - ${{ needs.create_release.outputs.tag }} (${{ needs.create_release.outputs.build_env }})."
 
       - name: Push commit to WebGL Client Service repository
         uses: ad-m/github-push-action@master
