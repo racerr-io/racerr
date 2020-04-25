@@ -135,17 +135,18 @@ jobs:
           asset_name: WebGLBuild.zip
           asset_content_type: application/zip
 
-      - name: Checkout WebGL Client Service
+      - name: Checkout WebGL Client Service repository
         uses: actions/checkout@master
         with:
           repository: racerr-io/webgl-client-service
           path: webgl-client-service
+          token: ${{ secrets.RYAN_PERSONAL_TOKEN }}
 
-      - name: Create new commit in WebGL Client Service
+      - name: Create new commit in WebGL Client Service repository
         working-directory: webgl-client-service
         run: git commit --allow-empty -m "Updated WebGL Client Build - ${{ needs.create_release.outputs.tag }} (${{ needs.create_release.outputs.build_env }})."
 
-      - name: Push changes
+      - name: Push commit to WebGL Client Service repository
         uses: ad-m/github-push-action@master
         with:
           directory: webgl-client-service
