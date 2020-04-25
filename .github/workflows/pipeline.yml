@@ -135,9 +135,19 @@ jobs:
           asset_name: WebGLBuild.zip
           asset_content_type: application/zip
 
-      - name: Trigger master job on WebGL Client Service
-        uses: peter-evans/repository-dispatch@master
+      - name: Checkout WebGL Client Service
+        uses: actions/checkout@master
         with:
-          token: ${{ secrets.RYAN_PERSONAL_TOKEN }}
           repository: racerr-io/webgl-client-service
-          event-type: updated-webgl-client-build
+          path: webgl-client-service
+
+      - name: Create new commit in WebGL Client Service
+        working-directory: webgl-client-service
+        run: git commit --allow-empty -m "Updated WebGL Client Build - ${{ needs.create_release.outputs.tag }} (${{ needs.create_release.outputs.build_env }})."
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          directory: webgl-client-service
+          repository: racerr-io/webgl-client-service
+          github_token: ${{ secrets.RYAN_PERSONAL_TOKEN }}
