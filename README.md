@@ -7,7 +7,7 @@ Massively multiplayer online racing right inside your browser, no install requir
 Download the version of Unity specified in the [ProjectVersion file](ProjectSettings/ProjectVersion.txt). Then simply open the project and you are ready to go!
 Create a pull request with your changes to trigger a pipeline to automatically build the game and push to [racerr.io](http://racerr.io).
 
-## Team Members
+## Team members
 
 * Tony Tang [@Mysterise](https://github.com/Mysterise)
 * Ryan Fallah [@RFSurdsman](https://github.com/RFSurdsman)
