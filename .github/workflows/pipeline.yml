@@ -100,7 +100,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          tags: "${{ needs.create_release.outputs.tag }},${{ needs.create_release.outputs.build_env }}"
+          tags: "${{ needs.create_release.outputs.tag }},${{ needs.create_release.outputs.build_env }},staging"
 
       - name: Deploy to Amazon ECS
         run: aws ecs update-service --cluster racerr-io --service racerr --force-new-deployment
