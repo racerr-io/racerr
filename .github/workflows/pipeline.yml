@@ -1,0 +1,165 @@
+name: Pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ap-southeast-2
+
+jobs:
+  create_release:
+    name: Create release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@master
+        with:
+          fetch-depth: '0'
+
+      - name: Set environment as production
+        if: github.ref == 'refs/heads/master'
+        uses: allenevans/set-env@master
+        with:
+          DEFAULT_BUMP: major
+          BUILD_ENV: prod
+
+      - name: Set environment as staging
+        if: github.ref != 'refs/heads/master'
+        uses: allenevans/set-env@master
+        with:
+          DEFAULT_BUMP: minor
+          BUILD_ENV: staging
+
+      - name: Create tag
+        id: create_tag
+        uses: anothrNick/github-tag-action@master
+        env:
+          RELEASE_BRANCHES: .*
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@master
+        with:
+          tag_name: ${{ steps.create_tag.outputs.new_tag }}
+          release_name: ${{ steps.create_tag.outputs.new_tag }}
+          body: This is a build of the game executed by the [pipeline](https://github.com/racerr-io/racerr/actions/runs/${{ github.run_id }}).
+          prerelease: ${{ github.ref != 'refs/heads/master' }}
+    outputs:
+      release_upload_url: ${{ steps.create_release.outputs.upload_url }}
+      tag: ${{ steps.create_tag.outputs.new_tag }}
+      build_env: ${{ env.BUILD_ENV }}
+
+  buildServer:
+    name: Build server
+    needs: create_release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@master
+        with:
+          lfs: true
+
+      - name: Prepare Unity library cache
+        uses: actions/cache@master
+        with:
+          path: Library
+          key: Library-Server
+
+      - name: Build game
+        uses: webbertakken/unity-builder@master
+        with:
+          unityVersion: 2019.2.17f1
+          targetPlatform: StandaloneLinux64
+          buildMethod: Racerr.Editor.CICDPipeline.BuildProject
+          customParameters: -buildOptions EnableHeadlessMode
+
+      - name: Compress build artifact
+        uses: montudor/action-zip@master
+        with:
+          args: zip -qq -r build.zip build
+
+      - name: Upload build artifact to release
+        uses: actions/upload-release-asset@master
+        with:
+          upload_url: ${{ needs.create_release.outputs.release_upload_url }}
+          asset_path: build.zip
+          asset_name: ServerBuild.zip
+          asset_content_type: application/zip
+
+      - name: Build and publish Docker image
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: docker.pkg.github.com/racerr-io/racerr/racerr
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          tags: "${{ needs.create_release.outputs.tag }},${{ needs.create_release.outputs.build_env }},staging"
+
+      - name: Deploy to Amazon ECS
+        run: aws ecs update-service --cluster racerr-io --service racerr --force-new-deployment
+
+  buildWebGLClient:
+    name: Build WebGL client
+    needs: create_release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@master
+        with:
+          lfs: true
+
+      - name: Prepare Unity library cache
+        uses: actions/cache@master
+        with:
+          path: Library
+          key: Library-WebGL
+
+      - name: Build game
+        uses: webbertakken/unity-builder@master
+        with:
+          unityVersion: 2019.2.17f1
+          targetPlatform: WebGL
+          buildMethod: Racerr.Editor.CICDPipeline.BuildProject
+
+      - name: Compress build artifact
+        uses: montudor/action-zip@master
+        with:
+          args: zip -qq -r build.zip build
+
+      - name: Upload build artifact to release
+        uses: actions/upload-release-asset@master
+        with:
+          upload_url: ${{ needs.create_release.outputs.release_upload_url }}
+          asset_path: build.zip
+          asset_name: WebGLBuild.zip
+          asset_content_type: application/zip
+
+      - name: Checkout WebGL Client Service repository
+        uses: actions/checkout@master
+        with:
+          repository: racerr-io/webgl-client-service
+          path: webgl-client-service
+          token: ${{ secrets.RYAN_PERSONAL_TOKEN }}
+
+      - name: Update Racerr version in WebGL Client Service repository
+        working-directory: webgl-client-service
+        run: | 
+          echo "${{ needs.create_release.outputs.tag }}" > RACERR_VERSION.txt
+          git config user.email "racerr.io.dev@gmail.com"
+          git config user.name "Racerr CI/CD Service"
+          git add RACERR_VERSION.txt
+          git commit -m "Updated Racerr version to ${{ needs.create_release.outputs.tag }}."
+
+      - name: Push commit to WebGL Client Service repository
+        uses: ad-m/github-push-action@master
+        with:
+          directory: webgl-client-service
+          repository: racerr-io/webgl-client-service
+          github_token: ${{ secrets.RYAN_PERSONAL_TOKEN }}
