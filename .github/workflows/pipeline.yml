@@ -73,7 +73,7 @@ jobs:
           key: Library-Server
 
       - name: Build game
-        uses: webbertakken/unity-builder@latest
+        uses: webbertakken/unity-builder@v0.12
         with:
           unityVersion: 2019.2.17f1
           targetPlatform: StandaloneLinux64
@@ -122,7 +122,7 @@ jobs:
           key: Library-WebGL
 
       - name: Build game
-        uses: webbertakken/unity-builder@latest
+        uses: webbertakken/unity-builder@v0.12
         with:
           unityVersion: 2019.2.17f1
           targetPlatform: WebGL
