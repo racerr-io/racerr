@@ -159,11 +159,22 @@ jobs:
           git config user.email "racerr.io.dev@gmail.com"
           git config user.name "Racerr CI/CD Service"
           git add RACERR_VERSION.txt
-          git commit -m "Updated Racerr version to ${{ needs.create_release.outputs.tag }}."
+          git commit --allow-empty -m "Updated Racerr version to ${{ needs.create_release.outputs.tag }}."
 
-      - name: Push commit to WebGL Client Service repository
+      - name: Push commit to WebGL Client Service repository (master branch)
+        if: github.ref == 'refs/heads/master'
         uses: ad-m/github-push-action@master
         with:
           directory: webgl-client-service
           repository: racerr-io/webgl-client-service
+          github_token: ${{ secrets.RYAN_PERSONAL_TOKEN }}
+
+      - name: Push commit to WebGL Client Service repository (staging-racerr-ci branch)
+        if: github.ref != 'refs/heads/master'
+        uses: ad-m/github-push-action@master
+        with:
+          directory: webgl-client-service
+          repository: racerr-io/webgl-client-service
+          force: true
+          branch: staging-racerr-ci
           github_token: ${{ secrets.RYAN_PERSONAL_TOKEN }}
