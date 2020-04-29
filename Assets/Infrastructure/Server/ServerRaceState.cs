@@ -88,7 +88,11 @@ namespace Racerr.Infrastructure.Server
         [Server]
         public void NotifyPlayerPassedThroughCheckpoint(Player player, GameObject checkpoint)
         {
-            if (player.CarManager != null && player.CarManager.CarType == CarManager.CarTypeEnum.Racer)
+            if (player.CarManager == null)
+            {
+                return;
+            }
+            else if (player.CarManager.CarType == CarManager.CarTypeEnum.Racer)
             {
                 player.PosInfo.Checkpoints.Add(checkpoint);
 
@@ -97,7 +101,7 @@ namespace Racerr.Infrastructure.Server
                     NotifyPlayerFinished(player);
                 }
             }
-            else if (player.CarManager != null && player.CarManager.CarType == CarManager.CarTypeEnum.Police)
+            else if (player.CarManager.CarType == CarManager.CarTypeEnum.Police)
             {
                 SpawnManager.Singleton.NotifyPlayerPoliceCarNotOnFinishingGrid(player);
             }
