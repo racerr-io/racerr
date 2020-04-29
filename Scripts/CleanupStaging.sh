@@ -11,7 +11,7 @@ fi
 API_URL="https://api.github.com/repos/racerr-io/racerr"
 RELEASE_ID=$(curl -H "$AUTH_HEADER" $API_URL/releases | jq -r "map(select(.prerelease == true))[0].id")
 if [[ -z "$RELEASE_ID" ]]; then
-  echo "Failed to retrieve Racerr prelease."
+  echo "Failed to retrieve Racerr prerelease."
   exit 1
 fi
 
