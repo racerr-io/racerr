@@ -46,6 +46,8 @@ jobs:
       - name: Create tag
         id: create_tag
         uses: anothrNick/github-tag-action@master
+        env:
+          RELEASE_BRANCHES: .*
 
       - name: Create release
         id: create_release

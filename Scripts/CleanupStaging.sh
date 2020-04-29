@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# run this script from the root of the repository using npm run getBuild
-
 AUTH_HEADER=""
 if [[ ! -z "$GITHUB_TOKEN" ]]; then
   echo Authenticating with GitHub authorisation token
