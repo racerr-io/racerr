@@ -34,14 +34,18 @@ jobs:
         if: github.ref != 'refs/heads/master'
         uses: allenevans/set-env@master
         with:
-          DEFAULT_BUMP: minor
+          CUSTOM_TAG: staging
           BUILD_ENV: staging
+
+      - name: Delete existing staging release and tag
+        run: | 
+          chmod +x Scripts/CleanupStaging.sh
+          Scripts/CleanupStaging.sh
+          git push --delete origin staging || true
 
       - name: Create tag
         id: create_tag
         uses: anothrNick/github-tag-action@master
-        env:
-          RELEASE_BRANCHES: .*
 
       - name: Create release
         id: create_release
