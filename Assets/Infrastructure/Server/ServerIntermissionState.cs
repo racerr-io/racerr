@@ -49,7 +49,9 @@ namespace Racerr.Infrastructure.Server
             }    
             else
             {
-                intermissionSecondsTotal = ServerStateMachine.Singleton.ReadyPlayers.Count > 1 ? intermissionTimerSeconds : intermissionTimerSecondsSinglePlayer;
+                intermissionSecondsTotal = ServerStateMachine.Singleton.ReadyPlayers.Count(player => !player.IsAI) > 1 
+                    ? intermissionTimerSeconds 
+                    : intermissionTimerSecondsSinglePlayer;
             }
 
             StartCoroutine(IntermissionTimerAndTrackGeneration());
@@ -64,17 +66,6 @@ namespace Racerr.Infrastructure.Server
         [Server]
         IEnumerator IntermissionTimerAndTrackGeneration()
         {
-            // Spawn/despawn required AI players
-            int numToSpawn = minPlayersOnServer - ServerStateMachine.Singleton.ReadyPlayers.Count;
-            if (numToSpawn > 0)
-            {
-                ServerManager.singleton.ConnectAIPlayers(numToSpawn);
-            }
-            else
-            {
-                ServerManager.singleton.DisconnectAIPlayers(-numToSpawn);
-            }
-
             intermissionSecondsRemaining = intermissionSecondsTotal;
             while (intermissionSecondsRemaining > 0)
             {
@@ -85,6 +76,18 @@ namespace Racerr.Infrastructure.Server
                 if (intermissionSecondsRemaining == intermissionSecondsTotal / 2)
                 {
                     TrackGenerator.Singleton.DestroyIfRequired();
+
+                    // Spawn/despawn required AI players
+                    int numToSpawn = minPlayersOnServer - ServerStateMachine.Singleton.ReadyPlayers.Count;
+                    if (numToSpawn > 0)
+                    {
+                        ServerManager.singleton.ConnectAIPlayers(numToSpawn);
+                    }
+                    else
+                    {
+                        ServerManager.singleton.DisconnectAIPlayers(-numToSpawn);
+                    }
+
                     TrackGenerator.Singleton.GenerateIfRequired(ServerStateMachine.Singleton.ReadyPlayers);
                 }
             }
