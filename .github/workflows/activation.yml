@@ -1,8 +1,11 @@
 name: Acquire activation file
-on: [push]
+
+on:
+  push:
+
 jobs:
   activation:
-    name: Request manual activation file 🔑
+    name: Request manual activation file
     runs-on: ubuntu-latest
     steps:
       - name: Request manual activation file
