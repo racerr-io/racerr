@@ -173,7 +173,7 @@ namespace Racerr.Infrastructure.Server
                         .ThenBy(player =>
                         {
                             GameObject[] checkpointsInRace = TrackGenerator.Singleton.CheckpointsInRace;
-                            if (player.CarManager == null || checkpointsInRace == null)
+                            if (player.Car == null || checkpointsInRace == null)
                             {
                                 // For some reason the player has no car or the race hasn't started,
                                 // so let's just be safe rather than crash.
@@ -184,7 +184,7 @@ namespace Racerr.Infrastructure.Server
                             // so to grab the next checkpoint for this car we use the checkpoint count for this player as an index.
                             int nextCheckpoint = player.PosInfo.Checkpoints.Count;
                             Vector3 nextCheckpointPosition = checkpointsInRace[nextCheckpoint].transform.position;
-                            return Vector3.Distance(player.CarManager.transform.position, nextCheckpointPosition);
+                            return Vector3.Distance(player.Car.transform.position, nextCheckpointPosition);
                         });
                 }
             }
@@ -193,7 +193,7 @@ namespace Racerr.Infrastructure.Server
             {
                 this.raceStartTime = raceStartTime;
                 this.finishedRaceDuration = finishedRaceDuration;
-                this.PlayersInRace = new List<Player>(ServerStateMachine.Singleton.ReadyPlayers.Where(player => player.CarManager != null));
+                this.PlayersInRace = new List<Player>(ServerStateMachine.Singleton.ReadyPlayers.Where(player => player.Car != null));
                 this.FinishedPlayers = new List<Player>();
 
                 foreach (Player player in PlayersInRace)
@@ -220,6 +220,12 @@ namespace Racerr.Infrastructure.Server
         {
             raceSessionData.PlayersInRace.Remove(player);
             raceSessionData.FinishedPlayers.Remove(player);
+        }
+
+        [Server]
+        public Player GetFirstPlacePlayer()
+        {
+            return raceSessionData.PlayersInRaceOrdered.FirstOrDefault(player => !player.IsDeadAsRacer && player.IsInRace);
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using Racerr.Gameplay.Car;
+using Racerr.Infrastructure;
 using Racerr.Infrastructure.Server;
 using Racerr.Utility;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Racerr.World.Track
         /// <summary>
         /// When track is spawned, cache the Server Race State.
         /// </summary>
-        void Start()
+        void Awake()
         {
             serverRaceState = FindObjectOfType<ServerRaceState>();
         }
@@ -31,7 +32,12 @@ namespace Racerr.World.Track
         {
             if (collider.CompareTag(GameObjectIdentifiers.CarBackCollider) || collider.CompareTag(GameObjectIdentifiers.CarFrontCollider))
             {
-                serverRaceState.NotifyPlayerPassedThroughCheckpoint(collider.GetComponentInParent<CarManager>().OwnPlayer, gameObject);
+                CarManager car = collider.GetComponentInParent<CarManager>();
+                if (car.hasAuthority && car.OwnPlayer.IsAI)
+                {
+                    car.GetComponent<AIInputManager>().GeneratePath(gameObject.transform);
+                }
+                serverRaceState.NotifyPlayerPassedThroughCheckpoint(car.OwnPlayer, gameObject);
             }
         }
     }

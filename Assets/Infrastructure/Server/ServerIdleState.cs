@@ -8,6 +8,12 @@ namespace Racerr.Infrastructure.Server
     /// </summary>
     public class ServerIdleState : NetworkedState
     {
+        [Server]
+        public override void Enter(object optionalData = null)
+        {
+            ServerManager.singleton.DisconnectAIPlayers(ServerStateMachine.Singleton.PlayersInServer.Count);
+        }
+
         /// <summary>
         /// Called every game tick.
         /// Checks whether or not to transition to intermission state, based on if the server has any connected players.
@@ -15,7 +21,7 @@ namespace Racerr.Infrastructure.Server
         [Server]
         void FixedUpdate()
         {
-            if (ServerStateMachine.Singleton.PlayersInServer.Any(p => p.IsReady))
+            if (ServerStateMachine.Singleton.ReadyPlayers.Any(player => !player.IsAI))
             {
                 TransitionToIntermission();
             }

@@ -2932,6 +2932,7 @@ GameObject:
   - component: {fileID: 5442912667763404505}
   - component: {fileID: -5325299565353342672}
   - component: {fileID: 8662730414564803931}
+  - component: {fileID: 7146710520131561608}
   m_Layer: 0
   m_Name: Police Car
   m_TagString: Car
@@ -3057,6 +3058,7 @@ MonoBehaviour:
   maxHealth: 125
   playerBarPrefab: {fileID: 4182034153008739931, guid: fae0477d4f724c842b5bfdacd350b2f5,
     type: 3}
+  transparentMaterial: {fileID: 2100000, guid: dfa6b8f42de08414e877382015c1cb23, type: 2}
 --- !u!114 &6595159859782333803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3525,7 +3527,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0
-  interpolationFactor: 0.4
 --- !u!114 &2122499654645487591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3623,6 +3624,20 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   m_SceneId: 0
+--- !u!114 &7146710520131561608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6285641333015487221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58bad3bd00ed981488d5fff1d038012b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheelFL: {fileID: 5543144137803246034}
+  wheelFR: {fileID: 5474649812476107032}
 --- !u!1 &6285641333110332331
 GameObject:
   m_ObjectHideFlags: 0

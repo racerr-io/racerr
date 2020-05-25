@@ -281,7 +281,7 @@ MonoBehaviour:
   wheelHits: []
   scanIgnoreLayers:
     serializedVersion: 2
-    m_Bits: 1048580
+    m_Bits: 4
   forwardScanResolution: 8
   sideToSideScanResolution: 3
   hasHit: 1
@@ -2820,7 +2820,7 @@ MonoBehaviour:
   wheelHits: []
   scanIgnoreLayers:
     serializedVersion: 2
-    m_Bits: 1048580
+    m_Bits: 4
   forwardScanResolution: 8
   sideToSideScanResolution: 3
   hasHit: 1
@@ -5359,7 +5359,7 @@ MonoBehaviour:
   wheelHits: []
   scanIgnoreLayers:
     serializedVersion: 2
-    m_Bits: 1048580
+    m_Bits: 4
   forwardScanResolution: 8
   sideToSideScanResolution: 3
   hasHit: 1
@@ -7718,6 +7718,7 @@ GameObject:
   - component: {fileID: 1339260357018547160}
   - component: {fileID: 3663545045636821659}
   - component: {fileID: 2388928030589524058}
+  - component: {fileID: -513754173798599553}
   m_Layer: 0
   m_Name: Hatchback
   m_TagString: Car
@@ -7821,6 +7822,7 @@ MonoBehaviour:
   maxHealth: 75
   playerBarPrefab: {fileID: 4182034153008739931, guid: fae0477d4f724c842b5bfdacd350b2f5,
     type: 3}
+  transparentMaterial: {fileID: 2100000, guid: dfa6b8f42de08414e877382015c1cb23, type: 2}
 --- !u!114 &187366651734599786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8289,7 +8291,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0
-  interpolationFactor: 0.4
 --- !u!114 &4930241172356467430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8387,6 +8388,20 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-513754173798599553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018952010411425780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58bad3bd00ed981488d5fff1d038012b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheelFL: {fileID: 1581372805895009491}
+  wheelFR: {fileID: 1361990301930259481}
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0
@@ -8590,7 +8605,7 @@ MonoBehaviour:
   wheelHits: []
   scanIgnoreLayers:
     serializedVersion: 2
-    m_Bits: 1048580
+    m_Bits: 4
   forwardScanResolution: 8
   sideToSideScanResolution: 3
   hasHit: 1

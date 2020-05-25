@@ -9,7 +9,8 @@ namespace Racerr.Gameplay.Car
     [RequireComponent(typeof(Rigidbody))]
     public class CarNetworkTransform : NetworkBehaviour
     {
-        [SerializeField] [Range(0, 1)] float interpolationFactor = 0.4f;
+        const float interpolationFactor = 0.4f;
+
         Rigidbody vehicleRigidbody;
 
         /* These fields are the ones we want updated on every car. */

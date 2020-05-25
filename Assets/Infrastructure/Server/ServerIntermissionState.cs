@@ -14,6 +14,7 @@ namespace Racerr.Infrastructure.Server
         [SerializeField] int intermissionTimerSecondsEditor = 1;
         [SerializeField] int intermissionTimerSeconds = 10;
         [SerializeField] int intermissionTimerSecondsSinglePlayer = 20;
+        [SerializeField] int minPlayersOnServer = 10;
 
         int intermissionSecondsTotal;
         [SyncVar] int intermissionSecondsRemaining;
@@ -63,6 +64,17 @@ namespace Racerr.Infrastructure.Server
         [Server]
         IEnumerator IntermissionTimerAndTrackGeneration()
         {
+            // Spawn/despawn required AI players
+            int numToSpawn = minPlayersOnServer - ServerStateMachine.Singleton.ReadyPlayers.Count;
+            if (numToSpawn > 0)
+            {
+                ServerManager.singleton.ConnectAIPlayers(numToSpawn);
+            }
+            else
+            {
+                ServerManager.singleton.DisconnectAIPlayers(-numToSpawn);
+            }
+
             intermissionSecondsRemaining = intermissionSecondsTotal;
             while (intermissionSecondsRemaining > 0)
             {
@@ -78,7 +90,7 @@ namespace Racerr.Infrastructure.Server
             }
 
             // Intermission Timer fully finished - now we transition to states based on whether or not there are players.
-            if (ServerStateMachine.Singleton.PlayersInServer.Any())
+            if (ServerStateMachine.Singleton.ReadyPlayers.Any(player => !player.IsAI))
             {
                 // Only transition to race if track is generated
                 while (!TrackGenerator.Singleton.IsTrackGenerated) yield return null;

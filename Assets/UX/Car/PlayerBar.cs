@@ -16,12 +16,12 @@ namespace Racerr.UX.Car
         public float XDisplacementDrivingDown { get; set; }
         public float YDisplacement { get; set; }
         public float Scale { get; set; }
-        public CarManager CarManager { get; set; }
+        public CarManager Car { get; set; }
         Transform panel;
         RectTransform healthBar; // The rectangle of the health bar
         Image healthBarImage; // The thing/image inside the rectangle, in our case just simple colours.
         Rigidbody carRigidBody;
-        Rigidbody CarRigidbody => (carRigidBody != null) ? carRigidBody : (carRigidBody = CarManager?.GetComponent<Rigidbody>());
+        Rigidbody CarRigidbody => (carRigidBody != null) ? carRigidBody : (carRigidBody = Car?.GetComponent<Rigidbody>());
 
         /// <summary>
         /// Setup panel and the player's name.
@@ -30,10 +30,10 @@ namespace Racerr.UX.Car
         void Start()
         {
             panel = transform.Find("Panel");
-            panel.GetComponentInChildren<TextMeshProUGUI>().text = CarManager.OwnPlayer.PlayerName;
+            panel.GetComponentInChildren<TextMeshProUGUI>().text = Car.OwnPlayer.PlayerName;
             healthBar = panel.transform.Find("Health").GetComponent<RectTransform>();
             healthBarImage = panel.transform.Find("Health").GetComponent<Image>();
-            SetHealthBar(CarManager.OwnPlayer.Health);
+            name = $"Player Bar - {Car.OwnPlayer.PlayerName}";
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Racerr.UX.Car
         /// </summary>
         void Update()
         {
-            if (CarManager != null && UnityEngine.Camera.main != null)
+            if (Car != null && UnityEngine.Camera.main != null)
             {
                 transform.localScale = new Vector3(Scale, Scale, Scale);
                 panel.forward = UnityEngine.Camera.main.transform.forward;
@@ -59,7 +59,19 @@ namespace Racerr.UX.Car
                     additionalBarDisplacement = 0;
                 }
 
-                transform.position = CarManager.transform.position + new Vector3(0, YDisplacement, XDisplacement + additionalBarDisplacement);
+                transform.position = Car.transform.position + new Vector3(0, YDisplacement, XDisplacement + additionalBarDisplacement);
+            }
+        }
+
+        /// <summary>
+        /// Update health bar every physics tick. We do it here since health can only change as a result
+        /// of collisions, and collision stuff is calculated during FixedUpdate.
+        /// </summary>
+        void FixedUpdate()
+        {
+            if (Car != null && UnityEngine.Camera.main != null)
+            {
+                UpdateHealthBar();
             }
             else
             {
@@ -68,13 +80,21 @@ namespace Racerr.UX.Car
         }
 
         /// <summary>
-        /// Physically adjust the size of the health bar in the Player Bar.
+        /// Physically adjust the size of the health bar in the Player Bar by polling
+        /// the player's health. If the attached car is a zombie car then it must mean
+        /// the car is dead, so in that case the health is 0.
         /// </summary>
-        /// <param name="health">Value between 0 - 100 for the health</param>
-        public void SetHealthBar(int health)
+        void UpdateHealthBar()
         {
-            healthBar.localScale = new Vector3(health / (float)CarManager.MaxHealth, healthBar.localScale.y, healthBar.localScale.z);
-            float halfMaxHealth = CarManager.MaxHealth / 2f;
+            int health = 0;
+            if (!Car.IsZombie)
+            {
+                health = Car.OwnPlayer.Health;
+            }
+
+
+            healthBar.localScale = new Vector3(health / (float)Car.MaxHealth, healthBar.localScale.y, healthBar.localScale.z);
+            float halfMaxHealth = Car.MaxHealth / 2f;
 
             if (health < halfMaxHealth)
             {

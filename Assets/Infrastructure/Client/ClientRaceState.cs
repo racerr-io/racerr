@@ -3,6 +3,7 @@ using Racerr.Gameplay.Car;
 using Racerr.Infrastructure.Server;
 using Racerr.UX.Camera;
 using Racerr.UX.UI;
+using System.Linq;
 using UnityEngine;
 
 namespace Racerr.Infrastructure.Client
@@ -24,6 +25,8 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] RearViewMirrorUIComponent rearViewMirrorUIComponent;
         [SerializeField] AbilityInfoUIComponent abilityInfoUIComponent;
 
+        CarManager car;
+
         /// <summary>
         /// Called upon entering the race state on the client, where we show the Race UI. Will focus the minimap and primary
         /// camera on the player's car.
@@ -32,15 +35,16 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             raceView.Show();
-            minimapUIComponent.SetMinimapCameraTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
+            car = ClientStateMachine.Singleton.LocalPlayer.Car;
+            minimapUIComponent.SetMinimapCameraTarget(car.transform);
 
             if (optionalData is PrimaryCamera.CameraType)
             {
-                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform, (PrimaryCamera.CameraType)optionalData);
+                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(car.transform, (PrimaryCamera.CameraType)optionalData);
             }
             else
             {
-                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(ClientStateMachine.Singleton.LocalPlayer.CarManager.transform);
+                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(car.transform);
             }
         }
 
@@ -49,6 +53,7 @@ namespace Racerr.Infrastructure.Client
         /// </summary>
         public override void Exit()
         {
+            car = null;
             raceView.Hide();
         }
 
@@ -81,10 +86,10 @@ namespace Racerr.Infrastructure.Client
             cameraInfoUIComponent.UpdateCameraInfo(ClientStateMachine.Singleton.PrimaryCamera.CamType);
             rearViewMirrorUIComponent.UpdateRearViewMirror(ClientStateMachine.Singleton.PrimaryCamera);
 
-            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
+            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.Car;
             if (carManager != null)
             {
-                speedUIComponent.UpdateSpeed(carManager.SpeedKPH);
+                speedUIComponent.UpdateSpeed(carManager.Physics.SpeedKPH);
                 abilityInfoUIComponent.UpdateAbilityInfo(carManager.Ability);
             }
         }
@@ -105,7 +110,7 @@ namespace Racerr.Infrastructure.Client
             {
                 TransitionToSpectate();
             }
-            else if (player.Health == 0)
+            else if (player.Health == 0 && player.ZombieCarGOs.Contains(car.gameObject))
             {
                 TransitionToDeath();
             }
