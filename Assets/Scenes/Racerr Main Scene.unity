@@ -7261,7 +7261,7 @@ MonoBehaviour:
   intermissionTimerSecondsEditor: 1
   intermissionTimerSeconds: 10
   intermissionTimerSecondsSinglePlayer: 20
-  minPlayersOnServer: 10
+  minPlayersOnServer: 6
 --- !u!114 &1584656527
 MonoBehaviour:
   m_ObjectHideFlags: 0

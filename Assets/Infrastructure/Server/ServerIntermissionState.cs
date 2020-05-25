@@ -1,6 +1,8 @@
 ﻿using Mirror;
 using Racerr.World.Track;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -88,7 +90,8 @@ namespace Racerr.Infrastructure.Server
                         ServerManager.singleton.DisconnectAIPlayers(-numToSpawn);
                     }
 
-                    TrackGenerator.Singleton.GenerateIfRequired(ServerStateMachine.Singleton.ReadyPlayers);
+                    List<Player> shuffledReadyPlayers = ServerStateMachine.Singleton.ReadyPlayers.OrderBy(_ => Guid.NewGuid()).ToList();
+                    TrackGenerator.Singleton.GenerateIfRequired(shuffledReadyPlayers);
                 }
             }
 
