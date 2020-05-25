@@ -2934,8 +2934,8 @@ GameObject:
   - component: {fileID: 9154556361411005636}
   - component: {fileID: 5442912667763404505}
   - component: {fileID: -5325299565353342672}
-  - component: {fileID: 8662730414564803931}
   - component: {fileID: -100725751898492232}
+  - component: {fileID: 8662730414564803931}
   m_Layer: 0
   m_Name: Police Car
   m_TagString: Car
@@ -3613,22 +3613,6 @@ MonoBehaviour:
   usageConsumption: 2
   usageRegenRate: 3
   accelerationMultiplier: 4
---- !u!114 &8662730414564803931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6285641333015487221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  m_AssetId: 
-  hasSpawned: 0
 --- !u!114 &-100725751898492232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3656,7 +3640,7 @@ MonoBehaviour:
   sendAngularVelocityThreshold: 0
   receivedPositionThreshold: 0
   receivedRotationThreshold: 0
-  snapPositionThreshold: 0
+  snapPositionThreshold: 1
   snapRotationThreshold: 0
   snapScaleThreshold: 0
   positionLerpSpeed: 0.85
@@ -3666,7 +3650,7 @@ MonoBehaviour:
   snapTimeThreshold: 3
   syncPosition: 0
   syncRotation: 0
-  syncScale: 0
+  syncScale: 7
   syncVelocity: 0
   syncAngularVelocity: 0
   isPositionCompressed: 0
@@ -3676,14 +3660,30 @@ MonoBehaviour:
   isAngularVelocityCompressed: 0
   isSmoothingAuthorityChanges: 0
   whenToUpdateTransform: 0
-  sendRate: 30
+  sendRate: 60
   networkChannel: 1
   childObjectToSync: {fileID: 0}
   setVelocityInsteadOfPositionOnNonOwners: 0
-  maxPositionDifferenceForVelocitySyncing: 10
+  maxPositionDifferenceForVelocitySyncing: 5
   useLocalTransformOnly: 0
   ownerChangeIndicator: 1
   receivedStatesCounter: 0
+--- !u!114 &8662730414564803931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6285641333015487221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &6285641333110332331
 GameObject:
   m_ObjectHideFlags: 0
