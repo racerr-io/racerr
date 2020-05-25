@@ -2,11 +2,17 @@
 
 namespace Racerr.Infrastructure.Server.AI
 {
+    /// <summary>
+    /// A state for the AI racer when they are currently enjoying the race. This includes racer and police.
+    /// </summary>
     [RequireComponent(typeof(AIStateMachine))]
     public class AIRaceState : LocalState
     {
         AIStateMachine AIStateMachine;
 
+        /// <summary>
+        /// Cache the associated AI State Machine.
+        /// </summary>
         void Awake()
         {
             AIStateMachine = GetComponent<AIStateMachine>();
@@ -22,8 +28,7 @@ namespace Racerr.Infrastructure.Server.AI
 
 
         /// <summary>
-        /// Transition the next AI state. Once we see that the race has started, transition the 
-        /// AI racer to race mode.
+        /// Transition to the next AI state. 
         /// </summary>
         void CheckToTransition()
         {

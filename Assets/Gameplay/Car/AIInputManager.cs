@@ -33,7 +33,7 @@ namespace Racerr.Gameplay.Car
         Transform[] currentPath;
 
         /// <summary>
-        /// Cache the car.
+        /// Cache the car and server race state.
         /// </summary>
         void Awake()
         {
@@ -72,14 +72,14 @@ namespace Racerr.Gameplay.Car
         /// </summary>
         void Steer()
         {
-            Player firstPlacePlayer = serverRaceState.GetFirstPlacePlayer();
+            Player firstPlacePlayer = serverRaceState.GetFirstPlaceAliveRacer();
             if (firstPlacePlayer == null || firstPlacePlayer.Car == null)
             {
                 // This is possible in the small gap between race finish and server state machine transition.
                 return;
             }
 
-            Vector3 targetPosition = serverRaceState.GetFirstPlacePlayer().Car.transform.position;
+            Vector3 targetPosition = serverRaceState.GetFirstPlaceAliveRacer().Car.transform.position;
             if (car.CarType != CarManager.CarTypeEnum.Police || Vector3.Distance(transform.position, targetPosition) > policeTargetFirstPlaceDistance)
             {
                 if (currentPath == null)
@@ -166,7 +166,7 @@ namespace Racerr.Gameplay.Car
             else
             {
                 // Find the closest checkpoint to the first place player's car.
-                Player firstPlacePlayer = serverRaceState.GetFirstPlacePlayer();
+                Player firstPlacePlayer = serverRaceState.GetFirstPlaceAliveRacer();
                 if (firstPlacePlayer == null || firstPlacePlayer.Car == null)
                 {
                     // This is possible in the small gap between race finish and server state machine transition.

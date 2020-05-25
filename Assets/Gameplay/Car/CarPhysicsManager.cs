@@ -77,7 +77,9 @@ namespace Racerr.Gameplay.Car
         }
 
         /// <summary>
-        /// Set layer as invulnerable layer, so car passes through other cars.
+        /// Set layer as invulnerable layer, so car passes through other cars. Layers are used in Unity to group various objects, similar to tags.
+        /// The idea is that there is a special layer "Invulnerable" which passes through "Default" and "Invulnerable" layer. This gives it the effect
+        /// of being able to drive through cars (assigned "Default" layer) but the car won't fall through the road (assigned "Static" layer).
         /// </summary>
         /// <param name="rootGameObject">Parent game object to set the layer.</param>
         /// <param name="newLayer">ID of the new layer.</param>

@@ -21,6 +21,7 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] CameraInfoUIComponent cameraInfoUIComponent;
         [SerializeField] DeathInfoUIComponent deathInfoUIComponent;
 
+        PrimaryCamera.CameraType originalCameraType;
         bool allowTransition = true;
 
         /// <summary>
@@ -32,9 +33,10 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             deathView.Show();
+            originalCameraType = ClientStateMachine.Singleton.PrimaryCamera.CamType;
 
             IReadOnlyList<GameObject> zombieCarGOs = ClientStateMachine.Singleton.LocalPlayer.ZombieCarGOs;
-            CarManager car = zombieCarGOs[zombieCarGOs.Count - 1].GetComponent<CarManager>();
+            CarManager car = zombieCarGOs[zombieCarGOs.Count - 1].GetComponent<CarManager>(); // The last element in the list is the most recent car which died.
             Player killer = car.LastHitByPlayer;
             if (killer != null)
             {
@@ -62,6 +64,7 @@ namespace Racerr.Infrastructure.Client
         public override void Exit()
         {
             deathView.Hide();
+            ClientStateMachine.Singleton.PrimaryCamera.SetTarget(null, originalCameraType);
             allowTransition = false;
         }
 

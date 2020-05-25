@@ -61,7 +61,7 @@ namespace Racerr.Infrastructure.Server
 
         /// <summary>
         /// Coroutine for counting down the intermission timer.
-        /// When timer reaches half time, the previous track is destroyed and a new one
+        /// When timer reaches half time, the previous track is destroyed and a new one is created with neccessary AI players.
         /// When timer reaches 0, forces a state change depending on whether or not there are players.
         /// </summary>
         /// <returns>IEnumerator for coroutine.</returns>

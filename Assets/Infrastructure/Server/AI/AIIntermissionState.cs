@@ -2,11 +2,17 @@
 
 namespace Racerr.Infrastructure.Server.AI
 {
+    /// <summary>
+    /// The state the AI racer is in when the server is in intermission state.
+    /// </summary>
     [RequireComponent(typeof(AIStateMachine))]
     public class AIIntermissionState : LocalState
     {
         AIStateMachine AIStateMachine;
 
+        /// <summary>
+        /// Cache the associated AI State Machine.
+        /// </summary>
         void Awake()
         {
             AIStateMachine = GetComponent<AIStateMachine>();

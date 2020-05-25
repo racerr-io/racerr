@@ -222,8 +222,12 @@ namespace Racerr.Infrastructure.Server
             raceSessionData.FinishedPlayers.Remove(player);
         }
 
+        /// <summary>
+        /// Get the first place racer which is not dead.
+        /// </summary>
+        /// <returns>Player.</returns>
         [Server]
-        public Player GetFirstPlacePlayer()
+        public Player GetFirstPlaceAliveRacer()
         {
             return raceSessionData.PlayersInRaceOrdered.FirstOrDefault(player => !player.IsDeadAsRacer && player.IsInRace);
         }

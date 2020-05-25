@@ -254,7 +254,7 @@ namespace Racerr.Gameplay.Car
                 RpcSetInvulnerableTemporarily(durationSeconds);
             }
 
-            Code(durationSeconds);
+            SetInvulnerableTemporarilyCore(durationSeconds);
         }
 
         /// <summary>
@@ -265,9 +265,13 @@ namespace Racerr.Gameplay.Car
         /// </summary>
         /// <param name="durationSeconds">How long to stay invulnerable for.</param>
         [ClientRpc]
-        void RpcSetInvulnerableTemporarily(int durationSeconds) => Code(durationSeconds);
+        void RpcSetInvulnerableTemporarily(int durationSeconds) => SetInvulnerableTemporarilyCore(durationSeconds);
 
-        void Code(int durationSeconds)
+        /// <summary>
+        /// Common function used both by server and RPC which contains the actual logic for making the car invulnerable.
+        /// </summary>
+        /// <param name="durationSeconds"></param>
+        void SetInvulnerableTemporarilyCore(int durationSeconds)
         {
             if (IsInvulnerable)
             {

@@ -92,7 +92,6 @@ namespace Racerr.UX.Car
                 health = Car.OwnPlayer.Health;
             }
 
-
             healthBar.localScale = new Vector3(health / (float)Car.MaxHealth, healthBar.localScale.y, healthBar.localScale.z);
             float halfMaxHealth = Car.MaxHealth / 2f;
 

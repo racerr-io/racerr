@@ -1,5 +1,4 @@
 ﻿using Racerr.Gameplay.Car;
-using Racerr.Infrastructure;
 using Racerr.Infrastructure.Server;
 using Racerr.Utility;
 using UnityEngine;
@@ -26,6 +25,7 @@ namespace Racerr.World.Track
         /// <summary>
         /// Called when an object passes through the checkpoint at the end of the track, represented by a simple On Trigger Box Collider.
         /// The Server Race State keeps track of the position of the cars during the race, so each track notifies it when a car passes through.
+        /// Also forces the AI Input Manager to regenerate the path, for AI cars.
         /// </summary>
         /// <param name="collider">The collider (car) the checkpoint touched.</param>
         void OnTriggerEnter(Collider collider)

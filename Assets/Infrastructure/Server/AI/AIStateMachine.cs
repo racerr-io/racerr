@@ -4,12 +4,9 @@ using UnityEngine;
 namespace Racerr.Infrastructure.Server.AI
 {
     /// <summary>
-    /// State Machine used to control the current state of the race on the server.
-    /// Used by the Server to basically manage everything related to multiplayer.
-    /// Intended to be synchronised to clients, so that they can read the StateType
-    /// and change the experience they provide to the user accordingly.
-    /// Note that this state will disable itself on clients, so Unity script
-    /// functions do not run (networking is still active).
+    /// State Machine used to control the current state of an AI racer.
+    /// Each AI racer has its own state machine, similar to how each client has its own Client State Machine.
+    /// The AI state machines are available only on the server for each AI player.
     /// </summary>
     public sealed class AIStateMachine : MonoBehaviour, IStateMachine
     {
@@ -18,25 +15,35 @@ namespace Racerr.Infrastructure.Server.AI
 
         LocalState currentState;
 
+        /// <summary>
+        /// Grab the Player associated with this AI State Machine.
+        /// </summary>
         void Awake()
         {
             OwnPlayer = GetComponentInParent<Player>();
         }
 
         /// <summary>
-        /// Entrypoint into Client State Machine. Called after unity initialises all scripts.
-        /// Defaults to the Client Start Menu state, which is the first view the user sees when launching the game.
+        /// Entrypoint into AI State Machine. Called after unity initialises all scripts.
+        /// Defaults to the Intermission state, since that is the only time AI players can spawn.
         /// </summary>
         void Start()
         {
             ChangeState(StateEnum.Intermission);
         }
 
+        /// <summary>
+        /// Changes the state of the AI State Machine.
+        /// Intended to be PROTECTED - only the AI States should be able to call this from their encapsulated transition methods.
+        /// Changes the internal state of the AI State Machine based on the given state type Enum.
+        /// </summary>
+        /// <param name="stateType">The new state type to be changed to.</param>
+        /// <param name="optionalData">Optional data to be passed to the transitioning state.</param>
         public void ChangeState(StateEnum stateType, object optionalData = null)
         {
             if (currentState != null)
             {
-                // Only time when the current state will be null is when the server starts.
+                // Only time when the current state will be null is when state machine spawns.
                 currentState.Exit();
                 currentState.enabled = false;
             }
