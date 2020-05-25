@@ -8418,7 +8418,7 @@ MonoBehaviour:
   sendAngularVelocityThreshold: 0
   receivedPositionThreshold: 0
   receivedRotationThreshold: 0
-  snapPositionThreshold: 5
+  snapPositionThreshold: 1
   snapRotationThreshold: 0
   snapScaleThreshold: 0
   positionLerpSpeed: 0.85
@@ -8438,10 +8438,10 @@ MonoBehaviour:
   isAngularVelocityCompressed: 0
   isSmoothingAuthorityChanges: 0
   whenToUpdateTransform: 0
-  sendRate: 30
+  sendRate: 60
   networkChannel: 1
   childObjectToSync: {fileID: 0}
-  setVelocityInsteadOfPositionOnNonOwners: 1
+  setVelocityInsteadOfPositionOnNonOwners: 0
   maxPositionDifferenceForVelocitySyncing: 5
   useLocalTransformOnly: 0
   ownerChangeIndicator: 1
