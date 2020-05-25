@@ -7274,7 +7274,7 @@ MonoBehaviour:
   intermissionTimerSecondsEditor: 1
   intermissionTimerSeconds: 10
   intermissionTimerSecondsSinglePlayer: 20
-  minPlayersOnServer: 2
+  minPlayersOnServer: 6
 --- !u!114 &1584656527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7646,12 +7646,12 @@ MonoBehaviour:
   runInBackground: 1
   startOnHeadless: 1
   showDebugMessages: 0
-  serverTickRate: 60
+  serverTickRate: 120
   offlineScene: 
   onlineScene: 
   transport: {fileID: 1813844547}
   networkAddress: racerr.io
-  maxConnections: 20
+  maxConnections: 10
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
