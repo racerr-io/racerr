@@ -79,12 +79,13 @@ jobs:
           key: Library-Server
 
       - name: Build game
-        uses: webbertakken/unity-builder@v0.12
+        uses: webbertakken/unity-builder@master
         with:
           unityVersion: 2019.2.17f1
           targetPlatform: StandaloneLinux64
           buildMethod: Racerr.Editor.CICDPipeline.BuildProject
           customParameters: -buildOptions EnableHeadlessMode
+          versioning: None
 
       - name: Compress build artifact
         uses: montudor/action-zip@master
@@ -128,11 +129,12 @@ jobs:
           key: Library-WebGL
 
       - name: Build game
-        uses: webbertakken/unity-builder@v0.12
+        uses: webbertakken/unity-builder@master
         with:
           unityVersion: 2019.2.17f1
           targetPlatform: WebGL
           buildMethod: Racerr.Editor.CICDPipeline.BuildProject
+          versioning: None
 
       - name: Compress build artifact
         uses: montudor/action-zip@master
