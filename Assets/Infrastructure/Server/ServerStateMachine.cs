@@ -271,7 +271,7 @@ namespace Racerr.Infrastructure.Server
             int position = 1;
             foreach (Player player in raceSessionData.PlayersInRaceOrdered)
             {
-                if (player.IsDeadAsRacer || player.PosInfo.IsFinished)
+                if (player.IsDeadAsRacer || player.PosInfo.IsFinished || ServerStateMachine.Singleton.StateType != StateEnum.Race && !player.PosInfo.IsFinished)
                 {
                     leaderboardItems.Add(new PlayerLeaderboardItemDTO(position, player.PlayerName, player.PosInfo.TimeString));
                 }
