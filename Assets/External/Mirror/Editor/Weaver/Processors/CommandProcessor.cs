@@ -1,9 +1,11 @@
-// all the [Command] code from NetworkBehaviourProcessor in one place
 using Mono.CecilX;
 using Mono.CecilX.Cil;
 
 namespace Mirror.Weaver
 {
+    /// <summary>
+    /// Processes [Command] methods in NetworkBehaviour
+    /// </summary>
     public static class CommandProcessor
     {
         const string CmdPrefix = "InvokeCmd";
@@ -31,22 +33,9 @@ namespace Mirror.Weaver
             This way we do not need to modify the code anywhere else,  and this works
             correctly in dependent assemblies
         */
-        public static MethodDefinition ProcessCommandCall(TypeDefinition td, MethodDefinition md, CustomAttribute ca)
+        public static MethodDefinition ProcessCommandCall(TypeDefinition td, MethodDefinition md, CustomAttribute commandAttr)
         {
-            MethodDefinition cmd = new MethodDefinition("Call" + md.Name,
-                    MethodAttributes.Public | MethodAttributes.HideBySig,
-                    Weaver.voidType);
-
-            // add parameters
-            foreach (ParameterDefinition pd in md.Parameters)
-            {
-                cmd.Parameters.Add(new ParameterDefinition(pd.Name, ParameterAttributes.None, pd.ParameterType));
-            }
-
-            // move the old body to the new function
-            MethodBody newBody = cmd.Body;
-            cmd.Body = md.Body;
-            md.Body = newBody;
+            MethodDefinition cmd = MethodProcessor.SubstituteMethod(td, md, "Call" + md.Name);
 
             ILProcessor cmdWorker = md.Body.GetILProcessor();
 
@@ -73,12 +62,15 @@ namespace Mirror.Weaver
             }
 
             // invoke internal send and return
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Ldarg_0)); // load 'base.' to call the SendCommand function with
+            // load 'base.' to call the SendCommand function with
+            cmdWorker.Append(cmdWorker.Create(OpCodes.Ldarg_0));
             cmdWorker.Append(cmdWorker.Create(OpCodes.Ldtoken, td));
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Call, Weaver.getTypeFromHandleReference)); // invokerClass
+            // invokerClass
+            cmdWorker.Append(cmdWorker.Create(OpCodes.Call, Weaver.getTypeFromHandleReference));
             cmdWorker.Append(cmdWorker.Create(OpCodes.Ldstr, cmdName));
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Ldloc_0)); // writer
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Ldc_I4, NetworkBehaviourProcessor.GetChannelId(ca)));
+            // writer
+            cmdWorker.Append(cmdWorker.Create(OpCodes.Ldloc_0));
+            cmdWorker.Append(cmdWorker.Create(OpCodes.Ldc_I4, commandAttr.GetField("channel", 0)));
             cmdWorker.Append(cmdWorker.Create(OpCodes.Call, Weaver.sendCommandInternal));
 
             NetworkBehaviourProcessor.WriteRecycleWriter(cmdWorker);
@@ -122,27 +114,27 @@ namespace Mirror.Weaver
             cmdWorker.Append(cmdWorker.Create(OpCodes.Ret));
 
             NetworkBehaviourProcessor.AddInvokeParameters(cmd.Parameters);
-
+            td.Methods.Add(cmd);
             return cmd;
         }
 
-        public static bool ProcessMethodsValidateCommand(MethodDefinition md, CustomAttribute ca)
+        public static bool ProcessMethodsValidateCommand(MethodDefinition md, CustomAttribute commandAttr)
         {
             if (!md.Name.StartsWith("Cmd"))
             {
-                Weaver.Error($"{md} must start with Cmd.  Consider renaming it to Cmd{md.Name}");
+                Weaver.Error($"{md.Name} must start with Cmd.  Consider renaming it to Cmd{md.Name}", md);
                 return false;
             }
 
             if (md.IsStatic)
             {
-                Weaver.Error($"{md} cannot be static");
+                Weaver.Error($"{md.Name} cannot be static", md);
                 return false;
             }
 
             // validate
             return NetworkBehaviourProcessor.ProcessMethodsValidateFunction(md) &&
-                   NetworkBehaviourProcessor.ProcessMethodsValidateParameters(md, ca);
+                   NetworkBehaviourProcessor.ProcessMethodsValidateParameters(md, commandAttr);
         }
     }
 }

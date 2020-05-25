@@ -36,7 +36,7 @@ namespace Racerr.Gameplay.Car
         /// SyncVar hook for position updates.
         /// </summary>
         /// <param name="realPosition">The new position.</param>
-        void UpdatePosition(Vector3 realPosition)
+        void UpdatePosition(Vector3 oldValue, Vector3 realPosition)
         {
             if (!hasAuthority)
             {
@@ -49,7 +49,7 @@ namespace Racerr.Gameplay.Car
         /// SyncVar hook for rotation updates.
         /// </summary>
         /// <param name="realRotation">The new rotation.</param>
-        void UpdateRotation(Quaternion realRotation)
+        void UpdateRotation(Quaternion oldValue, Quaternion realRotation)
         {
             if (!hasAuthority)
             {
@@ -61,7 +61,7 @@ namespace Racerr.Gameplay.Car
         /// SyncVar Hook for the velocity update.
         /// </summary>
         /// <param name="realVelocity">The new velocity.</param>
-        void UpdateVelocity(Vector3 realVelocity)
+        void UpdateVelocity(Vector3 oldValue, Vector3 realVelocity)
         {
             if (!hasAuthority)
             {
@@ -73,7 +73,7 @@ namespace Racerr.Gameplay.Car
         /// SyncVar Hook for the angular velocity update.
         /// </summary>
         /// <param name="realAngularVelocity">The new angular velocity.</param>
-        void UpdateAngularVelocity(Vector3 realAngularVelocity)
+        void UpdateAngularVelocity(Vector3 oldValue, Vector3 realAngularVelocity)
         {
             if (!hasAuthority)
             {
@@ -106,10 +106,10 @@ namespace Racerr.Gameplay.Car
         [Command]
         void CmdSynchroniseToServer(Vector3 position, Quaternion rotation, Vector3 velocity, Vector3 angularVelocity)
         {
-            UpdatePosition(position);
-            UpdateRotation(rotation);
-            UpdateVelocity(velocity);
-            UpdateAngularVelocity(angularVelocity);
+            UpdatePosition(realPosition, position);
+            UpdateRotation(realRotation, rotation);
+            UpdateVelocity(realVelocity, velocity);
+            UpdateAngularVelocity(realAngularVelocity, angularVelocity);
         }
     }
 }
