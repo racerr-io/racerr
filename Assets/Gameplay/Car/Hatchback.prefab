@@ -7718,7 +7718,7 @@ GameObject:
   - component: {fileID: -6479384051644198459}
   - component: {fileID: 1339260357018547160}
   - component: {fileID: 3663545045636821659}
-  - component: {fileID: 3455380117196853118}
+  - component: {fileID: -1018856888056696936}
   - component: {fileID: 2388928030589524058}
   m_Layer: 0
   m_Name: Hatchback
@@ -8375,7 +8375,7 @@ MonoBehaviour:
   usageConsumption: 2
   usageRegenRate: 3
   accelerationMultiplier: 4
---- !u!114 &3455380117196853118
+--- !u!114 &-1018856888056696936
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8389,12 +8389,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  interpolationBackTime: 0.1
-  extrapolationMode: 1
+  interpolationBackTime: 0
+  extrapolationMode: 2
   useExtrapolationTimeLimit: 1
-  extrapolationTimeLimit: 5
-  useExtrapolationDistanceLimit: 0
-  extrapolationDistanceLimit: 20
+  extrapolationTimeLimit: 4
+  useExtrapolationDistanceLimit: 1
+  extrapolationDistanceLimit: 5
   sendPositionThreshold: 0
   sendRotationThreshold: 0
   sendScaleThreshold: 0
@@ -8402,13 +8402,13 @@ MonoBehaviour:
   sendAngularVelocityThreshold: 0
   receivedPositionThreshold: 0
   receivedRotationThreshold: 0
-  snapPositionThreshold: 1
+  snapPositionThreshold: 2
   snapRotationThreshold: 0
   snapScaleThreshold: 0
-  positionLerpSpeed: 0.85
+  positionLerpSpeed: 0.9
   rotationLerpSpeed: 0.85
   scaleLerpSpeed: 0.85
-  timeCorrectionSpeed: 0.1
+  timeCorrectionSpeed: 0.5
   snapTimeThreshold: 3
   syncPosition: 0
   syncRotation: 0
@@ -8425,8 +8425,8 @@ MonoBehaviour:
   sendRate: 60
   networkChannel: 1
   childObjectToSync: {fileID: 0}
-  setVelocityInsteadOfPositionOnNonOwners: 0
-  maxPositionDifferenceForVelocitySyncing: 5
+  setVelocityInsteadOfPositionOnNonOwners: 1
+  maxPositionDifferenceForVelocitySyncing: 2
   useLocalTransformOnly: 0
   ownerChangeIndicator: 1
   receivedStatesCounter: 0
