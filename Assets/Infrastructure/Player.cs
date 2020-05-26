@@ -26,6 +26,10 @@ namespace Racerr.Infrastructure
                 {
                     car = carGO.GetComponent<CarManager>();
                 }
+                else if (carGO == null)
+                {
+                    car = null;
+                }
 
                 return car;
             }

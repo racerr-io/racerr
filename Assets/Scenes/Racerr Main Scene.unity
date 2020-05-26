@@ -7681,7 +7681,7 @@ MonoBehaviour:
   destroyOnClientLoad:
   - {fileID: 1584656528}
   editorDebugMode: 0
-  sentryDSN: https://adbe3394a58a4cc9bfda55e734c72ae6@sentry.io/2778692
+  sentryDSN: DISABLED-https://adbe3394a58a4cc9bfda55e734c72ae6@sentry.io/2778692
   AIStateMachinePrefab: {fileID: 7322865316836536748, guid: 6f15b8dcddbd0bc4daf3d382acdbc0e2,
     type: 3}
 --- !u!4 &1813844549

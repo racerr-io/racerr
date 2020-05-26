@@ -43,7 +43,7 @@ namespace Racerr.Gameplay.Car
 
         /* Health */
         public int MaxHealth => maxHealth;
-        const double otherCarDamageAdjustmentFactor = 0.00004f;
+        const double otherCarDamageAdjustmentFactor = 0.00006f;
         const double environmentDamageAdjustmentFactor = 0.00002f;
         [SyncVar] GameObject lastHitByPlayerGO;
         public Player LastHitByPlayer
@@ -168,46 +168,56 @@ namespace Racerr.Gameplay.Car
         [ClientCallback]
         void OnCollisionEnter(Collision collision)
         {
-            if (OwnPlayer.Health == 0 || IsZombie || !hasAuthority)
+            if (!hasAuthority)
             {
                 return;
             }
 
             ContactPoint contactPoint = collision.GetContact(0);
             bool isHitByEnvironment = collision.gameObject.CompareTag(GameObjectIdentifiers.Environment);
-            bool isHitByOtherCarFront = contactPoint.otherCollider.gameObject.CompareTag(GameObjectIdentifiers.CarFrontCollider);
-            bool isHitByOtherCarBackIntoOurBack = contactPoint.thisCollider.gameObject.CompareTag(GameObjectIdentifiers.CarBackCollider) && contactPoint.otherCollider.gameObject.CompareTag(GameObjectIdentifiers.CarBackCollider);
+            bool isRearEndOtherCar = contactPoint.otherCollider.gameObject.CompareTag(GameObjectIdentifiers.CarBackCollider);
+            bool isHeadOnCollision = contactPoint.thisCollider.gameObject.CompareTag(GameObjectIdentifiers.CarFrontCollider) && contactPoint.otherCollider.gameObject.CompareTag(GameObjectIdentifiers.CarFrontCollider);
 
             Vector3 collisionForce = collision.impulse / Time.fixedDeltaTime;
-            if (isHitByEnvironment)
+            if (isHitByEnvironment && OwnPlayer.Health > 0 && !IsZombie)
             {
                 OwnPlayer.Health -= Convert.ToInt32(collisionForce.magnitude * environmentDamageAdjustmentFactor);
             }
-            else if (isHitByOtherCarFront || isHitByOtherCarBackIntoOurBack)
+            else if (isRearEndOtherCar || isHeadOnCollision)
             {
-                CmdSetLastHitPlayerGO(contactPoint.otherCollider.gameObject.GetComponentInParent<CarManager>().OwnPlayer.gameObject);
-                OwnPlayer.Health -= Convert.ToInt32(collisionForce.magnitude * otherCarDamageAdjustmentFactor);
-            }
-            else
-            {
-                // Prevent the car flying up and going out of control if it is the aggressor.
-                Rigidbody rigidbody = GetComponent<Rigidbody>();
-                rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
-                this.YieldThenExecuteAsync(new WaitForSeconds(0.5f), () =>
+                GameObject otherPlayerGO = contactPoint.otherCollider.gameObject.GetComponentInParent<CarManager>().OwnPlayer.gameObject;
+                int damage = Convert.ToInt32(collisionForce.magnitude * otherCarDamageAdjustmentFactor);
+                CmdSendDamage(otherPlayerGO, damage);
+             
+                if (isRearEndOtherCar)
                 {
-                    rigidbody.constraints = RigidbodyConstraints.None;
-                });
+                    // Prevent the car flying up and going out of control if it is the aggressor.
+                    Rigidbody rigidbody = GetComponent<Rigidbody>();
+                    rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
+                    this.YieldThenExecuteAsync(new WaitForSeconds(0.5f), () =>
+                    {
+                        rigidbody.constraints = RigidbodyConstraints.None;
+                    });
+                }
             }
         }
 
         /// <summary>
-        /// Command send by the client to update the LastHitByPlayer on the server.
+        /// Damage an enemy player by sending a request to the server. The server will then
+        /// carry out the request on behalf of the client.
         /// </summary>
-        /// <param name="lastHitByPlayerGO">The player GameObject of the player who hit this car.</param>
+        /// <param name="otherPlayerGO">The player we damaged (GameObject).</param>
+        /// <param name="damage">Amount of damage to apply.</param>
         [Command]
-        void CmdSetLastHitPlayerGO(GameObject lastHitByPlayerGO)
+        public void CmdSendDamage(GameObject otherPlayerGO, int damage)
         {
-            this.lastHitByPlayerGO = lastHitByPlayerGO;
+            Player player = otherPlayerGO.GetComponent<Player>();
+            player.Health -= damage;
+
+            if (player.Car != null)
+            {
+                player.Car.lastHitByPlayerGO = playerGO;
+            }
         }
 
         /// <summary>
