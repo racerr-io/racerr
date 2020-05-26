@@ -216,12 +216,11 @@ namespace Racerr.Gameplay.Car
         public void CmdSendDamage(GameObject otherPlayerGO, int damage)
         {
             Player player = otherPlayerGO.GetComponent<Player>();
-            player.Health -= damage;
-
             if (player.Car != null)
             {
                 player.Car.lastHitByPlayerGO = playerGO;
             }
+            player.Health -= damage;
         }
 
         /// <summary>

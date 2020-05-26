@@ -3612,7 +3612,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usageConsumption: 2
   usageRegenRate: 3
-  accelerationMultiplier: 4
+  accelerationMultiplier: 5
 --- !u!114 &-100725751898492232
 MonoBehaviour:
   m_ObjectHideFlags: 0

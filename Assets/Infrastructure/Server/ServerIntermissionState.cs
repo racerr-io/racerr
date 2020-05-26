@@ -77,6 +77,7 @@ namespace Racerr.Infrastructure.Server
                 // Destroy previous track and generate new track for next race when halfway in intermission
                 if (intermissionSecondsRemaining == intermissionSecondsTotal / 2)
                 {
+                    raceSessionData = new RaceSessionData(0);
                     TrackGenerator.Singleton.DestroyIfRequired();
 
                     // Spawn/despawn required AI players
