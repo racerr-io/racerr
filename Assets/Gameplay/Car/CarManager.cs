@@ -185,19 +185,23 @@ namespace Racerr.Gameplay.Car
             }
             else if (isRearEndOtherCar || isHeadOnCollision)
             {
-                GameObject otherPlayerGO = contactPoint.otherCollider.gameObject.GetComponentInParent<CarManager>().OwnPlayer.gameObject;
-                int damage = Convert.ToInt32(collisionForce.magnitude * otherCarDamageAdjustmentFactor);
-                CmdSendDamage(otherPlayerGO, damage);
-             
-                if (isRearEndOtherCar)
+                CarManager car = contactPoint.otherCollider.gameObject.GetComponentInParent<CarManager>();
+                if (!car.IsZombie)
                 {
-                    // Prevent the car flying up and going out of control if it is the aggressor.
-                    Rigidbody rigidbody = GetComponent<Rigidbody>();
-                    rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
-                    this.YieldThenExecuteAsync(new WaitForSeconds(0.5f), () =>
+                    GameObject otherPlayerGO = car.OwnPlayer.gameObject;
+                    int damage = Convert.ToInt32(collisionForce.magnitude * otherCarDamageAdjustmentFactor);
+                    CmdSendDamage(otherPlayerGO, damage);
+
+                    if (isRearEndOtherCar)
                     {
-                        rigidbody.constraints = RigidbodyConstraints.None;
-                    });
+                        // Prevent the car flying up and going out of control if it is the aggressor.
+                        Rigidbody rigidbody = GetComponent<Rigidbody>();
+                        rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
+                        this.YieldThenExecuteAsync(new WaitForSeconds(0.5f), () =>
+                        {
+                            rigidbody.constraints = RigidbodyConstraints.None;
+                        });
+                    }
                 }
             }
         }
