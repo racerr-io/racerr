@@ -1,7 +1,6 @@
 ﻿using Mirror;
 using Racerr.Gameplay.Car;
 using Racerr.Utility;
-using Racerr.World.Track;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -55,9 +54,9 @@ namespace Racerr.Infrastructure.Server
         [Server]
         void EnableAllPlayerCarControllers()
         {
-            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.CarManager != null))
+            foreach (Player player in raceSessionData.PlayersInRace.Where(player => player.Car != null))
             {
-                player.CarManager.SetIsActive(true);
+                player.Car.SetIsActive(true);
             }
         }
 
@@ -66,7 +65,7 @@ namespace Racerr.Infrastructure.Server
         /// their car is removed and they are marked as finished.
         /// </summary>
         /// <param name="player">The player that finished.</param>
-        [Server]
+        [ServerCallback]
         void NotifyPlayerFinished(Player player)
         {
             raceSessionData.FinishedPlayers.Add(player);
@@ -85,14 +84,14 @@ namespace Racerr.Infrastructure.Server
         /// </summary>
         /// <param name="player">The player that passed through.</param>
         /// <param name="checkpoint">The checkpoint the player hit.</param>
-        [Server]
+        [ServerCallback]
         public void NotifyPlayerPassedThroughCheckpoint(Player player, GameObject checkpoint)
         {
-            if (player.CarManager == null)
+            if (player.Car == null || ServerStateMachine.Singleton.StateType != StateEnum.Race)
             {
                 return;
             }
-            else if (player.CarManager.CarType == CarManager.CarTypeEnum.Racer)
+            else if (player.Car.CarType == CarManager.CarTypeEnum.Racer)
             {
                 player.PosInfo.Checkpoints.Add(checkpoint);
 
@@ -101,7 +100,7 @@ namespace Racerr.Infrastructure.Server
                     NotifyPlayerFinished(player);
                 }
             }
-            else if (player.CarManager.CarType == CarManager.CarTypeEnum.Police)
+            else if (player.Car.CarType == CarManager.CarTypeEnum.Police)
             {
                 SpawnManager.Singleton.NotifyPlayerPoliceCarNotOnFinishingGrid(player);
             }
@@ -118,9 +117,9 @@ namespace Racerr.Infrastructure.Server
             UpdateRaceFinishTimeIfAnyPlayerFinished();
 
             bool isRaceFinished = raceSessionData.FinishedPlayers.Count + raceSessionData.DeadAsRacerPlayers.Count == raceSessionData.PlayersInRace.Count || RemainingRaceTime <= 0;
-            bool isRaceEmpty = raceSessionData.PlayersInRace.Count == 0;
+            bool isRaceHasNoHumanPlayers = raceSessionData.PlayersInRace.Where(player => !player.IsAI).Count() == 0;
 
-            if (isRaceEmpty)
+            if (isRaceHasNoHumanPlayers)
             {
                 TransitionToIdle();
             }

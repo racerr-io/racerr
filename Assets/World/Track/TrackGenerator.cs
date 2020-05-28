@@ -232,18 +232,10 @@ namespace Racerr.World.Track
             Destroy(origin);
             IsTrackGenerating = false;
             IsTrackGenerated = true;
-            CheckpointsInRace = GeneratedTrackPieces.Select(trackPiece =>
-            {
-                GameObject result = trackPiece.transform.Find(GameObjectIdentifiers.Checkpoint)?.gameObject;
-
-                if (result == null)
-                {
-                    // Special case for the finishing line, it has a different label.
-                    result = trackPiece.transform.Find(GameObjectIdentifiers.FinishLineCheckpoint).gameObject;
-                }
-
-                return result;
-            }).ToArray();
+            CheckpointsInRace = GeneratedTrackPieces
+                .SelectMany(trackPiece => trackPiece.GetComponentsInChildren<TrackPieceCheckpointDetector>())
+                .Select(trackPieceCheckpointDetector => trackPieceCheckpointDetector.gameObject)
+                .ToArray();
             RpcInvokeTrackGeneratedEvent();
             SentrySdk.AddBreadcrumb("Track generator finished.");
         }
@@ -306,6 +298,26 @@ namespace Racerr.World.Track
             }
 
             return tracePieceLinkTransform;
+        }
+
+        /// <summary>
+        /// Draws a graph of the route from start to finish in the editor. Useful for debugging the order and granularity of checkpoint placement.
+        /// </summary>
+        void OnDrawGizmos()
+        {
+            if (CheckpointsInRace == null)
+            {
+                return;
+            }
+
+            Gizmos.color = Color.green;
+            for (int i = 1; i < CheckpointsInRace.Length; i++)
+            {
+                Vector3 currentCheckpoint = CheckpointsInRace[i].transform.position;
+                Vector3 previousCheckpoint = CheckpointsInRace[(CheckpointsInRace.Length - 1 + i) % CheckpointsInRace.Length].transform.position;
+                Gizmos.DrawWireSphere(currentCheckpoint, 2);
+                Gizmos.DrawLine(previousCheckpoint, currentCheckpoint);
+            }
         }
     }
 }

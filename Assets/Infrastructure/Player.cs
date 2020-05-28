@@ -4,6 +4,7 @@ using Racerr.Infrastructure.Server;
 using Racerr.Utility;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Racerr.Infrastructure
@@ -15,24 +16,28 @@ namespace Racerr.Infrastructure
     {
         #region Player's Car
 
-        /* Client and Server Properties */
         [SyncVar] GameObject carGO;
-        CarManager carManager;
-        public CarManager CarManager
+        CarManager car;
+        public CarManager Car
         {
             get
             {
-                if (carGO != null && (carManager == null || (carManager != null && carManager.gameObject != carGO)))
+                if (carGO != null && (car == null || (car != null && car.gameObject != carGO)))
                 {
-                    carManager = carGO.GetComponent<CarManager>();
+                    car = carGO.GetComponent<CarManager>();
+                }
+                else if (carGO == null)
+                {
+                    car = null;
                 }
 
-                return carManager;
+                return car;
             }
         }
 
-        /* Server Only Properties */
-        List<GameObject> ZombieCarGOs { get; } = new List<GameObject>();
+        class SyncListGameObject : SyncList<GameObject> { }
+        readonly SyncListGameObject zombieCarGOs = new SyncListGameObject();
+        public IReadOnlyList<GameObject> ZombieCarGOs => zombieCarGOs;
 
         /// <summary>
         /// Spawn the player's car in a given position, given the prefab to spawn and what type of car it is (Racer, Police).
@@ -44,19 +49,16 @@ namespace Racerr.Infrastructure
         [Server]
         public void CreateCarForPlayer(Vector3 spawnPosition, Quaternion spawnRotation, GameObject carPrefab, CarManager.CarTypeEnum carType)
         {
-            // Mark any existing car as zombie (their car just stays on the track, chilling).
-            MarkPlayerCarAsZombie();
-
             // Instantiate and setup car.
             GameObject carGO = Instantiate(carPrefab, spawnPosition, spawnRotation);
-            carManager = carGO.GetComponent<CarManager>();
-            carManager.PlayerGO = gameObject;
-            carManager.CarType = carType;
+            car = carGO.GetComponent<CarManager>();
+            car.PlayerGO = gameObject;
+            car.CarType = carType;
 
             // Setup and sync over network.
             NetworkServer.Spawn(carGO, gameObject);
             this.carGO = carGO;
-            Health = CarManager.MaxHealth;
+            Health = Car.MaxHealth;
 
             // Log for Sentry Breadcrumb
             SentrySdk.AddBreadcrumb($"Created new car for player { PlayerName } with carType { carType }.");
@@ -71,7 +73,7 @@ namespace Racerr.Infrastructure
         [Command]
         public void CmdSpawnPoliceCarOnFinishingGrid()
         {
-            if (CarManager.CarType != CarManager.CarTypeEnum.Racer || !IsDeadAsRacer)
+            if (!IsDeadAsRacer)
             {
                 SentrySdk.AddBreadcrumb("Attempt to spawn police car onto track with failed precondition.");
                 return;
@@ -89,10 +91,10 @@ namespace Racerr.Infrastructure
         {
             if (carGO != null)
             {
-                carManager.SetIsActive(false);
-                ZombieCarGOs.Add(carGO);
+                car.SetIsActive(false);
+                zombieCarGOs.Add(carGO);
                 carGO = null;
-                carManager = null;
+                car = null;
                 SentrySdk.AddBreadcrumb($"Marked { PlayerName }'s car as zombie.");
             }
         }
@@ -105,8 +107,11 @@ namespace Racerr.Infrastructure
         public void DestroyAllCarsForPlayer()
         {
             MarkPlayerCarAsZombie();
-            ZombieCarGOs.ForEach(NetworkServer.Destroy);
-            ZombieCarGOs.Clear();
+            foreach (GameObject zombieCarGO in ZombieCarGOs)
+            {
+                NetworkServer.Destroy(zombieCarGO);
+            }
+            zombieCarGOs.Clear();
             SentrySdk.AddBreadcrumb($"Destroyed all cars for player { PlayerName }.");
         }
 
@@ -118,28 +123,9 @@ namespace Racerr.Infrastructure
 
         [SyncVar] string playerName;
         [SyncVar] bool isReady;
-        [SyncVar(hook = nameof(OnPlayerHealthChanged))] int health = 0;
+        [SyncVar] int health = 0;
         [SyncVar] PositionInfo positionInfo;
-
-        /// <summary>
-        /// When playerHealth SyncVar updates, this function is called to update
-        /// the PlayerBar UI and deactive the car if it has ran out of health.
-        /// </summary>
-        /// <param name="health">The new health value.</param>
-        void OnPlayerHealthChanged(int health)
-        {
-            this.health = health;
-            
-            if (CarManager != null && CarManager.PlayerBar != null)
-            {
-                CarManager.PlayerBar.SetHealthBar(health);
-            }
-
-            if (CarManager != null && health == 0)
-            {
-                CarManager.SetIsActive(false);
-            }
-        }
+        [SyncVar] bool isAI;
 
         #endregion
 
@@ -152,6 +138,7 @@ namespace Racerr.Infrastructure
             {
                 if (isServer)
                 {
+                    name = "Player - " + value;
                     playerName = value;
                 }
                 else
@@ -186,24 +173,28 @@ namespace Racerr.Infrastructure
 
                 if (isServer)
                 {
+                    if (value == 0)
+                    {
+                        MarkPlayerCarAsZombie();
+                    }
+
                     health = value;
                 }
                 else
                 {
-                    OnPlayerHealthChanged(value);
                     CmdSynchroniseHealth(value);
                 }
             }
         }
 
         // They are an alive racer or police.
-        public bool IsInRace => Health > 0 && !PosInfo.IsFinished && CarManager != null;
+        public bool IsInRace => Health > 0 && !PosInfo.IsFinished && Car != null;
 
         // Either the racer just died, they are a police or a dead police.
-        public bool IsDeadAsRacer => !PosInfo.IsFinished && (Health == 0 || CarManager == null || CarManager.CarType == CarManager.CarTypeEnum.Police);
+        public bool IsDeadAsRacer => !PosInfo.IsFinished && ZombieCarGOs.Any(zombieCarGO => zombieCarGO.GetComponent<CarManager>().CarType == CarManager.CarTypeEnum.Racer);
 
         // They are dead police.
-        public bool IsDeadCompletely => !PosInfo.IsFinished && Health == 0 && (CarManager == null || CarManager.CarType == CarManager.CarTypeEnum.Police);
+        public bool IsDeadCompletely => !PosInfo.IsFinished && ZombieCarGOs.Any(zombieCarGO => zombieCarGO.GetComponent<CarManager>().CarType == CarManager.CarTypeEnum.Police);
 
         public PositionInfo PosInfo
         {
@@ -216,7 +207,23 @@ namespace Racerr.Infrastructure
                 }
                 else
                 {
-                    CmdSynchronisePositionInfo(value);
+                    throw new InvalidOperationException("Only server can set this property.");
+                }
+            }
+        }
+
+        public bool IsAI
+        {
+            get => isAI;
+            set
+            {
+                if (isServer)
+                {
+                    isAI = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Only server can set this property.");
                 }
             }
         }
@@ -238,25 +245,19 @@ namespace Racerr.Infrastructure
         [Command]
         void CmdSynchroniseIsReady(bool isReady)
         {
-            this.isReady = isReady;
+            IsReady = isReady;
         }
 
         [Command]
         void CmdSynchronisePlayerName(string playerName)
         {
-            this.playerName = playerName;
+            PlayerName = playerName;
         }
 
         [Command]
         void CmdSynchroniseHealth(int health)
         {
-            this.health = health;
-        }
-
-        [Command]
-        void CmdSynchronisePositionInfo(PositionInfo positionInfo)
-        {
-            this.positionInfo = positionInfo;
+            Health = health;
         }
 
         #endregion

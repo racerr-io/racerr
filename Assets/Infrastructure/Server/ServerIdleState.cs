@@ -9,13 +9,23 @@ namespace Racerr.Infrastructure.Server
     public class ServerIdleState : NetworkedState
     {
         /// <summary>
+        /// No point have AI players connected during ID state, so disconnect them.
+        /// </summary>
+        /// <param name="optionalData">Should be null.</param>
+        [Server]
+        public override void Enter(object optionalData = null)
+        {
+            ServerManager.singleton.DisconnectAIPlayers(ServerStateMachine.Singleton.PlayersInServer.Count);
+        }
+
+        /// <summary>
         /// Called every game tick.
-        /// Checks whether or not to transition to intermission state, based on if the server has any connected players.
+        /// Checks whether or not to transition to intermission state, based on if the server has any connected human players.
         /// </summary>
         [Server]
         void FixedUpdate()
         {
-            if (ServerStateMachine.Singleton.PlayersInServer.Any(p => p.IsReady))
+            if (ServerStateMachine.Singleton.ReadyPlayers.Any(player => !player.IsAI))
             {
                 TransitionToIntermission();
             }

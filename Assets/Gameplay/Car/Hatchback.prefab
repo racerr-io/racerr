@@ -54,6 +54,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -281,7 +282,7 @@ MonoBehaviour:
   wheelHits: []
   scanIgnoreLayers:
     serializedVersion: 2
-    m_Bits: 1048580
+    m_Bits: 4
   forwardScanResolution: 8
   sideToSideScanResolution: 3
   hasHit: 1
@@ -2820,7 +2821,7 @@ MonoBehaviour:
   wheelHits: []
   scanIgnoreLayers:
     serializedVersion: 2
-    m_Bits: 1048580
+    m_Bits: 4
   forwardScanResolution: 8
   sideToSideScanResolution: 3
   hasHit: 1
@@ -5359,7 +5360,7 @@ MonoBehaviour:
   wheelHits: []
   scanIgnoreLayers:
     serializedVersion: 2
-    m_Bits: 1048580
+    m_Bits: 4
   forwardScanResolution: 8
   sideToSideScanResolution: 3
   hasHit: 1
@@ -7711,12 +7712,13 @@ GameObject:
   - component: {fileID: 187366651734599786}
   - component: {fileID: -6983455188103148685}
   - component: {fileID: 4096446272342653620}
-  - component: {fileID: 8159213384489189590}
   - component: {fileID: 4930241172356467430}
+  - component: {fileID: -513754173798599553}
   - component: {fileID: 2884214067324581932}
   - component: {fileID: -6479384051644198459}
   - component: {fileID: 1339260357018547160}
   - component: {fileID: 3663545045636821659}
+  - component: {fileID: -1018856888056696936}
   - component: {fileID: 2388928030589524058}
   m_Layer: 0
   m_Name: Hatchback
@@ -7780,6 +7782,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7821,6 +7824,7 @@ MonoBehaviour:
   maxHealth: 75
   playerBarPrefab: {fileID: 4182034153008739931, guid: fae0477d4f724c842b5bfdacd350b2f5,
     type: 3}
+  transparentMaterial: {fileID: 2100000, guid: dfa6b8f42de08414e877382015c1cb23, type: 2}
 --- !u!114 &187366651734599786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8275,21 +8279,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   centerOfMassOffset: {x: 0, y: -1, z: 0}
   showCOM: 1
---- !u!114 &8159213384489189590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018952010411425780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76b4b1b513f7c1e4886472bee2224c77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0
-  interpolationFactor: 0.4
 --- !u!114 &4930241172356467430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8306,6 +8295,20 @@ MonoBehaviour:
   verticalInputType: 0
   vehicleChanger: {fileID: 0}
   vehicleController: {fileID: 0}
+--- !u!114 &-513754173798599553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018952010411425780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58bad3bd00ed981488d5fff1d038012b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheelFL: {fileID: 1581372805895009491}
+  wheelFR: {fileID: 1361990301930259481}
 --- !u!114 &2884214067324581932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8371,7 +8374,62 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usageConsumption: 2
   usageRegenRate: 3
-  accelerationMultiplier: 4
+  accelerationMultiplier: 5
+--- !u!114 &-1018856888056696936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018952010411425780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad225009ad414e1428332cab226f38fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  interpolationBackTime: 0
+  extrapolationMode: 2
+  useExtrapolationTimeLimit: 1
+  extrapolationTimeLimit: 4
+  useExtrapolationDistanceLimit: 1
+  extrapolationDistanceLimit: 5
+  sendPositionThreshold: 0
+  sendRotationThreshold: 0
+  sendScaleThreshold: 0
+  sendVelocityThreshold: 0
+  sendAngularVelocityThreshold: 0
+  receivedPositionThreshold: 0
+  receivedRotationThreshold: 0
+  snapPositionThreshold: 3
+  snapRotationThreshold: 0
+  snapScaleThreshold: 0
+  positionLerpSpeed: 0.9
+  rotationLerpSpeed: 0.85
+  scaleLerpSpeed: 0.85
+  timeCorrectionSpeed: 0.5
+  snapTimeThreshold: 3
+  syncPosition: 0
+  syncRotation: 0
+  syncScale: 7
+  syncVelocity: 0
+  syncAngularVelocity: 0
+  isPositionCompressed: 0
+  isRotationCompressed: 0
+  isScaleCompressed: 0
+  isVelocityCompressed: 0
+  isAngularVelocityCompressed: 0
+  isSmoothingAuthorityChanges: 0
+  whenToUpdateTransform: 0
+  sendRate: 60
+  networkChannel: 1
+  childObjectToSync: {fileID: 0}
+  setVelocityInsteadOfPositionOnNonOwners: 1
+  maxPositionDifferenceForVelocitySyncing: 3
+  useLocalTransformOnly: 0
+  ownerChangeIndicator: 1
+  receivedStatesCounter: 0
 --- !u!114 &2388928030589524058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8384,9 +8442,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
   m_AssetId: 
-  m_SceneId: 0
+  hasSpawned: 0
 --- !u!1 &1018952011545791252
 GameObject:
   m_ObjectHideFlags: 0
@@ -8590,7 +8649,7 @@ MonoBehaviour:
   wheelHits: []
   scanIgnoreLayers:
     serializedVersion: 2
-    m_Bits: 1048580
+    m_Bits: 4
   forwardScanResolution: 8
   sideToSideScanResolution: 3
   hasHit: 1
@@ -10980,6 +11039,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -11134,6 +11194,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -11290,6 +11351,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

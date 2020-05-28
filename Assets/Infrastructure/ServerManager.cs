@@ -2,6 +2,7 @@
 using UnityEngine;
 using Racerr.Infrastructure.Server;
 using System;
+using System.Linq;
 
 namespace Racerr.Infrastructure
 {
@@ -10,11 +11,14 @@ namespace Racerr.Infrastructure
     /// </summary>
     public class ServerManager : NetworkManager
     {
+        public new static ServerManager singleton => NetworkManager.singleton as ServerManager;
+
         [Header("Other")]
         [SerializeField] UnityEngine.Object[] destroyOnHeadlessLoad;
         [SerializeField] UnityEngine.Object[] destroyOnClientLoad;
         [SerializeField] EditorDebugModeEnum editorDebugMode;
         [SerializeField] string sentryDSN;
+        [SerializeField] GameObject AIStateMachinePrefab;
 
         const string localServerAddress = "localhost";
         enum EditorDebugModeEnum
@@ -97,8 +101,11 @@ namespace Racerr.Infrastructure
                 Destroy(unityEngineObject);
             }
 
+            // Create fake audio listener to prevent annoying log messages caused by deleting the camera.
+            new GameObject("Audio Listener for Headless mode").AddComponent<AudioListener>();
+
             Application.targetFrameRate = serverTickRate;
-            StartServer();
+            StartHost();
         }
 
         /// <summary>
@@ -120,14 +127,20 @@ namespace Racerr.Infrastructure
 
         /// <summary>
         /// Upon player joining, add the new player, associate them with the Player game object and synchronise on all clients.
+        /// Note we don't add a player for the headless server player - they are not a real player.
         /// </summary>
         /// <param name="conn">Player's connection info.</param>
         public override void OnServerAddPlayer(NetworkConnection conn)
         {
-            SentrySdk.AddBreadcrumb("Player connected.");
+            if ((isHeadless || Application.isEditor && editorDebugMode == EditorDebugModeEnum.Headless) && conn == NetworkServer.localConnection)
+            {
+                return;
+            }
+
             GameObject player = Instantiate(playerPrefab);
             NetworkServer.AddPlayerForConnection(conn, player);
             ServerStateMachine.Singleton.AddNewPlayer(player);
+            SentrySdk.AddBreadcrumb("Player connected.");
         }
 
         /// <summary>
@@ -136,9 +149,54 @@ namespace Racerr.Infrastructure
         /// <param name="conn">Player's connection info.</param>
         public override void OnServerDisconnect(NetworkConnection conn)
         {
-            SentrySdk.AddBreadcrumb("Player disconnected.");
             ServerStateMachine.Singleton.RemovePlayer(conn.identity.gameObject);
             NetworkServer.DestroyPlayerForConnection(conn);
+            SentrySdk.AddBreadcrumb("Player disconnected.");
+        }
+
+        /// <summary>
+        /// Connect new AI player in the game, along with their very own AI state machine.
+        /// </summary>
+        public void ConnectAIPlayers(int numToConnect)
+        {
+            for (int i = 0; i < numToConnect; i++)
+            {
+                GameObject playerGO = Instantiate(playerPrefab);
+                NetworkServer.Spawn(playerGO, NetworkServer.localConnection);
+                Player player = playerGO.GetComponent<Player>();
+                int AIPlayerNo = ServerStateMachine.Singleton.PlayersInServer.Where(serverPlayer => serverPlayer.IsAI).Count() + 1;
+                player.PlayerName = $"AI {AIPlayerNo}";
+                player.IsReady = true;
+                player.IsAI = true;
+                ServerStateMachine.Singleton.AddNewPlayer(playerGO);
+                GameObject AIStateMachine = Instantiate(AIStateMachinePrefab, playerGO.transform);
+                AIStateMachine.name = $"AI State Machine - {player.PlayerName}";
+                SentrySdk.AddBreadcrumb("AI player connected.");
+            }
+        }
+
+        /// <summary>
+        /// Disconnects the most recently spawned AI players, if any exists.
+        /// </summary>
+        public void DisconnectAIPlayers(int numToDisconnect)
+        {
+            for (int i = 0; i < numToDisconnect; i++)
+            {
+                Player player = ServerStateMachine.Singleton.PlayersInServer.Where(serverPlayer => serverPlayer.IsAI).LastOrDefault();
+
+                if (player != null)
+                {
+                    player.DestroyAllCarsForPlayer();
+                    ServerStateMachine.Singleton.RemovePlayer(player.gameObject);
+                    NetworkServer.Destroy(player.gameObject);
+                }
+                else
+                {
+                    break;
+                }
+
+                SentrySdk.AddBreadcrumb("AI player disconnected.");
+            }
         }
 
         /// <summary>

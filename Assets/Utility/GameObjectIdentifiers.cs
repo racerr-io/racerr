@@ -1,4 +1,6 @@
-﻿namespace Racerr.Utility
+﻿using UnityEngine;
+
+namespace Racerr.Utility
 {
     /// <summary>
     /// Strings used throughout the game to label game objects
@@ -19,5 +21,8 @@
         public const string StartLine = "Start Line";
         public const string FinishLine = "Finish Line";
         public const string Car = "Car";
+        public const int InvulnerableLayer = 9;
+        public const string Invulnerable = "Invulnerable";
+        public const string IgnoreRaycast = "Ignore Raycast";
     }
 }
