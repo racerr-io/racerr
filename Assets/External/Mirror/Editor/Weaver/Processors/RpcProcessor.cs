@@ -1,8 +1,11 @@
-// all the [Rpc] code from NetworkBehaviourProcessor in one place
 using Mono.CecilX;
 using Mono.CecilX.Cil;
+
 namespace Mirror.Weaver
 {
+    /// <summary>
+    /// Processes [Rpc] methods in NetworkBehaviour
+    /// </summary>
     public static class RpcProcessor
     {
         public const string RpcPrefix = "InvokeRpc";
@@ -31,7 +34,7 @@ namespace Mirror.Weaver
             rpcWorker.Append(rpcWorker.Create(OpCodes.Ret));
 
             NetworkBehaviourProcessor.AddInvokeParameters(rpc.Parameters);
-
+            td.Methods.Add(rpc);
             return rpc;
         }
 
@@ -57,22 +60,9 @@ namespace Mirror.Weaver
             This way we do not need to modify the code anywhere else,  and this works
             correctly in dependent assemblies
         */
-        public static MethodDefinition ProcessRpcCall(TypeDefinition td, MethodDefinition md, CustomAttribute ca)
+        public static MethodDefinition ProcessRpcCall(TypeDefinition td, MethodDefinition md, CustomAttribute clientRpcAttr)
         {
-            MethodDefinition rpc = new MethodDefinition("Call" + md.Name, MethodAttributes.Public |
-                    MethodAttributes.HideBySig,
-                    Weaver.voidType);
-
-            // add paramters
-            foreach (ParameterDefinition pd in md.Parameters)
-            {
-                rpc.Parameters.Add(new ParameterDefinition(pd.Name, ParameterAttributes.None, pd.ParameterType));
-            }
-
-            // move the old body to the new function
-            MethodBody newBody = rpc.Body;
-            rpc.Body = md.Body;
-            md.Body = newBody;
+            MethodDefinition rpc = MethodProcessor.SubstituteMethod(td, md, "Call" + md.Name);
 
             ILProcessor rpcWorker = md.Body.GetILProcessor();
 
@@ -92,12 +82,15 @@ namespace Mirror.Weaver
             }
 
             // invoke SendInternal and return
-            rpcWorker.Append(rpcWorker.Create(OpCodes.Ldarg_0)); // this
+            // this
+            rpcWorker.Append(rpcWorker.Create(OpCodes.Ldarg_0));
             rpcWorker.Append(rpcWorker.Create(OpCodes.Ldtoken, td));
-            rpcWorker.Append(rpcWorker.Create(OpCodes.Call, Weaver.getTypeFromHandleReference)); // invokerClass
+            // invokerClass
+            rpcWorker.Append(rpcWorker.Create(OpCodes.Call, Weaver.getTypeFromHandleReference));
             rpcWorker.Append(rpcWorker.Create(OpCodes.Ldstr, rpcName));
-            rpcWorker.Append(rpcWorker.Create(OpCodes.Ldloc_0)); // writer
-            rpcWorker.Append(rpcWorker.Create(OpCodes.Ldc_I4, NetworkBehaviourProcessor.GetChannelId(ca)));
+            // writer
+            rpcWorker.Append(rpcWorker.Create(OpCodes.Ldloc_0));
+            rpcWorker.Append(rpcWorker.Create(OpCodes.Ldc_I4, clientRpcAttr.GetField("channel", 0)));
             rpcWorker.Append(rpcWorker.Create(OpCodes.Callvirt, Weaver.sendRpcInternal));
 
             NetworkBehaviourProcessor.WriteRecycleWriter(rpcWorker);
@@ -107,23 +100,23 @@ namespace Mirror.Weaver
             return rpc;
         }
 
-        public static bool ProcessMethodsValidateRpc(MethodDefinition md, CustomAttribute ca)
+        public static bool ProcessMethodsValidateRpc(MethodDefinition md, CustomAttribute clientRpcAttr)
         {
             if (!md.Name.StartsWith("Rpc"))
             {
-                Weaver.Error($"{md} must start with Rpc.  Consider renaming it to Rpc{md.Name}");
+                Weaver.Error($"{md.Name} must start with Rpc.  Consider renaming it to Rpc{md.Name}", md);
                 return false;
             }
 
             if (md.IsStatic)
             {
-                Weaver.Error($"{md} must not be static");
+                Weaver.Error($"{md.Name} must not be static", md);
                 return false;
             }
 
             // validate
             return NetworkBehaviourProcessor.ProcessMethodsValidateFunction(md) &&
-                   NetworkBehaviourProcessor.ProcessMethodsValidateParameters(md, ca);
+                   NetworkBehaviourProcessor.ProcessMethodsValidateParameters(md, clientRpcAttr);
         }
     }
 }

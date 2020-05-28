@@ -1,4 +1,6 @@
-﻿using Racerr.Infrastructure.Server;
+﻿using Mirror;
+using Racerr.Infrastructure.Server;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -21,7 +23,7 @@ namespace Racerr.UX.UI
         /// <param name="leaderboardItems">A unmodifiable collection of leaderboard item structs</param>
         public void UpdateLeaderboard(IReadOnlyCollection<RaceSessionState.PlayerLeaderboardItemDTO> leaderboardItems)
         {
-            string leaderboardText = string.Empty;
+            string leaderboardText = "Latency: " + Convert.ToInt32(NetworkTime.rtt * 1000) + "ms\n";
 
             foreach (RaceSessionState.PlayerLeaderboardItemDTO leaderboardItem in leaderboardItems)
             {

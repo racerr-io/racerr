@@ -4,7 +4,7 @@ using Racerr.Infrastructure.Server;
 using Racerr.Utility;
 using Racerr.UX.Camera;
 using Racerr.UX.UI;
-using Racerr.World.Track;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Racerr.Infrastructure.Client
@@ -21,6 +21,7 @@ namespace Racerr.Infrastructure.Client
         [SerializeField] CameraInfoUIComponent cameraInfoUIComponent;
         [SerializeField] DeathInfoUIComponent deathInfoUIComponent;
 
+        PrimaryCamera.CameraType originalCameraType;
         bool allowTransition = true;
 
         /// <summary>
@@ -32,19 +33,25 @@ namespace Racerr.Infrastructure.Client
         public override void Enter(object optionalData = null)
         {
             deathView.Show();
+            originalCameraType = ClientStateMachine.Singleton.PrimaryCamera.CamType;
 
-            CarManager playerCarManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
-            Player killer = playerCarManager.LastHitByPlayer;
+            IReadOnlyList<GameObject> zombieCarGOs = ClientStateMachine.Singleton.LocalPlayer.ZombieCarGOs;
+            CarManager car = zombieCarGOs[zombieCarGOs.Count - 1].GetComponent<CarManager>(); // The last element in the list is the most recent car which died.
+            Player killer = car.LastHitByPlayer;
             if (killer != null)
             {
-                bool showRevengeInstruction = playerCarManager.CarType == CarManager.CarTypeEnum.Racer;
+                bool showRevengeInstruction = car.CarType == CarManager.CarTypeEnum.Racer;
                 deathInfoUIComponent.UpdateDeathInfo(killer.PlayerName, showRevengeInstruction);
-                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(killer.CarManager.transform, PrimaryCamera.CameraType.Death);
+
+                if (killer.Car != null)
+                {
+                    ClientStateMachine.Singleton.PrimaryCamera.SetTarget(killer.Car.transform, PrimaryCamera.CameraType.Death);
+                }
             }
             else
             {
                 deathInfoUIComponent.UpdateDeathInfo(null, false);
-                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(playerCarManager.transform, PrimaryCamera.CameraType.Death);
+                ClientStateMachine.Singleton.PrimaryCamera.SetTarget(car.transform, PrimaryCamera.CameraType.Death);
             }
             
             TransitionAfterWaitingPeriod();
@@ -57,6 +64,7 @@ namespace Racerr.Infrastructure.Client
         public override void Exit()
         {
             deathView.Hide();
+            ClientStateMachine.Singleton.PrimaryCamera.SetTarget(null, originalCameraType);
             allowTransition = false;
         }
 

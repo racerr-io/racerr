@@ -1,6 +1,8 @@
 ﻿using Mirror;
 using Racerr.World.Track;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -14,6 +16,7 @@ namespace Racerr.Infrastructure.Server
         [SerializeField] int intermissionTimerSecondsEditor = 1;
         [SerializeField] int intermissionTimerSeconds = 10;
         [SerializeField] int intermissionTimerSecondsSinglePlayer = 20;
+        [SerializeField] int minPlayersOnServer = 10;
 
         int intermissionSecondsTotal;
         [SyncVar] int intermissionSecondsRemaining;
@@ -48,7 +51,9 @@ namespace Racerr.Infrastructure.Server
             }    
             else
             {
-                intermissionSecondsTotal = ServerStateMachine.Singleton.ReadyPlayers.Count > 1 ? intermissionTimerSeconds : intermissionTimerSecondsSinglePlayer;
+                intermissionSecondsTotal = ServerStateMachine.Singleton.ReadyPlayers.Count(player => !player.IsAI) > 1 
+                    ? intermissionTimerSeconds 
+                    : intermissionTimerSecondsSinglePlayer;
             }
 
             StartCoroutine(IntermissionTimerAndTrackGeneration());
@@ -56,7 +61,7 @@ namespace Racerr.Infrastructure.Server
 
         /// <summary>
         /// Coroutine for counting down the intermission timer.
-        /// When timer reaches half time, the previous track is destroyed and a new one
+        /// When timer reaches half time, the previous track is destroyed and a new one is created with neccessary AI players.
         /// When timer reaches 0, forces a state change depending on whether or not there are players.
         /// </summary>
         /// <returns>IEnumerator for coroutine.</returns>
@@ -72,13 +77,27 @@ namespace Racerr.Infrastructure.Server
                 // Destroy previous track and generate new track for next race when halfway in intermission
                 if (intermissionSecondsRemaining == intermissionSecondsTotal / 2)
                 {
+                    raceSessionData = new RaceSessionData(0);
                     TrackGenerator.Singleton.DestroyIfRequired();
-                    TrackGenerator.Singleton.GenerateIfRequired(ServerStateMachine.Singleton.ReadyPlayers);
+
+                    // Spawn/despawn required AI players
+                    int numToSpawn = minPlayersOnServer - ServerStateMachine.Singleton.ReadyPlayers.Count;
+                    if (numToSpawn > 0)
+                    {
+                        ServerManager.singleton.ConnectAIPlayers(numToSpawn);
+                    }
+                    else
+                    {
+                        ServerManager.singleton.DisconnectAIPlayers(-numToSpawn);
+                    }
+
+                    List<Player> shuffledReadyPlayers = ServerStateMachine.Singleton.ReadyPlayers.OrderBy(_ => Guid.NewGuid()).ToList();
+                    TrackGenerator.Singleton.GenerateIfRequired(shuffledReadyPlayers);
                 }
             }
 
             // Intermission Timer fully finished - now we transition to states based on whether or not there are players.
-            if (ServerStateMachine.Singleton.PlayersInServer.Any())
+            if (ServerStateMachine.Singleton.ReadyPlayers.Any(player => !player.IsAI))
             {
                 // Only transition to race if track is generated
                 while (!TrackGenerator.Singleton.IsTrackGenerated) yield return null;

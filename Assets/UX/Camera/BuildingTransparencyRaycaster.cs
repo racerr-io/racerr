@@ -14,12 +14,12 @@ namespace Racerr.UX.Camera
         /// </summary>
         void Update()
         {
-            if (ClientStateMachine.Singleton.LocalPlayer == null || ClientStateMachine.Singleton.LocalPlayer.CarManager == null)
+            if (ClientStateMachine.Singleton.LocalPlayer == null || ClientStateMachine.Singleton.LocalPlayer.Car == null)
             {
                 return;
             }
 
-            foreach (Wheel wheel in ClientStateMachine.Singleton.LocalPlayer.CarManager.Wheels)
+            foreach (Wheel wheel in ClientStateMachine.Singleton.LocalPlayer.Car.Physics.Wheels)
             {
                 Vector3 direction = wheel.ControllerTransform.position - transform.position;
                 if (Physics.Raycast(transform.position, direction, out RaycastHit raycastHit) 

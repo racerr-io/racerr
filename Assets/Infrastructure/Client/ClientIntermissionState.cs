@@ -78,7 +78,7 @@ namespace Racerr.Infrastructure.Client
             // is generated, so detach the track piece generated function.
             TrackGenerator.Singleton.GeneratedTrackPieces.Callback -= SetCameraTargetOnTrackPieceGenerated;
 
-            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.CarManager;
+            CarManager carManager = ClientStateMachine.Singleton.LocalPlayer.Car;
             if (carManager != null)
             {
                 ClientStateMachine.Singleton.PrimaryCamera.SetTarget(carManager.transform, PrimaryCamera.CameraType.ThirdPerson);
@@ -129,7 +129,7 @@ namespace Racerr.Infrastructure.Client
         {
             if (ServerStateMachine.Singleton.StateType == StateEnum.Race)
             {
-                if (ClientStateMachine.Singleton.LocalPlayer.CarManager != null)
+                if (ClientStateMachine.Singleton.LocalPlayer.Car != null)
                 {
                     TransitionToRace();
                 }
