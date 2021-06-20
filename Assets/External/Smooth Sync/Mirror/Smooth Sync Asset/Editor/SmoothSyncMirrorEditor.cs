@@ -151,6 +151,10 @@ namespace Smooth
                     GUIContent contentMaxPositionDifference = new GUIContent("Max Position Difference", "If the difference between where it is and where it should be hits this, then it will go to location next frame. Is on an exponential scale otherwise. Only used for Velocity Driven Syncing.");
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("maxPositionDifferenceForVelocitySyncing"), contentMaxPositionDifference);
                 }
+                GUIContent contentTransformDeterminedBy = new GUIContent("Transform Source", "Set to Owner to have the owner determine the Transform and rigidbody variables to send out. \nSet to Server to have the server determine the Transform and rigidbody variables to send out. \nOne might set this to Server so that CMDs (like movement) can be sent on these objects but still have the Server determine the position of the object.");
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("transformSource"), contentTransformDeterminedBy);
+                GUIContent contentAutomaticallyResetTime = new GUIContent("Automatically Reset Time", "Enable automatic local time reset to avoid float precision issues in long running games. When enabled localTime will be reset approximately every hour to prevent it from growing too large and introducing float precision issues that can cause jittering and other syncing issues in long running games. This costs an extra byte per network update, so don't enable this if you don't need it. When enabled localTime is also reset on each Scene load.");
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("automaticallyResetTime"), contentAutomaticallyResetTime);
             }
 
             serializedObject.ApplyModifiedProperties();
