@@ -73,7 +73,7 @@ jobs:
         uses: actions/cache@master
         with:
           path: Library
-          key: Library-Server-1
+          key: Library-Server
 
       - name: Build game
         uses: game-ci/unity-builder@v2
@@ -120,7 +120,7 @@ jobs:
         uses: actions/cache@master
         with:
           path: Library
-          key: Library-WebGL-1
+          key: Library-WebGL
 
       - name: Build game
         uses: game-ci/unity-builder@v2
