@@ -9,9 +9,6 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: ap-southeast-2
 
 jobs:
   create_release:
@@ -62,8 +59,8 @@ jobs:
       tag: ${{ steps.create_tag.outputs.new_tag }}
       build_env: ${{ env.BUILD_ENV }}
 
-  buildAndDeployServer:
-    name: Build and deploy server
+  build_server:
+    name: Build server
     needs: create_release
     runs-on: ubuntu-latest
     steps:
@@ -79,9 +76,9 @@ jobs:
           key: Library-Server-1
 
       - name: Build game
-        uses: webbertakken/unity-builder@master
+        uses: game-ci/unity-builder@v2
         with:
-          unityVersion: 2019.3.14f1
+          unityVersion: 2020.3.12f1
           targetPlatform: StandaloneLinux64
           buildMethod: Racerr.Editor.CICDPipeline.BuildProject
           customParameters: -buildOptions EnableHeadlessMode
@@ -109,10 +106,7 @@ jobs:
           registry: docker.pkg.github.com
           tags: "${{ needs.create_release.outputs.tag }},${{ needs.create_release.outputs.build_env }},staging"
 
-      - name: Deploy to Amazon ECS
-        run: aws ecs update-service --cluster racerr-io --service racerr --force-new-deployment
-
-  buildWebGLClient:
+  build_webgl_client:
     name: Build WebGL client
     needs: create_release
     runs-on: ubuntu-latest
@@ -129,9 +123,9 @@ jobs:
           key: Library-WebGL-1
 
       - name: Build game
-        uses: webbertakken/unity-builder@master
+        uses: game-ci/unity-builder@v2
         with:
-          unityVersion: 2019.3.14f1
+          unityVersion: 2020.3.12f1
           targetPlatform: WebGL
           buildMethod: Racerr.Editor.CICDPipeline.BuildProject
           versioning: None
@@ -148,38 +142,3 @@ jobs:
           asset_path: build.zip
           asset_name: WebGLBuild.zip
           asset_content_type: application/zip
-
-      - name: Checkout WebGL Client Service repository
-        uses: actions/checkout@master
-        with:
-          repository: racerr-io/webgl-client-service
-          path: webgl-client-service
-          token: ${{ secrets.RYAN_PERSONAL_TOKEN }}
-
-      - name: Update Racerr version in WebGL Client Service repository
-        working-directory: webgl-client-service
-        run: | 
-          echo "${{ needs.create_release.outputs.tag }}" > RACERR_VERSION.txt
-          git config user.email "racerr.io.dev@gmail.com"
-          git config user.name "Racerr CI/CD Service"
-          git add RACERR_VERSION.txt
-          git commit --allow-empty -m "Updated Racerr version to ${{ needs.create_release.outputs.tag }}."
-
-      - name: Push commit to WebGL Client Service repository (master branch)
-        if: github.ref == 'refs/heads/master'
-        uses: ad-m/github-push-action@master
-        with:
-          directory: webgl-client-service
-          repository: racerr-io/webgl-client-service
-          force: true
-          github_token: ${{ secrets.RYAN_PERSONAL_TOKEN }}
-
-      - name: Push commit to WebGL Client Service repository (staging-racerr-ci branch)
-        if: github.ref != 'refs/heads/master'
-        uses: ad-m/github-push-action@master
-        with:
-          directory: webgl-client-service
-          repository: racerr-io/webgl-client-service
-          force: true
-          branch: staging-racerr-ci
-          github_token: ${{ secrets.RYAN_PERSONAL_TOKEN }}
