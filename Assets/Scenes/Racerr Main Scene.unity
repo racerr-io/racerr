@@ -7606,7 +7606,7 @@ MonoBehaviour:
   sslEnabled: 0
   sslCertJson: ./cert.json
   sslProtocols: 3072
-  _logLevels: 0
+  _logLevels: 1
 --- !u!114 &1813844548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7629,7 +7629,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   transport: {fileID: 1813844547}
-  networkAddress: localhost
+  networkAddress: racerr.io
   maxConnections: 10
   disconnectInactiveConnections: 1
   disconnectInactiveTimeout: 60
