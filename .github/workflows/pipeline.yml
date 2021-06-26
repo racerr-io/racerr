@@ -105,3 +105,13 @@ jobs:
           targetPlatform: WebGL
           buildMethod: Racerr.Editor.CICDPipeline.BuildProject
           versioning: None
+
+      - name: Deploy to Amazon S3 and invalidate Amazon CloudFront distribution
+        uses: reggionick/s3-deploy@v3
+        with:
+            folder: build/WebGL/WebGL
+            bucket: racerr-client-${{ needs.determine_build_environment.outputs.build_env }}
+            bucket-region: ap-southeast-2
+            invalidation: /
+            dist-id: E3T4MOYKOS7G8X
+            delete-removed: true

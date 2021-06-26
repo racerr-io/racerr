@@ -7629,7 +7629,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   transport: {fileID: 1813844547}
-  networkAddress: racerr.io
+  networkAddress: server.racerr.io
   maxConnections: 10
   disconnectInactiveConnections: 1
   disconnectInactiveTimeout: 60
