@@ -10,12 +10,12 @@ jobs:
     steps:
       - name: Request manual activation file
         id: getManualLicenseFile
-        uses: webbertakken/unity-request-manual-activation-file@master
+        uses: game-ci/unity-request-activation-file@v2
         with:
-          unityVersion: 2019.3.14f1
+          unityVersion: 2020.3.12f1
 
       - name: Expose as artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: ${{ steps.getManualLicenseFile.outputs.filePath }}
           path: ${{ steps.getManualLicenseFile.outputs.filePath }}

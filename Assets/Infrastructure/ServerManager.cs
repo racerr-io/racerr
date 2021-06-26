@@ -20,6 +20,7 @@ namespace Racerr.Infrastructure
         [SerializeField] string sentryDSN;
         [SerializeField] GameObject AIStateMachinePrefab;
 
+        bool IsHeadless => SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null;
         const string localServerAddress = "localhost";
         enum EditorDebugModeEnum
         {
@@ -78,7 +79,7 @@ namespace Racerr.Infrastructure
         /// </summary>
         void InitialiseNetworking()
         {
-            if (isHeadless)
+            if (IsHeadless)
             {
                 StartHeadless();
             }
@@ -132,7 +133,7 @@ namespace Racerr.Infrastructure
         /// <param name="conn">Player's connection info.</param>
         public override void OnServerAddPlayer(NetworkConnection conn)
         {
-            if ((isHeadless || Application.isEditor && editorDebugMode == EditorDebugModeEnum.Headless) && conn == NetworkServer.localConnection)
+            if ((IsHeadless || Application.isEditor && editorDebugMode == EditorDebugModeEnum.Headless) && conn == NetworkServer.localConnection)
             {
                 return;
             }

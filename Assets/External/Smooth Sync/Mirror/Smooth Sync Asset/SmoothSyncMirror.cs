@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Mirror;
 //using UnityEngine.Networking;
 #if UNITY_WSA && !UNITY_5_3 && !UNITY_5_4
@@ -303,11 +304,74 @@ namespace Smooth
         /// </remarks>
         public bool isAngularVelocityCompressed = false;
 
+        /// <summary>Enable automatic local time reset to avoid float precision issues in long running games</summary>
+        /// <remarks>
+        /// When enabled localTime will be reset approximately every hour to prevent it from growing too large and introducing float precision issues
+        /// that can cause jittering and other syncing issues in long running games.
+        /// This costs an extra byte per network update, so don't enable this if you don't need it.
+        /// When enabled localTime is also reset on each Scene load.
+        /// </remarks>
+        public bool automaticallyResetTime = true;
+
+        /// <summary>The local time on this peer, in seconds. Starts at 0 when the object is instantiated and increases by deltaTime every frame.</summary>
+        /// <remarks>
+        /// This is used instead of realTimeSinceStartup because realTimeSinceStartup becomes innacurate at large values due to float precision issues.
+        /// To counteract that, localTime resets back to 0 when it reaches maxLocalTime.
+        /// </remarks>
+        public float localTime { get; private set; }
+
+        /// <summary>Used for calculating float precision and maxLocalTime.</summary>
+        /// <remarks>
+        /// maxLocalTime is 2 ^ maxTimePower
+        /// minTimePrecision is 2 ^ (maxTimePower - 24)
+        /// </remarks>
+        const int maxTimePower = 12;
+
+        /// <summary>Reset localTime back to zero when float value gets this high.</summary>
+        /// <remarks>
+        /// The limit for localTime was chosen so that the precision at the max value is finer than Time.deltaTime*timeCorrectionSpeed for reasonable values of each.
+        /// The precision from 2049-4096 is 2^(12 - 24) = 0.00024414062
+        /// 120 fps is a deltaTime of .008 seconds and timeCorrectionSpeed should be around .1 so time will be adjusted by a minimum of .0008 seconds per frame, which is greater than precision.
+        /// </remarks>
+        readonly float maxLocalTime = Mathf.Pow(2, maxTimePower);
+
+        /// <summary>This is the minimum precision by which time values can be changed</summary>
+        /// <remarks>
+        /// Due to float precision we are limited in how small of a value we can adjust time by. Within the range of values
+        /// that we allow, it is guaranteed that we can adjust time by this minTimePrecision.
+        /// </remarks>
+        readonly float minTimePrecision = Mathf.Pow(2, maxTimePower - 24);
+
+        /// <summary>Used to keep track of when local time has been reset.</summary>
+        /// <remarks>
+        /// Incremented each time localTime is reset.
+        /// When automaticallyResetTime is enabled, this is sent with each state so that
+        /// non-owners can tell when the owner's local time has been reset.
+        /// </remarks>
+        [NonSerialized]
+        public int localTimeResetIndicator;
+
         /// <summary>Smooths out authority changes.</summary>
         /// <remarks>
         /// Sends an extra byte with owner information so we can know when the owner has changed and smooth accordingly.
         /// </remarks>
         public bool isSmoothingAuthorityChanges = false;
+
+        /// <summary>
+        /// Info to know who the source of the Transform and Rigidbody should be.
+        /// </summary>
+        public enum TransformSource
+        {
+            Owner, Server
+        }
+
+        /// <summary>Transform Source.</summary>
+        /// <remarks>
+        /// Set to Owner to have the owner determine the Transform and Rigidbody variables to send out.
+        /// Set to Server to have the server determine the Transform and Rigidbody variables to send out.
+        /// One might set this to Server so that CMDs (like movement) can be sent on these objects but still have the Server determine the position of the object.
+        /// </remarks>
+        public TransformSource transformSource;
 
         /// <summary>
         /// Info to know where to update the Transform.
@@ -316,6 +380,7 @@ namespace Smooth
         {
             Update, FixedUpdate
         }
+
         /// <summary>Where the object's Transform is updated on non-owners.</summary>
         /// <remarks>
         /// Update will have smoother results but FixedUpdate might be better for physics.
@@ -330,7 +395,7 @@ namespace Smooth
         public float sendRate = 30;
 
         /// <summary>The channel to send network updates on.</summary>
-        public int networkChannel = Channels.DefaultUnreliable;
+        public int networkChannel = Channels.Unreliable;
 
         /// <summary>Child object to sync</summary>
         /// <remarks>
@@ -556,9 +621,42 @@ namespace Smooth
         /// <summary> Used to check if we should be sending a "JustStartedMoving" State. If we are teleporting, don't send one. </summary>
         Quaternion latestTeleportedFromRotation;
 
-        public bool hasAuthorityOrUnownedOnServer {
-            get {
-                return base.hasAuthority || (NetworkServer.active && netIdentity.connectionToClient == null);
+        // This is more efficient than Mirror's netIdentity cacheing.
+        bool hasCachedNetID = false;
+        NetworkIdentity cachedNetIdentity;
+        new public NetworkIdentity netIdentity
+        {
+            get
+            {
+                if (!hasCachedNetID)
+                {
+                    cachedNetIdentity = GetComponent<NetworkIdentity>();
+                    hasCachedNetID = true;
+                }
+                return cachedNetIdentity;
+            }
+        }
+
+        public bool hasAuthorityOrUnownedOnServer
+        {
+            get
+            {
+                return netIdentity.hasAuthority || (NetworkServer.active && netIdentity.connectionToClient == null);
+            }
+        }
+
+        public bool hasControl
+        {
+            get
+            {
+                if ((transformSource == TransformSource.Owner && hasAuthorityOrUnownedOnServer) || (transformSource == TransformSource.Server && NetworkServer.active))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
@@ -585,14 +683,9 @@ namespace Smooth
 
             targetTempState = new StateMirror();
             sendingTempState = new NetworkStateMirror();
+            sendingTempState.state = new StateMirror();
 
-            // Smooth ownership changes are broken this release pending an update from Mirror to resurrect the clientAuthorityCallback.
-            // If you need it immediately you can call AssignAuthorityCallback manually after changing authority on the server.
-            //NetworkIdentity.clientAuthorityCallback = AssignAuthorityCallback;
-            if (isSmoothingAuthorityChanges)
-            {
-                Debug.LogWarning("Smooth ownership changes are broken this release pending an update from Mirror to resurrect the clientAuthorityCallback. If you need it you can call AssignAuthorityCallback manually after changing authority on the server.");
-            }
+            NetworkIdentity.clientAuthorityCallback += AssignAuthorityCallback;
         }
 
         public void SetObjectToSync(GameObject childObjectToSync)
@@ -648,7 +741,7 @@ namespace Smooth
                     indexToGive++;
                 }
             }
-            
+
             netID = GetComponent<NetworkIdentity>();
             rb = realObjectToSync.GetComponent<Rigidbody>();
             rb2D = realObjectToSync.GetComponent<Rigidbody2D>();
@@ -674,11 +767,9 @@ namespace Smooth
         /// <summary>Set the interpolated / extrapolated Transforms and Rigidbodies of non-owned objects.</summary>
         void Update()
         {
-            // Set the interpolated / extrapolated Transforms and Rigidbodies of non-owned objects.
-            if (!hasAuthorityOrUnownedOnServer && whenToUpdateTransform == WhenToUpdateTransform.Update)
+            if (whenToUpdateTransform == WhenToUpdateTransform.Update)
             {
-                adjustOwnerTime();
-                applyInterpolationOrExtrapolation();
+                SmoothSyncUpdate();
             }
 
             // If smoothing authority changes and just gained authority, set velocity to keep smooth.
@@ -689,11 +780,9 @@ namespace Smooth
         /// Transforms and Rigidbodies on non-owned objects.</summary>
         void FixedUpdate()
         {
-            // Set the interpolated / extrapolated Transforms and Rigidbodies of non-owned objects.
-            if (!hasAuthorityOrUnownedOnServer && whenToUpdateTransform == WhenToUpdateTransform.FixedUpdate)
+            if (whenToUpdateTransform == WhenToUpdateTransform.FixedUpdate)
             {
-                adjustOwnerTime();
-                applyInterpolationOrExtrapolation();
+                SmoothSyncUpdate();
             }
 
             // Determine if and what we should send.
@@ -707,12 +796,49 @@ namespace Smooth
             resetFlags();
         }
 
-        /// <summary>
-        /// Automatically sends teleport message for this object OnEnable().
-        /// </summary>
+        void SmoothSyncUpdate()
+        {
+            localTime += Time.deltaTime;
+            if (automaticallyResetTime)
+            {
+                // If time is high and float imprecision is happening, reset down to more precise float numbers
+                // and force a State send so non-owners know to reset time.
+                if (localTime > maxLocalTime)
+                {
+                    ResetLocalTime();
+                }
+            }
+
+            // Set the interpolated / extrapolated Transforms and Rigidbodies of non-owned objects.
+            if (!hasControl)
+            {
+                adjustOwnerTime();
+                applyInterpolationOrExtrapolation();
+            }
+        }
+
+        /// <summary>Automatically sends teleport message for this object OnEnable(). Also add scene loaded event handler.</summary>
         public void OnEnable()
         {
+            SceneManager.sceneLoaded += OnSceneLoaded;
             if (!NetworkServer.active) registerClientHandlers();
+        }
+
+
+        /// <summary>Remove sceneLoaded event handler.</summary>
+        public void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        /// <summary>Reset localTime when the level loads because it's a good time to do it.</summary>
+        /// <param name="level"></param>
+        public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (automaticallyResetTime)
+            {
+                ResetLocalTime();
+            }
         }
 
         public override void OnStartAuthority()
@@ -725,11 +851,58 @@ namespace Smooth
 
         #region Internal stuff
 
+        /// <summary>Reset localTime back to 0 to avoid float precision issues at large numbers</summary>
+        /// <remarks>
+        /// Increments localTimeResetIndicator and forces a new state to be sent so that non-owners will be aware of the reset.
+        /// Also adjusts some other things to account for the reset without causing odd behaviour.
+        /// </remarks>
+        public void ResetLocalTime()
+        {
+            localTimeResetIndicator++;
+            if (localTimeResetIndicator >= 128) localTimeResetIndicator = 0;
+            lastTimeStateWasSent -= localTime;
+            lastTimeOwnerTimeWasSet -= localTime;
+            latestAuthorityChangeZeroTime -= localTime;
+            for (int i = 0; i < stateCount; i++)
+            {
+                stateBuffer[i].receivedTimestamp -= localTime;
+            }
+            localTime = 0.0f;
+            forceStateSendNextFixedUpdate();
+        }
+
+        /// <summary>Called on non-owners when the owner's local time is reset.</summary>
+        /// <remarks>
+        /// Adjusts the ownerTimestamp on all existing states to account for the reset.
+        /// </remarks>
+        public void OnRemoteTimeReset()
+        {
+            // Also adjust owner time.
+            approximateNetworkTimeOnOwner -= stateBuffer[0].ownerTimestamp;
+            // Don't forget the temp state used for extrapolation
+            targetTempState.ownerTimestamp -= stateBuffer[0].ownerTimestamp;
+            for (int i = stateCount - 1; i >= 0; i--)
+            {
+                stateBuffer[i].ownerTimestamp -= stateBuffer[0].ownerTimestamp;
+            }
+        }
+
+
         /// <summary>Determine if and what we should send out.</summary>
         void sendState()
         {
+            // Don't try and send state if only observed by self
+            if (NetworkServer.active)
+            {
+                if (netIdentity.observers == null || netIdentity.observers.Count == 0) return;
+                if (netIdentity.observers.Count == 1)
+                {
+                    if (NetworkServer.localConnection != null && netIdentity.observers.ContainsKey(NetworkServer.localConnection.connectionId)) return;
+                }
+            }
+
             // We only want to send from owners who are ready and if sendRate is not 0.
-            if (!hasAuthorityOrUnownedOnServer || (!NetworkServer.active && !ClientScene.ready) || sendRate == 0) return;
+            if (!hasControl || (!NetworkServer.active && !NetworkClient.ready) || sendRate == 0) return;
 
             // Resting position logic.
             if (syncPosition != SyncMode.NONE)
@@ -811,7 +984,7 @@ namespace Smooth
             }
 
             // If hasn't been long enough since the last send(and we aren't forcing a state send), return and don't send out.
-            if (Time.realtimeSinceStartup - lastTimeStateWasSent < GetNetworkSendInterval() && !forceStateSend) return;
+            if (localTime - lastTimeStateWasSent < GetNetworkSendInterval() && !forceStateSend) return;
 
             // Checks the core variables to see if we should be sending them out.
             sendPosition = shouldSendPosition();
@@ -841,7 +1014,7 @@ namespace Smooth
             if (restStatePosition == RestState.JUST_STARTED_MOVING ||
                 restStateRotation == RestState.JUST_STARTED_MOVING)
             {
-                sendingTempState.state.ownerTimestamp = Time.realtimeSinceStartup - Time.deltaTime;
+                sendingTempState.state.ownerTimestamp = localTime - Time.deltaTime;
                 if (restStatePosition != RestState.JUST_STARTED_MOVING)
                 {
                     sendingTempState.state.position = positionLastFrame;
@@ -852,7 +1025,7 @@ namespace Smooth
                 }
             }
 
-            lastTimeStateWasSent = Time.realtimeSinceStartup;
+            lastTimeStateWasSent = localTime;
 
             if (NetworkServer.active)
             {
@@ -929,7 +1102,7 @@ namespace Smooth
             // The newest State is too old, we'll have to use extrapolation. 
             // Don't extrapolate if we just changed authority.
             else if ((isSmoothingAuthorityChanges &&
-                Time.realtimeSinceStartup - latestAuthorityChangeZeroTime > interpolationBackTime * 2.0f) ||
+                localTime - latestAuthorityChangeZeroTime > interpolationBackTime * 2.0f) ||
                 !isSmoothingAuthorityChanges)
             {
                 bool success = extrapolate(interpolationTime);
@@ -1445,11 +1618,23 @@ namespace Smooth
         /// <summary>Add an incoming state to the stateBuffer on non-owned objects.</summary>
         public void addState(StateMirror state)
         {
-            if (stateCount > 1 && state.ownerTimestamp <= stateBuffer[0].ownerTimestamp)
+            if (stateCount > 1)
             {
-                // This state arrived out of order and we already have a newer state.
-                //Debug.LogWarning("Received state out of order for: " + realObjectToSync.name);
-                return;
+                float deltaTime = state.ownerTimestamp - stateBuffer[0].ownerTimestamp;
+                bool isOutOfOrder = deltaTime <= 0;
+                bool isResettingTime = state.localTimeResetIndicator != stateBuffer[0].localTimeResetIndicator;
+
+                // If State arrived out of order and is not resetting time, do not add the State.
+                if (isOutOfOrder && !isResettingTime)
+                {
+                    return;
+                }
+
+                // A way to handle time resetting so we know to change the times of States already in the buffer.
+                if (isResettingTime)
+                {
+                    OnRemoteTimeReset();
+                }
             }
 
             // Shift the buffer, deleting the oldest State.
@@ -1496,7 +1681,7 @@ namespace Smooth
         /// </remarks>
         public void teleportOwnedObjectFromOwner()
         {
-            if (!hasAuthorityOrUnownedOnServer)
+            if (!hasControl)
             {
                 if (NetworkServer.active)
                 {
@@ -1513,11 +1698,11 @@ namespace Smooth
             latestTeleportedFromRotation = getRotation();
             if (NetworkServer.active)
             {
-                RpcTeleport(getPosition(), getRotation().eulerAngles, getScale(), Time.realtimeSinceStartup);
+                RpcTeleport(getPosition(), getRotation().eulerAngles, getScale(), localTime);
             }
             else if (hasAuthority)
             {
-                CmdTeleport(getPosition(), getRotation().eulerAngles, getScale(), Time.realtimeSinceStartup);
+                CmdTeleport(getPosition(), getRotation().eulerAngles, getScale(), localTime);
             }
         }
         /// <summary>
@@ -1530,7 +1715,7 @@ namespace Smooth
         public void teleportAnyObjectFromServer(Vector3 newPosition, Quaternion newRotation, Vector3 newScale)
         {
             // If have authority, set transform and send to non-owners.
-            if (hasAuthorityOrUnownedOnServer)
+            if (hasControl)
             {
                 setPosition(newPosition, true);
                 setRotation(newRotation, true);
@@ -1571,6 +1756,7 @@ namespace Smooth
             teleportState.position = position;
             teleportState.rotation = Quaternion.Euler(rotation);
             teleportState.ownerTimestamp = tempOwnerTime;
+            teleportState.receivedTimestamp = localTime;
             teleportState.teleport = true;
 
             addTeleportState(teleportState);
@@ -1590,6 +1776,7 @@ namespace Smooth
             teleportState.position = position;
             teleportState.rotation = Quaternion.Euler(rotation);
             teleportState.ownerTimestamp = tempOwnerTime;
+            teleportState.receivedTimestamp = localTime;
             teleportState.teleport = true;
 
             addTeleportState(teleportState);
@@ -1600,6 +1787,12 @@ namespace Smooth
         /// </summary>
         void addTeleportState(StateMirror teleportState)
         {
+            if (teleportState != null)
+            {
+                teleportState.atPositionalRest = true;
+                teleportState.atRotationalRest = true;
+            }
+
             // To catch an exception where the first State received is a Teleport.
             if (stateCount == 0) approximateNetworkTimeOnOwner = teleportState.ownerTimestamp;
 
@@ -1647,16 +1840,23 @@ namespace Smooth
         }
 
         /// <summary>Is automatically called on authority change on server.</summary>
-        static void AssignAuthorityCallback(NetworkConnection conn, NetworkIdentity theNetID, bool authorityState)
+        public static void AssignAuthorityCallback(NetworkConnection conn, NetworkIdentity theNetID, bool authorityState)
         {
             var target = NetworkIdentity.spawned[theNetID.netId];
             if (target == null)
             {
-                Debug.LogError("Can not find target for authority change");
+                Debug.LogWarning("Smooth Sync: Cannot find target for authority change");
                 return;
             }
 
-            var childObjectSmoothSyncs = target.GetComponent<SmoothSyncMirror>().childObjectSmoothSyncs;
+            var smoothSyncComponent = target.GetComponent<SmoothSyncMirror>();
+            if (smoothSyncComponent == null)
+            {
+                Debug.LogWarning("Smooth Sync: Cannot find target for authority change");
+                return;
+            }
+
+            var childObjectSmoothSyncs = smoothSyncComponent.childObjectSmoothSyncs;
 
             // Change the owner on parent and children.
             for (int i = 0; i < childObjectSmoothSyncs.Length; i++)
@@ -1681,8 +1881,7 @@ namespace Smooth
         /// <summary>Register network message handlers on server.</summary>
         public override void OnStartServer()
         {
-            NetworkServer.RegisterHandler<NetworkStateMirror>(HandleSync);
-            NetworkClient.RegisterHandler<NetworkStateMirror>(HandleSync);
+            NetworkServer.ReplaceHandler<NetworkStateMirror>(HandleSync);
         }
 
         /// <summary>Register network message handlers on clients.</summary>
@@ -1695,7 +1894,7 @@ namespace Smooth
         {
             if (!NetworkServer.active)
             {
-                NetworkClient.RegisterHandler<NetworkStateMirror>(HandleSync);
+                NetworkClient.ReplaceHandler<NetworkStateMirror>(HandleSync);
             }
         }
 
@@ -2060,13 +2259,15 @@ namespace Smooth
         [Server]
         void SendStateToNonOwners(NetworkStateMirror state)
         {
+            if (netID.observers == null) return;
+
             foreach (var kv in netID.observers)
             {
                 NetworkConnection conn = kv.Value;
-                
+
                 // Skip sending to clientAuthorityOwner since owners don't need their own State back.
                 // Also skip sending to localClient since the State was already recorded.
-                if (conn != null && conn != netID.connectionToClient && conn.GetType() == typeof(NetworkConnectionToClient) && conn.isReady)
+                if (conn != null && (transformSource == TransformSource.Server || conn != netID.connectionToClient) && conn.GetType() == typeof(NetworkConnectionToClient) && conn.isReady)
                 {
                     // Send the message. This calls HandleSync on the receiving clients.
                     conn.Send<NetworkStateMirror>(state, networkChannel);
@@ -2088,7 +2289,7 @@ namespace Smooth
                     networkState.smoothSync.validateStateMethod(networkState.state, networkState.smoothSync.latestValidatedState))
                 {
                     networkState.smoothSync.latestValidatedState = networkState.state;
-                    networkState.smoothSync.latestValidatedState.receivedOnServerTimestamp = Time.realtimeSinceStartup;
+                    networkState.smoothSync.latestValidatedState.receivedOnServerTimestamp = networkState.smoothSync.localTime;
                     networkState.smoothSync.SendStateToNonOwners(networkState);
                     networkState.smoothSync.addState(networkState.state);
                     networkState.smoothSync.checkIfOwnerHasChanged(networkState.state);
@@ -2096,7 +2297,7 @@ namespace Smooth
             }
             else
             {
-                if (networkState != null && networkState.smoothSync != null && !networkState.smoothSync.hasAuthorityOrUnownedOnServer)
+                if (networkState.smoothSync != null && !networkState.smoothSync.hasControl)
                 {
                     networkState.smoothSync.addState(networkState.state);
                     networkState.smoothSync.checkIfOwnerHasChanged(networkState.state);
@@ -2113,7 +2314,7 @@ namespace Smooth
             {
                 // Change estimated time on owner to match the new owner's time. Index 0 is the newest received State.
                 approximateNetworkTimeOnOwner = newState.ownerTimestamp;
-                latestAuthorityChangeZeroTime = Time.realtimeSinceStartup;
+                latestAuthorityChangeZeroTime = localTime;
                 stateCount = 0;
                 firstReceivedMessageZeroTime = 1.0f; // TODO: this is messy
                 restStatePosition = RestState.MOVING;
@@ -2125,6 +2326,7 @@ namespace Smooth
                 simulatedState.rotation = getRotation();
                 simulatedState.scale = getScale();
                 simulatedState.ownerTimestamp = stateBuffer[0].ownerTimestamp - interpolationBackTime;
+                simulatedState.receivedTimestamp = newState.receivedTimestamp;
                 addState(simulatedState);
 
                 previousReceivedOwnerInt = ownerChangeIndicator;
@@ -2150,7 +2352,7 @@ namespace Smooth
         float _ownerTime;
 
         /// <summary>
-        /// The realTimeSinceStartup when we received the last owner time.
+        /// The currentLocalTime when we received the last owner time.
         /// </summary>
         float lastTimeOwnerTimeWasSet;
 
@@ -2166,12 +2368,12 @@ namespace Smooth
         {
             get
             {
-                return _ownerTime + (Time.realtimeSinceStartup - lastTimeOwnerTimeWasSet);
+                return _ownerTime + (localTime - lastTimeOwnerTimeWasSet);
             }
             set
             {
                 _ownerTime = value;
-                lastTimeOwnerTimeWasSet = Time.realtimeSinceStartup;
+                lastTimeOwnerTimeWasSet = localTime;
             }
         }
         /// <summary> Used to know when the owner has last changed. </summary>
@@ -2188,11 +2390,14 @@ namespace Smooth
             // Don't adjust time if at rest or no State received yet.
             if (stateBuffer[0] == null || (stateBuffer[0].atPositionalRest && stateBuffer[0].atRotationalRest)) return;
 
-            float newTime = stateBuffer[0].ownerTimestamp;
-            float timeCorrection = timeCorrectionSpeed * Time.deltaTime;
+            float newTime = stateBuffer[0].ownerTimestamp + (localTime - stateBuffer[0].receivedTimestamp);
+
+            // Time correction can only be as small as the minTimePrecision
+            float timeCorrection = Mathf.Max(timeCorrectionSpeed * Time.deltaTime, minTimePrecision);
+
             if (firstReceivedMessageZeroTime == 0)
             {
-                firstReceivedMessageZeroTime = Time.realtimeSinceStartup;
+                firstReceivedMessageZeroTime = localTime;
             }
 
             float timeChangeMagnitude = Mathf.Abs(approximateNetworkTimeOnOwner - newTime);
