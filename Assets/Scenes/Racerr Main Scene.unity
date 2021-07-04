@@ -1619,7 +1619,7 @@ GameObject:
   - component: {fileID: 683854788}
   m_Layer: 0
   m_Name: World Plane
-  m_TagString: Untagged
+  m_TagString: World Plane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7645,7 +7645,7 @@ MonoBehaviour:
   - {fileID: 1018952010411425780, guid: aa65098f076c6e141991513d2b3608c8, type: 3}
   - {fileID: 4033895018079671111, guid: e74ef5563a9a60547b839cb8ea23055b, type: 3}
   - {fileID: 3637028748793434385, guid: 8f34401311c1f8a4689fb12aa59d705b, type: 3}
-  - {fileID: 6098622089286647885, guid: f97af7b666611434582977f2250e2b6b, type: 3}
+  - {fileID: 8365269183395629723, guid: 218142d0b41388b42ac143c924bb7351, type: 3}
   - {fileID: 4812132155584618507, guid: 106072e8ebf69294c89488b8bfe7961e, type: 3}
   - {fileID: 2015120010295735337, guid: 0074f714a60390f46be119849f605cd8, type: 3}
   - {fileID: 2507272380122558485, guid: db093cd94306b1c4da66db30033467db, type: 3}
@@ -8353,7 +8353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1955343281
 Transform:
   m_ObjectHideFlags: 0
@@ -8383,7 +8383,28 @@ MonoBehaviour:
   smokePrefab: {fileID: 1480057683043524, guid: 03ced171a102df348ad466c25afb025e,
     type: 3}
   dustPrefab: {fileID: 1980262531956446, guid: d43fdf76272def940b878508ff66406c, type: 3}
-  groundEntities: []
+  groundEntities:
+  - name: 
+    terrainTextureIndices: 
+    tags:
+    - Untagged
+    frictionPresetEnum: 0
+    skidmarkMaterial: {fileID: 0}
+    slipBasedSkidIntensity: 0
+    smokeIntensity: 50
+    dustIntensity: 50
+    dustColor: {r: 0, g: 0, b: 0, a: 0}
+    slipSensitiveSurfaceSound: 0
+    surfaceSoundComponent:
+      volume: 0
+      pitch: 0
+      clip: {fileID: 0}
+      source: {fileID: 0}
+    skidSoundComponent:
+      volume: 0
+      pitch: 0
+      clip: {fileID: 0}
+      source: {fileID: 0}
 --- !u!1001 &2001042388
 PrefabInstance:
   m_ObjectHideFlags: 0

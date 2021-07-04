@@ -15,6 +15,13 @@ TagManager:
   - Wheel Collider
   - Trailer
   - Car
+  - EnterExitPoint
+  - Wheel
+  - VehicleCamera
+  - Vehicle
+  - SemiAttachmentPoint
+  - Semi Trailer
+  - World Plane
   layers:
   - Default
   - TransparentFX
