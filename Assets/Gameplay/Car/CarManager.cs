@@ -174,6 +174,13 @@ namespace Racerr.Gameplay.Car
             }
 
             ContactPoint contactPoint = collision.GetContact(0);
+
+            bool isHitByWorldPlane = collision.gameObject.CompareTag(GameObjectIdentifiers.WorldPlane);
+            if (isHitByWorldPlane && OwnPlayer.Health > 0 && !IsZombie)
+            {
+                OwnPlayer.Health = 0;
+            }
+
             bool isHitByEnvironment = collision.gameObject.CompareTag(GameObjectIdentifiers.Environment);
             bool isRearEndOtherCar = contactPoint.otherCollider.gameObject.CompareTag(GameObjectIdentifiers.CarBackCollider);
             bool isHeadOnCollision = contactPoint.thisCollider.gameObject.CompareTag(GameObjectIdentifiers.CarFrontCollider) && contactPoint.otherCollider.gameObject.CompareTag(GameObjectIdentifiers.CarFrontCollider);

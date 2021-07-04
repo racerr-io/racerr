@@ -8451,7 +8451,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: aa65098f076c6e141991513d2b3608c8
+  m_AssetId: 
   hasSpawned: 0
 --- !u!1 &1018952011545791252
 GameObject:
