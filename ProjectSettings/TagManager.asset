@@ -21,7 +21,6 @@ TagManager:
   - Vehicle
   - SemiAttachmentPoint
   - Semi Trailer
-  - World Plane
   layers:
   - Default
   - TransparentFX

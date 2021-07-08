@@ -24,6 +24,5 @@ namespace Racerr.Utility
         public const int InvulnerableLayer = 9;
         public const string Invulnerable = "Invulnerable";
         public const string IgnoreRaycast = "Ignore Raycast";
-        public const string WorldPlane = "World Plane";
     }
 }
