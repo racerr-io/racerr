@@ -157,6 +157,20 @@ namespace Racerr.Gameplay.Car
             {
                 SetIsActive(false);
             }
+
+            SuicideIfFallenOffTrack();
+        }
+
+        /// <summary>
+        /// Kill the car if they have fallen off the world.
+        /// </summary>
+        void SuicideIfFallenOffTrack()
+        {
+            bool isFallenOffTrack = transform.position.y < -10;
+            if (isFallenOffTrack && OwnPlayer.Health > 0 && !IsZombie)
+            {
+                OwnPlayer.Health = 0;
+            }
         }
 
         /// <summary>
@@ -174,13 +188,6 @@ namespace Racerr.Gameplay.Car
             }
 
             ContactPoint contactPoint = collision.GetContact(0);
-
-            bool isHitByWorldPlane = collision.gameObject.CompareTag(GameObjectIdentifiers.WorldPlane);
-            if (isHitByWorldPlane && OwnPlayer.Health > 0 && !IsZombie)
-            {
-                OwnPlayer.Health = 0;
-            }
-
             bool isHitByEnvironment = collision.gameObject.CompareTag(GameObjectIdentifiers.Environment);
             bool isRearEndOtherCar = contactPoint.otherCollider.gameObject.CompareTag(GameObjectIdentifiers.CarBackCollider);
             bool isHeadOnCollision = contactPoint.thisCollider.gameObject.CompareTag(GameObjectIdentifiers.CarFrontCollider) && contactPoint.otherCollider.gameObject.CompareTag(GameObjectIdentifiers.CarFrontCollider);

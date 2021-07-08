@@ -112,6 +112,6 @@ jobs:
             folder: build/WebGL/WebGL
             bucket: racerr-client-${{ needs.determine_build_environment.outputs.build_env }}
             bucket-region: ap-southeast-2
-            invalidation: /
+            invalidation: /*
             dist-id: E3T4MOYKOS7G8X
             delete-removed: true
