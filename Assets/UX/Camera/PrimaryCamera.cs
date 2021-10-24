@@ -80,16 +80,17 @@ namespace Racerr.UX.Camera
         /// cycle through all the values in the CameraType enum
         /// so the user can switch between cameras.
         /// </summary>
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                do
-                {
-                    CamType = (CameraType)(((int)CamType + 1) % Enum.GetNames(typeof(CameraType)).Length);
-                } while (CamType == CameraType.Death); // Don't want the user to be able to cycle to the death cam.
-            }
-        }
+        // DISABLED DUE TO ABILITY FOR USER TO CYCLE CAMERAS REMOVED
+        //void Update()
+        //{
+        //    if (Input.GetKeyDown(KeyCode.C))
+        //    {
+        //        do
+        //        {
+        //            CamType = (CameraType)(((int)CamType + 1) % Enum.GetNames(typeof(CameraType)).Length);
+        //        } while (CamType == CameraType.Death); // Don't want the user to be able to cycle to the death cam.
+        //    }
+        //}
 
         /// <summary>
         /// Update camera after every physics tick, to move the camera and follow the target.

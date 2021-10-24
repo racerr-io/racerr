@@ -91,6 +91,7 @@ namespace Racerr.Infrastructure
         {
             if (carGO != null)
             {
+                car.SetInvulnerableTemporarily();
                 car.SetIsActive(false);
                 zombieCarGOs.Add(carGO);
                 carGO = null;

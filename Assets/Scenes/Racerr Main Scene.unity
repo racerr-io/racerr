@@ -798,6 +798,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera Info
       objectReference: {fileID: 0}
+    - target: {fileID: 7178047187005707040, guid: a2fbe52ec48bb77449f4122ccd50d122,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2fbe52ec48bb77449f4122ccd50d122, type: 3}
 --- !u!224 &573359920 stripped
@@ -1765,6 +1770,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Camera Info
+      objectReference: {fileID: 0}
+    - target: {fileID: 7178047187005707040, guid: a2fbe52ec48bb77449f4122ccd50d122,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2fbe52ec48bb77449f4122ccd50d122, type: 3}
@@ -6865,6 +6875,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera Info
       objectReference: {fileID: 0}
+    - target: {fileID: 7178047187005707040, guid: a2fbe52ec48bb77449f4122ccd50d122,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2fbe52ec48bb77449f4122ccd50d122, type: 3}
 --- !u!224 &1530070550 stripped
@@ -7041,6 +7056,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Camera Info
+      objectReference: {fileID: 0}
+    - target: {fileID: 7178047187005707040, guid: a2fbe52ec48bb77449f4122ccd50d122,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2fbe52ec48bb77449f4122ccd50d122, type: 3}
@@ -9796,6 +9816,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Minimap
+      objectReference: {fileID: 0}
+    - target: {fileID: 248802408538668688, guid: 00ad8982e601e504280aeb19003aaa4f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 248802408538668689, guid: 00ad8982e601e504280aeb19003aaa4f,
         type: 3}
