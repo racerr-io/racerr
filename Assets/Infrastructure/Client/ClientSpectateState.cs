@@ -116,7 +116,7 @@ namespace Racerr.Infrastructure.Client
         void SetSpectateTarget(Player player)
         {
             spectateTarget = player;
-            ClientStateMachine.Singleton.PrimaryCamera.SetTarget(player.Car.transform);
+            ClientStateMachine.Singleton.PrimaryCamera.SetTarget(player.Car.transform, PrimaryCamera.CameraType.ThirdPerson);
             minimapUIComponent.SetMinimapCameraTarget(player.Car.transform);
         }
 

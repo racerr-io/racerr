@@ -1,6 +1,5 @@
 using Racerr.Gameplay.Car;
 using Racerr.Utility;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -31,7 +30,7 @@ namespace Racerr.UX.Camera
             ThirdPerson,
             Death
         }
-        CameraType camType = CameraType.Overhead;
+        CameraType camType = CameraType.ThirdPerson;
         public CameraType CamType
         {
             get => camType;
