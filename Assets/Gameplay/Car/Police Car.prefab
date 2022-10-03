@@ -106,7 +106,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1846025416838985611}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.29}
+  m_LocalPosition: {x: 0, y: -0.302, z: 0.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4982225100616192275}
@@ -123,7 +123,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.4, y: 1.476194, z: 4}
+  m_Size: {x: 1.8, y: 1.476194, z: 5}
   m_Center: {x: 0, y: 1.133863, z: -0.5180537}
 --- !u!1 &3201120400830195488
 GameObject:
@@ -184,7 +184,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5051637435287243588}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.15}
+  m_LocalPosition: {x: 0, y: 0, z: 0.698}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4982225100616192275}
@@ -201,7 +201,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.4, y: 0.876194, z: 1.6}
+  m_Size: {x: 2.4, y: 0.876194, z: 0.2}
   m_Center: {x: 0, y: 0.833863, z: 1.981946}
 --- !u!1 &5619662515928263746
 GameObject:
@@ -481,7 +481,7 @@ MonoBehaviour:
     residualAngularVelocity: 0
     steerAngle: 0
     rotationAngle: 0
-    visual: {fileID: 8477827555617248343}
+    visual: {fileID: 0}
     nonRotating: {fileID: 0}
     rim: {fileID: 0}
     rimCollider: {fileID: 0}
@@ -565,7 +565,7 @@ MonoBehaviour:
     force: 0
     maxForce: 0
   fFriction:
-    forceCoefficient: 1.1
+    forceCoefficient: 1.5
     slipCoefficient: 1
     maxForce: 0
     slip: 0
@@ -2977,7 +2977,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6285641333015487221}
   serializedVersion: 2
-  m_Mass: 1000
+  m_Mass: 1500
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -3258,7 +3258,7 @@ MonoBehaviour:
     stopOnDisable: 1
     minRPM: 600
     maxRPM: 5000
-    maxPower: 150
+    maxPower: 200
     maxRpmChange: 10000
     throttleSmoothing: 0.2
     powerCurve:
@@ -3648,33 +3648,33 @@ MonoBehaviour:
   sendAngularVelocityThreshold: 0
   receivedPositionThreshold: 0
   receivedRotationThreshold: 0
-  snapPositionThreshold: 3
-  snapRotationThreshold: 0
+  snapPositionThreshold: 10
+  snapRotationThreshold: 10
   snapScaleThreshold: 0
   positionLerpSpeed: 0.9
-  rotationLerpSpeed: 0.85
+  rotationLerpSpeed: 0.9
   scaleLerpSpeed: 0.85
-  timeCorrectionSpeed: 0.5
+  timeCorrectionSpeed: 0.1
   snapTimeThreshold: 3
   syncPosition: 0
   syncRotation: 0
   syncScale: 7
   syncVelocity: 0
   syncAngularVelocity: 0
-  isPositionCompressed: 0
-  isRotationCompressed: 0
+  isPositionCompressed: 1
+  isRotationCompressed: 1
   isScaleCompressed: 0
-  isVelocityCompressed: 0
-  isAngularVelocityCompressed: 0
+  isVelocityCompressed: 1
+  isAngularVelocityCompressed: 1
   automaticallyResetTime: 1
   isSmoothingAuthorityChanges: 0
   transformSource: 0
   whenToUpdateTransform: 0
-  sendRate: 60
+  sendRate: 120
   networkChannel: 1
   childObjectToSync: {fileID: 0}
   setVelocityInsteadOfPositionOnNonOwners: 1
-  maxPositionDifferenceForVelocitySyncing: 3
+  maxPositionDifferenceForVelocitySyncing: 10
   useLocalTransformOnly: 0
   ownerChangeIndicator: 1
   receivedStatesCounter: 0
@@ -3764,7 +3764,7 @@ MonoBehaviour:
     dragForce: 50
     rpm: 0
     prevWorldPosition: {x: 0, y: 0, z: 0}
-    worldPosition: {x: 1.0544194, y: 3.7799997, z: 1.6433078}
+    worldPosition: {x: -1.0405806, y: 3.7799997, z: 1.6433078}
     prevGroundPoint: {x: 0, y: 0, z: 0}
     worldRotation: {x: 0, y: 0, z: 0, w: 0}
     camberCurve:
@@ -3798,7 +3798,7 @@ MonoBehaviour:
     residualAngularVelocity: 0
     steerAngle: 0
     rotationAngle: 0
-    visual: {fileID: 288004809889978698}
+    visual: {fileID: 0}
     nonRotating: {fileID: 0}
     rim: {fileID: 0}
     rimCollider: {fileID: 0}
@@ -3882,7 +3882,7 @@ MonoBehaviour:
     force: 0
     maxForce: 0
   fFriction:
-    forceCoefficient: 1.1
+    forceCoefficient: 1.5
     slipCoefficient: 1
     maxForce: 0
     slip: 0
@@ -6303,7 +6303,7 @@ MonoBehaviour:
     dragForce: 50
     rpm: 0
     prevWorldPosition: {x: 0, y: 0, z: 0}
-    worldPosition: {x: -1.0405806, y: 3.7799997, z: -1.4146922}
+    worldPosition: {x: -1.0405806, y: 3.7799997, z: 1.6433078}
     prevGroundPoint: {x: 0, y: 0, z: 0}
     worldRotation: {x: 0, y: 0, z: 0, w: 0}
     camberCurve:
@@ -6337,7 +6337,7 @@ MonoBehaviour:
     residualAngularVelocity: 0
     steerAngle: 0
     rotationAngle: 0
-    visual: {fileID: 6555459066049794074}
+    visual: {fileID: 0}
     nonRotating: {fileID: 0}
     rim: {fileID: 0}
     rimCollider: {fileID: 0}
@@ -6421,7 +6421,7 @@ MonoBehaviour:
     force: 0
     maxForce: 0
   fFriction:
-    forceCoefficient: 1.1
+    forceCoefficient: 1.5
     slipCoefficient: 1
     maxForce: 0
     slip: 0
@@ -8842,7 +8842,7 @@ MonoBehaviour:
     dragForce: 50
     rpm: 0
     prevWorldPosition: {x: 0, y: 0, z: 0}
-    worldPosition: {x: 1.0544194, y: 3.7799997, z: -1.4146922}
+    worldPosition: {x: -1.0405806, y: 3.7799997, z: 1.6433078}
     prevGroundPoint: {x: 0, y: 0, z: 0}
     worldRotation: {x: 0, y: 0, z: 0, w: 0}
     camberCurve:
@@ -8876,7 +8876,7 @@ MonoBehaviour:
     residualAngularVelocity: 0
     steerAngle: 0
     rotationAngle: 0
-    visual: {fileID: 5619662515928263746}
+    visual: {fileID: 0}
     nonRotating: {fileID: 0}
     rim: {fileID: 0}
     rimCollider: {fileID: 0}
@@ -8960,7 +8960,7 @@ MonoBehaviour:
     force: 0
     maxForce: 0
   fFriction:
-    forceCoefficient: 1.1
+    forceCoefficient: 1.5
     slipCoefficient: 1
     maxForce: 0
     slip: 0

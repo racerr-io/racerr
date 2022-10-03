@@ -100,6 +100,7 @@ namespace Racerr.World.Track
         [Server]
         IEnumerator GenerateTrack(int trackLength, IReadOnlyList<GameObject> availableTrackPiecePrefabs, IReadOnlyCollection<Player> playersToSpawn)
         {
+            long startTime = DateTimeOffset.Now.ToUnixTimeSeconds();
             SentrySdk.AddBreadcrumb("Starting track generation.");
             GameObject origin = new GameObject("Temporary Origin for Track Generator");
             GameObject currentTrackPiece = firstTrackPiecePrefab;
@@ -192,14 +193,18 @@ namespace Racerr.World.Track
                 newTrackPiece.transform.position = trackPieceLinkTransform.transform.position;
                 newTrackPiece.transform.rotation *= trackPieceLinkTransform.rotation;
 
+                // Wait for next physics calculation so that Track Piece Collision Detector works properly.
+                // Add an artificial delay so users can see the track generate.
+                // The delay will become shorter the longer the track generator takes.
+                long currentTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+                float waitTime =  0.75f / (currentTime - startTime + 1);
+                yield return new WaitForSeconds(waitTime);
+
                 // Spawn the players cars onto the starting piece of the track
                 if (numTracks == 0)
                 {
                     yield return SpawnManager.Singleton.SpawnAllRaceCarsOnStartingGrid(newTrackPiece, playersToSpawn);
                 }
-
-                // Wait for next physics calculation so that Track Piece Collision Detector works properly.
-                yield return new WaitForSeconds(0.15f);
 
                 if (newTrackPiece.GetComponent<TrackGeneratorCollisionDetector>().IsValidTrackPlacementUponConnection)
                 {

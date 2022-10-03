@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using NWH.VehiclePhysics;
+using NWH.WheelController3D;
 using Racerr.Gameplay.Ability;
 using Racerr.Infrastructure;
 using Racerr.Infrastructure.Client;
@@ -80,6 +81,7 @@ namespace Racerr.Gameplay.Car
         }
 
         /* Physics */
+        const int slowSpeedKph = 50;
         public CarPhysicsManager Physics { get; private set; }
 
         /* Ability */
@@ -119,10 +121,10 @@ namespace Racerr.Gameplay.Car
 
             if (!hasAuthority)
             {
-                // Destroy all components which are only required by the person
-                // driving the car.
+                // Destroy/disable all components which are only required by the person driving the car.
                 Destroy(Ability as MonoBehaviour);
                 Ability = null;
+                Physics.MakeSuitableForMultiplayerForEnemyCar();
             }
 
             if (!hasAuthority || !OwnPlayer.IsAI)
@@ -141,7 +143,7 @@ namespace Racerr.Gameplay.Car
         /// </summary>
         void Update()
         {
-            if (Ability != null && Input.GetKey(KeyCode.Space))
+            if (Ability != null && Input.GetKey(KeyCode.Space) && !OwnPlayer.IsAI)
             {
                 StartCoroutine(Ability.Activate());
             }
@@ -189,7 +191,7 @@ namespace Racerr.Gameplay.Car
 
             ContactPoint contactPoint = collision.GetContact(0);
             bool isHitByEnvironment = collision.gameObject.CompareTag(GameObjectIdentifiers.Environment);
-            bool isRearEndOtherCar = contactPoint.otherCollider.gameObject.CompareTag(GameObjectIdentifiers.CarBackCollider);
+            bool isRearEndOtherCar = contactPoint.thisCollider.gameObject.CompareTag(GameObjectIdentifiers.CarFrontCollider) && contactPoint.otherCollider.gameObject.CompareTag(GameObjectIdentifiers.CarBackCollider);
             bool isHeadOnCollision = contactPoint.thisCollider.gameObject.CompareTag(GameObjectIdentifiers.CarFrontCollider) && contactPoint.otherCollider.gameObject.CompareTag(GameObjectIdentifiers.CarFrontCollider);
 
             Vector3 collisionForce = collision.impulse / Time.fixedDeltaTime;
@@ -199,23 +201,21 @@ namespace Racerr.Gameplay.Car
             }
             else if (isRearEndOtherCar || isHeadOnCollision)
             {
-                CarManager car = contactPoint.otherCollider.gameObject.GetComponentInParent<CarManager>();
-                if (!car.IsZombie)
-                {
-                    GameObject otherPlayerGO = car.OwnPlayer.gameObject;
-                    int damage = Convert.ToInt32(collisionForce.magnitude * otherCarDamageAdjustmentFactor);
-                    CmdSendDamage(otherPlayerGO, damage);
+                CarManager otherCar = contactPoint.otherCollider.gameObject.GetComponentInParent<CarManager>();
 
-                    if (isRearEndOtherCar)
+                if (!otherCar.IsZombie)
+                {
+                    GameObject otherPlayerGO = otherCar.OwnPlayer.gameObject;
+                    bool isBothCarsFast = Physics.SpeedKPH > slowSpeedKph && otherCar.Physics.SpeedKPH > slowSpeedKph;
+                    bool isOtherCarSlow = otherCar.Physics.SpeedKPH < slowSpeedKph;
+                    bool isDamageOtherCar = isRearEndOtherCar || isBothCarsFast || isOtherCarSlow;
+
+                    if (isDamageOtherCar)
                     {
-                        // Prevent the car flying up and going out of control if it is the aggressor.
-                        Rigidbody rigidbody = GetComponent<Rigidbody>();
-                        rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
-                        this.YieldThenExecuteAsync(new WaitForSeconds(0.5f), () =>
-                        {
-                            rigidbody.constraints = RigidbodyConstraints.None;
-                        });
+                        int damage = Convert.ToInt32(collisionForce.magnitude * otherCarDamageAdjustmentFactor);
+                        CmdSendDamage(otherPlayerGO, damage);
                     }
+
                 }
             }
         }

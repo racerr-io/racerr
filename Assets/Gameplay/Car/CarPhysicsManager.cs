@@ -1,4 +1,5 @@
 ﻿using NWH.VehiclePhysics;
+using NWH.WheelController3D;
 using Racerr.Utility;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,6 +41,18 @@ namespace Racerr.Gameplay.Car
         {
             get => vehicleController.input.Vertical;
             set => vehicleController.input.Vertical = value;
+        }
+
+        /// <summary>
+        /// Make car physics suitable for multiplayer. This should only be called on the other players cars
+        /// on the current client.
+        /// </summary>
+        public void MakeSuitableForMultiplayerForEnemyCar()
+        {
+            foreach (WheelController wheelController in GetComponentsInChildren<WheelController>())
+            {
+                wheelController.enabled = false;
+            }
         }
 
         /// <summary>
