@@ -7594,7 +7594,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   transport: {fileID: 1813844547}
-  networkAddress: server.racerr.io
+  networkAddress: racerr-racer-55PyKQ9BIYV3-1324057504.ap-southeast-2.elb.amazonaws.com
   maxConnections: 10
   disconnectInactiveConnections: 1
   disconnectInactiveTimeout: 60
