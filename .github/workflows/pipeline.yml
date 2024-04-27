@@ -7,6 +7,7 @@ on:
       - master
 
 env:
+  NODE_VERSION: 20.12.2 # Keep in sync with aws-cdk/.nvmrc
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -48,6 +49,11 @@ jobs:
           path: Library
           key: Library-Server-2
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
       - name: Build game
         uses: game-ci/unity-builder@v2
         with:
@@ -79,8 +85,11 @@ jobs:
           tags: ${{ steps.docker_metadata.outputs.tags }}
           labels: ${{ steps.docker_metadata.outputs.labels }}
 
-      - name: Deploy to Amazon ECS
-        run: aws ecs update-service --cluster racerr-io --service racerr --force-new-deployment
+      - name: Deploy to AWS
+        run: |
+          cd aws-cdk
+          npm ci
+          npm run cdk -- deploy racerr-client-stack --require-approval never
 
   build_and_deploy_webgl_client:
     name: Build and deploy WebGL client
@@ -98,6 +107,11 @@ jobs:
           path: Library
           key: Library-WebGL-2
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
       - name: Build game
         uses: game-ci/unity-builder@v2
         with:
@@ -106,12 +120,8 @@ jobs:
           buildMethod: Racerr.Editor.CICDPipeline.BuildProject
           versioning: None
 
-      - name: Deploy to Amazon S3 and invalidate Amazon CloudFront distribution
-        uses: reggionick/s3-deploy@v3
-        with:
-            folder: build/WebGL/WebGL
-            bucket: racerr-client-${{ needs.determine_build_environment.outputs.build_env }}
-            bucket-region: ap-southeast-2
-            invalidation: /*
-            dist-id: E3T4MOYKOS7G8X
-            delete-removed: true
+      - name: Deploy to AWS
+        run: |
+          cd aws-cdk
+          npm ci
+          npm run cdk -- deploy racerr-server-stack --require-approval never
