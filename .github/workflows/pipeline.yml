@@ -87,6 +87,7 @@ jobs:
 
       - name: Deploy to AWS
         run: |
+          mkdir -p build/WebGL/WebGL
           cd aws-cdk
           npm ci
           npm run cdk -- deploy racerr-server-stack --require-approval never
