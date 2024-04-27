@@ -1,5 +1,6 @@
 import { CloudFrontToS3 } from "@aws-solutions-constructs/aws-cloudfront-s3";
 import { App, RemovalPolicy, Stack } from "aws-cdk-lib";
+import { ViewerProtocolPolicy } from "aws-cdk-lib/aws-cloudfront";
 import { BucketDeployment, Source } from "aws-cdk-lib/aws-s3-deployment";
 import { assert } from "console";
 
@@ -17,7 +18,10 @@ export const createClientStack = (app: App) => {
     },
     logS3AccessLogs: false,
     cloudFrontDistributionProps: {
-      enableLogging: false
+      enableLogging: false,
+      defaultBehavior: {
+        viewerProtocolPolicy: ViewerProtocolPolicy.ALLOW_ALL
+      }
     },
     insertHttpSecurityHeaders: false
   });
