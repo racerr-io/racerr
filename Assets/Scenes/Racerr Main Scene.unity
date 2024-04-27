@@ -7097,6 +7097,8 @@ GameObject:
   - component: {fileID: 1584656525}
   - component: {fileID: 1584656528}
   - component: {fileID: 1584656524}
+  - component: {fileID: 1584656530}
+  - component: {fileID: 1584656529}
   m_Layer: 0
   m_Name: Server
   m_TagString: Untagged
@@ -7216,6 +7218,50 @@ MonoBehaviour:
   firstCarBaseLineDisplacement: {x: 4.5, y: 0.36, z: -15}
   verticalDistanceBetweenCars: {x: 0, y: 0, z: 5}
   horizontalDistanceBetweenCars: {x: 9, y: 0, z: 0}
+--- !u!114 &1584656529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584656521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51986a80c27f26c45b28d8489ba8a4dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _listeningAddresses:
+  - _port: 3000
+    _host: 1
+  _logLevel: 3
+  CaseSensitiveRouting: 0
+  OnReceiveRequest:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1584656530}
+        m_TargetAssemblyTypeName: ServerREST, Assembly-CSharp
+        m_MethodName: Healthcheck
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1584656530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584656521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fea5df3cba200314ba5d2ed9652d0db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1597690728 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7681225044205310438, guid: d87e356e474fd3843a2f4b3e232fb3d8,
@@ -7548,7 +7594,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   transport: {fileID: 1813844547}
-  networkAddress: server.racerr.io
+  networkAddress: racerr-racer-u7AiBcoBo8vi-116166650.ap-southeast-2.elb.amazonaws.com
   maxConnections: 10
   disconnectInactiveConnections: 1
   disconnectInactiveTimeout: 60
@@ -10159,6 +10205,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4746315824498420841, guid: 17bb51c267cedfd47aee83b029017287,
+        type: 3}
+      propertyPath: m_text
+      value: You Died
+      objectReference: {fileID: 0}
+    - target: {fileID: 4746315824498420841, guid: 17bb51c267cedfd47aee83b029017287,
+        type: 3}
+      propertyPath: m_textAlignment
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 4746315824498420841, guid: 17bb51c267cedfd47aee83b029017287,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 4746315824498420841, guid: 17bb51c267cedfd47aee83b029017287,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 4746315824498420841, guid: 17bb51c267cedfd47aee83b029017287,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4746315824549679024, guid: 17bb51c267cedfd47aee83b029017287,
         type: 3}
