@@ -89,7 +89,7 @@ jobs:
         run: |
           cd aws-cdk
           npm ci
-          npm run cdk -- deploy racerr-client-stack --require-approval never
+          npm run cdk -- deploy racerr-server-stack --require-approval never
 
   build_and_deploy_webgl_client:
     name: Build and deploy WebGL client
@@ -124,4 +124,4 @@ jobs:
         run: |
           cd aws-cdk
           npm ci
-          npm run cdk -- deploy racerr-server-stack --require-approval never
+          npm run cdk -- deploy racerr-client-stack --require-approval never
