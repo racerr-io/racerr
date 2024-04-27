@@ -27,7 +27,7 @@ namespace Racerr.UX.UI
             }
             else
             {
-                destroyedByPlayerNameTMP.text = "By " + destroyedByPlayerName;
+                destroyedByPlayerNameTMP.text = "Wrecked by " + destroyedByPlayerName;
                 destroyedByPlayerNameTMP.enabled = true;
             }
 

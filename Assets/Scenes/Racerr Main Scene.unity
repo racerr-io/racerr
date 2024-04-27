@@ -10206,6 +10206,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4746315824498420841, guid: 17bb51c267cedfd47aee83b029017287,
+        type: 3}
+      propertyPath: m_text
+      value: You Died
+      objectReference: {fileID: 0}
+    - target: {fileID: 4746315824498420841, guid: 17bb51c267cedfd47aee83b029017287,
+        type: 3}
+      propertyPath: m_textAlignment
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 4746315824498420841, guid: 17bb51c267cedfd47aee83b029017287,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 4746315824498420841, guid: 17bb51c267cedfd47aee83b029017287,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 4746315824498420841, guid: 17bb51c267cedfd47aee83b029017287,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4746315824549679024, guid: 17bb51c267cedfd47aee83b029017287,
         type: 3}
       propertyPath: m_Name
