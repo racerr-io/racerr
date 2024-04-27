@@ -14,12 +14,21 @@ export const createServerStack = (app: App) => {
     },
   });
 
+  if (!serverStack.bundlingRequired) {
+    return;
+  }
+
+  const buildImage = process.env.BUILD_IMAGE;
+  if (!buildImage) {
+    throw Error("BUILD_IMAGE must be provided.");
+  }
+
   const { loadBalancer, service, targetGroup } = new ApplicationLoadBalancedFargateService(serverStack, 'racerr-server', {
     memoryLimitMiB: 512,
     desiredCount: 1,
     cpu: 256,
     taskImageOptions: {
-      image: ContainerImage.fromRegistry("ghcr.io/racerr-io/racerr-stg:latest"),
+      image: ContainerImage.fromRegistry(buildImage),
       containerPort: GAME_SERVER_PORT
     },
     listenerPort: GAME_SERVER_PORT

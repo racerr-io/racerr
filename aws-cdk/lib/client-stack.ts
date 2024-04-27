@@ -12,6 +12,10 @@ export const createClientStack = (app: App) => {
     },
   });
 
+  if (!clientStack.bundlingRequired) {
+    return;
+  }
+
   const { cloudFrontWebDistribution, s3Bucket } = new CloudFrontToS3(clientStack, "racerr-client", {
     bucketProps: {
       removalPolicy: RemovalPolicy.DESTROY,
